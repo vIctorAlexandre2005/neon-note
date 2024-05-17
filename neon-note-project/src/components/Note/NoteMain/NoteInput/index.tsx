@@ -17,7 +17,7 @@ export function NoteInput({ handleSendNote } : any) {
     }
 
     function handleChangeText(event: any) {
-        setTextValue(event.target.value);
+        setTextValue(event.target.value)
     };
 
     const handleSubmit = () => {
