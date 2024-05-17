@@ -1,16 +1,11 @@
 import { auth, provider } from "@/services/firebase";
-import { Modal } from "../Modals/ModalTest";
-import { useState } from "react";
 import { BsMoonStars, BsMoonStarsFill, BsSun, BsSunFill } from "react-icons/bs";
 import { IoToggle, IoToggleSharp } from "react-icons/io5";
 import { FiToggleLeft } from "react-icons/fi";
+import { useTheme } from "../ThemeDark";
 
 export function LoginComponent() {
-  const [darkMode, setDarkMode] = useState<Boolean>(true);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  const {darkMode, toggleDarkMode} = useTheme();
 
   function handleSignin() {
     auth.signInWithPopup(provider).catch(alert);
