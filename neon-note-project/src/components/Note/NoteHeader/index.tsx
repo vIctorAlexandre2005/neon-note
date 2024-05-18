@@ -1,14 +1,15 @@
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark"
 import { auth } from "@/services/firebase";
-import { useState } from "react";
+import { Auth, User } from "firebase/auth";
+import { ReactElement, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } : any = useTheme();
+  const { darkMode, toggleDarkMode } : any = useTheme(); // Remova ': any' para evitar o uso de tipo any
   const [user] = useAuthState(auth);
 
   return (
@@ -24,10 +25,11 @@ export function NoteHeader() {
       >
         <div className="flex items-center gap-4">
           <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
-          <img onClick={() => Logout()} src={user?.photoURL} className="rounded-full" height={50} width={50} />
+          {user && user.photoURL && (
+          <img onClick={() => Logout()} src={user.photoURL} className="rounded-full" height={50} width={50} />)}
           </div> {/* LOGO */}
           
-          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo, {user.displayName} :)</h1>
+          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo, {user && user.displayName} :)</h1>
         </div>
 
        {/*  <div className="max-w-auto">

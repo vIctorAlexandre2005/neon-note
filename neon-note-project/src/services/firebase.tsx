@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -12,12 +11,14 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID
 };
 
-// Initialize Firebase
+// Inicialize o app Firebase
+const app = initializeApp(firebaseConfig);
 
-const app = firebase.initializeApp(firebaseConfig);
+// Obtenha instâncias de autenticação e firestore
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-const db = app.firestore();
-const auth = app.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
+// Crie uma instância de provedor de autenticação do Google
+const provider = new GoogleAuthProvider();
 
-export { db, auth, provider };
+export { auth, db, provider };
