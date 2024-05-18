@@ -1,16 +1,15 @@
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark"
 import { auth } from "@/services/firebase";
-import { Auth, User } from "firebase/auth";
-import { ReactElement, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { AuthStateHook, useAuthState } from "react-firebase-hooks/auth";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
+
 export function NoteHeader() {
   const { darkMode, toggleDarkMode } : any = useTheme(); // Remova ': any' para evitar o uso de tipo any
-  const [user] = useAuthState(auth);
+  const [user] = useAuthState(auth as any);
 
   return (
     <>
