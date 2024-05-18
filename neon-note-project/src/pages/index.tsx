@@ -21,7 +21,7 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'} h-full`}>
+    <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'}`}>
     {console.log(user)}
       {/* {loading && (
         <MoonLoader />

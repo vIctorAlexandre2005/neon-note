@@ -10,7 +10,7 @@ export function NeonNote() {
                 <NoteHeader />
             </header>
 
-            <main>
+            <main className="bg-black-950">
                 <NoteMain />
             </main>
         </div>

@@ -5,7 +5,7 @@ import { FiToggleLeft } from "react-icons/fi";
 import { useTheme } from "../ThemeDark";
 
 export function LoginComponent() {
-  const {darkMode, toggleDarkMode} = useTheme();
+  const {darkMode, toggleDarkMode} : any = useTheme();
 
   function handleSignin() {
     auth.signInWithPopup(provider).catch(alert);
@@ -25,13 +25,12 @@ export function LoginComponent() {
           <div className="flex justify-center items-center">
             <div className={`
           formcontainer
-          p-4
           flex flex-col
-          rounded-xl
+          rounded-xl xs:w-full md:w-3/6
           ${darkMode ? 'bg-black-900' : 'bg-neon-100'}
           shadow-lg
           `}>
-              <header className="text-center p-4 flex gap-8">
+              <header className="text-center p-4 justify-between flex gap-8">
                 <h2 className="text-neon-500 text-2xl font-500">Log in and enter your organized world!</h2>
                 <button
                   onClick={() => toggleDarkMode()}

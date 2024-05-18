@@ -1,11 +1,15 @@
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark"
+import { auth } from "@/services/firebase";
+import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
 export function NoteHeader() {
   const { darkMode, toggleDarkMode } = useTheme();
+  const [user] = useAuthState(auth);
 
   return (
     <>
@@ -18,11 +22,15 @@ export function NoteHeader() {
         p-6
         `}
       >
-        <div className="bg-white rounded-full p-2"> {/* LOGO */}
-          <img onClick={() => Logout()} src="/google.png" height={50} width={50} />
+        <div className="flex items-center gap-4">
+          <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
+          <img onClick={() => Logout()} src={user?.photoURL} className="rounded-full" height={50} width={50} />
+          </div> {/* LOGO */}
+          
+          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo, {user.displayName} :)</h1>
         </div>
 
-        <div className="max-w-auto">
+       {/*  <div className="max-w-auto">
           <input
             className={`
             border-none 
@@ -39,7 +47,7 @@ export function NoteHeader() {
             `}
             placeholder="Pesquise suas anotações aqui"
           />
-        </div>
+        </div> */}
 
         <div>
           <button

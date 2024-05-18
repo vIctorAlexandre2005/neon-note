@@ -5,10 +5,9 @@ import { useTheme } from "@/components/ThemeDark";
 
 export function NoteMain() {
     const [noteList, setNoteList] = useState([]);
-    const { darkMode } = useTheme();
+    const { darkMode } : any = useTheme();
 
     useEffect(() => {
-        // Carregar comentários salvos do localStorage, se disponível, apenas no lado do cliente
         if (typeof window !== 'undefined' && window.localStorage) {
           const savedNotes = localStorage.getItem('notes');
           if (savedNotes) {
@@ -17,28 +16,37 @@ export function NoteMain() {
         }
     }, []);
 
-    function handleSendNote(note : never) {
+    function handleSendNote(note: any) {
         const newNotes = [...noteList, note];
         setNoteList(newNotes);
 
         if (typeof window !== 'undefined' && window.localStorage) {
             localStorage.setItem('notes', JSON.stringify(newNotes));
-        };
-    };
+        }
+    }
 
-    function handleDeleteNote(noteId: any) {
+    function handleDeleteNote(noteId) {
         const updatedNotes = noteList.filter((_, index) => index !== noteId);
         setNoteList(updatedNotes);
-        // Atualizar os comentários salvos no localStorage após a exclusão, se disponível
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        };
-      };
+        }
+    }
 
-      return (
-        <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'}`}>
-        <NoteInput handleSendNote={handleSendNote} />
-        <NoteList noteList={noteList} handleDeleteNote={handleDeleteNote} />
+    function handleUpdateNote(idx, newTitle: any, newText: any) {
+        const updatedNotes = noteList.map((note, index) =>
+            index === idx ? [newTitle, newText] : note
+        );
+        setNoteList(updatedNotes);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('notes', JSON.stringify(updatedNotes));
+        }
+    }
+
+    return (
+        <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'} h-max`}>
+            <NoteInput handleSendNote={handleSendNote} />
+            <NoteList noteList={noteList} handleDeleteNote={handleDeleteNote} handleUpdateNote={handleUpdateNote} />
         </div>
     )
-    }
+}
