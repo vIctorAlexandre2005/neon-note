@@ -4,12 +4,12 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAZ_nem_m4kx4Q8Xwq4Ag83w27g8LjisMc",
-  authDomain: "neon-note.firebaseapp.com",
-  projectId: "neon-note",
-  storageBucket: "neon-note.appspot.com",
-  messagingSenderId: "257823504349",
-  appId: "1:257823504349:web:44774fc1a7a1330f2b2834"
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID
 };
 
 // Initialize Firebase
