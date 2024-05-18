@@ -25,6 +25,8 @@ NextJS <br/>
 Tailwind CSS <br/>
 Firebase <br/>
 Typescript <br />
+Framer Motion
+Progressive Web APP (PWA)
 
 ## 👷 Autor
 
@@ -32,6 +34,6 @@ Typescript <br />
 
 ## 💡 Expressões de gratidão
 
-* Um agradecimento publicamente.
+* Agradeço a todo mundo que utilizou e desfrutou o projeto, seja em código ou no app!
 * Para suporte, mande um email para victoralexandredasilvamarins@gmail.com.
 * Link para o meu linkedin [Meu linkedin] ([vIctorAlexandre2005](https://www.linkedin.com/in/victoralexandredasilvamarins/))
