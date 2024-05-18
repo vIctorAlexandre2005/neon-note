@@ -8,8 +8,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { MoonLoader } from "react-spinners";
 
 export default function Home() {
-  const [user] = useAuthState(auth);
-  const {darkMode} = useTheme();
+  const [user] = useAuthState(auth as any);
+  const {darkMode} : any = useTheme();
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -22,15 +22,9 @@ export default function Home() {
 
   return (
     <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'}`}>
-    {console.log(user)}
-      {/* {loading && (
-        <MoonLoader />
-      )} */}
-
       {user && (
         <NeonNote />
       )}
-      {console.log(user)}
       {!user && (
        <LoginComponent />
       )}

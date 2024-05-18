@@ -3,8 +3,17 @@ import { NoteInput } from "./NoteInput";
 import { NoteList } from "./NoteList";
 import { useTheme } from "@/components/ThemeDark";
 
+interface Note {
+    // Defina aqui a estrutura de uma nota
+    // Por exemplo:
+    id: number;
+    title: string;
+    content: string;
+    newNotes: any
+}
+
 export function NoteMain() {
-    const [noteList, setNoteList] = useState([]);
+    const [noteList, setNoteList] = useState<any[]>([]);
     const { darkMode } : any = useTheme();
 
     useEffect(() => {
@@ -16,8 +25,8 @@ export function NoteMain() {
         }
     }, []);
 
-    function handleSendNote(note: any) {
-        const newNotes = [...noteList, note];
+    function handleSendNote(note: never[]) {
+        const newNotes = [...noteList, ...note];
         setNoteList(newNotes);
 
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -25,7 +34,7 @@ export function NoteMain() {
         }
     }
 
-    function handleDeleteNote(noteId) {
+    function handleDeleteNote(noteId: any) {
         const updatedNotes = noteList.filter((_, index) => index !== noteId);
         setNoteList(updatedNotes);
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -33,7 +42,7 @@ export function NoteMain() {
         }
     }
 
-    function handleUpdateNote(idx, newTitle: any, newText: any) {
+    function handleUpdateNote(idx: number, newTitle: string, newText: string) {
         const updatedNotes = noteList.map((note, index) =>
             index === idx ? [newTitle, newText] : note
         );

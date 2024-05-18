@@ -8,13 +8,13 @@ export function NoteList({ noteList, handleDeleteNote, handleUpdateNote } : any)
     const { darkMode } : any = useTheme();
 
     const [open, setOpen] = useState(false);
-    const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
+    const [selectedNoteIndex, setSelectedNoteIndex] = useState<null>(null);
 
     function onClose() {
         setOpen(false);
     }
 
-    function handleOpenModal(idx) {
+    function handleOpenModal(idx: null) {
         setSelectedNoteIndex(idx);
         setOpen(true);
     }
@@ -25,7 +25,7 @@ export function NoteList({ noteList, handleDeleteNote, handleUpdateNote } : any)
 
     return (
         <div className="p-4 xs:flex-col md:flex-row grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
-            {noteList.map((item: any, idx) => (
+            {noteList.map((item: any, idx: any) => (
                 <div
                     key={idx}
                     className={`

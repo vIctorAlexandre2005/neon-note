@@ -3,7 +3,7 @@ import { NoteMain } from "./NoteMain";
 import { useTheme } from "../ThemeDark";
 
 export function NeonNote() {
-    const {darkMode} = useTheme();
+    const {darkMode} : any = useTheme();
     return (
         <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'} h-screen`}>
             <header>
