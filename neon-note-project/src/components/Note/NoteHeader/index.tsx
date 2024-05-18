@@ -8,7 +8,7 @@ import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, toggleDarkMode } : any = useTheme();
   const [user] = useAuthState(auth);
 
   return (
