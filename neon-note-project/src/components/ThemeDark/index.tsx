@@ -1,19 +1,35 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useState, FunctionComponent } from 'react';
 
-const defaultValue = {}; // valor padrão para o contexto
+// Defina a interface para o valor do contexto
+interface ThemeContextType {
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+  setLightMode: () => void;
+}
 
-const ThemeContext = createContext(defaultValue);
+// Definindo um valor padrão com a interface correta
+const defaultValue: ThemeContextType = {
+  darkMode: false,
+  toggleDarkMode: () => {},
+  setLightMode: () => {},
+};
 
-export function ThemeProvider({ children } : any) {
-  const [darkMode, setDarkMode] = useState(false);
+const ThemeContext = createContext<ThemeContextType>(defaultValue);
+
+interface ChildrenProps {
+  children: ReactNode;
+}
+
+export const ThemeProvider: FunctionComponent<ChildrenProps> = ({ children }) => {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   function toggleDarkMode() {
     setDarkMode((prevMode) => !prevMode);
-  };
+  }
 
-  function setLightMode () {
+  function setLightMode() {
     setDarkMode(false);
-  };
+  }
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode, setLightMode }}>
@@ -22,6 +38,6 @@ export function ThemeProvider({ children } : any) {
   );
 };
 
-export const useTheme = () => {
+export const useTheme = (): ThemeContextType => {
   return useContext(ThemeContext);
 };

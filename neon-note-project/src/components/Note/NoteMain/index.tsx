@@ -25,9 +25,10 @@ export function NoteMain() {
         }
     }, []);
 
-    function handleSendNote(note: never[]) {
-        const newNotes = [...noteList, ...note];
+    function handleSendNote(newNote : any) {
+        const newNotes = [...noteList, newNote];
         setNoteList(newNotes);
+        console.log("New Notes:", newNotes);
 
         if (typeof window !== 'undefined' && window.localStorage) {
             localStorage.setItem('notes', JSON.stringify(newNotes));

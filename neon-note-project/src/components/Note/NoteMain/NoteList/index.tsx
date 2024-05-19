@@ -20,11 +20,11 @@ export function NoteList({ noteList, handleDeleteNote, handleUpdateNote } : any)
     }
 
     const truncateText = (text: string, maxLength: number) => {
-        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        return text?.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     };
 
     return (
-        <div className="p-4 xs:flex-col md:flex-row grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
+        <div className="p-4 xs:flex-col md:flex-row grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-center gap-4">
             {noteList.map((item: any, idx: any) => (
                 <div
                     key={idx}
@@ -43,12 +43,14 @@ export function NoteList({ noteList, handleDeleteNote, handleUpdateNote } : any)
                     `}
                     onClick={() => handleOpenModal(idx)}
                 >
-                    <div className="max-w-1/6">
+                    <div className="flex-col flex block max-w-1/6">
+                       
                         <h1 className="text-neon-50 break-words text-2xl mb-4">
-                            {truncateText(item[0], 100)}
+                            {truncateText(item[0], 50)}
                         </h1>
+                        
                         <h1 className="text-neon-50 break-words">
-                            {truncateText(item[1], 250)}
+                        {truncateText(item[1], 200)}
                         </h1>
                         <div className="flex justify-end">
                             <button

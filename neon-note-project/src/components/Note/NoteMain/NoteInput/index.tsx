@@ -22,7 +22,9 @@ export function NoteInput({ handleSendNote } : any) {
 
     const handleSubmit = () => {
         if (textValue.trim() !== '' || titleValue.trim() !== '') {
-          handleSendNote([titleValue, textValue]);
+            const newNote = [titleValue, textValue];
+          handleSendNote(newNote);
+          console.log([titleValue, textValue])
           setTextValue('');
           setTitleValue('');
           setHandleNote(!handleNote)
