@@ -4,10 +4,7 @@
 Conecte-se com quem você quiser!
 ## 🔥 Introdução
 
-Neste app,o usuário tem a liberdade para adicionar, editar, favoritar e excluir suas anotações.
-### ⚙️ Pré-requisitos
-
-Apenas instalação padrão
+Neste app,o usuário tem a liberdade para adicionar, editar e excluir suas anotações.
 
 ### 🔨 Guia de instalação
 
@@ -25,7 +22,7 @@ NextJS <br/>
 Tailwind CSS <br/>
 Firebase <br/>
 Typescript <br />
-Framer Motion
+Chakra UI (Apenas para modal) <br />
 Progressive Web APP (PWA)
 
 ## 👷 Autor
