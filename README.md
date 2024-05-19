@@ -23,7 +23,6 @@ Tailwind CSS <br/>
 Firebase <br/>
 Typescript <br />
 Chakra UI (Apenas para modal) <br />
-Progressive Web APP (PWA)
 
 ## 👷 Autor
 
