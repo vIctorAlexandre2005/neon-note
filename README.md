@@ -20,9 +20,9 @@ Etapas para instalar:
 ## 📦 Tecnologias usadas:
 NextJS <br/>
 Tailwind CSS <br/>
-Firebase <br/>
 Typescript <br />
 Chakra UI (Apenas para modal) <br />
+PWA (Progressive Web App)
 
 ## 👷 Autor
 
