@@ -5,6 +5,8 @@ export default function Document() {
     <Html lang="pt-BR">
       <Head>
         <title>Neon Note</title>
+        <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#000000" />
       </Head>
       <body>
         <Main />

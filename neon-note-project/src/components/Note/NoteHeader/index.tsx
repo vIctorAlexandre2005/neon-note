@@ -8,8 +8,8 @@ import { IoToggleSharp } from "react-icons/io5";
 
 
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } : any = useTheme(); // Remova ': any' para evitar o uso de tipo any
-  const [user] = useAuthState(auth as any);
+  const { darkMode, toggleDarkMode } : any = useTheme();
+  /* const [user] = useAuthState(auth as any); */
 
   return (
     <>
@@ -23,12 +23,12 @@ export function NoteHeader() {
         `}
       >
         <div className="flex items-center gap-4">
-          <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
+          {/* <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
           {user && user.photoURL && (
           <img onClick={() => Logout()} src={user.photoURL} className="rounded-full" height={50} width={50} />)}
-          </div> {/* LOGO */}
+          </div> */}
           
-          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo, {user && user.displayName} :)</h1>
+          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo ao Neon-Note!</h1>
         </div>
 
        {/*  <div className="max-w-auto">
