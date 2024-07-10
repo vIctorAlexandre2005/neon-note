@@ -1,21 +1,19 @@
+import { useContextGlobal } from "@/components/Context";
 import { Logout } from "@/components/Logout";
-import { useTheme } from "@/components/ThemeDark"
-import { auth } from "@/services/firebase";
-import { AuthStateHook, useAuthState } from "react-firebase-hooks/auth";
+import { useTheme } from "@/components/ThemeDark";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
-
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } : any = useTheme();
-  /* const [user] = useAuthState(auth as any); */
+  const { darkMode, toggleDarkMode } = useTheme();
+  const { user } = useContextGlobal();
 
   return (
     <>
       <header
         className={`
-        ${darkMode ? 'bg-black-950' : 'bg-neon-400'} 
+        ${darkMode ? "bg-black-950" : "bg-neon-400"} 
         flex 
         justify-between
         items-center
@@ -23,32 +21,22 @@ export function NoteHeader() {
         `}
       >
         <div className="flex items-center gap-4">
-          {/* <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
-          {user && user.photoURL && (
-          <img onClick={() => Logout()} src={user.photoURL} className="rounded-full" height={50} width={50} />)}
-          </div> */}
-          
-          <h1 className="text-xl text-white xs:text-sm sm:text-xl">Seja bem vindo ao Neon-Note!</h1>
-        </div>
+          <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
+            {user && user?.photoURL && (
+              <img
+                onClick={() => Logout()}
+                src={user?.photoURL}
+                className="rounded-full object-cover"
+                height={50}
+                width={50}
+              />
+            )}
+          </div>
 
-       {/*  <div className="max-w-auto">
-          <input
-            className={`
-            border-none 
-            focus:border-2 
-            border-gray-300 
-            rounded-md 
-            ${darkMode ? 'bg-neon-500' : 'bg-white'} 
-            ${darkMode ? 'text-white' : 'text-black-700'} 
-            ${darkMode ? 'placeholder:text-neon-100' : 'placeholder:text-black'} 
-            px-4 
-            py-2 
-            focus:outline-none
-            focus:border-neon-700 w-80
-            `}
-            placeholder="Pesquise suas anotações aqui"
-          />
-        </div> */}
+          <h1 className="text-xl text-white xs:text-sm sm:text-xl">
+            Seja bem vindo ao Neon-Note, {user?.displayName}!
+          </h1>
+        </div>
 
         <div>
           <button
@@ -70,5 +58,5 @@ export function NoteHeader() {
         </div>
       </header>
     </>
-  )
+  );
 }
