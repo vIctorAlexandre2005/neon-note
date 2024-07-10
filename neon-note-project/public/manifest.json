@@ -1,36 +1,36 @@
 {
-    "theme_color": "#004aff",
-    "background_color": "#000",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Neon Note",
-    "short_name": "Note",
-    "description": "Viva organizado com suas anotações!",
-    "icons": [
-        {
-            "src": "/logoofc192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/logoofc192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "/logoofc512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "/logoofc192.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
-        }
-    ]
+  "theme_color": "#004aff",
+  "background_color": "#000",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Neon Note",
+  "short_name": "Note",
+  "description": "Viva organizado com suas anotações!",
+  "icons": [
+    {
+      "src": "/logoofc192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logoofc192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logoofc512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logoofc192.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }

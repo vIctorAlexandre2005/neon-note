@@ -1,4 +1,10 @@
-import React, { ReactNode, createContext, useContext, useState, FunctionComponent } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+  FunctionComponent,
+} from "react";
 
 // Defina a interface para o valor do contexto
 interface ThemeContextType {
@@ -10,8 +16,8 @@ interface ThemeContextType {
 // Definindo um valor padrão com a interface correta
 const defaultValue: ThemeContextType = {
   darkMode: false,
-  toggleDarkMode: () => {},
-  setLightMode: () => {},
+  toggleDarkMode: () => { },
+  setLightMode: () => { },
 };
 
 const ThemeContext = createContext<ThemeContextType>(defaultValue);
@@ -20,7 +26,9 @@ interface ChildrenProps {
   children: ReactNode;
 }
 
-export const ThemeProvider: FunctionComponent<ChildrenProps> = ({ children }) => {
+export const ThemeProvider: FunctionComponent<ChildrenProps> = ({
+  children,
+}) => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
   function toggleDarkMode() {

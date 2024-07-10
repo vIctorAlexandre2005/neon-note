@@ -2,61 +2,61 @@ import { useEffect, useState } from "react";
 import { NoteInput } from "./NoteInput";
 import { NoteList } from "./NoteList";
 import { useTheme } from "@/components/ThemeDark";
-
-interface Note {
-    // Defina aqui a estrutura de uma nota
-    // Por exemplo:
-    id: number;
-    title: string;
-    content: string;
-    newNotes: any
-}
+import { Note } from "@/utils/interface";
 
 export function NoteMain() {
-    const [noteList, setNoteList] = useState<any[]>([]);
-    const { darkMode } : any = useTheme();
+  const [noteList, setNoteList] = useState<Note[]>([]);
+  const { darkMode } = useTheme();
 
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          const savedNotes = localStorage.getItem('notes');
-          if (savedNotes) {
-            setNoteList(JSON.parse(savedNotes));
-          }
-        }
-    }, []);
-
-    function handleSendNote(newNote : any) {
-        const newNotes = [...noteList, newNote];
-        setNoteList(newNotes);
-        console.log("New Notes:", newNotes);
-
-        if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('notes', JSON.stringify(newNotes));
-        }
+  const loadNotesFromLocalStorage = () => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const savedNotes = localStorage.getItem("notes");
+      if (savedNotes) {
+        setNoteList(JSON.parse(savedNotes));
+      }
     }
+  };
 
-    function handleDeleteNote(noteId: any) {
-        const updatedNotes = noteList.filter((_, index) => index !== noteId);
-        setNoteList(updatedNotes);
-        if (typeof window !== 'undefined' && window.localStorage) {
-          localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        }
+  useEffect(() => {
+    loadNotesFromLocalStorage();
+  }, []);
+
+  const saveNotesToLocalStorage = (notes: Note[]) => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem("notes", JSON.stringify(notes));
     }
+  };
 
-    function handleUpdateNote(idx: number, newTitle: string, newText: string) {
-        const updatedNotes = noteList.map((note, index) =>
-            index === idx ? [newTitle, newText] : note
-        );
-        setNoteList(updatedNotes);
-        if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        }
-    }
+  const handleSendNote = (newNote: Note) => {
+    const newNotes = [...noteList, newNote];
+    setNoteList(newNotes);
+    saveNotesToLocalStorage(newNotes);
+  };
 
-    return (
-        <div className={`${darkMode ? 'bg-black-900' : 'bg-neon-50'} h-max`}>
-            <NoteInput handleSendNote={handleSendNote} />
-            <NoteList noteList={noteList} handleDeleteNote={handleDeleteNote} handleUpdateNote={handleUpdateNote} />
-        </div>
-    )
+
+  const handleDeleteNote = (noteId: number) => {
+    const updatedNotes = noteList.filter((_, index) => index !== noteId);
+    setNoteList(updatedNotes);
+    saveNotesToLocalStorage(updatedNotes);
+  };
+
+  const handleUpdateNote = (idx: number, updatedNote: Note) => {
+    const updatedNotes = noteList.map((note, index) =>
+      index === idx ? { ...note, title: updatedNote.title, text: updatedNote.text } : note
+    );
+    setNoteList(updatedNotes);
+    saveNotesToLocalStorage(updatedNotes);
+  };
+
+
+  return (
+    <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"} h-max`}>
+      <NoteInput handleSendNote={handleSendNote} />
+      <NoteList
+        noteList={noteList}
+        handleDeleteNote={handleDeleteNote}
+        handleUpdateNote={handleUpdateNote}
+      />
+    </div>
+  );
 }

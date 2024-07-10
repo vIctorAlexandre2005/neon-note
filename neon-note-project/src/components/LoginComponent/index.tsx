@@ -5,33 +5,38 @@ import { FiToggleLeft } from "react-icons/fi";
 import { useTheme } from "../ThemeDark";
 
 export function LoginComponent() {
-  const {darkMode, toggleDarkMode} : any = useTheme();
+  const { darkMode, toggleDarkMode } = useTheme();
 
   function handleSignin() {
     auth.signInWithPopup(provider).catch(alert);
-};
+  }
 
   return (
     <>
-      <div className={`
+      <div
+        className={`
       min-h-screen 
       flex 
       justify-center 
       items-center 
-      ${darkMode ? 'bg-black-950' : 'bg-neon-50'}
+      ${darkMode ? "bg-black-950" : "bg-neon-50"}
       `}
       >
         <div className="container p-1">
           <div className="flex justify-center items-center">
-            <div className={`
+            <div
+              className={`
           formcontainer
           flex flex-col
           rounded-xl xs:w-full md:w-3/6
-          ${darkMode ? 'bg-black-900' : 'bg-neon-100'}
+          ${darkMode ? "bg-black-900" : "bg-neon-100"}
           shadow-lg
-          `}>
+          `}
+            >
               <header className="text-center p-4 justify-between flex gap-8">
-                <h2 className="text-neon-500 text-2xl font-500">Log in and enter your organized world!</h2>
+                <h2 className="text-neon-500 text-2xl font-bold">
+                  Faça o login
+                </h2>
                 <button
                   onClick={() => toggleDarkMode()}
                   className="cursor-pointer flex gap-2"
@@ -50,7 +55,7 @@ export function LoginComponent() {
                 </button>
               </header>
               <div className="p-8 flex-col flex items-center justiy-center">
-                <img src="/login.svg" height={180} width={180} />
+                <img className="object-fit-cover" src="/login.svg" height={180} width={180} />
                 <div className="flex items-center mt-6 justify-center w-full">
                   <button
                     onClick={handleSignin}
@@ -70,10 +75,11 @@ export function LoginComponent() {
               focus:shadow-outline
               gap-2
               text-md
-              ">
-                    Login in with 
-                    <div className="bg-white rounded-full p-2"> 
-                    <img src="/google.png" height={20} width={20} />
+              "
+                  >
+                    Login in with
+                    <div className="bg-white rounded-full p-2">
+                      <img src="/google.png" height={20} width={20} />
                     </div>
                   </button>
                 </div>
@@ -82,7 +88,6 @@ export function LoginComponent() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
