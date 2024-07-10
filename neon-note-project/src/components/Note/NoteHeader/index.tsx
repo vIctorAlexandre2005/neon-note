@@ -34,7 +34,7 @@ export function NoteHeader() {
           </div>
 
           <h1 className="text-xl text-white xs:text-sm sm:text-xl">
-            Seja bem vindo ao Neon-Note, {user?.displayName}!
+            Seja bem-vindo ao Neon-Note, {user?.displayName}!
           </h1>
         </div>
 
