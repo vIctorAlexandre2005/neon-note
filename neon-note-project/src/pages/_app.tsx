@@ -6,12 +6,12 @@ import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <ParamsContext>
+    <ParamsContext>
+      <ChakraProvider>
         <ThemeProvider>
           <Component {...pageProps} />
         </ThemeProvider>
-      </ParamsContext>
-    </ChakraProvider>
+      </ChakraProvider>
+    </ParamsContext>
   );
 }

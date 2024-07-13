@@ -18,10 +18,20 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
     const [user] = useAuthState(auth as any);
     const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+    
+    const router = useRouter();
 
     function onClose() {
         setIsOpenModal(false);
-    }
+    };
+
+    useEffect(() => {
+        if(!user) {
+            router.push("/login");
+        } else {
+            router.push("/");
+        }
+    }, [user, router])
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
@@ -62,7 +72,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
                 setInstallPrompt(null);
             });
         }
-    }
+    };
     return (
         <ParamsProvider.Provider
             value={{

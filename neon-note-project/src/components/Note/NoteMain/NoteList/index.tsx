@@ -57,9 +57,9 @@ export function NoteList({
             <h1 className="text-neon-50 break-words">
               {truncateText(note.text, 200)}
             </h1>
-            <div className="flex justify-end">
+            <footer className="flex justify-end">
               <button
-                className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white hover:p-2"
+                className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white p-2"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteNote(idx);
@@ -67,7 +67,7 @@ export function NoteList({
               >
                 <BiSolidTrash />
               </button>
-            </div>
+            </footer>
           </div>
         </div>
       ))}

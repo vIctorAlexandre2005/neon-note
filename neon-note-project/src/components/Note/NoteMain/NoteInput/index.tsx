@@ -10,7 +10,7 @@ interface SendNoteProps {
 
 export function NoteInput({ handleSendNote }: SendNoteProps) {
   const { darkMode } = useTheme();
-  const [handleNote, setHandleNote] = useState(false);
+  const [handleNote, setHandleNote] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>("");
   const [textValue, setTextValue] = useState<string>("");
 
@@ -31,11 +31,15 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
       title: titleValue,
       text: textValue,
     };
+    if(textValue.trim() && titleValue.trim()) {
     handleSendNote(newNote);
     console.log("newnote:", newNote);
     setTextValue(""); // Limpar o valor do texto após enviar
     setTitleValue(""); // Limpar o valor do título após enviar
     setHandleNote(!handleNote);
+    } else {
+      alert("Escreva alguma coisa para salvar.");
+    };
   };
 
   return (
@@ -45,7 +49,21 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
           {handleNote ? (
             <>
               <div
-                className={`parent-div ${darkMode ? "bg-black-950" : "bg-white"} xs:w-full md:w-5/6 lg:w-3/6 rounded-lg border border-white flex flex-col`}
+                className={
+                  `
+                  parent-div 
+                  ${darkMode ? "bg-black-950" : "bg-white"} 
+                  h-96 
+                  xs:w-full 
+                  md:w-5/6 
+                  lg:w-3/6 
+                  rounded-lg 
+                  border 
+                  border-white 
+                  flex 
+                  flex-col
+                  `
+                }
               >
                 <div className="transition">
                   <NoteInputField
@@ -56,7 +74,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                   />
                 </div>
 
-                <div className="">
+                <div className="h-full flex">
                   <NoteTextareaField
                     value={textValue}
                     onChange={handleChangeText}
@@ -67,7 +85,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                 <div className="border border-neon-200 w-full"></div>
                 <div className="flex justify-around items-center gap-4">
                   <div
-                    className={`w-full hover:bg-red-500 rounded-md transition hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
+                    className={`w-full hover:bg-red-500 transition hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
                     <button className="w-full" onClick={handleToggleNote}>
                       Cancelar
@@ -75,7 +93,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                   </div>
 
                   <div
-                    className={`w-full transition hover:bg-neon-600 rounded-lg hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
+                    className={`w-full transition hover:bg-neon-600 hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
                     <button className="w-full" onClick={handleSubmit}>
                       Salvar
