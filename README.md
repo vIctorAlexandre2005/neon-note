@@ -22,7 +22,8 @@ NextJS <br/>
 Tailwind CSS <br/>
 Typescript <br />
 Chakra UI (Apenas para modal) <br />
-PWA (Progressive Web App)
+PWA (Progressive Web App) <br />
+Firebase
 
 ## 👷 Autor
 
