@@ -50,7 +50,7 @@ export function NoteMain() {
 
 
   return (
-    <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"} h-max`}>
+    <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"}`}>
       <NoteInput handleSendNote={handleSendNote} />
       <NoteList
         noteList={noteList}
