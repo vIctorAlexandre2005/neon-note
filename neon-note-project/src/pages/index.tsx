@@ -28,6 +28,7 @@ export default function Home() {
 
   return (
     <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"}`}>
+
       {installPrompt && (
         <ModalInstallPWA
           isOpenModal={isOpenModal}

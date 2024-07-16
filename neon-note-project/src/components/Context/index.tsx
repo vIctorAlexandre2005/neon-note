@@ -30,7 +30,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
             router.push("/login");
         } else {
             router.push("/");
-            toast.success('Seja bem-vindo ao Neon Note!');
+            toast.success('Seja bem-vindo ao Neon Note!')
         }
     }, [user])
 

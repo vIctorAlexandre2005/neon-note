@@ -10,13 +10,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <ParamsContext>
+    <ParamsContext>
+      <ChakraProvider>
         <ThemeProvider>
           <Component {...pageProps} />
           <ToastContainer pauseOnHover={false} position="top-right" /> {/* Posição configurada aqui */}
         </ThemeProvider>
-      </ParamsContext>
-    </ChakraProvider>
+      </ChakraProvider>
+    </ParamsContext>
   );
 }
