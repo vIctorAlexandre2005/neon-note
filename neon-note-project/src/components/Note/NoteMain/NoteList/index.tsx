@@ -30,46 +30,60 @@ export function NoteList({
   };
 
   return (
-    <div className="p-4 xs:flex-col md:flex-row grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-center gap-4">
+    <div 
+      className="
+        p-4 
+        xs:flex-col 
+        md:flex-row 
+        grid 
+        xs:grid-cols-1 
+        sm:grid-cols-2 
+        lg:grid-cols-4 
+        justify-center 
+        lg:gap-4 
+        sm:gap-2
+        "
+      >
       {noteList.map((note, idx) => (
-        <div
-          key={idx}
-          className={`
-            xs:w-full sm:w-full md:w-full
-            md:max-w-2/6
-            border 
-            ${darkMode ? "bg-neon-600" : "bg-neon-400"}
-            rounded-lg 
-            ${darkMode ? "border-neon-600" : "border-neon-200"}
-            flex 
-            flex-col
-            mt-10
-            p-2
-            transition ease-in-out hover:-translate-y-1 hover:bg-neon-700 duration-300
-          `}
-          onClick={() => handleOpenModal(idx)}
-        >
-          <div className="flex-col flex block max-w-1/6">
-            <h1 className="text-neon-50 break-words font-bold text-2xl mb-4">
-              {truncateText(note.title, 50)}
-            </h1>
-
-            <h1 className="text-neon-50 break-words">
-              {truncateText(note.text, 200)}
-            </h1>
-            <div className="flex justify-end">
-              <button
-                className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white hover:p-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteNote(idx);
-                }}
-              >
-                <BiSolidTrash />
-              </button>
-            </div>
-          </div>
-        </div>
+         <div
+         key={idx}
+         className={`
+           relative
+           xs:w-full sm:w-full md:w-full
+           md:max-w-2/6
+           border 
+           ${darkMode ? "bg-neon-600" : "bg-neon-400"}
+           rounded-lg 
+           ${darkMode ? "border-neon-600" : "border-neon-200"}
+           flex 
+           flex-col
+           mt-10
+           p-2
+           transition ease-in-out hover:-translate-y-1 hover:bg-neon-700 duration-300
+         `}
+         onClick={() => handleOpenModal(idx)}
+       >
+         <div className="flex-col flex block max-w-1/6">
+           <h1 className="text-neon-50 break-words font-bold text-2xl mb-4">
+             {truncateText(note.title, 50)}
+           </h1>
+           <h1 className="text-neon-50 break-words">
+             {truncateText(note.text, 200)}
+           </h1>
+         </div>
+         {/* Lixeira no canto inferior direito */}
+         <footer className="absolute bottom-2 right-2">
+           <button
+             className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white p-2"
+             onClick={(e) => {
+               e.stopPropagation();
+               handleDeleteNote(idx);
+             }}
+           >
+             <BiSolidTrash />
+           </button>
+         </footer>
+       </div>
       ))}
       {open && selectedNoteIndex !== null && (
         <ModalIdx

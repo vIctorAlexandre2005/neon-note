@@ -28,7 +28,7 @@ export function NoteMain() {
   };
 
   const handleSendNote = (newNote: Note) => {
-    const newNotes = [...noteList, newNote];
+    const newNotes = [newNote, ...noteList];
     setNoteList(newNotes);
     saveNotesToLocalStorage(newNotes);
   };

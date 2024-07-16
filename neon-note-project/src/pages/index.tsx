@@ -3,6 +3,8 @@ import { LoginComponent } from "@/components/LoginComponent";
 import { NeonNote } from "@/components/Note";
 import { useTheme } from "@/components/ThemeDark";
 import { ModalInstallPWA } from "@/utils/modals/pwa/pwa";
+import { Box, Flex } from "@chakra-ui/react";
+import { PulseLoader } from 'react-spinners';
 
 export default function Home() {
   const { darkMode } = useTheme();
@@ -16,6 +18,14 @@ export default function Home() {
     onClose
   } = useContextGlobal();
 
+  if(!user) {
+    return (
+      <Flex justify={"center"} align={"center"} mt={"16rem"}>
+        <PulseLoader size={30} color="#004aff" />
+      </Flex>
+    )
+  }
+
   return (
     <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"}`}>
       {installPrompt && (
@@ -26,10 +36,8 @@ export default function Home() {
         />
       )}
 
-      {user ? (
+      {user && (
         <NeonNote />
-      ) : (
-        <LoginComponent />
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import { Note } from "@/utils/interface";
 import { NoteTextareaField } from "@/utils/modals/InputsNote/text";
 import { NoteInputField } from "@/utils/modals/InputsNote/title";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 interface SendNoteProps {
   handleSendNote: (newNote: Note) => void;
@@ -32,7 +33,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
       text: textValue,
     };
     handleSendNote(newNote);
-    console.log("newnote:", newNote);
+    toast.success('Nota adicionada com sucesso!');
     setTextValue(""); // Limpar o valor do texto após enviar
     setTitleValue(""); // Limpar o valor do título após enviar
     setHandleNote(!handleNote);
@@ -67,7 +68,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                 <div className="border border-neon-200 w-full"></div>
                 <div className="flex justify-around items-center gap-4">
                   <div
-                    className={`w-full hover:bg-red-500 rounded-md transition hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
+                    className={`w-full hover:bg-red-500 transition hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
                     <button className="w-full" onClick={handleToggleNote}>
                       Cancelar
@@ -75,7 +76,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                   </div>
 
                   <div
-                    className={`w-full transition hover:bg-neon-600 rounded-lg hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
+                    className={`w-full transition hover:bg-neon-600 hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
                     <button className="w-full" onClick={handleSubmit}>
                       Salvar

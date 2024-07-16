@@ -11,6 +11,7 @@ import {
 } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 
 const ParamsProvider = createContext<VariablesContextType>(defaultValue);
 
@@ -18,10 +19,20 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
     const [user] = useAuthState(auth as any);
     const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
+    const router = useRouter();
 
     function onClose() {
         setIsOpenModal(false);
     }
+
+    useEffect(() => {
+        if(user === null) {
+            router.push("/login");
+        } else {
+            router.push("/");
+            toast.success('Seja bem-vindo ao Neon Note!');
+        }
+    }, [user])
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
@@ -33,7 +44,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
             window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
 
             window.addEventListener('appinstalled', () => {
-                console.log('App installed');
+                console.log('');
             });
 
             window.addEventListener('load', () => {

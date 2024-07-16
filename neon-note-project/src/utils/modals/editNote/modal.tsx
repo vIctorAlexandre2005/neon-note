@@ -19,7 +19,7 @@ export function EditNote({
           w={"100%"}
           h={"75%"}
         >
-          <ModalHeader p={"0.5"} mt={"2"}>
+          <ModalHeader p={"0.5"} borderBottom={"1px solid"} borderBottomColor={"#afd7ff"} mt={"2"}>
             <Input
               fontSize={"1.75rem"}
               textAlign={"left"}
@@ -50,8 +50,12 @@ export function EditNote({
               onChange={(e) => setText(e.target.value)}
             />
           </ModalBody>
-          <ModalFooter borderTop={"1px solid"} borderTopColor={"#78c0ff"}>
-            <Button onClick={handleSave} colorScheme="blue">
+          <ModalFooter display={"flex"} p={"0.5rem"} justifyContent={"center"} gap={2} borderTop={"1px solid"} borderTopColor={"#78c0ff"}>
+          <Button w={"100%"} onClick={onClose} colorScheme="red">
+              Cancelar
+            </Button>
+
+            <Button w={"100%"} onClick={handleSave} colorScheme="blue">
               Salvar
             </Button>
           </ModalFooter>
