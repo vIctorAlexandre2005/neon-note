@@ -1,6 +1,7 @@
 import { useContextGlobal } from "@/components/Context";
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark";
+import { handleSignin } from "@/utils/login";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
@@ -21,17 +22,26 @@ export function NoteHeader() {
         `}
       >
         <div className="flex items-center gap-4">
-          <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
-            {user && user?.photoURL && (
-              <img
-                onClick={() => Logout()}
-                src={user?.photoURL}
-                className="rounded-full object-cover"
-                height={50}
-                width={50}
-              />
-            )}
-          </div>
+          {user ? (
+            <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
+              {user && user?.photoURL && (
+                <img
+                  onClick={() => Logout()}
+                  src={user?.photoURL}
+                  className="rounded-full object-cover"
+                  height={50}
+                  width={50}
+                />
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={handleSignin}
+              className="bg-neon-500 text-white p-2 hover:bg-neon-600 hover:transition-2s rounded-full"
+            >
+              Fazer login
+            </button>
+          )}
 
           <h1 className="text-xl font-bold text-white xs:text-sm sm:text-xl">
             {user?.displayName}
@@ -40,6 +50,7 @@ export function NoteHeader() {
 
         <div>
           <button
+            data-testid="dark-mode-toggle"
             onClick={() => toggleDarkMode()}
             className="cursor-pointer flex gap-2"
           >

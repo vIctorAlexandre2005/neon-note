@@ -1,9 +1,10 @@
 import { NoteInputProps } from "@/utils/interface/inputs";
 
 export const NoteInputField: React.FC<NoteInputProps> = ({ value, onChange, placeholder, darkMode }) => {
-    return (
-      <input
-        className={`
+  return (
+    <input
+      data-testid="my-input"
+      className={`
           border-none
           rounded-md 
           ${darkMode ? "bg-black-950" : "bg-white"} 
@@ -16,9 +17,9 @@ export const NoteInputField: React.FC<NoteInputProps> = ({ value, onChange, plac
           text-8xl
           w-full
         `}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    );
-  };
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};

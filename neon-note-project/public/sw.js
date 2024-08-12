@@ -8,6 +8,6 @@ self.addEventListener("push", async (event) => {
 const showLocalNotification = (title, body, swRegistration) => {
   swRegistration.showNotification(title, {
     body,
-    icon: "/images/pagox.svg",
+    icon: "",
   });
 };

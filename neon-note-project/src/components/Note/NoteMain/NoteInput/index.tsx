@@ -32,12 +32,20 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
       title: titleValue,
       text: textValue,
     };
-    if(textValue.trim() && titleValue.trim()) {
-    handleSendNote(newNote);
-    toast.success('Nota adicionada com sucesso!');
-    setTextValue(""); // Limpar o valor do texto após enviar
-    setTitleValue(""); // Limpar o valor do título após enviar
-    setHandleNote(!handleNote);
+    if (textValue.trim() && titleValue.trim()) {
+      handleSendNote(newNote);
+      toast.success('Nota adicionada com sucesso!', {
+        autoClose: 2000,
+        closeOnClick: true,
+        theme: darkMode ? "dark" : "light",
+        pauseOnHover: true,
+        draggable: true,
+        hideProgressBar: true,
+
+      });
+      setTextValue(""); // Limpar o valor do texto após enviar
+      setTitleValue(""); // Limpar o valor do título após enviar
+      setHandleNote(!handleNote);
     } else {
       toast.error('O título ou texto de sua nota está vazio!')
     };
@@ -84,7 +92,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                 </div>
                 <div className="border border-neon-200 w-full"></div>
                 <div className="flex justify-around items-center gap-4">
-                <div
+                  <div
                     className={`w-full hover:bg-red-500 transition hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
                     <button className="w-full" onClick={handleToggleNote}>
@@ -95,7 +103,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                   <div
                     className={`w-full transition hover:bg-neon-600 hover:text-white p-4 ${darkMode ? "text-white" : "text-black-700"}`}
                   >
-                    <button className="w-full" onClick={handleSubmit}>
+                    <button data-testid="save-note" className="w-full" onClick={handleSubmit}>
                       Salvar
                     </button>
                   </div>
@@ -105,6 +113,7 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
           ) : (
             <>
               <button
+                data-testid="create-note"
                 onClick={handleToggleNote}
                 className={`
                   border-none 

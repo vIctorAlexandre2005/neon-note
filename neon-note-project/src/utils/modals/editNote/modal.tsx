@@ -30,12 +30,14 @@ export function EditNote({
               }}
               _focusVisible={"none"}
               value={title}
+              data-testid="my-input-modal-title"
               onChange={(e) => setTitle(e.target.value)}
               className="w-full font-regular text-9xl text-white bg-neon-600 focus:outline-none focus:border-blue-500"
             />
           </ModalHeader>
           <ModalBody p={"1"}>
             <Textarea
+              data-testid="my-textarea-modal-text"
               w={"100%"}
               h={"100%"}
               border={"none"}
@@ -55,7 +57,7 @@ export function EditNote({
               Cancelar
             </Button>
 
-            <Button w={"100%"} onClick={handleSave} colorScheme="blue">
+            <Button data-testid="my-button-modal-save" w={"100%"} onClick={handleSave} colorScheme="blue">
               Salvar
             </Button>
           </ModalFooter>

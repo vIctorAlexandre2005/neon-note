@@ -61,6 +61,7 @@ export function NoteList({
            p-2
            transition ease-in-out hover:-translate-y-1 hover:bg-neon-700 duration-300
          `}
+         data-testid={`note-${idx}`}
          onClick={() => handleOpenModal(idx)}
        >
          <div className="flex-col flex block max-w-1/6">
@@ -74,6 +75,7 @@ export function NoteList({
          {/* Lixeira no canto inferior direito */}
          <footer className="absolute bottom-2 right-2">
            <button
+              data-testid={`delete-note-${idx}`}
              className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white p-2"
              onClick={(e) => {
                e.stopPropagation();

@@ -4,6 +4,7 @@ import { Textarea } from "@chakra-ui/react";
 export const NoteTextareaField: React.FC<NoteTextareaProps> = ({ value, onChange, placeholder, darkMode }) => {
     return (
       <Textarea
+        data-testid="my-textarea"
         border={"none"}
         resize={"none"}
         h={"20rem"}

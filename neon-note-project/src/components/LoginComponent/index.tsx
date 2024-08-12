@@ -3,13 +3,10 @@ import { BsMoonStars, BsMoonStarsFill, BsSun, BsSunFill } from "react-icons/bs";
 import { IoToggle, IoToggleSharp } from "react-icons/io5";
 import { FiToggleLeft } from "react-icons/fi";
 import { useTheme } from "../ThemeDark";
+import { handleSignin } from "@/utils/login";
 
 export function LoginComponent() {
   const { darkMode, toggleDarkMode } = useTheme();
-
-  function handleSignin() {
-    auth.signInWithPopup(provider).catch(alert);
-  }
 
   return (
     <>
@@ -78,9 +75,9 @@ export function LoginComponent() {
               "
                   >
                     Login in with
-                    <div className="bg-white rounded-full p-2">
+                    {/* <div className="bg-white rounded-full p-2">
                       <img src="/google.png" height={20} width={20} />
-                    </div>
+                    </div> */}
                   </button>
                 </div>
               </div>

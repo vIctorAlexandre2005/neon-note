@@ -1,66 +1,33 @@
 import { auth } from "@/services/firebase";
 import { VariablesContextType, defaultValue } from "@/utils/interface";
-import { InstallPromptEvent } from "@/utils/interface/pwa";
 import { useRouter } from "next/router";
 import {
     createContext,
     useContext,
     ReactNode,
-    useEffect,
     useState,
 } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { toast } from "react-toastify";
+import { Loader } from "../Loader";
+import { usePWA } from "@/utils/usePWA";
 
 const ParamsProvider = createContext<VariablesContextType>(defaultValue);
 
 const ParamsContext = ({ children }: { children: ReactNode }) => {
-    const [user] = useAuthState(auth as any);
-    const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+    const [user, loading] = useAuthState(auth as any);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
     const router = useRouter();
 
     function onClose() {
         setIsOpenModal(false);
-    }
+    };
 
-    useEffect(() => {
-        if(user === null) {
-            router.push("/login");
-        } else {
-            router.push("/");
-            toast.success('Seja bem-vindo ao Neon Note!')
-        }
-    }, [user])
+    const installPrompt = usePWA();
 
-    useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            const beforeInstallPromptHandler = (event: Event) => {
-                event.preventDefault();
-                setInstallPrompt(event as InstallPromptEvent);
-            };
-
-            window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
-
-            window.addEventListener('appinstalled', () => {
-                console.log('');
-            });
-
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then((registration) => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, (err) => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-
-            return () => {
-                window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler);
-            };
-        }
-    }, []);
-
+    if (loading) {
+        return <Loader />
+    };
     function handleInstall() {
         if (installPrompt) {
             installPrompt.prompt();
@@ -69,11 +36,11 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
                     console.log('User accepted the A2HS prompt');
                 } else {
                     console.log('User dismissed the A2HS prompt');
-                }
-                setInstallPrompt(null);
+                };
             });
-        }
-    }
+        };
+    };
+
     return (
         <ParamsProvider.Provider
             value={{

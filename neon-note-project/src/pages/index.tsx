@@ -18,14 +18,6 @@ export default function Home() {
     onClose
   } = useContextGlobal();
 
-  if(!user) {
-    return (
-      <Flex justify={"center"} align={"center"} mt={"16rem"}>
-        <PulseLoader size={30} color="#004aff" />
-      </Flex>
-    )
-  }
-
   return (
     <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"}`}>
 
@@ -36,10 +28,7 @@ export default function Home() {
           handleInstall={handleInstall}
         />
       )}
-
-      {user && (
         <NeonNote />
-      )}
     </div>
   );
 }
