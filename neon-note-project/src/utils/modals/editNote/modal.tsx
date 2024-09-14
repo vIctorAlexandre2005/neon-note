@@ -19,7 +19,7 @@ export function EditNote({
           w={"100%"}
           h={"75%"}
         >
-          <ModalHeader p={"0.5"} borderBottom={"1px solid"} borderBottomColor={"#afd7ff"} mt={"2"}>
+          <ModalHeader p={"0.5"} mt={"2"}>
             <Input
               fontSize={"1.75rem"}
               textAlign={"left"}

@@ -19,7 +19,7 @@ export default function Home() {
   } = useContextGlobal();
 
   return (
-    <div className={`${darkMode ? "bg-black-900" : "bg-neon-50"}`}>
+    <div className={`${darkMode ? "bg-neon-950" : "bg-neon-50"}`}>
 
       {installPrompt && (
         <ModalInstallPWA

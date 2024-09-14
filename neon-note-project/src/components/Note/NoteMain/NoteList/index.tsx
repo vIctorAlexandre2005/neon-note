@@ -16,12 +16,12 @@ export function NoteList({
 
   function onClose() {
     setOpen(false);
-  }
+  };
 
   function handleOpenModal(idx: number | null) {
     setSelectedNoteIndex(idx);
     setOpen(true);
-  }
+  };
 
   const truncateText = (text: string, maxLength: number) => {
     return text?.length > maxLength
@@ -30,7 +30,7 @@ export function NoteList({
   };
 
   return (
-    <div 
+    <div
       className="
         p-4 
         xs:flex-col 
@@ -43,11 +43,12 @@ export function NoteList({
         lg:gap-4 
         sm:gap-2
         "
-      >
-      {noteList.map((note, idx) => (
-         <div
-         key={idx}
-         className={`
+    >
+        <>
+        {noteList.map((note, idx) => (
+        <div
+          key={idx}
+          className={`
            relative
            xs:w-full sm:w-full md:w-full
            md:max-w-2/6
@@ -61,32 +62,33 @@ export function NoteList({
            p-2
            transition ease-in-out hover:-translate-y-1 hover:bg-neon-700 duration-300
          `}
-         data-testid={`note-${idx}`}
-         onClick={() => handleOpenModal(idx)}
-       >
-         <div className="flex-col flex block max-w-1/6">
-           <h1 className="text-neon-50 break-words font-bold text-2xl mb-4">
-             {truncateText(note.title, 50)}
-           </h1>
-           <h1 className="text-neon-50 break-words">
-             {truncateText(note.text, 200)}
-           </h1>
-         </div>
-         {/* Lixeira no canto inferior direito */}
-         <footer className="absolute bottom-2 right-2">
-           <button
+          data-testid={`note-${idx}`}
+          onClick={() => handleOpenModal(idx)}
+        >
+          <div className="flex-col flex max-w-1/6">
+            <h1 className="text-neon-50 break-words font-bold text-2xl mb-4">
+              {truncateText(note.title, 50)}
+            </h1>
+            <h1 className="text-neon-50 break-words">
+              {truncateText(note.text, 200)}
+            </h1>
+          </div>
+          {/* Lixeira no canto inferior direito */}
+          <footer className="absolute bottom-2 right-2">
+            <button
               data-testid={`delete-note-${idx}`}
-             className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white p-2"
-             onClick={(e) => {
-               e.stopPropagation();
-               handleDeleteNote(idx);
-             }}
-           >
-             <BiSolidTrash />
-           </button>
-         </footer>
-       </div>
+              className="hover:bg-white hover:rounded-full transition hover:text-red-500 text-white p-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteNote(idx);
+              }}
+            >
+              <BiSolidTrash />
+            </button>
+          </footer>
+        </div>
       ))}
+      </>
       {open && selectedNoteIndex !== null && (
         <ModalIdx
           open={open}

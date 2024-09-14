@@ -1,9 +1,13 @@
-describe('Toggle Dark Mode', () => {
-  it('should toggle dark mode', () => {
-    cy.visit('http://localhost:3000');
-    // Clicando no botão dark mode
-    cy.get('[data-testid="dark-mode-toggle"]').click();
+describe('Testing Neon Note', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
 
+  it('should toggle dark mode', () => {
+    cy.get('[data-testid="dark-mode-toggle"]').click();
+  });
+
+  it('should save note, edit note, and delete note', () => {
     // Clicando para escrever uma nota
     cy.get('[data-testid="create-note"]').click();
 
@@ -17,7 +21,7 @@ describe('Toggle Dark Mode', () => {
     
     // Clicando no botão salvar
     cy.get('[data-testid="save-note"]').click();
-    
+
     // Clicando na nota já salva para poder editar
     cy.get('[data-testid="note-0"]').click();
     
@@ -46,7 +50,7 @@ describe('Toggle Dark Mode', () => {
     // Após preencher todos os campos, vou clicar no botão salvar
     cy.get('[data-testid="my-button-modal-save"]').click();
 
-    // Excluindo nota que foi salva e logo após editada.
+    // Clicando para excluir a nota
     cy.get('[data-testid="delete-note-0"]').click();
   });
 });

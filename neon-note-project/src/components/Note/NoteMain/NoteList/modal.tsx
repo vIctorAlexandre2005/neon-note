@@ -28,7 +28,14 @@ export function ModalIdx({ onClose, open, note, onSave }: PropsEditModal) {
         hideProgressBar: true,
       });
     } else {
-      toast.error('O campo de título ou texto estão vazios.');
+      toast.error('O campo de título ou texto estão vazios.', {
+        autoClose: 2000,
+        closeOnClick: true,
+        theme: darkMode ? "dark" : "light",
+        pauseOnHover: true,
+        draggable: true,
+        hideProgressBar: true,
+      });
     };
   };
 

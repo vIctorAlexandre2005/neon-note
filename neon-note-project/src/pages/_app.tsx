@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ChakraProvider>
         <ThemeProvider>
           <Component {...pageProps} />
-          <ToastContainer pauseOnHover={false} position="bottom-center" />
+          <ToastContainer pauseOnHover={false} position="bottom-right" />
         </ThemeProvider>
       </ChakraProvider>
     </ParamsContext>

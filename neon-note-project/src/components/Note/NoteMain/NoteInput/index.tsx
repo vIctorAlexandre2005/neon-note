@@ -7,11 +7,13 @@ import { toast } from "react-toastify";
 
 interface SendNoteProps {
   handleSendNote: (newNote: Note) => void;
+  handleNote: boolean;
+  setHandleNote: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function NoteInput({ handleSendNote }: SendNoteProps) {
+export function NoteInput({ handleSendNote, handleNote, setHandleNote }: SendNoteProps) {
   const { darkMode } = useTheme();
-  const [handleNote, setHandleNote] = useState<boolean>(false);
+  
   const [titleValue, setTitleValue] = useState<string>("");
   const [textValue, setTextValue] = useState<string>("");
 
@@ -41,13 +43,20 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
         pauseOnHover: true,
         draggable: true,
         hideProgressBar: true,
-
       });
       setTextValue(""); // Limpar o valor do texto após enviar
       setTitleValue(""); // Limpar o valor do título após enviar
       setHandleNote(!handleNote);
     } else {
-      toast.error('O título ou texto de sua nota está vazio!')
+      toast.error('O título ou texto de sua nota está vazio!', {
+        autoClose: 2000,
+        closeOnClick: true,
+        theme: darkMode ? "dark" : "light",
+        pauseOnHover: true,
+        draggable: true,
+        hideProgressBar: true,
+
+      })
     };
   };
 
@@ -66,8 +75,6 @@ export function NoteInput({ handleSendNote }: SendNoteProps) {
                   md:w-5/6 
                   lg:w-3/6 
                   rounded-lg 
-                  border 
-                  border-white 
                   flex 
                   flex-col
                   `

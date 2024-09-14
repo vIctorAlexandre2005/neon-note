@@ -14,11 +14,13 @@ export function NoteHeader() {
     <>
       <header
         className={`
-        ${darkMode ? "bg-black-950" : "bg-neon-400"} 
+        ${darkMode ? "bg-black-900" : "bg-neon-500"} 
         flex 
         justify-between
         items-center
-        p-6
+        border-b-2
+        border-neon-400
+        p-4
         `}
       >
         <div className="flex items-center gap-4">
@@ -37,9 +39,9 @@ export function NoteHeader() {
           ) : (
             <button
               onClick={handleSignin}
-              className="bg-neon-500 text-white p-2 hover:bg-neon-600 hover:transition-2s rounded-full"
+              className="bg-neon-500 flex items-center gap-2 text-white p-2 hover:bg-neon-600 hover:transition duration-200 rounded-full"
             >
-              Fazer login
+              Faça login com <img src="/google.png" height={25} width={25} />
             </button>
           )}
 
