@@ -1,4 +1,5 @@
 import ParamsContext from "@/components/Context";
+import Layout from "@/components/Layout";
 import { ThemeProvider } from "@/components/ThemeDark";
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -10,10 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
+
     <ParamsContext>
       <ChakraProvider>
         <ThemeProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
           <ToastContainer pauseOnHover={false} position="bottom-right" />
         </ThemeProvider>
       </ChakraProvider>

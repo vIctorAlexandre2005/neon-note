@@ -14,7 +14,7 @@ export const NoteInputField: React.FC<NoteInputProps> = ({ value, onChange, plac
           py-2 
           focus:outline-none
           placeholder:text-2xl
-          placeholder:text-black-400
+          ${darkMode ? 'placeholder:text-black-700' : 'placeholder:text-black-400'}
           text-2xl
           w-full
         `}

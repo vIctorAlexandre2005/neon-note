@@ -4,18 +4,22 @@ import React, {
   useContext,
   useState,
   FunctionComponent,
+  Dispatch,
+  SetStateAction,
 } from "react";
 
 // Defina a interface para o valor do contexto
 interface ThemeContextType {
   darkMode: boolean;
   toggleDarkMode: () => void;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
   setLightMode: () => void;
 }
 
 // Definindo um valor padrão com a interface correta
 const defaultValue: ThemeContextType = {
   darkMode: false,
+  setDarkMode: () => { },
   toggleDarkMode: () => { },
   setLightMode: () => { },
 };
@@ -33,14 +37,15 @@ export const ThemeProvider: FunctionComponent<ChildrenProps> = ({
 
   function toggleDarkMode() {
     setDarkMode((prevMode) => !prevMode);
-  }
+    localStorage.setItem("darkMode", JSON.stringify(!darkMode));
+  };
 
   function setLightMode() {
     setDarkMode(false);
-  }
+  };
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode, setLightMode }}>
+    <ThemeContext.Provider value={{ darkMode, setDarkMode, toggleDarkMode, setLightMode }}>
       {children}
     </ThemeContext.Provider>
   );

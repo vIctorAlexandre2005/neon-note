@@ -10,6 +10,7 @@ export const NoteTextareaField: React.FC<NoteTextareaProps> = ({ value, onChange
         h={"20rem"}
         color={darkMode ? "white" : "text-black-700"}
         _focusVisible={"none"}
+        _placeholder={{color: "text-black-900"}}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
