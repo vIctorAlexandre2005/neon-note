@@ -2,13 +2,17 @@ import { useContextGlobal } from "@/components/Context";
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark";
 import { handleSignin } from "@/utils/login";
+import { Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, useDisclosure } from "@chakra-ui/react";
+import { BiLogOutCircle } from "react-icons/bi";
 import { BsMoonStarsFill, BsSunFill } from "react-icons/bs";
+import { FaRegUser } from "react-icons/fa";
 import { FiToggleLeft } from "react-icons/fi";
 import { IoToggleSharp } from "react-icons/io5";
 
 export function NoteHeader() {
   const { darkMode, toggleDarkMode } = useTheme();
   const { user } = useContextGlobal();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <>
@@ -22,54 +26,71 @@ export function NoteHeader() {
         border-neon-400
         p-4
         `}
+        onMouseLeave={onClose}
       >
         <div className="flex items-center gap-4">
-          {user ? (
-            <div className=" bg-neon-500 border-2 border-neon-500 rounded-full">
-              {user && user?.photoURL && (
-                <img
-                  onClick={() => Logout()}
-                  src={user?.photoURL}
-                  className="rounded-full object-cover"
-                  height={50}
-                  width={50}
-                />
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={handleSignin}
-              className="bg-neon-500 flex items-center gap-2 text-white p-2 hover:bg-neon-600 hover:transition duration-200 rounded-full"
-            >
-              Faça login com <img src="/google.png" height={25} width={25} />
-            </button>
-          )}
-
-          <h1 className="text-xl font-bold text-white xs:text-sm sm:text-xl">
-            {user?.displayName}
-          </h1>
+          <img src="/logoofc192.png" height={50} width={50} /> <h3 className={`text-xl font-bold ${darkMode ? "text-white" : "text-black-800"}`}>
+            Neon Note
+          </h3>
         </div>
 
-        <div>
-          <button
-            data-testid="dark-mode-toggle"
-            onClick={() => toggleDarkMode()}
-            className="cursor-pointer flex gap-2"
-          >
-            {darkMode ? (
-              <>
-                <IoToggleSharp size={30} className="text-neon-500" />
-                <BsMoonStarsFill size={30} className="text-neon-500" />
-              </>
-            ) : (
-              <>
-                <FiToggleLeft className="text-neon-100" size={30} />
-                <BsSunFill className="text-neon-100" size={30} />
-              </>
-            )}
-          </button>
+        <div onMouseEnter={onOpen}>
+          <Popover isOpen={isOpen} onClose={onClose}>
+            <PopoverTrigger>
+              <div
+              onMouseEnter={onOpen}
+              onClick={onOpen}
+              >
+                {user && user?.photoURL ? (
+                  <img
+                    src={user?.photoURL}
+                    className="rounded-full object-cover"
+                    height={50}
+                    width={50}
+                  />
+                ) : (
+                  <div className={`hover:bg-neon-500 flex items-center gap-2 text-black hover:text-white ${darkMode ? 'text-white' : 'text-black-800'} p-2 hover:transition duration-200 rounded-full`}>
+                    <FaRegUser /> <h3>Visitante</h3>
+                  </div>
+                )}
+              </div>
+            </PopoverTrigger>
+            <PopoverContent bg={"#f9f9f9f9"}>
+              <PopoverArrow />
+              {isOpen && (
+                <>
+                  <PopoverHeader>
+                    <h3 className="text-lg">Configurações da conta</h3>
+                  </PopoverHeader>
+
+                  <PopoverBody>
+                    <>
+                      {user ? (
+                        <button
+                          onClick={Logout}
+                          className="bg-red-500 flex gap-2 p-2 rounded-lg font-semibold text-white hover:bg-red-400">
+                          <BiLogOutCircle size={25} /> Sair
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleSignin}
+                          className="bg-neon-500 flex gap-2 p-2 rounded-xl font-semibold text-white hover:bg-neon-400">
+                          Sign In <img src="/google.png" height={25} width={25} />
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => toggleDarkMode()}
+                        className="bg-transparent text-black items-center mt-4 flex gap-2 p-2 rounded-lg font-semibold hover:text-neon-500">
+                        {darkMode ? <BsMoonStarsFill size={25} /> : <BsSunFill size={25} />} {darkMode ? <IoToggleSharp size={25} /> : <FiToggleLeft size={25} />}</button>
+                    </>
+                  </PopoverBody>
+                </>
+              )}
+            </PopoverContent>
+          </Popover>
         </div>
       </header>
     </>
   );
-}
+};
