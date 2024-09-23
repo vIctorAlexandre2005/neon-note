@@ -1,26 +1,26 @@
-import { NoteInputProps } from "@/utils/interface/inputs";
+import { useTheme } from "@/components/ThemeDark";
 
-export const NoteInputField: React.FC<NoteInputProps> = ({ value, onChange, placeholder, darkMode }) => {
+export const NoteInputField: React.FC = () => {
+
+  const { darkMode } = useTheme();
+
   return (
     <input
       data-testid="my-input"
       className={`
           border-none
+          bg-transparent
           rounded-md 
-          ${darkMode ? "bg-black-950" : "bg-white"} 
-          ${darkMode ? "text-white" : "text-black-700"}
-          ${darkMode ? "placeholder:text-neon-100" : "placeholder:text-black"} 
+          ${darkMode ? "text-white" : "text-black-800"}
           px-4 
           py-2 
           focus:outline-none
-          placeholder:text-2xl
-          ${darkMode ? 'placeholder:text-black-700' : 'placeholder:text-black-400'}
-          text-2xl
+          placeholder:text-3xl
+          ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
+          text-3xl
+          font-semibold
           w-full
-        `}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
+      `}
     />
   );
 };

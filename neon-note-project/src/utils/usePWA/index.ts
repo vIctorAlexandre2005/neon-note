@@ -1,5 +1,5 @@
+import { InstallPromptEvent } from "@/Interface/pwa";
 import { useEffect, useState } from "react";
-import { InstallPromptEvent } from "../interface/pwa";
 
 export function usePWA() {
     const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);

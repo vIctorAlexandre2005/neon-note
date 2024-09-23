@@ -1,19 +1,26 @@
-import { NoteTextareaProps } from "@/utils/interface/inputs";
+import { useTheme } from "@/components/ThemeDark";
 import { Textarea } from "@chakra-ui/react";
 
-export const NoteTextareaField: React.FC<NoteTextareaProps> = ({ value, onChange, placeholder, darkMode }) => {
-    return (
-      <Textarea
-        data-testid="my-textarea"
-        border={"none"}
-        resize={"none"}
-        h={"20rem"}
-        color={darkMode ? "white" : "text-black-700"}
-        _focusVisible={"none"}
-        _placeholder={{color: "text-black-900"}}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    );
-  };
+export const NoteTextareaField: React.FC = () => {
+
+  const { darkMode } = useTheme();
+
+  return (
+    <textarea
+      className={`
+      border-none
+      resize-none
+      bg-transparent
+      w-full
+      h-full
+      px-4 
+      text-lg
+      py-2 
+      ${darkMode ? "text-white" : "text-black-700"}
+      focus:outline-none  
+      ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
+      `}
+      data-testid="my-textarea"
+    />
+  );
+};

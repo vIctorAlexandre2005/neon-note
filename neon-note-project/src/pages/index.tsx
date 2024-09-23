@@ -12,11 +12,6 @@ export default function Home() {
 
   const {
     user,
-    installPrompt,
-    isOpenModal,
-    setIsOpenModal,
-    handleInstall,
-    onClose
   } = useContextGlobal();
 
   useEffect(() => {
@@ -28,14 +23,6 @@ export default function Home() {
 
   return (
     <div className={`${darkMode ? "bg-slate-950" : "bg-neon-50"} h-full`}>
-
-      {installPrompt && (
-        <ModalInstallPWA
-          isOpenModal={isOpenModal}
-          onClose={onClose}
-          handleInstall={handleInstall}
-        />
-      )}
         <NeonNote />
     </div>
   );

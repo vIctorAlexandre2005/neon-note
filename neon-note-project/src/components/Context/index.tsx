@@ -1,5 +1,4 @@
 import { auth } from "@/services/firebase";
-import { VariablesContextType, defaultValue } from "@/utils/interface";
 import { useRouter } from "next/router";
 import {
     createContext,
@@ -11,8 +10,9 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Loader } from "../Loader";
 import { usePWA } from "@/utils/usePWA";
+import { ContextData, defaultValueContextData } from "@/Interface/ContextData";
 
-const ParamsProvider = createContext<VariablesContextType>(defaultValue);
+const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
 const ParamsContext = ({ children }: { children: ReactNode }) => {
     const [user, loading] = useAuthState(auth as any);
@@ -46,10 +46,6 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
             value={{
                 user,
                 installPrompt,
-                isOpenModal,
-                setIsOpenModal,
-                handleInstall,
-                onClose
             }}
         >
             {children}

@@ -1,14 +1,20 @@
 import { NoteHeader } from "./NoteHeader";
 import { NoteMain } from "./NoteMain";
 import { useTheme } from "../ThemeDark";
+import { SidebarNote } from "../SidebarNote";
+import { useEffect, useState } from "react";
 
 export function NeonNote() {
-  const { darkMode } = useTheme();
+
   return (
-    <div /* className={`${darkMode ? "bg-black-900" : "bg-neon-50"} h-full`} */>
-      <main /* className="bg-black-900 h-full" */>
+    <div className="flex min-h-full pl-4 pt-4 gap-8">
+      <div className="flex-none w-80">
+        <SidebarNote />
+      </div>
+
+      <div className="flex-1">
         <NoteMain />
-      </main>
+      </div>
     </div>
   );
 }

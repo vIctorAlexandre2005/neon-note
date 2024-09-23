@@ -29,7 +29,7 @@ export function NoteHeader() {
         onMouseLeave={onClose}
       >
         <div className="flex items-center gap-4">
-          <img src="/logoofc192.png" height={50} width={50} /> <h3 className={`text-xl font-bold ${darkMode ? "text-white" : "text-black-800"}`}>
+          <img src="/logoofc192.png" height={50} width={50} /> <h3 className={`text-xl ${darkMode ? "text-white" : "text-black-800"}`}>
             Neon Note
           </h3>
         </div>
@@ -42,12 +42,15 @@ export function NoteHeader() {
               onClick={onOpen}
               >
                 {user && user?.photoURL ? (
+                  <div className="flex items-center gap-2">
+                  <h3 className={`text-md ${darkMode ? "text-white" : "text-black-800"}`}>{user?.displayName}</h3>
                   <img
                     src={user?.photoURL}
-                    className="rounded-full object-cover"
-                    height={50}
-                    width={50}
+                    className="rounded-full border-2 border-neon-600 object-cover"
+                    height={35}
+                    width={35}
                   />
+                  </div>
                 ) : (
                   <div className={`hover:bg-neon-500 flex items-center gap-2 text-black hover:text-white ${darkMode ? 'text-white' : 'text-black-800'} p-2 hover:transition duration-200 rounded-full`}>
                     <FaRegUser /> <h3>Visitante</h3>
@@ -60,7 +63,7 @@ export function NoteHeader() {
               {isOpen && (
                 <>
                   <PopoverHeader>
-                    <h3 className="text-lg">Configurações da conta</h3>
+                    <h3 className="text-lg">Configurações</h3>
                   </PopoverHeader>
 
                   <PopoverBody>
@@ -68,13 +71,13 @@ export function NoteHeader() {
                       {user ? (
                         <button
                           onClick={Logout}
-                          className="bg-red-500 flex gap-2 p-2 rounded-lg font-semibold text-white hover:bg-red-400">
+                          className="bg-red-500 flex items-center justify-center p-2 rounded-lg font-semibold text-white gap-2 hover:bg-red-400 w-2/5">
                           <BiLogOutCircle size={25} /> Sair
                         </button>
                       ) : (
                         <button
                           onClick={handleSignin}
-                          className="bg-neon-500 flex gap-2 p-2 rounded-xl font-semibold text-white hover:bg-neon-400">
+                          className="bg-black-900 flex gap-2 p-2 rounded-xl font-semibold text-white hover:bg-black-800">
                           Sign In <img src="/google.png" height={25} width={25} />
                         </button>
                       )}
