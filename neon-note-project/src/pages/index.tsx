@@ -14,13 +14,6 @@ export default function Home() {
     user,
   } = useContextGlobal();
 
-  useEffect(() => {
-    const darkModeItem = localStorage.getItem("darkMode");
-    if (darkModeItem) {
-        setDarkMode(JSON.parse(darkModeItem));
-    };
-  }, []);
-
   return (
     <div className={`${darkMode ? "bg-slate-950" : "bg-neon-50"} h-full`}>
         <NeonNote />

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTheme } from "../ThemeDark"
 import { NoteHeader } from "./Header/header";
 import { Sidebar } from "./Sidebar/sidebar";
@@ -7,7 +8,15 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-    const { darkMode } = useTheme();
+    const { darkMode, setDarkMode } = useTheme();
+
+    useEffect(() => {
+        const darkModeItem = localStorage.getItem("darkMode");
+        if (darkModeItem) {
+            setDarkMode(JSON.parse(darkModeItem));
+        };
+      }, []);
+
     return (
         <div className={`flex flex-col h-screen ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
             <NoteHeader />

@@ -1,4 +1,5 @@
 import ParamsContext from "@/components/Context";
+import NoteContext from "@/components/Context/NoteContext";
 import Layout from "@/components/Layout";
 import { ThemeProvider } from "@/components/ThemeDark";
 import "@/styles/globals.css";
@@ -15,9 +16,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <ParamsContext>
       <ChakraProvider>
         <ThemeProvider>
+          <NoteContext>
           <Layout>
             <Component {...pageProps} />
           </Layout>
+          </NoteContext>
           <ToastContainer pauseOnHover={false} position="bottom-right" />
         </ThemeProvider>
       </ChakraProvider>
