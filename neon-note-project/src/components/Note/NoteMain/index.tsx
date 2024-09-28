@@ -11,9 +11,7 @@ export function NoteMain() {
 
   return (
     <div className={`${darkMode ? "bg-slate-900" : "bg-neon-100"} w-full rounded-xl h-full flex flex-col p-2`}>
-      <ScaleIn>
         <NoteInput />
-      </ScaleIn>
     </div>
   );
 }

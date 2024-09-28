@@ -18,6 +18,7 @@ export interface NoteContextData {
     setActiveNote: Dispatch<SetStateAction<any>>;
     selectNote: (noteId: number) => void;
     updateNote: (noteId: number, updatedFields: any) => void;
+    deleteNote: (id: number) => void;
 };
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -32,4 +33,5 @@ export const defaultValueNoteContextData: NoteContextData = {
     setActiveNote: () => {},
     selectNote: () => {},
     updateNote: () => {},
+    deleteNote: () => {}
 }

@@ -28,7 +28,7 @@ export function SidebarNote() {
           <div>
             <button
               onClick={() => {
-                addNote({ title: "", text: "", id: Math.random() }); // Adiciona uma nova nota vazia
+                addNote({ title: "", text: "", id: Math.random(), date: Date.now() }); // Adiciona uma nova nota vazia
               }}
               className="bg-neon-500 hover:bg-neon-600 transition duration-200 p-2 h-10 w-10 flex justify-center items-center rounded-full"
             >
@@ -42,41 +42,46 @@ export function SidebarNote() {
       <div className="flex flex-col mt-3 gap-4">
         {noteList.map((note: any, index) => (
           <FadeIn key={note.id}>
-            <Fragment>
-            <div
-        onClick={() => {
-          handleSelectNote(note);
-        }}
-        className={`
+            <Fragment key={index}>
+              <div
+                onClick={() => {
+                  handleSelectNote(note);
+                }}
+                className={`
           ${activeNote === note.id ? "border-2 border-neon-500 border-opacity-40" : ""}  // Estilo condicional para o card ativo
           ${darkMode ? "bg-neon-950" : "bg-neon-400"}
           w-full rounded-xl p-2 cursor-pointer
         `}
-      >
-        {note.title ? (
-          <h2 className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-96' : ''}`}>
-          {truncateText(note.title, 16)}
-        </h2>
-        ) : (
-          <h2 className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-30' : ''}`}>
-          Sem título
-        </h2>
-        )}
-        
-        {note.text ? (
-          <p
-            className={`text-white text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
-          >
-            {truncateText(note.text, 60)}
-          </p>
-        ) : (
-          <p
-            className={`text-white text-opacity-80 ${darkMode ? 'opacity-30' : ''}`}
-          >
-            Sem texto
-          </p>
-        )}
-      </div>
+              >
+                {note.title ? (
+                  <h2 className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-96' : ''}`}>
+                    {truncateText(note.title, 16)}
+                  </h2>
+                ) : (
+                  <h2 className={`text-white text-2xl mb-2 font-bold italic ${darkMode ? 'opacity-30' : ''}`}>
+                    Vazio
+                  </h2>
+                )}
+
+                {note.text ? (
+                  <p
+                    className={`text-white text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
+                  >
+                    {truncateText(note.text, 66)}
+                  </p>
+                ) : (
+                  <p
+                    className={`text-white text-opacity-80 italic ${darkMode ? 'opacity-30' : ''}`}
+                  >
+                    Vazio
+                  </p>
+                )}
+                <div className="mt-4 flex justify-end">
+                  <p className="text-white opacity-40 text-xs">
+                    Criada em {new Date(note.date).toLocaleDateString().slice(0, 5)} às {new Date(note.date).toLocaleTimeString().slice(0, 5)}
+                  </p>
+                </div>
+              </div>
             </Fragment>
           </FadeIn>
         ))}

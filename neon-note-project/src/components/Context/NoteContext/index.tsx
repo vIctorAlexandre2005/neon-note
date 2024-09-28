@@ -1,5 +1,5 @@
 import { defaultValueNoteContextData, NoteContextData } from "@/Interface/NoteContext";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 const NoteProvider = createContext<NoteContextData>(defaultValueNoteContextData);
 
@@ -9,22 +9,62 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     const [activeNote, setActiveNote] = useState<number | null>(null); // Para rastrear o ID da nota ativa
 
     function addNote(note: any) {
-        const newNote = { ...note, id: Math.random() };
-        setNoteList((prevNotes) => [...prevNotes, newNote]);
+        const newNote = { ...note, id: Math.random(), date:  Date.now() };
+        const updatedNoteList = [...noteList, newNote];
+        setNoteList(updatedNoteList);
         setActiveNote(newNote.id); // Define a nova nota como ativa
-    }
+
+        if (typeof window !== "undefined") {
+            localStorage.setItem("listNotes", JSON.stringify(updatedNoteList));
+        };
+    };
 
     function selectNote(noteId: number) {
         setActiveNote(noteId);
-    }
+    };
 
     function updateNote(id: number, updatedFields: any) {
-        setNoteList((prevNotes) => 
+        setNoteList((prevNotes) =>
             prevNotes.map((note) =>
                 note.id === id ? { ...note, ...updatedFields } : note
             )
         );
-    }
+
+        if(typeof window !== "undefined") {
+            localStorage.setItem("listNotes", JSON.stringify(noteList));
+        };
+    };
+
+    function deleteNote(id: number) {
+        setNoteList((prevNotes) => {
+            const updatedNotes = prevNotes.filter((note) => note.id !== id);
+            
+            if (typeof window !== "undefined") {
+                localStorage.setItem("listNotes", JSON.stringify(updatedNotes));
+            }
+            
+            return updatedNotes;
+        });
+    
+        setActiveNote(null);
+    };
+
+    useEffect(() => {
+        const notes = localStorage.getItem("listNotes");
+        if (notes) {
+            try {
+                const parsedNotes = JSON.parse(notes);
+                if (Array.isArray(parsedNotes)) {
+                    setNoteList(parsedNotes);
+                } else {
+                    setNoteList([]); // Se o valor não for um array, inicializa como vazio
+                }
+            } catch (error) {
+                console.error("Erro ao parsear notas:", error);
+                setNoteList([]); // Se houver erro no parse, inicializa como array vazio
+            }
+        }
+    }, []);
 
     return (
         <NoteProvider.Provider
@@ -36,10 +76,11 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 setActiveNote,
                 updateNote,
                 titleNote: "",
-                setTitleNote: () => {},
+                setTitleNote: () => { },
                 textNote: "",
-                setTextNote: () => {},
-                selectNote
+                setTextNote: () => { },
+                selectNote,
+                deleteNote
             }}
         >
             {children}
