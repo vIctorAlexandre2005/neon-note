@@ -19,6 +19,9 @@ export interface NoteContextData {
     selectNote: (noteId: number) => void;
     updateNote: (noteId: number, updatedFields: any) => void;
     deleteNote: (id: number) => void;
+    isOpen: boolean;
+    onClose: () => void;
+    onOpen: () => void;
 };
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -33,5 +36,8 @@ export const defaultValueNoteContextData: NoteContextData = {
     setActiveNote: () => {},
     selectNote: () => {},
     updateNote: () => {},
-    deleteNote: () => {}
+    deleteNote: () => {},
+    isOpen: false,
+    onClose: () => {},
+    onOpen: () => {},
 }

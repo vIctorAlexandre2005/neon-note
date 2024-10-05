@@ -43,7 +43,7 @@ export function NoteHeader() {
               >
                 {user && user?.photoURL ? (
                   <div className="flex items-center gap-2">
-                  <h3 className={`text-md ${darkMode ? "text-white" : "text-black-800"}`}>{user?.displayName}</h3>
+                  <h3 className={`text-md xs:hidden sm:flex ${darkMode ? "text-white" : "text-black-800"}`}>{user?.displayName}</h3>
                   <img
                     src={user?.photoURL}
                     className="rounded-full border-2 border-neon-600 object-cover"
@@ -53,7 +53,7 @@ export function NoteHeader() {
                   </div>
                 ) : (
                   <div className={`hover:bg-neon-500 flex items-center gap-2 text-black hover:text-white ${darkMode ? 'text-white' : 'text-black-800'} p-2 hover:transition duration-200 rounded-full`}>
-                    <FaRegUser /> <h3>Visitante</h3>
+                    <FaRegUser /> <h3 className="xs:hidden sm:flex">Visitante</h3>
                   </div>
                 )}
               </div>

@@ -5,6 +5,7 @@ import {
     useContext,
     ReactNode,
     useState,
+    useEffect,
 } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,6 +19,13 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
     const [user, loading] = useAuthState(auth as any);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
     const router = useRouter();
+    const [isMobile, setIsMobile] = useState<boolean>(false);
+
+    useEffect(() => {   
+        if (typeof window !== 'undefined') {
+            setIsMobile(window.innerWidth < 768);
+        };
+    }, [isMobile]);
 
     function onClose() {
         setIsOpenModal(false);
@@ -46,6 +54,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
             value={{
                 user,
                 installPrompt,
+                isMobile,
             }}
         >
             {children}

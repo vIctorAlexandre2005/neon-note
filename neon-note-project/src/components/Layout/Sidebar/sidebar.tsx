@@ -20,6 +20,8 @@ export function Sidebar({ darkMode }: SidebarProps) {
                         text-center 
                         w-full 
                         rounded-e-xl 
+                        flex gap-2
+                        items-center justify-center
                         p-2 cursor-pointer
                         `} 
                         key={`${item.name}`}
@@ -35,8 +37,9 @@ export function Sidebar({ darkMode }: SidebarProps) {
                             `}
                         key={item.name}
                     >
-                        <item.icon size={20} /> {item.name.length > 10 ? item.name.substring(0, 16) + "..." : item.name}
+                        <item.icon size={20} />
                     </a>
+                    <p className="flex lg:flex xs:hidden">{item.name.length > 10 ? item.name.substring(0, 16) + "..." : item.name}</p>
                     </div>
                 ))}
             </div>

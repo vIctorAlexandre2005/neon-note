@@ -18,17 +18,17 @@ export default function Layout({ children }: LayoutProps) {
       }, []);
 
     return (
-        <div className={`flex flex-col h-screen ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
+        <div className={`flex flex-col w-full h-screen ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
             <NoteHeader />
             <div className="flex h-full gap-4">
-                <div className="sidebar flex-none w-56">
+                <div className="sidebar flex-none xs:hidden md:flex md:w-24 lg:w-56">
                     <Sidebar darkMode={darkMode} />
                 </div>
 
-                <div className={`flex-1 ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
+                <div className={`flex-1 w-full ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
                     {children}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};

@@ -1,4 +1,5 @@
 import { defaultValueNoteContextData, NoteContextData } from "@/Interface/NoteContext";
+import { useDisclosure } from "@chakra-ui/react";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 const NoteProvider = createContext<NoteContextData>(defaultValueNoteContextData);
@@ -8,9 +9,11 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     const [noteList, setNoteList] = useState<any[]>([]);
     const [activeNote, setActiveNote] = useState<number | null>(null); // Para rastrear o ID da nota ativa
 
+    const {isOpen, onOpen, onClose} = useDisclosure();
+
     function addNote(note: any) {
         const newNote = { ...note, id: Math.random(), date:  Date.now() };
-        const updatedNoteList = [...noteList, newNote];
+        const updatedNoteList = [newNote, ...noteList];
         setNoteList(updatedNoteList);
         setActiveNote(newNote.id); // Define a nova nota como ativa
 
@@ -80,7 +83,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 textNote: "",
                 setTextNote: () => { },
                 selectNote,
-                deleteNote
+                deleteNote,
+                isOpen,
+                onClose,
+                onOpen
             }}
         >
             {children}
