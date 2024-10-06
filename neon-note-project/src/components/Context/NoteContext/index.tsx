@@ -2,7 +2,7 @@ import { defaultValueNoteContextData, NoteContextData } from "@/Interface/NoteCo
 import { db } from "@/services/firebase";
 import { useDisclosure } from "@chakra-ui/react";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 
 const NoteProvider = createContext<NoteContextData>(defaultValueNoteContextData);
 
@@ -12,6 +12,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     const [activeNote, setActiveNote] = useState<number | null>(null); // Para rastrear o ID da nota ativa
 
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [loading, setLoading] = useState(false);
 
     /* function addNote(note: any) {
         const newNote = { ...note, id: Math.random(), date:  Date.now() };
@@ -27,16 +28,19 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     }; */
 
     async function addNote(note: any) {
-        const newNote = { ...note, id: Math.random(), date: Date.now() };
+        const newNote = { ...note, id: Math.random(), createdAt: serverTimestamp() };
         const updatedNoteList = [newNote, ...noteList];
         
         // Salva a nota no Firestore
         try {
+            setLoading(true);
             await addDoc(collection(db, "notes"), newNote);
             setNoteList(updatedNoteList);
             setActiveNote(newNote.id);
         } catch (e) {
             console.error("Erro ao adicionar a nota ao Firestore: ", e);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -122,7 +126,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 deleteNote,
                 isOpen,
                 onClose,
-                onOpen
+                onOpen,
+                loading,
             }}
         >
             {children}

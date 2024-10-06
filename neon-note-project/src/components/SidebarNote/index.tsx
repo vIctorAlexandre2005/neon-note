@@ -4,10 +4,11 @@ import FadeIn from "../Effects/FadeIn";
 import { useContextNoteData } from "../Context/NoteContext";
 import { Fragment, useState } from "react";
 import { truncateText } from "@/utils/truncate";
+import { ClipLoader } from "react-spinners";
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
-  const { addNote, noteList, setTitleNote, setTextNote, activeNote, setActiveNote, onOpen } = useContextNoteData();
+  const { addNote, noteList, setTitleNote, setTextNote, activeNote, setActiveNote, onOpen, loading } = useContextNoteData();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);  // Carrega o título no campo de input
@@ -20,6 +21,8 @@ export function SidebarNote() {
   const filterNotes = noteList.filter((note) => {
     return note.title.toLowerCase().includes(searchNotes.toLowerCase()) || note.text.toLowerCase().includes(searchNotes.toLowerCase());
   });
+
+  console.log(filterNotes);
 
   function handleSearchNotes(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchNotes(e.target.value);
@@ -47,7 +50,7 @@ export function SidebarNote() {
               onClick={() => handleAddNote()}
               className="bg-neon-500 hover:bg-neon-600 transition duration-200 p-2 h-10 w-10 flex justify-center items-center rounded-full"
             >
-              <BiPlus color="white" size={24} />
+              {loading ? <ClipLoader color="white" size={24} /> : <BiPlus color="white" size={24} />}
             </button>
 
           </div>
@@ -94,7 +97,7 @@ export function SidebarNote() {
                 )}
                 <div className="mt-4 flex justify-end">
                   <p className="text-white opacity-40 text-xs">
-                    Criada em {new Date(note.date).toLocaleDateString().slice(0, 5)} às {new Date(note.date).toLocaleTimeString().slice(0, 5)}
+                  Criada em {new Date(note.createdAt.seconds * 1000).toLocaleDateString("pt-BR")} às {new Date(note.createdAt.seconds * 1000).toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
