@@ -34,7 +34,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         );
 
         if(typeof window !== "undefined") {
-            localStorage.setItem("listNotes", JSON.stringify(noteList));
+            localStorage.setItem("listNotes", JSON.stringify(noteList))
         };
     };
 
