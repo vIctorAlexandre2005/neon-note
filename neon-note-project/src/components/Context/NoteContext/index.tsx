@@ -65,7 +65,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
             } catch (error) {
                 console.error("Erro ao parsear notas:", error);
                 setNoteList([]); // Se houver erro no parse, inicializa como array vazio
-            }
+            };
         }
     }, []);
 
