@@ -3,6 +3,7 @@ import { InputComponent } from "@/components/InputComponent";
 import { useTheme } from "@/components/ThemeDark";
 import { BiTrash } from "react-icons/bi";
 
+
 export function NoteInput() {
   const { darkMode } = useTheme();
   const { setTitleNote, setTextNote, noteList, activeNote, updateNote, deleteNote } = useContextNoteData();
@@ -58,7 +59,7 @@ export function NoteInput() {
             <textarea
               placeholder="Criar nota..."
               value={activeNoteId.text}
-              onChange={handleTextChange} // Atualiza o conteúdo da nota
+              onChange={handleTextChange}
               className={`
                 border-none
                 resize-none

@@ -25,6 +25,10 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   };
 
+  function handleAddNote() {
+    addNote({ title: "", text: "", id: Math.random(), date: Date.now() });
+  }
+
   return (
     <div className={`${darkMode ? "bg-slate-900" : "bg-neon-100"} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}>
       <h1 className={`text-2xl mt-2 ${darkMode ? "text-white text-opacity-80" : "text-black-900"}`}>Todas as anotações</h1>
@@ -40,9 +44,7 @@ export function SidebarNote() {
           <div>
 
             <button
-              onClick={() => {
-                addNote({ title: "", text: "", id: Math.random(), date: Date.now() }); // Adiciona uma nova nota vazia;
-              }}
+              onClick={() => handleAddNote()}
               className="bg-neon-500 hover:bg-neon-600 transition duration-200 p-2 h-10 w-10 flex justify-center items-center rounded-full"
             >
               <BiPlus color="white" size={24} />
