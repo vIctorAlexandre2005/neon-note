@@ -47,13 +47,13 @@ export function NeonNote() {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitleNote(e.target.value);
     updateNote(activeNote, { title: e.target.value }); // Atualiza no estado local
-    debouncedUpdateNote(activeNote, { title: e.target.value }); // Atualiza no Firebase
+    debouncedUpdateNote(activeNote, { title: e.target.value }); // Atualiza no Firebaskkkkkgit
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextNote(e.target.value);
     updateNote(activeNote, { text: e.target.value }); // Atualiza no estado local
-    debouncedUpdateNote(activeNote, { text: e.target.value }); // Atualiza no Firebase
+    debouncedUpdateNote(activeNote, { text: e.target.value }); // Atualiza no Firebas
   };
 
   return (
