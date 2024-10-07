@@ -97,7 +97,7 @@ export function SidebarNote() {
                 )}
                 <div className="mt-4 flex justify-end">
                   <p className="text-white opacity-40 text-xs">
-                  Criada em {new Date(note.createdAt.seconds * 1000).toLocaleDateString("pt-BR")} às {new Date(note.createdAt.seconds * 1000).toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' })}
+                  Criada em {new Date(note.date).toLocaleDateString("pt-BR")} às {new Date(note.date).toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>

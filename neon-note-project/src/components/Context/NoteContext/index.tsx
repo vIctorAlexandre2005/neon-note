@@ -2,7 +2,7 @@ import { defaultValueNoteContextData, NoteContextData } from "@/Interface/NoteCo
 import { db } from "@/services/firebase";
 import { useDisclosure } from "@chakra-ui/react";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, serverTimestamp } from "firebase/firestore";
 
 const NoteProvider = createContext<NoteContextData>(defaultValueNoteContextData);
 
@@ -28,7 +28,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     }; */
 
     async function addNote(note: any) {
-        const newNote = { ...note, id: Math.random(), createdAt: serverTimestamp() };
+        const newNote = { ...note, id: Math.random(), date: Date.now() };
         const updatedNoteList = [newNote, ...noteList];
         
         // Salva a nota no Firestore
@@ -60,7 +60,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         };
     };
 
-    function deleteNote(id: number) {
+    async function deleteNote(id: number) {
         setNoteList((prevNotes) => {
             const updatedNotes = prevNotes.filter((note) => note.id !== id);
             
@@ -70,6 +70,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
             
             return updatedNotes;
         });
+
+        await deleteDoc(doc(db, "notes", id.toString()));
     
         setActiveNote(null);
     };
