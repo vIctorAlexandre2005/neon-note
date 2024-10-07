@@ -18,7 +18,7 @@ export interface NoteContextData {
     setActiveNote: Dispatch<SetStateAction<any>>;
     selectNote: (noteId: number) => void;
     updateNote: (noteId: number, updatedFields: any) => void;
-    deleteNote: (id: number) => void;
+    deleteNote: (id: any) => void;
     isOpen: boolean;
     onClose: () => void;
     onOpen: () => void;

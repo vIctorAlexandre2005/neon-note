@@ -16,7 +16,11 @@ export default function Home() {
 
   return (
     <div className={`${darkMode ? "bg-slate-950" : "bg-neon-50"} h-full`}>
-        <NeonNote />
+        {user && (
+          <NeonNote />
+        )}
+
+        {!user && null}
     </div>
   );
 }

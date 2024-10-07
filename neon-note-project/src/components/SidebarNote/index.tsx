@@ -29,7 +29,7 @@ export function SidebarNote() {
   };
 
   function handleAddNote() {
-    addNote({ title: "", text: "", id: Math.random(), date: Date.now() });
+    addNote({ title: "", text: ""/* , id: Math.random() */, date: Date.now() });
   }
 
   return (

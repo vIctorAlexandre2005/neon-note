@@ -16,7 +16,7 @@ export function LoginComponent() {
       flex 
       justify-center 
       items-center 
-      ${darkMode ? "bg-black-950" : "bg-neon-50"}
+      ${darkMode ? "bg-slate-900" : "bg-neon-50"}
       `}
       >
         <div className="container p-1">
@@ -26,7 +26,7 @@ export function LoginComponent() {
           formcontainer
           flex flex-col
           rounded-xl xs:w-full md:w-3/6
-          ${darkMode ? "bg-black-900" : "bg-neon-100"}
+          ${darkMode ? "bg-slate-800" : "bg-neon-100"}
           shadow-lg
           `}
             >
@@ -60,24 +60,25 @@ export function LoginComponent() {
               flex
               items-center
               justify-center
-              bg-neon-500 
+              bg-black-900 
               hover:bg-neon-600 
-              w-full 
+              w-full
               text-white 
               font-bold 
               py-2 
               px-4 
-              rounded 
               focus:outline-none 
               focus:shadow-outline
               gap-2
               text-md
+              transition
+              duration-300
               "
                   >
-                    Login in with
-                    {/* <div className="bg-white rounded-full p-2">
+                    Continue com
+                    <div className="">
                       <img src="/google.png" height={20} width={20} />
-                    </div> */}
+                    </div>
                   </button>
                 </div>
               </div>

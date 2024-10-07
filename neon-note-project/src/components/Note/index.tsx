@@ -22,6 +22,9 @@ export function NeonNote() {
   const { setTitleNote, setTextNote, noteList, updateNote, deleteNote } = useContextNoteData();
 
   const activeNoteId = noteList.find((note) => note.id === activeNote); // Encontra a nota ativa
+
+  console.log("activeNoteId:", activeNoteId);
+
   const [saving, setSaving] = useState(false); // Inicia como falso
   const [saved, setSaved] = useState(false);
 
@@ -86,6 +89,7 @@ export function NeonNote() {
                 className={`${darkMode ? "text-white hover:text-red-500 duration-200 transition-all" : "text-black-800 hover:text-red-500 duration-200 transition-all"}`}
                 onClick={() => {
                   deleteNote(activeNoteId.id);
+                  onClose();
                 }}
               >
                 <BiTrash size={24} />
