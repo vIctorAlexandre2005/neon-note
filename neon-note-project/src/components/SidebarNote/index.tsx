@@ -2,13 +2,16 @@ import { BiPlus } from "react-icons/bi";
 import { useTheme } from "../ThemeDark";
 import FadeIn from "../Effects/FadeIn";
 import { useContextNoteData } from "../Context/NoteContext";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { truncateText } from "@/utils/truncate";
 import { ClipLoader } from "react-spinners";
+import { useContextGlobal } from "../Context";
+import { getAuth } from "firebase/auth";
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
-  const { addNote, noteList, setTitleNote, setTextNote, activeNote, setActiveNote, onOpen, loading } = useContextNoteData();
+  const { addNote, noteList, setTitleNote, setTextNote, activeNote, setActiveNote, onOpen, loading, textNote, titleNote } = useContextNoteData();
+  const {user} = useContextGlobal();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);  // Carrega o título no campo de input
@@ -29,8 +32,29 @@ export function SidebarNote() {
   };
 
   function handleAddNote() {
-    addNote({ title: "", text: ""/* , id: Math.random() */, date: Date.now() });
+    const user = getAuth().currentUser; // Certifique-se de que está obtendo o usuário atual
+
+    if (!user || !user.uid) {
+        console.error("Usuário não autenticado.");
+        return;
+    }
+
+    addNote({ title: "", text: "" /* , id: Math.random() */, date: Date.now(), userId: user.uid });
+}
+
+useEffect(() => {
+  if (activeNote) {
+    const updatedNoteIndex = noteList.findIndex((note) => note.id === activeNote);
+    if (updatedNoteIndex !== -1) {
+      const updatedNote = {
+        ...noteList[updatedNoteIndex],
+        title: titleNote,
+        text: textNote,
+      };
+      noteList[updatedNoteIndex] = updatedNote;
+    }
   }
+}, [titleNote, textNote, activeNote, noteList]);
 
   return (
     <div className={`${darkMode ? "bg-slate-900" : "bg-neon-100"} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}>

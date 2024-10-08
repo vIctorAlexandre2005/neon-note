@@ -3,45 +3,67 @@ import { InputComponent } from "@/components/InputComponent";
 import { useTheme } from "@/components/ThemeDark";
 import { debounce } from "@/utils/debounce";
 import { BiCheck, BiTrash } from "react-icons/bi";
-import { db } from "@/services/firebase";
-import { useState } from "react";
+import { auth, db } from "@/services/firebase";
+import { useEffect, useState } from "react";
 import FadeIn from "@/components/Effects/FadeIn";
+import { doc, updateDoc } from "firebase/firestore";
+import { useContextGlobal } from "@/components/Context";
 
 export function NoteInput() {
   const { darkMode } = useTheme();
-  const { setTitleNote, setTextNote, noteList, activeNote, updateNote, deleteNote } = useContextNoteData();
+  const { setTitleNote, setTextNote, noteList, activeNote, updateNote, deleteNote, titleNote, textNote } = useContextNoteData();
+
+  const { user } = useContextGlobal();
 
   const activeNoteId = noteList.find((note) => note.id === activeNote); // Encontra a nota ativa
   const [saving, setSaving] = useState(false); // Inicia como falso
   const [saved, setSaved] = useState(false);
 
-  const debouncedUpdateNote = debounce((id: number, updatedFields: any) => {
-    setSaving(true); // Define saving como verdadeiro antes de tentar atualizar
-    const noteRef = db.collection("notes").doc(id.toString()); // Supondo que 'id' seja a chave do documento
-    noteRef.update(updatedFields)
-      .then(() => {
-        setSaving(false);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000); // Limpa a mensagem "Salvo!" após 2 segundos
-      })
-      .catch((error) => {
-        console.error("Erro ao atualizar a nota:", error);
-        setSaving(false); // Se houver erro, não esqueça de parar o estado de salvando
-      });
-  }, 500);  // Debounce com 500ms de atraso
+  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
+    setSaving(true); // Inicia o estado de salvamento
+
+    try {
+      // Cria a referência ao documento usando o ID da nota
+      const noteRef = doc(db, "users", user.uid, "notes", id); // Assumindo que você está usando a estrutura correta de usuários
+
+      // Remove campos com valores undefined
+      const sanitizedFields: any = Object.fromEntries(
+        Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+      );
+
+      await updateDoc(noteRef, sanitizedFields); // Atualiza o documento no Firestore
+      setSaved(true); // Marca como salvo
+
+      // Limpa a mensagem "Salvo!" após 2 segundos
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error("Erro ao atualizar a nota:", error); // Log de erro
+    } finally {
+      setSaving(false); // Para o estado de salvando
+    }
+  }, 500);
+  // Debounce com 500ms de atraso
 
   // Funções de handle para capturar as mudanças nos inputs
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleNote(e.target.value);
-    updateNote(activeNote, { title: e.target.value }); // Atualiza no estado local
-    debouncedUpdateNote(activeNote, { title: e.target.value }); // Atualiza no Firebase
+    const newTitle = e.target.value;
+    setTitleNote(newTitle);
+    debouncedUpdateNote(activeNote, { title: newTitle }); // Atualiza no Firebase
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextNote(e.target.value);
-    updateNote(activeNote, { text: e.target.value }); // Atualiza no estado local
-    debouncedUpdateNote(activeNote, { text: e.target.value }); // Atualiza no Firebase
+    const newText = e.target.value;
+    setTextNote(newText);
+    debouncedUpdateNote(activeNote, { text: newText }); // Atualiza no Firebase
   };
+
+  useEffect(() => {
+    const activeNoteData = noteList.find((note) => note.id === activeNote);
+    if (activeNoteData) {
+      setTitleNote(activeNoteData.title);
+      setTextNote(activeNoteData.text);
+    }
+  }, [activeNote, noteList]);
 
   return (
     <>
@@ -52,9 +74,9 @@ export function NoteInput() {
               {!saving && saved && (
                 <>
                   <FadeIn>
-                  <div className="flex gap-1 items-center">
-                  <p className="text-white">Salvo</p> <BiCheck size={24} className="text-green-400" />
-                  </div>
+                    <div className="flex gap-1 items-center">
+                      <p className="text-white">Salvo</p> <BiCheck size={24} className="text-green-400" />
+                    </div>
                   </FadeIn>
                 </>
               )}
@@ -72,21 +94,21 @@ export function NoteInput() {
           <div className="flex items-center">
             <InputComponent
               className={`
-                border-none
-                bg-transparent
-                rounded-md 
-                ${darkMode ? "text-white" : "text-black-800"}
-                px-4 
-                py-2 
-                focus:outline-none
-                placeholder:text-3xl 
-                ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
-                text-3xl
-                font-semibold
-                w-full
-              `}
+            border-none
+            bg-transparent
+            rounded-md 
+            ${darkMode ? "text-white" : "text-black-800"}
+            px-4 
+            py-2 
+            focus:outline-none
+            placeholder:text-3xl 
+            ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
+            text-3xl
+            font-semibold
+            w-full
+        `}
               placeholder="Título"
-              value={activeNoteId.title}
+              value={titleNote} // Use titleNote aqui
               onChange={handleTitleChange} // Atualiza o título
             />
           </div>
@@ -94,24 +116,25 @@ export function NoteInput() {
           {/* Textarea */}
           <textarea
             placeholder="Criar nota..."
-            value={activeNoteId.text}
+            value={textNote} // Use textNote aqui
             onChange={handleTextChange}
             className={`
-                border-none
-                resize-none
-                mt-2
-                w-full
-                h-full
-                bg-transparent
-                px-4 
-                text-lg
-                py-2 
-                ${darkMode ? "text-white" : "text-black-700"}
-                placeholder:text-start
-                focus:outline-none  
-                ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
-              `}
+        border-none
+        resize-none
+        mt-2
+        w-full
+        h-full
+        bg-transparent
+        px-4 
+        text-lg
+        py-2 
+        ${darkMode ? "text-white" : "text-black-700"}
+        placeholder:text-start
+        focus:outline-none  
+        ${darkMode ? "placeholder:opacity-50" : "placeholder:opacity-95"}
+    `}
           />
+
         </div>
       )}
     </>
