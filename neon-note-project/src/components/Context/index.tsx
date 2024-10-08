@@ -16,7 +16,7 @@ import { ContextData, defaultValueContextData } from "@/Interface/ContextData";
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
 const ParamsContext = ({ children }: { children: ReactNode }) => {
-    const [user, loading] = useAuthState(auth as any);
+    const [user, loading] = useAuthState(auth);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
     const router = useRouter();
     const [isMobile, setIsMobile] = useState<boolean>(false);

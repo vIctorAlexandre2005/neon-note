@@ -3,6 +3,10 @@ import { db } from "@/services/firebase";
 import { useDisclosure } from "@chakra-ui/react";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp } from "firebase/firestore";
+import { useContextGlobal } from "..";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { getAuth } from "firebase/auth";
 
 const NoteProvider = createContext<NoteContextData>(defaultValueNoteContextData);
 
@@ -11,39 +15,40 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     const [noteList, setNoteList] = useState<any[]>([]);
     const [activeNote, setActiveNote] = useState<number | null | any>(null); // Para rastrear o ID da nota ativa
 
+    const [titleNote, setTitleNote] = useState('');
+const [textNote, setTextNote] = useState('');
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [loading, setLoading] = useState(false);
 
-    /* function addNote(note: any) {
-        const newNote = { ...note, id: Math.random(), date:  Date.now() };
-        const updatedNoteList = [newNote, ...noteList];
-        setNoteList(updatedNoteList);
-        setActiveNote(newNote.id); // Define a nova nota como ativa
+    const { user } = useContextGlobal();
 
-        if (typeof window !== "undefined") {
-            localStorage.setItem("listNotes", JSON.stringify(updatedNoteList));
+    async function addNote(note: any) { // Obtém o usuário autenticado
+    
+        if (!user || !user.uid) {
+            console.error("Usuário não autenticado.");
+            return;
+        }
+    
+        const newNote = {
+            ...note,
+            date: Date.now(),
+            userId: user.uid // Inclui o userId
         };
-
-        
-    }; */
-
-    async function addNote(note: any) {
-        const newNote = { ...note, date: Date.now() }; // Não inclua o id aqui
+    
         try {
             setLoading(true);
-            // Adiciona a nota ao Firestore e obtém o documento adicionado
-            const docRef = await addDoc(collection(db, "notes"), newNote);
-            // Atualiza o ID da nova nota com o ID gerado pelo Firestore
+            // Referência à subcoleção de notas do usuário
+            const docRef = await addDoc(collection(db, `users/${user.uid}/notes`), newNote);
             const updatedNote = { id: docRef.id, ...newNote };
             setNoteList((prev) => [updatedNote, ...prev]); // Atualiza a lista de notas
-            setActiveNote(docRef?.id); // Define a nova nota como ativa
+            setActiveNote(docRef.id); // Define a nova nota como ativa
         } catch (e) {
             console.error("Erro ao adicionar a nota ao Firestore: ", e);
         } finally {
             setLoading(false);
         }
     }
-    
 
     function selectNote(noteId: number) {
         setActiveNote(noteId);
@@ -55,15 +60,19 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 note.id === id ? { ...note, ...updatedFields } : note
             )
         );
+    }
 
-        /* if(typeof window !== "undefined") {
-            localStorage.setItem("listNotes", JSON.stringify(noteList))
-        }; */
-    };
+    useEffect(() => {
+        const activeNoteData = noteList.find((note) => note.id === activeNote);
+        if (activeNoteData) {
+          setTitleNote(activeNoteData.title);
+          setTextNote(activeNoteData.text);
+        }
+      }, [activeNote, noteList]);
 
     async function deleteNote(id: string) {
         try {
-            const noteRef = doc(db, "notes", id);
+            const noteRef = doc(db, `users/${user.uid}/notes`, id);
             const noteSnap = await getDoc(noteRef);
     
             if (!noteSnap.exists()) {
@@ -110,8 +119,15 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const fetchNotes = async () => {
+            const user = getAuth().currentUser; // Obtém o usuário autenticado
+    
+            if (!user || !user.uid) {
+                console.error("Usuário não autenticado.");
+                return;
+            }
+    
             try {
-                const querySnapshot = await getDocs(collection(db, "notes"));
+                const querySnapshot = await getDocs(collection(db, `users/${user.uid}/notes`));
                 const notesArray: any[] = [];
                 querySnapshot.forEach((doc) => {
                     notesArray.push({ id: doc.id, ...doc.data() });
@@ -119,10 +135,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 setNoteList(notesArray);
             } catch (error) {
                 console.error("Erro ao buscar as notas do Firestore:", error);
-                setNoteList([]);  // Se houver erro, inicializa como array vazio
+                setNoteList([]); // Se houver erro, inicializa como array vazio
             }
         };
-
+    
         fetchNotes();
     }, []);
 
@@ -135,10 +151,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
                 activeNote,
                 setActiveNote,
                 updateNote,
-                titleNote: "",
-                setTitleNote: () => { },
-                textNote: "",
-                setTextNote: () => { },
+                titleNote,
+                setTitleNote,
+                textNote,
+                setTextNote,
                 selectNote,
                 deleteNote,
                 isOpen,

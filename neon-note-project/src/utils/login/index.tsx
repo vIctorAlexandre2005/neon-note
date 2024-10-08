@@ -1,5 +1,8 @@
+import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/services/firebase";
 
 export function handleSignin() {
-  auth.signInWithPopup(provider).then(() => window.location.reload()).catch(alert);
-};
+  signInWithPopup(auth, provider)
+    .then(() => window.location.reload())
+    .catch((error) => alert(error.message));
+}
