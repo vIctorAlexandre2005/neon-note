@@ -1,6 +1,6 @@
-import { useContextGlobal } from "@/components/Context";
 import { Logout } from "@/components/Logout";
 import { useTheme } from "@/components/ThemeDark";
+import { useContextGlobal } from "@/Context";
 import { handleSignin } from "@/utils/login";
 import { Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, useDisclosure } from "@chakra-ui/react";
 import { BiLogOutCircle } from "react-icons/bi";

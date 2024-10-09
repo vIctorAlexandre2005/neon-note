@@ -1,8 +1,9 @@
-import { InstallPromptEvent } from "@/Interface/pwa";
+/* import { InstallPromptEvent } from "@/Interface/pwa";
 import { useEffect, useState } from "react";
 
 export function usePWA() {
     const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+
     useEffect(() => {
         if ('serviceWorker' in navigator) {
             const beforeInstallPromptHandler = (event: Event) => {
@@ -11,9 +12,8 @@ export function usePWA() {
             };
 
             window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
-
             window.addEventListener('appinstalled', () => {
-                console.log('');
+                console.log('App installed');
             });
 
             window.addEventListener('load', () => {
@@ -31,4 +31,4 @@ export function usePWA() {
     }, []);
 
     return installPrompt;
-}
+} */

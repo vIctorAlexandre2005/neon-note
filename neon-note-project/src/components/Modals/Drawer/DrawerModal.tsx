@@ -1,5 +1,5 @@
+import { InputComponent } from "@/components/common/InputField";
 import FadeIn from "@/components/Effects/FadeIn";
-import { InputComponent } from "@/components/InputComponent";
 import { Drawer, DrawerContent } from "@chakra-ui/react";
 import { BiArrowBack, BiCheck, BiTrash } from "react-icons/bi";
 

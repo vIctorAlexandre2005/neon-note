@@ -1,12 +1,12 @@
 import { BiPlus } from "react-icons/bi";
-import { useTheme } from "../ThemeDark";
-import FadeIn from "../Effects/FadeIn";
-import { useContextNoteData } from "../Context/NoteContext";
+import { useTheme } from "../../ThemeDark";
+import FadeIn from "../../Effects/FadeIn";
 import { Fragment, useEffect, useState } from "react";
 import { truncateText } from "@/utils/truncate";
 import { ClipLoader } from "react-spinners";
-import { useContextGlobal } from "../Context";
 import { getAuth } from "firebase/auth";
+import { useContextGlobal } from "@/Context";
+import { useContextNoteData } from "@/Context/NoteContext";
 
 export function SidebarNote() {
   const { darkMode } = useTheme();

@@ -1,7 +1,6 @@
-import { useContextGlobal } from "@/components/Context";
-import { LoginComponent } from "@/components/LoginComponent";
-import { NeonNote } from "@/components/Note";
+import { NeonNote } from "@/components/Notes/View";
 import { useTheme } from "@/components/ThemeDark";
+import { useContextGlobal } from "@/Context";
 import { ModalInstallPWA } from "@/utils/modals/pwa/pwa";
 import { Box, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";

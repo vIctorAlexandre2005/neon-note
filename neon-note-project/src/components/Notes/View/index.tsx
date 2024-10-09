@@ -1,18 +1,17 @@
-import { NoteHeader } from "./NoteHeader";
 import { NoteMain } from "./NoteMain";
-import { useTheme } from "../ThemeDark";
-import { SidebarNote } from "../SidebarNote";
+import { useTheme } from "../../ThemeDark";
+import { SidebarNote } from "./SidebarNote";
 import { useEffect, useState } from "react";
-import { useContextNoteData } from "../Context/NoteContext";
-import { useContextGlobal } from "../Context";
 import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, ModalBody, ModalHeader, Popover, PopoverAnchor, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, useDisclosure } from "@chakra-ui/react";
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from "react-icons/bi";
-import { InputComponent } from "../InputComponent";
+import { InputComponent } from "../../common/InputField";
 import { debounce } from "@/utils/debounce";
 import { db } from "@/services/firebase";
-import FadeIn from "../Effects/FadeIn";
-import { DrawerComponent } from "../Modals/Drawer";
+import FadeIn from "../../Effects/FadeIn";
+import { DrawerComponent } from "../../Modals/Drawer/DrawerModal";
 import { collection, doc, updateDoc } from "firebase/firestore";
+import { useContextNoteData } from "@/Context/NoteContext";
+import { useContextGlobal } from "@/Context";
 
 export function NeonNote() {
 

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useTheme } from "../ThemeDark"
-import { NoteHeader } from "./Header/header";
-import { Sidebar } from "./Sidebar/sidebar";
+import { NoteHeader } from "./AppHeader/header";
+import { Sidebar } from "./AppSidebar/sidebar";
 import { useRouter } from "next/router";
-import { useContextGlobal } from "../Context";
+import { useContextGlobal } from "@/Context";
+import { Loader } from "../common/Loader";
 
 interface LayoutProps {
     children: React.ReactNode
@@ -12,9 +13,13 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
     const { darkMode, setDarkMode } = useTheme();
 
-    const { user } = useContextGlobal();
+    const { user, loading } = useContextGlobal();
 
     const router = useRouter();
+
+    if (loading) {
+        return <Loader />
+    };
 
     if (!user && router.pathname !== "/login") {
         router.push("/login");

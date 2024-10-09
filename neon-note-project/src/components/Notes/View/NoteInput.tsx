@@ -1,5 +1,3 @@
-import { useContextNoteData } from "@/components/Context/NoteContext";
-import { InputComponent } from "@/components/InputComponent";
 import { useTheme } from "@/components/ThemeDark";
 import { debounce } from "@/utils/debounce";
 import { BiCheck, BiTrash } from "react-icons/bi";
@@ -7,7 +5,9 @@ import { auth, db } from "@/services/firebase";
 import { useEffect, useState } from "react";
 import FadeIn from "@/components/Effects/FadeIn";
 import { doc, updateDoc } from "firebase/firestore";
-import { useContextGlobal } from "@/components/Context";
+import { useContextNoteData } from "@/Context/NoteContext";
+import { useContextGlobal } from "@/Context";
+import { InputComponent } from "@/components/common/InputField";
 
 export function NoteInput() {
   const { darkMode } = useTheme();

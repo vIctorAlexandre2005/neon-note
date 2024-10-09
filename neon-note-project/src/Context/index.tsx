@@ -9,9 +9,9 @@ import {
 } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Loader } from "../Loader";
-import { usePWA } from "@/utils/usePWA";
+/* import { usePWA } from "@/utils/usePWA"; */
 import { ContextData, defaultValueContextData } from "@/Interface/ContextData";
+import { Loader } from "@/components/common/Loader";
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
@@ -27,34 +27,20 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         };
     }, [isMobile]);
 
-    function onClose() {
-        setIsOpenModal(false);
-    };
-
-    const installPrompt = usePWA();
-
     if (loading) {
-        return <Loader />
+        return <Loader />;
     };
-    function handleInstall() {
-        if (installPrompt) {
-            installPrompt.prompt();
-            installPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                } else {
-                    console.log('User dismissed the A2HS prompt');
-                };
-            });
-        };
-    };
+
+    /* const installPrompt = usePWA(); */
+    
 
     return (
         <ParamsProvider.Provider
             value={{
                 user,
-                installPrompt,
+                /* installPrompt, */
                 isMobile,
+                loading
             }}
         >
             {children}
