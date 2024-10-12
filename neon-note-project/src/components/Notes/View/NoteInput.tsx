@@ -9,23 +9,27 @@ import { useContextNoteData } from "@/Context/NoteContext";
 import { useContextGlobal } from "@/Context";
 import { InputComponent } from "@/components/common/InputField";
 import { TbLock, TbLockOpen2 } from "react-icons/tb";
+import { useDisclosure } from "@chakra-ui/react";
+import { ModalComponent } from "@/components/Modals/modal";
 
 
 export function NoteInput() {
   const { darkMode } = useTheme();
-  const { 
-    setTitleNote, 
-    setTextNote, 
-    noteList, 
-    activeNote, 
-    deleteNote, 
-    titleNote, 
+  const {
+    setTitleNote,
+    setTextNote,
+    noteList,
+    activeNote,
+    deleteNote,
+    titleNote,
     textNote,
     blockNote,
     isBlockEdited
   } = useContextNoteData();
 
   const { user } = useContextGlobal();
+
+  const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
 
   const activeNoteId = noteList.find((note) => note.id === activeNote); // Encontra a nota ativa
   const [saving, setSaving] = useState(false); // Inicia como falso
@@ -87,7 +91,7 @@ export function NoteInput() {
                 <>
                   <FadeIn>
                     <div className="flex gap-1 items-center">
-                      <p className="text-white">Salvo</p> <BiCheck size={24} className="text-green-400" />
+                      <p className={`${darkMode ? "text-white" : "text-black-800"}`}>Salvo</p> <BiCheck size={24} className="text-green-400" />
                     </div>
                   </FadeIn>
                 </>
@@ -95,24 +99,24 @@ export function NoteInput() {
             </div>
             <div className="flex gap-4 items-center justify-end">
 
-            <button
+              <button
                 className={`${darkMode ? "text-white flex items-centerduration-200 transition-all" : "text-black-800 flex items-center duration-200 transition-all"}`}
                 onClick={() => blockNote(activeNoteId.id)}
               >
                 {isBlockEdited ? (
                   <>
-                  Bloqueado <TbLock size={24} />
+                    Bloqueado <TbLock size={24} />
                   </>
                 ) : (
                   <>
-                  Desbloqueado <TbLockOpen2 size={24} />
+                    Desbloqueado <TbLockOpen2 size={24} />
                   </>
                 )}
               </button>
 
               <button
                 className={`${darkMode ? "text-white hover:text-red-500 duration-200 transition-all" : "text-black-800 hover:text-red-500 duration-200 transition-all"}`}
-                onClick={() => deleteNote(activeNoteId.id)}
+                onClick={onModalOpen}
               >
                 <BiTrash size={24} />
               </button>
@@ -167,6 +171,37 @@ export function NoteInput() {
     `}
           />
 
+          {isModalOpen && (
+            <ModalComponent 
+              onClose={onModalClose} 
+              isOpen={isModalOpen} 
+              size="md" 
+              isCentered
+              bg={darkMode ? "#1a1a1a" : "white"}
+              w={"auto"}
+            >
+              <div className="p-4">
+                <p className="text-lg text-black-300 font-semibold">Tem certeza que deseja excluir esta nota?</p>
+                <div className="flex justify-center gap-4 mt-6">
+                  <button
+                    className="bg-red-600 text-white w-auto font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2"
+                    onClick={() => {
+                      deleteNote(activeNoteId.id);
+                      onModalClose();
+                    }}
+                  >
+                    Sim
+                  </button>
+                  <button
+                    className="bg-blue-600 text-white w-auto font-medium text-lg hover:bg-blue-500 duration-300 transition-all rounded-lg p-2"
+                    onClick={onModalClose}
+                  >
+                    Não
+                  </button>
+                </div>
+              </div>
+            </ModalComponent>
+          )}
         </div>
       )}
     </>
