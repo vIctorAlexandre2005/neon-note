@@ -15,8 +15,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     const [noteList, setNoteList] = useState<any[]>([]);
     const [activeNote, setActiveNote] = useState<number | null | any>(null); // Para rastrear o ID da nota ativa
 
+    const [isBlockEdited, setIsBlockEdited] = useState(false);
+
     const [titleNote, setTitleNote] = useState('');
-const [textNote, setTextNote] = useState('');
+    const [textNote, setTextNote] = useState('');
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [loading, setLoading] = useState(false);
@@ -24,18 +26,18 @@ const [textNote, setTextNote] = useState('');
     const { user } = useContextGlobal();
 
     async function addNote(note: any) { // Obtém o usuário autenticado
-    
+
         if (!user || !user.uid) {
             console.error("Usuário não autenticado.");
             return;
         }
-    
+
         const newNote = {
             ...note,
             date: Date.now(),
             userId: user.uid // Inclui o userId
         };
-    
+
         try {
             setLoading(true);
             // Referência à subcoleção de notas do usuário
@@ -60,26 +62,30 @@ const [textNote, setTextNote] = useState('');
                 note.id === id ? { ...note, ...updatedFields } : note
             )
         );
-    }
+    };
+
+    function blockNote(id: number) {
+        setIsBlockEdited(!isBlockEdited);
+    };
 
     useEffect(() => {
         const activeNoteData = noteList.find((note) => note.id === activeNote);
         if (activeNoteData) {
-          setTitleNote(activeNoteData.title);
-          setTextNote(activeNoteData.text);
+            setTitleNote(activeNoteData.title);
+            setTextNote(activeNoteData.text);
         }
-      }, [activeNote, noteList]);
+    }, [activeNote, noteList]);
 
     async function deleteNote(id: string) {
         try {
             const noteRef = doc(db, `users/${user.uid}/notes`, id);
             const noteSnap = await getDoc(noteRef);
-    
+
             if (!noteSnap.exists()) {
                 console.error("Nota não encontrada para exclusão:", id);
                 return; // Retorna se a nota não existe
             }
-    
+
             // Atualiza a lista de notas no estado local antes de tentar deletar
             setNoteList((prevNotes) => {
                 const updatedNotes = prevNotes.filter((note) => note?.id !== id);
@@ -88,7 +94,7 @@ const [textNote, setTextNote] = useState('');
                 }
                 return updatedNotes;
             });
-    
+
             // Tenta excluir a nota do Firestore
             await deleteDoc(noteRef);
             console.log("Nota excluída com sucesso:", id);
@@ -97,35 +103,16 @@ const [textNote, setTextNote] = useState('');
             console.error("Erro ao deletar a nota:", error);
         }
     }
-    
-
-
-    /* useEffect(() => {
-        const notes = localStorage.getItem("listNotes");
-        if (notes) {
-            try {
-                const parsedNotes = JSON.parse(notes);
-                if (Array.isArray(parsedNotes)) {
-                    setNoteList(parsedNotes);
-                } else {
-                    setNoteList([]); // Se o valor não for um array, inicializa como vazio
-                }
-            } catch (error) {
-                console.error("Erro ao parsear notas:", error);
-                setNoteList([]); // Se houver erro no parse, inicializa como array vazio
-            };
-        }
-    }, []); */
 
     useEffect(() => {
         const fetchNotes = async () => {
             const user = getAuth().currentUser; // Obtém o usuário autenticado
-    
+
             if (!user || !user.uid) {
                 console.error("Usuário não autenticado.");
                 return;
             }
-    
+
             try {
                 const querySnapshot = await getDocs(collection(db, `users/${user.uid}/notes`));
                 const notesArray: any[] = [];
@@ -138,7 +125,7 @@ const [textNote, setTextNote] = useState('');
                 setNoteList([]); // Se houver erro, inicializa como array vazio
             }
         };
-    
+
         fetchNotes();
     }, []);
 
@@ -161,6 +148,8 @@ const [textNote, setTextNote] = useState('');
                 onClose,
                 onOpen,
                 loading,
+                isBlockEdited,
+                blockNote
             }}
         >
             {children}

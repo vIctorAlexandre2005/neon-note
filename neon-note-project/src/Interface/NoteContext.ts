@@ -23,6 +23,8 @@ export interface NoteContextData {
     onClose: () => void;
     onOpen: () => void;
     loading: boolean;
+    isBlockEdited: boolean;
+    blockNote: (id: number) => void;
 };
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -41,5 +43,7 @@ export const defaultValueNoteContextData: NoteContextData = {
     isOpen: false,
     onClose: () => {},
     onOpen: () => {},
-    loading: false
+    loading: false,
+    isBlockEdited: false,
+    blockNote: () => {},
 }

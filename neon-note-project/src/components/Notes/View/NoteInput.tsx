@@ -8,10 +8,22 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useContextNoteData } from "@/Context/NoteContext";
 import { useContextGlobal } from "@/Context";
 import { InputComponent } from "@/components/common/InputField";
+import { TbLock, TbLockOpen2 } from "react-icons/tb";
+
 
 export function NoteInput() {
   const { darkMode } = useTheme();
-  const { setTitleNote, setTextNote, noteList, activeNote, updateNote, deleteNote, titleNote, textNote } = useContextNoteData();
+  const { 
+    setTitleNote, 
+    setTextNote, 
+    noteList, 
+    activeNote, 
+    deleteNote, 
+    titleNote, 
+    textNote,
+    blockNote,
+    isBlockEdited
+  } = useContextNoteData();
 
   const { user } = useContextGlobal();
 
@@ -81,7 +93,23 @@ export function NoteInput() {
                 </>
               )}
             </div>
-            <div className="flex gap-2 items-center justify-end">
+            <div className="flex gap-4 items-center justify-end">
+
+            <button
+                className={`${darkMode ? "text-white flex items-centerduration-200 transition-all" : "text-black-800 flex items-center duration-200 transition-all"}`}
+                onClick={() => blockNote(activeNoteId.id)}
+              >
+                {isBlockEdited ? (
+                  <>
+                  Bloqueado <TbLock size={24} />
+                  </>
+                ) : (
+                  <>
+                  Desbloqueado <TbLockOpen2 size={24} />
+                  </>
+                )}
+              </button>
+
               <button
                 className={`${darkMode ? "text-white hover:text-red-500 duration-200 transition-all" : "text-black-800 hover:text-red-500 duration-200 transition-all"}`}
                 onClick={() => deleteNote(activeNoteId.id)}
@@ -107,6 +135,8 @@ export function NoteInput() {
             font-semibold
             w-full
         `}
+              disabled={isBlockEdited ? true : false}
+              id="title"
               placeholder="Título"
               value={titleNote} // Use titleNote aqui
               onChange={handleTitleChange} // Atualiza o título
@@ -118,6 +148,8 @@ export function NoteInput() {
             placeholder="Criar nota..."
             value={textNote} // Use textNote aqui
             onChange={handleTextChange}
+            disabled={isBlockEdited ? true : false}
+            id="text"
             className={`
         border-none
         resize-none
