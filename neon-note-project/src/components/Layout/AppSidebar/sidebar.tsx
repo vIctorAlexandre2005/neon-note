@@ -25,9 +25,9 @@ export function Sidebar({ darkMode }: SidebarProps) {
                         p-2 cursor-pointer
                         `} 
                         key={`${item.name}`}
+                        onClick={() => router.push(item.link)}
                     >
                         <a
-                        href={item.link}
                         className={`
                             text-center 
                             items-center 
@@ -39,7 +39,11 @@ export function Sidebar({ darkMode }: SidebarProps) {
                     >
                         <item.icon size={20} />
                     </a>
-                    <p className="flex lg:flex xs:hidden">{item.name.length > 10 ? item.name.substring(0, 16) + "..." : item.name}</p>
+                    <p 
+                        className="flex lg:flex xs:hidden"
+                    >
+                        {item.name}
+                    </p>
                     </div>
                 ))}
             </div>

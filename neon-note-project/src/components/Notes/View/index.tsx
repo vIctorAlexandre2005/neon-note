@@ -15,41 +15,46 @@ import { useContextGlobal } from "@/Context";
 
 export function NeonNote() {
 
-  const { activeNote, isOpen, onClose } = useContextNoteData();
-  const { darkMode } = useTheme();
-  const { isMobile } = useContextGlobal();
-  const { setTitleNote, setTextNote, noteList, updateNote, deleteNote, titleNote, textNote } = useContextNoteData();
+  const {
+    setTitleNote,
+    setTextNote,
+    noteList,
+    updateNote,
+    deleteNote,
+    titleNote,
+    textNote,
+    activeNote,
+    isOpen, onClose
+  } = useContextNoteData();
 
-  const { user } = useContextGlobal();
+  const { darkMode } = useTheme();
+  const { isMobile, user } = useContextGlobal();
 
   const activeNoteId = noteList.find((note) => note.id === activeNote); // Encontra a nota ativa
-  const [saving, setSaving] = useState(false); // Inicia como falso
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
     setSaving(true); // Inicia o estado de salvamento
 
     try {
-      // Cria a referência ao documento usando o ID da nota
-      const noteRef = doc(db, "users", user.uid, "notes", id); // Assumindo que você está usando a estrutura correta de usuários
 
-      // Remove campos com valores undefined
+      const noteRef = doc(db, "users", user.uid, "notes", id);
+
       const sanitizedFields: any = Object.fromEntries(
         Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
       );
 
-      await updateDoc(noteRef, sanitizedFields); // Atualiza o documento no Firestore
-      setSaved(true); // Marca como salvo
+      await updateDoc(noteRef, sanitizedFields);
+      setSaved(true);
 
-      // Limpa a mensagem "Salvo!" após 2 segundos
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
-      console.error("Erro ao atualizar a nota:", error); // Log de erro
+      console.error("Erro ao atualizar a nota:", error);
     } finally {
-      setSaving(false); // Para o estado de salvando
+      setSaving(false);
     }
   }, 500);
-  // Debounce com 500ms de atraso
 
   // Funções de handle para capturar as mudanças nos inputs
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,10 +70,9 @@ export function NeonNote() {
   };
 
   useEffect(() => {
-    const activeNoteData = noteList.find((note) => note.id === activeNote);
-    if (activeNoteData) {
-      setTitleNote(activeNoteData.title);
-      setTextNote(activeNoteData.text);
+    if (activeNoteId) {
+      setTitleNote(activeNoteId.title);
+      setTextNote(activeNoteId.text);
     }
   }, [activeNote, noteList]);
 
@@ -78,7 +82,18 @@ export function NeonNote() {
         <SidebarNote />
       </div>
 
-      {isOpen && isMobile && (
+      <div className="xs:hidden w-full md:block md:flex-1">
+        {activeNote ? (
+          <NoteMain />
+        ) : (
+          <div className="flex mt-20 flex-col justify-end items-center">
+            <img src="/empty.svg" alt="empty" className="object-cover" height={300} width={300} />
+            <h3 className={`${darkMode ? "text-white" : "text-black"} text-xl mt-5`}>Nenhuma nota encontrada ainda.</h3>
+          </div>
+        )}
+      </div>
+
+      {isOpen && isMobile && ( // abre modal apenas no mobile
         <DrawerComponent
           isOpen={isOpen}
           onClose={onClose}
@@ -91,20 +106,9 @@ export function NeonNote() {
           saving={saving}
           updateNote={updateNote}
           handleTextChange={handleTextChange}
-          handleTitleChange={handleTitleChange}  
+          handleTitleChange={handleTitleChange}
         />
       )}
-
-      <div className="xs:hidden w-full md:block md:flex-1">
-        {activeNote ? (
-          <NoteMain />
-        ) : (
-          <div className="flex mt-20 flex-col justify-end items-center">
-            <img src="/empty.svg" alt="empty" className="object-cover" height={300} width={300} />
-            <h3 className={`${darkMode ? "text-white" : "text-black"} text-xl mt-5`}>Nenhuma nota encontrada ainda.</h3>
-          </div>
-        )}
-      </div>
     </div>
   );
 }

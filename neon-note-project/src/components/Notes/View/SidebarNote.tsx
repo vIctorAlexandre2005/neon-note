@@ -32,14 +32,13 @@ export function SidebarNote() {
   };
 
   function handleAddNote() {
-    const user = getAuth().currentUser; // Certifique-se de que está obtendo o usuário atual
-
+    
     if (!user || !user.uid) {
         console.error("Usuário não autenticado.");
         return;
-    }
+    };
 
-    addNote({ title: "", text: "" /* , id: Math.random() */, date: Date.now(), userId: user.uid });
+    addNote({ title: "", text: "", date: Date.now(), userId: user.uid });
 }
 
 useEffect(() => {
