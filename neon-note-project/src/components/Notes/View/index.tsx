@@ -88,7 +88,7 @@ export function NeonNote() {
         ) : (
           <div className="flex mt-20 flex-col justify-end items-center">
             <img src="/empty.svg" alt="empty" className="object-cover" height={300} width={300} />
-            <h3 className={`${darkMode ? "text-white" : "text-black"} text-xl mt-5`}>Nenhuma nota encontrada ainda.</h3>
+            <h3 className={`${darkMode ? "text-white" : "text-black"} text-xl mt-5`}>Nenhuma nota selecionada ainda.</h3>
           </div>
         )}
       </div>

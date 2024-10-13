@@ -11,6 +11,7 @@ import { InputComponent } from "@/components/common/InputField";
 import { TbLock, TbLockOpen2 } from "react-icons/tb";
 import { useDisclosure } from "@chakra-ui/react";
 import { ModalComponent } from "@/components/Modals/modal";
+import { errorToast, successToast } from "@/utils/toasts/toasts";
 
 
 export function NoteInput() {
@@ -188,6 +189,7 @@ export function NoteInput() {
                     onClick={() => {
                       deleteNote(activeNoteId.id);
                       onModalClose();
+                      successToast("Nota excluída com sucesso!");
                     }}
                   >
                     Sim

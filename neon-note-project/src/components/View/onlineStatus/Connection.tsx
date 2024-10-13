@@ -1,4 +1,5 @@
 import { useOnlineStatus } from '@/hooks/Connection/onlineStatus';
+import { errorToast } from '@/utils/toasts/toasts';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -18,6 +19,7 @@ export function ConnectionStatus() {
 
   if (!isOnline) {
     router.push('/error');
+    errorToast('Perdi sua conexão!');
   };
 
   return null;
