@@ -7,25 +7,33 @@ import { ClipLoader } from "react-spinners";
 import { getAuth } from "firebase/auth";
 import { useContextGlobal } from "@/Context";
 import { useContextNoteData } from "@/Context/NoteContext";
+import { useSidebarNote } from "../ViewModel/useSidebarNote";
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
-  const { addNote, noteList, setTitleNote, setTextNote, activeNote, setActiveNote, onOpen, loading, textNote, titleNote } = useContextNoteData();
-  const {user} = useContextGlobal();
+  
+  const {
+    noteList,
+    addNote,
+    titleNote,
+    setTitleNote,
+    textNote,
+    setTextNote,
+    activeNote,
+    setActiveNote,
+    setSearchNotes,
+    loading,
+    user,
+    filteredNotes,
+    onOpen,
+    searchNotes,
+  } = useSidebarNote();
 
   const handleSelectNote = (note: any) => {
-    setTitleNote(note.title);  // Carrega o título no campo de input
-    setTextNote(note.text);    // Carrega o texto no campo de textarea
-    setActiveNote(note.id);  // Define a nota clicada como ativa
+    setTitleNote(note.title);
+    setTextNote(note.text);
+    setActiveNote(note.id);
   };
-
-  const [searchNotes, setSearchNotes] = useState("");
-
-  const filterNotes = noteList.filter((note) => {
-    return note.title.toLowerCase().includes(searchNotes.toLowerCase()) || note.text.toLowerCase().includes(searchNotes.toLowerCase());
-  });
-
-  console.log(filterNotes);
 
   function handleSearchNotes(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchNotes(e.target.value);
@@ -39,7 +47,7 @@ export function SidebarNote() {
     };
 
     addNote({ title: "", text: "", date: Date.now(), userId: user.uid });
-}
+  }
 
 useEffect(() => {
   if (activeNote) {
@@ -65,7 +73,7 @@ useEffect(() => {
             value={searchNotes}
             onChange={handleSearchNotes}
             placeholder="Pesquisar anotações"
-            className={`w-full rounded-full ${darkMode ? "placeholder:text-white" : "placeholder:text-black-900"} text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'} bg-white`}
+            className={`w-full rounded-full ${darkMode ? "placeholder:text-white" : "placeholder:text-black-900"} ${darkMode ? 'text-white' : 'text-black-900'} text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'} bg-white`}
           />
           <div>
 
@@ -81,7 +89,7 @@ useEffect(() => {
         <p className={`mt-3 text-sm ${darkMode ? "text-white" : "text-black-900"} opacity-60`}>Total de anotações: {noteList.length}</p>
       </div>
       <div className="flex flex-col mt-3 gap-4">
-        {filterNotes.map((note: any, index) => (
+        {filteredNotes.map((note: any, index) => (
           <FadeIn key={note.id}>
             <Fragment key={index}>
               <div

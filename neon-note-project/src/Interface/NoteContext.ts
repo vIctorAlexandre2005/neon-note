@@ -5,6 +5,7 @@ interface PropsNoteList {
     title: string;
     text: string;
     id: number;
+    date: number;
 }
 export interface NoteContextData {
     noteList: PropsNoteList[];
