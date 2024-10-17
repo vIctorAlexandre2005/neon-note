@@ -49,9 +49,7 @@ export function SidebarNote() {
 
   useEffect(() => {
     if (activeNote) {
-      const updatedNoteIndex = noteList.findIndex(
-        note => note.id === activeNote
-      );
+      const updatedNoteIndex = noteList.findIndex((note) => note.id === activeNote);
       if (updatedNoteIndex !== -1) {
         const updatedNote = {
           ...noteList[updatedNoteIndex],

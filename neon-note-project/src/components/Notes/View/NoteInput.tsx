@@ -40,32 +40,29 @@ export function NoteInput() {
   const [saving, setSaving] = useState(false); // Inicia como falso
   const [saved, setSaved] = useState(false);
 
-  const debouncedUpdateNote = debounce(
-    async (id: string, updatedFields: any) => {
-      setSaving(true); // Inicia o estado de salvamento
+  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
+    setSaving(true); // Inicia o estado de salvamento
 
-      try {
-        // Cria a referência ao documento usando o ID da nota
-        const noteRef = doc(db, 'users', user.uid, 'notes', id); // Assumindo que você está usando a estrutura correta de usuários
+    try {
+      // Cria a referência ao documento usando o ID da nota
+      const noteRef = doc(db, "users", user.uid, "notes", id); // Assumindo que você está usando a estrutura correta de usuários
 
-        // Remove campos com valores undefined
-        const sanitizedFields: any = Object.fromEntries(
-          Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
-        );
+      // Remove campos com valores undefined
+      const sanitizedFields: any = Object.fromEntries(
+        Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+      );
 
-        await updateDoc(noteRef, sanitizedFields); // Atualiza o documento no Firestore
-        setSaved(true); // Marca como salvo
+      await updateDoc(noteRef, sanitizedFields); // Atualiza o documento no Firestore
+      setSaved(true); // Marca como salvo
 
-        // Limpa a mensagem "Salvo!" após 2 segundos
-        setTimeout(() => setSaved(false), 2000);
-      } catch (error) {
-        console.error('Erro ao atualizar a nota:', error); // Log de erro
-      } finally {
-        setSaving(false); // Para o estado de salvando
-      }
-    },
-    500
-  );
+      // Limpa a mensagem "Salvo!" após 2 segundos
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error("Erro ao atualizar a nota:", error); // Log de erro
+    } finally {
+      setSaving(false); // Para o estado de salvando
+    }
+  }, 500);
   // Debounce com 500ms de atraso
 
   // Funções de handle para capturar as mudanças nos inputs

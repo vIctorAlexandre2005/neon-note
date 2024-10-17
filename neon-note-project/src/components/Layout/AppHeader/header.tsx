@@ -37,7 +37,7 @@ export function NoteHeader() {
         onMouseLeave={onClose}
       >
         <div>
-          <h1 className={`text-xl font-bold font-poppins ${darkMode ? 'text-white' : 'text-black-800'}`}>Bem vindo de volta, {user?.displayName} 👋</h1>
+          <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-black-800'}`}>Bem vindo de volta, {user?.displayName} 👋</h1>
         </div>
         <div onMouseEnter={onOpen}>
           <Popover isOpen={isOpen} onClose={onClose}>

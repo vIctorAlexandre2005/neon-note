@@ -66,6 +66,9 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
     function blockNote(id: number) {
         setIsBlockEdited(!isBlockEdited);
+        if (typeof window !== "undefined") {
+            localStorage.setItem("isBlockEdited", JSON.stringify(!isBlockEdited));
+        };
     };
 
     useEffect(() => {
@@ -111,7 +114,12 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
             if (!user || !user.uid) {
                 console.error("Usuário não autenticado.");
                 return;
-            }
+            };
+
+            const parsedIsBlockEdited = localStorage.getItem("isBlockEdited");
+            if (parsedIsBlockEdited) {
+                setIsBlockEdited(JSON.parse(parsedIsBlockEdited));
+            };
 
             try {
                 const querySnapshot = await getDocs(collection(db, `users/${user.uid}/notes`));
