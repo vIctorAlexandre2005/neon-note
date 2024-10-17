@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    font-family: "Nunito", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 8px;  /* Largura da scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #0b70ff; /* Cor da barra de rolagem */
+    border-radius: 0px 0px 10px 10px     /* Bordas arredondadas */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor quando o mouse passa por cima */
+  }

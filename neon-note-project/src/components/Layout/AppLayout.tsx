@@ -34,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
       }, []);
 
     return (
-        <div className={`flex flex-col w-full h-screen ${darkMode ? "bg-slate-950" : "bg-neon-50"}`}>
+        <div className={`flex flex-col w-full h-screen ${darkMode ? "bg-slate-950" : "bg-slate-100"}`}>
             <div className={`
                     ${router.pathname === '/login' || router.pathname === '/error' ? "hidden" : "block"}`}
                 >
@@ -48,7 +48,7 @@ export default function Layout({ children }: LayoutProps) {
                     <Sidebar darkMode={darkMode} />
                 </div>
 
-                <div className={`flex-1 w-full ${darkMode ? "bg-slate-900" : "bg-neon-50"}`}>
+                <div className={`flex-1 w-full ${darkMode ? "bg-slate-900" : "bg-white"}`}>
                     {children}
                 </div>
             </div>

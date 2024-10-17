@@ -14,7 +14,7 @@ export default function Home() {
   } = useContextGlobal();
 
   return (
-    <div className={`${darkMode ? "bg-slate-950" : "bg-neon-50"} h-full`}>
+    <div className={`${darkMode ? "bg-slate-950" : "bg-slate-100"} h-full`}>
         {user && (
           <NeonNote />
         )}
