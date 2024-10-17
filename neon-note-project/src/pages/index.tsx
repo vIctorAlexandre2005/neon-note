@@ -1,7 +1,6 @@
-import { useContextGlobal } from "@/components/Context";
-import { LoginComponent } from "@/components/LoginComponent";
-import { NeonNote } from "@/components/Note";
+import { NeonNote } from "@/components/Notes/View";
 import { useTheme } from "@/components/ThemeDark";
+import { useContextGlobal } from "@/Context";
 import { ModalInstallPWA } from "@/utils/modals/pwa/pwa";
 import { Box, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
@@ -15,7 +14,7 @@ export default function Home() {
   } = useContextGlobal();
 
   return (
-    <div className={`${darkMode ? "bg-slate-950" : "bg-neon-50"} h-full`}>
+    <div className={`${darkMode ? "bg-slate-950" : "bg-slate-100"} h-full`}>
         {user && (
           <NeonNote />
         )}

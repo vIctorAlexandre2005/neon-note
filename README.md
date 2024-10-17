@@ -17,6 +17,13 @@ Etapas para instalar:
 - após isso, digite `yarn install ou npm install` <br />
 - E seja feliz! ;) <br />
 
+## 📦 Pŕaticas usadas:
+DRY e KISS <br />
+Estrutura modelada (MVVM) <br/>
+Clean Code <br/>
+Single Responsability <br/>
+Componentização <br/>
+
 ## 📦 Tecnologias usadas:
 NextJS <br/>
 Tailwind CSS <br/>
