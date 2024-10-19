@@ -1,7 +1,10 @@
+import { useTheme } from "@/components/ThemeDark";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 export default function ErrorConnection() {
+
+  const { darkMode } = useTheme();
 
   const router = useRouter();
 
@@ -13,7 +16,7 @@ export default function ErrorConnection() {
     <div className='top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fixed'>
       <div className="flex flex-col gap-4">
         <Image alt="Imagem" src={"/error.svg"} className="animate-bounce" height={400} width={400} />
-        <h2 className="text-black-900 text-lg">Oops! Você realmente está conectado(a)? Tenta de novo para vermos!</h2>
+        <h2 className={`${darkMode ? "text-slate-300" : "text-black-500"} text-lg`}>Oops! Você realmente está conectado(a)? Tenta de novo para vermos!</h2>
       </div>
       <div className="flex justify-center">
       <button

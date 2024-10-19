@@ -13,6 +13,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import { ModalComponent } from '@/components/Modals/modal';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { OptionsHeaderNote } from './optionsHeaderNote';
+import { ModalDelete } from './modalDelete';
 
 export function NoteInput() {
   const { darkMode } = useTheme();
@@ -37,33 +38,32 @@ export function NoteInput() {
   } = useDisclosure();
 
   const activeNoteId = noteList.find(note => note.id === activeNote); // Encontra a nota ativa
-  const [saving, setSaving] = useState(false); // Inicia como falso
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
-    setSaving(true); // Inicia o estado de salvamento
+  const debouncedUpdateNote = debounce(
+    async (id: string, updatedFields: any) => {
+      setSaving(true); // Inicia o estado de salvamento
 
-    try {
-      // Cria a referência ao documento usando o ID da nota
-      const noteRef = doc(db, "users", user.uid, "notes", id); // Assumindo que você está usando a estrutura correta de usuários
+      try {
+        const noteRef = doc(db, 'users', user.uid, 'notes', id);
 
-      // Remove campos com valores undefined
-      const sanitizedFields: any = Object.fromEntries(
-        Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
-      );
+        const sanitizedFields: any = Object.fromEntries(
+          Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+        );
 
-      await updateDoc(noteRef, sanitizedFields); // Atualiza o documento no Firestore
-      setSaved(true); // Marca como salvo
+        await updateDoc(noteRef, sanitizedFields);
+        setSaved(true);
 
-      // Limpa a mensagem "Salvo!" após 2 segundos
-      setTimeout(() => setSaved(false), 2000);
-    } catch (error) {
-      console.error("Erro ao atualizar a nota:", error); // Log de erro
-    } finally {
-      setSaving(false); // Para o estado de salvando
-    }
-  }, 500);
-  // Debounce com 500ms de atraso
+        setTimeout(() => setSaved(false), 2000);
+      } catch (error) {
+        console.error('Erro ao atualizar a nota:', error);
+      } finally {
+        setSaving(false);
+      }
+    },
+    500
+  );
 
   // Funções de handle para capturar as mudanças nos inputs
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,10 +79,9 @@ export function NoteInput() {
   };
 
   useEffect(() => {
-    const activeNoteData = noteList.find(note => note.id === activeNote);
-    if (activeNoteData) {
-      setTitleNote(activeNoteData.title);
-      setTextNote(activeNoteData.text);
+    if (activeNoteId) {
+      setTitleNote(activeNoteId.title);
+      setTextNote(activeNoteId.text);
     }
   }, [activeNote, noteList]);
 
@@ -150,38 +149,14 @@ export function NoteInput() {
           />
 
           {isModalOpen && (
-            <ModalComponent
-              onClose={onModalClose}
-              isOpen={isModalOpen}
-              size='md'
-              isCentered
-              bg={darkMode ? '#1a1a1a' : 'white'}
-              w={'auto'}
-            >
-              <div className='p-4'>
-                <p className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}>
-                  Tem certeza que deseja excluir esta nota?
-                </p>
-                <div className='flex justify-center gap-4 mt-6'>
-                  <button
-                    className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
-                    onClick={() => {
-                      deleteNote(activeNoteId.id);
-                      onModalClose();
-                      successToast('Nota excluída com sucesso!');
-                    }}
-                  >
-                    Sim
-                  </button>
-                  <button
-                    className='bg-blue-600 text-white w-full font-medium text-lg hover:bg-blue-500 duration-300 transition-all rounded-lg p-2'
-                    onClick={onModalClose}
-                  >
-                    Não
-                  </button>
-                </div>
-              </div>
-            </ModalComponent>
+            <ModalDelete
+              activeNoteId={activeNoteId}
+              darkMode={darkMode}
+              deleteNote={deleteNote}
+              onModalClose={onModalClose}
+              isModalOpen={isModalOpen}
+              onClose={() => {}}
+            />
           )}
         </div>
       )}
