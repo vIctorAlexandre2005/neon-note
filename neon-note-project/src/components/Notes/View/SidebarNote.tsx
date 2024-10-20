@@ -67,7 +67,7 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-100'} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}
     >
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}

@@ -28,8 +28,8 @@ export function CardNotes({
                 onOpen();
               }}
               className={`
-                  ${activeNote === note.id ? 'border-2 border-neon-500 border-opacity-40' : ''}  // Estilo condicional para o card ativo
-                  ${darkMode ? 'bg-neon-950' : 'bg-neon-400'}
+                  ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-neon-400'}  // Estilo condicional para o card ativo
+                  
                   w-full rounded-xl p-2 cursor-pointer
                 `}
             >

@@ -9,7 +9,7 @@ export function NoteMain() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-100'} w-full rounded-xl h-full flex flex-col p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border shadow-lg'} w-full rounded-xl h-full flex flex-col p-2`}
     >
       <NoteInput />
     </div>
