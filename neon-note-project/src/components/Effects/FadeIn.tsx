@@ -14,9 +14,9 @@ const fadeInVariants = {
 const FadeIn: React.FC<FadeInProps> = ({ children }) => {
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
       variants={fadeInVariants}
       transition={{ duration: 0.3 }}
     >

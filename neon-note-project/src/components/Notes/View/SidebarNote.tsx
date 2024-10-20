@@ -3,10 +3,12 @@ import { useTheme } from '../../ThemeDark';
 import FadeIn from '../../Effects/FadeIn';
 import { Fragment, useEffect, useState } from 'react';
 import { truncateText } from '@/utils/truncate';
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader, PulseLoader } from 'react-spinners';
 import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { useSidebarNote } from '../ViewModel/useSidebarNote';
+import { CardNotes } from './cardNotes';
+import { ButtonComponent } from '@/components/common/Button';
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
@@ -26,6 +28,7 @@ export function SidebarNote() {
     filteredNotes,
     onOpen,
     searchNotes,
+    loadingNotes,
   } = useSidebarNote();
 
   const handleSelectNote = (note: any) => {
@@ -40,7 +43,6 @@ export function SidebarNote() {
 
   function handleAddNote() {
     if (!user || !user.uid) {
-      console.error('Usuário não autenticado.');
       return;
     }
 
@@ -49,7 +51,9 @@ export function SidebarNote() {
 
   useEffect(() => {
     if (activeNote) {
-      const updatedNoteIndex = noteList.findIndex((note) => note.id === activeNote);
+      const updatedNoteIndex = noteList.findIndex(
+        note => note.id === activeNote
+      );
       if (updatedNoteIndex !== -1) {
         const updatedNote = {
           ...noteList[updatedNoteIndex],
@@ -80,16 +84,14 @@ export function SidebarNote() {
             className={`w-full rounded-full ${darkMode ? 'placeholder:text-white' : 'placeholder:text-black-900'} ${darkMode ? 'text-white' : 'text-black-900'} text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'} bg-white`}
           />
           <div>
-            <button
+            <ButtonComponent
               onClick={() => handleAddNote()}
-              className='bg-neon-500 hover:bg-neon-600 transition duration-200 p-2 h-10 w-10 flex justify-center items-center rounded-full'
-            >
-              {loading ? (
-                <ClipLoader color='white' size={24} />
-              ) : (
-                <BiPlus color='white' size={24} />
-              )}
-            </button>
+              isLoading={loading}
+              icon={<BiPlus color='white' size={24} />}
+              loader={<ClipLoader color='white' size={24} />}
+              disabled={loading}
+              className='bg-neon-500 hover:bg-neon-600 rounded-full'
+            />
           </div>
         </div>
         <p
@@ -99,61 +101,23 @@ export function SidebarNote() {
         </p>
       </div>
       <div className='flex flex-col mt-3 gap-4'>
-        {filteredNotes.map((note: any, index) => (
-          <FadeIn key={note.id}>
-            <Fragment key={index}>
-              <div
-                onClick={() => {
-                  handleSelectNote(note);
-                  onOpen();
-                }}
-                className={`
-                  ${activeNote === note.id ? 'border-2 border-neon-500 border-opacity-40' : ''}  // Estilo condicional para o card ativo
-                  ${darkMode ? 'bg-neon-950' : 'bg-neon-400'}
-                  w-full rounded-xl p-2 cursor-pointer
-                `}
-              >
-                {note.title ? (
-                  <h2
-                    className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-96' : ''}`}
-                  >
-                    {truncateText(note.title, 16)}
-                  </h2>
-                ) : (
-                  <h2
-                    className={`text-white text-2xl mb-2 font-bold italic ${darkMode ? 'opacity-30' : ''}`}
-                  >
-                    Vazio
-                  </h2>
-                )}
+        {loadingNotes && (
+          <div className='flex justify-center items-center mt-24'>
+            <PulseLoader color='#004aff' size={24} />
+          </div>
+        )}
 
-                {note.text ? (
-                  <p
-                    className={`text-white text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
-                  >
-                    {truncateText(note.text, 66)}
-                  </p>
-                ) : (
-                  <p
-                    className={`text-white text-opacity-80 italic ${darkMode ? 'opacity-30' : ''}`}
-                  >
-                    Vazio
-                  </p>
-                )}
-                <div className='mt-4 flex justify-end'>
-                  <p className='text-white opacity-40 text-xs'>
-                    Criada em {new Date(note.date).toLocaleDateString('pt-BR')}{' '}
-                    às{' '}
-                    {new Date(note.date).toLocaleTimeString('pt-BR', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                </div>
-              </div>
-            </Fragment>
-          </FadeIn>
-        ))}
+        {!loadingNotes && (
+          <>
+            <CardNotes
+              activeNote={activeNote}
+              darkMode={darkMode}
+              filteredNotes={filteredNotes}
+              handleSelectNote={handleSelectNote}
+              onOpen={onOpen}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 export interface ModalPWA {
-    isOpenModal: boolean;
-    onClose: () => void;
-    handleInstall: () => void;
+  isOpenModal: boolean;
+  onClose: () => void;
+  handleInstall: () => void;
 }

@@ -14,9 +14,9 @@ const scaleInVariants = {
 const ScaleIn: React.FC<ScaleInProps> = ({ children }) => {
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
       variants={scaleInVariants}
       transition={{ duration: 0.5 }}
     >

@@ -18,7 +18,7 @@ export function ConnectionStatus() {
 
   if (!isOnline) {
     router.push('/error');
-  };
+  }
 
   return null;
-};
+}

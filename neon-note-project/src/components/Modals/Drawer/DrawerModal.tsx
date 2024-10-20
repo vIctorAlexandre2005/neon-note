@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@/components/common/Button';
 import { InputComponent } from '@/components/common/InputField';
 import FadeIn from '@/components/Effects/FadeIn';
 import { ModalDelete } from '@/components/Notes/View/modalDelete';
@@ -87,13 +88,11 @@ export function DrawerComponent({
                     </>
                   )}
                 </button>
-
-                <button
-                  className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+                <ButtonComponent
                   onClick={onModalOpen}
-                >
-                  <BiTrash size={24} />
-                </button>
+                  icon={<BiTrash size={24} />}
+                  className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+                />
               </div>
             </div>
             {/* Título */}
