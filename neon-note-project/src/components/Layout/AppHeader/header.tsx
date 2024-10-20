@@ -37,32 +37,20 @@ export function NoteHeader() {
         onMouseLeave={onClose}
       >
         <div>
-          <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-black-800'}`}>Bem vindo de volta, {user?.displayName} 👋</h1>
+          <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-black-800'}`}>Bem vindo, {user?.displayName} 👋</h1>
         </div>
         <div onMouseEnter={onOpen}>
           <Popover isOpen={isOpen} onClose={onClose}>
             <PopoverTrigger>
               <div onMouseEnter={onOpen} onClick={onOpen}>
-                {user && user?.photoURL ? (
+                {user && user?.photoURL && (
                   <div className='flex items-center gap-2'>
-                    <h3
-                      className={`text-md xs:hidden sm:flex ${darkMode ? 'text-white' : 'text-black-800'}`}
-                    >
-                      {user?.displayName}
-                    </h3>
                     <img
                       src={user?.photoURL}
                       className='rounded-full border-2 border-neon-600 object-cover'
                       height={35}
                       width={35}
                     />
-                  </div>
-                ) : (
-                  <div
-                    className={`hover:bg-neon-500 flex items-center gap-2 text-black hover:text-white ${darkMode ? 'text-white' : 'text-black-800'} p-2 hover:transition duration-200 rounded-full`}
-                  >
-                    <FaRegUser />{' '}
-                    <h3 className='xs:hidden sm:flex'>Visitante</h3>
                   </div>
                 )}
               </div>

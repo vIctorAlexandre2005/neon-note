@@ -82,7 +82,7 @@ export function LoginComponent() {
                       duration-300
                     "
                   >
-                    Continue com
+                    Login with Google
                     <div>
                       <img
                         src="/google.png"

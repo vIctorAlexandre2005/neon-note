@@ -108,6 +108,19 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     }
 
     useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') {
+            setActiveNote(null);
+          };
+        };
+    
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+          window.removeEventListener('keydown', handleKeyDown);
+        };
+      }, []);
+
+    useEffect(() => {
         const fetchNotes = async () => {
             const user = getAuth().currentUser; // Obtém o usuário autenticado
 

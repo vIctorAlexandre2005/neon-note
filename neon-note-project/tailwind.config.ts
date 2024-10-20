@@ -11,6 +11,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        flute: 'flute 1.5s ease-in-out infinite',
+      },
+      keyframes: {
+        flute: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' }, // Altere o valor conforme necessário para ajustar o movimento
+        },
+      },
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'], // Define a fonte Poppins como opção
       },
