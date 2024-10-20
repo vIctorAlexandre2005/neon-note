@@ -1,5 +1,5 @@
-import { TaskComponent } from "@/components/Task";
+import { TaskComponent } from '@/components/Task';
 
 export default function Tasks() {
-    return <TaskComponent />
+  return <TaskComponent />;
 }

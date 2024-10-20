@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@/components/common/Button';
 import { InputComponent } from '@/components/common/InputField';
 import FadeIn from '@/components/Effects/FadeIn';
 import { ModalDelete } from '@/components/Notes/View/modalDelete';
@@ -52,7 +53,7 @@ export function DrawerComponent({
       size={'full'}
       onClose={onClose}
     >
-      <DrawerContent bg={darkMode ? '#0f172a' : '#d2e8ff'}>
+      <DrawerContent bg={darkMode ? '#0f172a' : '#f0f3ff'}>
         {activeNoteId && (
           <div className='flex flex-col h-full gap-4'>
             <div className='flex p-4 justify-between items-center'>
@@ -87,13 +88,11 @@ export function DrawerComponent({
                     </>
                   )}
                 </button>
-
-                <button
-                  className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+                <ButtonComponent
                   onClick={onModalOpen}
-                >
-                  <BiTrash size={24} />
-                </button>
+                  icon={<BiTrash size={24} />}
+                  className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+                />
               </div>
             </div>
             {/* Título */}

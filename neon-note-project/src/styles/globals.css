@@ -25,6 +25,6 @@
 
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
-    width: 2px
+    width: 2px;
   }
 }

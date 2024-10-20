@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@/components/common/Button';
 import FadeIn from '@/components/Effects/FadeIn';
 import { useTheme } from '@/components/ThemeDark';
 import { BiCheck, BiTrash } from 'react-icons/bi';
@@ -42,7 +43,7 @@ export function OptionsHeaderNote({
         )}
       </div>
       <div className='flex gap-4 items-center justify-end'>
-        <button
+        {/* <button
           className={`${darkMode ? 'text-white flex items-centerduration-200 transition-all' : 'text-black-800 flex items-center duration-200 transition-all'}`}
           onClick={() => blockNote(activeNoteId.id)}
         >
@@ -55,14 +56,22 @@ export function OptionsHeaderNote({
               Desbloqueado <TbLockOpen2 size={24} />
             </>
           )}
-        </button>
+        </button> */}
 
-        <button
-          className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+        <ButtonComponent
+          onClick={() => blockNote(activeNoteId.id)}
+          className={`${darkMode ? 'text-white' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+          text={isBlockEdited ? 'Bloqueado' : 'Desbloqueado'}
+          icon={
+            isBlockEdited ? <TbLock size={24} /> : <TbLockOpen2 size={24} />
+          }
+        />
+
+        <ButtonComponent
           onClick={onModalOpen}
-        >
-          <BiTrash size={24} />
-        </button>
+          className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+          icon={<BiTrash size={24} />}
+        />
       </div>
     </div>
   );

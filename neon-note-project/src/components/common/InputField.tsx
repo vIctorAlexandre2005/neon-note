@@ -4,15 +4,23 @@
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } */
 
-type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+type InputProps = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
-export function InputComponent({ placeholder, value, onChange, ...rest }: InputProps) {
-    return (
-        <input
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            {...rest}
-        />
-    );
+export function InputComponent({
+  placeholder,
+  value,
+  onChange,
+  ...rest
+}: InputProps) {
+  return (
+    <input
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      {...rest}
+    />
+  );
 }

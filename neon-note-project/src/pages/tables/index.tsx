@@ -1,5 +1,5 @@
-import { TableComponent } from "@/components/Table";
+import { TableComponent } from '@/components/Table';
 
 export default function Tables() {
-    return <TableComponent />
+  return <TableComponent />;
 }
