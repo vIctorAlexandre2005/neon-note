@@ -53,7 +53,7 @@ export function DrawerComponent({
       size={'full'}
       onClose={onClose}
     >
-      <DrawerContent bg={darkMode ? '#0f172a' : '#d2e8ff'}>
+      <DrawerContent bg={darkMode ? '#0f172a' : '#f0f3ff'}>
         {activeNoteId && (
           <div className='flex flex-col h-full gap-4'>
             <div className='flex p-4 justify-between items-center'>

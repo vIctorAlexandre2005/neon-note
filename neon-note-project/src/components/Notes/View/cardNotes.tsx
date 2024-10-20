@@ -28,9 +28,7 @@ export function CardNotes({
                 onOpen();
               }}
               className={`
-                  ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-neon-400'}  // Estilo condicional para o card ativo
-                  
-                  w-full rounded-xl p-2 cursor-pointer
+                  ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-neon-400'} w-full rounded-xl p-2 cursor-pointer
                 `}
             >
               {note.title ? (
