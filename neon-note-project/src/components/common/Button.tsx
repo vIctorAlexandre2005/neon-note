@@ -2,7 +2,7 @@ import { ClipLoader } from 'react-spinners';
 
 type ButtonProps = {
   text?: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   isLoading?: boolean;
   loader?: JSX.Element;

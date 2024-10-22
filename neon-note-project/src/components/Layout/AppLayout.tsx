@@ -5,6 +5,7 @@ import { Sidebar } from './AppSidebar/sidebar';
 import { useRouter } from 'next/router';
 import { useContextGlobal } from '@/Context';
 import { Loader } from '../common/Loader';
+import { SecondarySidebar } from './AppSidebar/secondarySidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -44,9 +45,15 @@ export default function Layout({ children }: LayoutProps) {
       </div>
       <div className='flex h-full gap-4'>
         <div
-          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-56'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-24'}`}
         >
           <Sidebar darkMode={darkMode} />
+        </div>
+
+        <div
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-72'}`}
+        >
+          <SecondarySidebar darkMode={darkMode} />
         </div>
 
         <div
