@@ -5,8 +5,8 @@ import { navigateListSidebar } from '@/utils/navigateListSidebar';
 import { useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { BiFolderPlus } from 'react-icons/bi';
-import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io';
+import { BiFolderPlus, BiPlus } from 'react-icons/bi';
+import { IoIosArrowBack, IoIosArrowDown, IoIosArrowDropright, IoIosArrowForward } from 'react-icons/io';
 
 interface SidebarProps {
   darkMode: boolean;
@@ -31,6 +31,12 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     isOpen: isOpenAddFolder,
     onOpen: onOpenAddFolder,
     onClose: onCloseAddFolder,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenAddItem,
+    onOpen: onOpenAddItem,
+    onClose: onCloseAddItem,
   } = useDisclosure();
 
   function openSubFolders() {
@@ -74,44 +80,56 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
           />
         </div>
 
-        <div className='flex flex-col' onClick={openSubFolders}>
-          {/* {folders.map(folder => (
-            <div className='w-full mb-2 flex justify-between items-center'>
-            <h1 className='text-xl font-bold text-black-800'>
-                {folder.name}
-            </h1>
-            {!openSubFolder ? <IoIosArrowBack /> : <IoIosArrowDown />}
-          </div>
-          ))} */}
-
+        <div className='flex flex-col'>
           {folders.map(folder => (
-            <li key={folder.id} onClick={() => setSelectedFolderId(folder.id)}>
-              {folder.name}
-              {folder.id === selectedFolderId && (
-                <ul>
-                  {folder.items.map((item, index) => (
-                    <li key={index}>{item}</li>
+            <div className='flex flex-col'>
+              <div
+                className='w-full mb-2 flex justify-between items-center'
+                onClick={() => {
+                  openSubFolders(), setSelectedFolderId(folder.id);
+                }}
+              >
+                <div className='flex gap-2 items-center'>
+                {!openSubFolder ? <IoIosArrowForward /> : <IoIosArrowDown />}
+                <h1 className='text-xl font-bold text-black-800'>
+                  {folder.name}
+                </h1>
+                </div>
+                <div className='flex gap-4 items-center justify-between'>
+                  <ButtonComponent
+                    onClick={onOpenAddItem}
+                    icon={<BiPlus size={24} />}
+                    className='bg-neon-500 hover:bg-neon-600 text-white rounded-full'
+                  />
+                </div>
+              </div>
+
+              {openSubFolder && folder.id === selectedFolderId && (
+                  <div className='flex justify-center'>
+                    {folder.items.map((item, index) => (
+                    <div>
+                      <h1 className='text-lg font-semibold text-black-800'>{item}</h1>
+                    </div>
                   ))}
-                </ul>
+                  </div>
               )}
-            </li>
+            </div>
           ))}
 
-          <div style={{ padding: '1rem' }}>
-            {selectedFolderId !== null ? (
-              <>
-                <input
-                  type='text'
-                  value={newItemName}
-                  onChange={e => setNewItemName(e.target.value)}
-                  placeholder='Nome do novo item'
-                />
-                <button onClick={handleAddItem}>Adicionar Item</button>
-              </>
-            ) : (
-              <p>Selecione uma pasta para adicionar itens</p>
-            )}
-          </div>
+          {/* {folders.map(folder => (
+            <li key={folder.id} onClick={() => setSelectedFolderId(folder.id)}>
+              {folder.name}
+              {openSubFolder && (
+                folder.id === selectedFolderId && (
+                  <ul>
+                    {folder.items.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                )
+              )}
+            </li>
+          ))} */}
 
           {/* <div className='w-full flex flex-col gap-2'>
             {openSubFolder &&
@@ -166,6 +184,31 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
               />
               <ButtonComponent
                 onClick={onCloseAddFolder}
+                text='Cancelar'
+                className='bg-red-500'
+              />
+            </div>
+          </div>
+        </ModalComponent>
+      )}
+
+      {isOpenAddItem && (
+        <ModalComponent onClose={onCloseAddItem} isOpen={isOpenAddItem}>
+          <div className='flex flex-col gap-4'>
+            <InputComponent
+              placeholder='Nome do item'
+              value={newItemName}
+              onChange={e => setNewItemName(e.target.value)}
+            />
+
+            <div className='flex gap-4'>
+              <ButtonComponent
+                onClick={handleAddItem}
+                text='Adicionar'
+                className='bg-green-500'
+              />
+              <ButtonComponent
+                onClick={onCloseAddItem}
                 text='Cancelar'
                 className='bg-red-500'
               />
