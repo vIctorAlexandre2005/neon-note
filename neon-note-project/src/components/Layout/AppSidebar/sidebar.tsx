@@ -7,7 +7,7 @@ interface SidebarProps {
 export function Sidebar({ darkMode }: SidebarProps) {
   const router = useRouter();
   return (
-    <div className={`flex-none w-full ${darkMode ? 'bg-slate-900' : 'bg-neon-500'}`}>
+    <div className={`flex-none w-full ${darkMode ? 'bg-slate-900 border-r-2 border-slate-800' : 'bg-neon-500'}`}>
       <div className={`flex-col mt-6 gap-4 flex`}>
         {navigateListSidebar.map(item => (
           <div

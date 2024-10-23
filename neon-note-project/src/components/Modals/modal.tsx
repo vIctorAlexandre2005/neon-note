@@ -4,6 +4,7 @@ import {
   ModalOverlay,
   ChakraProps,
 } from '@chakra-ui/react';
+import { useTheme } from '../ThemeDark';
 
 interface ModalProps extends ChakraProps {
   children: React.ReactNode;
@@ -21,10 +22,13 @@ export function ModalComponent({
   isCentered,
   ...rest
 }: ModalProps) {
+
+  const { darkMode } = useTheme();
+
   return (
     <Modal isOpen={isOpen} isCentered onClose={onClose} size={size}>
       <ModalOverlay />
-      <ModalContent {...rest}>{children}</ModalContent>
+      <ModalContent bg={darkMode ? '#1a1a1a' : 'white'} {...rest}>{children}</ModalContent>
     </Modal>
   );
 }
