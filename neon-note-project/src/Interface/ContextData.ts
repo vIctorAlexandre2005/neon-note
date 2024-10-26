@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { InstallPromptEvent } from './pwa';
 
 export interface ContextData {
@@ -5,11 +6,16 @@ export interface ContextData {
   /* installPrompt: InstallPromptEvent | null; */
   isMobile: boolean;
   loading: boolean;
+  selectedItem: string;
+  handleItemClick: (name: string) => void;
 }
 
-export const defaultValueContextData = {
+export const defaultValueContextData: ContextData = {
   user: null,
-  installPrompt: null,
   isMobile: false,
   loading: false,
+  selectedItem: '',
+  handleItemClick(name) {
+    console.log(name);
+  },
 };

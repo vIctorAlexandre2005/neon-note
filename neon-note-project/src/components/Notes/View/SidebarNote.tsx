@@ -9,6 +9,7 @@ import { useContextNoteData } from '@/Context/NoteContext';
 import { useSidebarNote } from '../ViewModel/useSidebarNote';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
+import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
@@ -41,6 +42,8 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   }
 
+  const { selectedItem } = useContextGlobal();
+
   function handleAddNote() {
     if (!user || !user.uid) {
       return;
@@ -72,7 +75,7 @@ export function SidebarNote() {
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
       >
-        Todas as anotações
+        {selectedItem}
       </h1>
       <div className='flex flex-col mt-3'>
         <div className='flex gap-1 items-center'>

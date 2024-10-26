@@ -21,6 +21,13 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
+  const [selectedItem, setSelectedItem] = useState<string>('');
+
+  function handleItemClick(name: string) {
+    console.log(name);
+    setSelectedItem(name);
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsMobile(window.innerWidth < 768);
@@ -40,6 +47,8 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         /* installPrompt, */
         isMobile,
         loading,
+        selectedItem,
+        handleItemClick,
       }}
     >
       {children}

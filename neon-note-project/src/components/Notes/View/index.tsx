@@ -2,22 +2,6 @@ import { NoteMain } from './NoteMain';
 import { useTheme } from '../../ThemeDark';
 import { SidebarNote } from './SidebarNote';
 import { useEffect, useState } from 'react';
-import {
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  ModalBody,
-  ModalHeader,
-  Popover,
-  PopoverAnchor,
-  PopoverBody,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  useDisclosure,
-} from '@chakra-ui/react';
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
 import { InputComponent } from '../../common/InputField';
 import { debounce } from '@/utils/debounce';
@@ -43,7 +27,7 @@ export function NeonNote() {
   } = useContextNoteData();
 
   const { darkMode } = useTheme();
-  const { isMobile, user } = useContextGlobal();
+  const { isMobile, user } = useContextGlobal();         
 
   const activeNoteId = noteList.find(note => note.id === activeNote); // Encontra a nota ativa
   const [saving, setSaving] = useState(false);
