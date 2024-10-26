@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Folder {
   id: number;
@@ -30,24 +30,42 @@ export function useSecondarySidebar() {
         name: newFolderName,
         items: [],
       };
-      setFolders([...folders, newFolder]);
-      setNewFolderName(''); // Resetar o campo de input
+  
+      const updatedFolders = [...folders, newFolder];
+      setFolders(updatedFolders);
+      setNewFolderName(''); // Limpa o campo de input
+  
+      // Salva toda a estrutura no localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('folders', JSON.stringify(updatedFolders));
+      }
     }
   };
-
+  
   const handleAddItem = () => {
     if (selectedFolderId && newItemName.trim()) {
-      setFolders(
-        folders.map(folder =>
-          folder.id === selectedFolderId
-            ? { ...folder, items: [...folder.items, newItemName] }
-            : folder
-        )
+      const updatedFolders = folders.map(folder =>
+        folder.id === selectedFolderId
+          ? { ...folder, items: [...folder.items, newItemName] }
+          : folder
       );
-      setNewItemName(''); // Resetar o campo de input
+  
+      setFolders(updatedFolders);
+      setNewItemName(''); // Limpa o campo de input
+  
+      // Salva toda a estrutura atualizada no localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('folders', JSON.stringify(updatedFolders));
+      }
     }
   };
 
+  useEffect(() => {
+    const storedFolders = localStorage.getItem('folders');
+    if (storedFolders) {
+      setFolders(JSON.parse(storedFolders));
+    }
+  }, []);
   
 
   return {

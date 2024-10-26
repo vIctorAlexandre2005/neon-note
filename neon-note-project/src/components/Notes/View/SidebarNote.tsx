@@ -44,12 +44,12 @@ export function SidebarNote() {
 
   const { selectedItem } = useContextGlobal();
 
-  function handleAddNote() {
+  function handleAddNote(itemId: string) {
     if (!user || !user.uid) {
       return;
     }
 
-    addNote({ title: '', text: '', date: Date.now(), userId: user.uid });
+    addNote({ title: '', text: '', date: Date.now(), userId: user.uid, itemId });
   }
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function SidebarNote() {
           />
           <div>
             <ButtonComponent
-              onClick={() => handleAddNote()}
+              onClick={() => handleAddNote(selectedItem)}
               isLoading={loading}
               icon={<BiPlus color='white' size={24} />}
               loader={<ClipLoader color='white' size={24} />}

@@ -19,7 +19,7 @@ export function CardNotes({
 }: Props) {
   return (
     <>
-      {filteredNotes.map((note: any, index: number) => (
+      {filteredNotes?.map((note: any, index: number) => (
         <FadeIn key={note.id}>
           <Fragment key={index}>
             <div

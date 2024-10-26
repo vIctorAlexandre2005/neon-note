@@ -17,22 +17,23 @@ export function useSidebarNote() {
     loadingNotes,
   } = useContextNoteData();
 
-  const { user } = useContextGlobal();
+  const { user, selectedItem } = useContextGlobal();
 
   const [searchNotes, setSearchNotes] = useState('');
 
-  function filterAndSortNotes(array: any[], search: string) {
+  function filterAndSortNotes(array: any[], search: string, name: string) {
     return array
       .filter(note => {
-        return (
+        const matchesSearch = 
           note.title.toLowerCase().includes(search.toLowerCase()) ||
-          note.text.toLowerCase().includes(search.toLowerCase())
-        );
+          note.text.toLowerCase().includes(search.toLowerCase());
+        const matchesFolder = note.folderId === name;
+        return matchesSearch && matchesFolder;
       })
-      .sort((a, b) => b.date - a.date);
+      .sort((a, b) => b.date - a.date); // Retorna todas as notas correspondentes
   }
 
-  const filteredNotes = filterAndSortNotes(noteList, searchNotes);
+  const filteredNotes = filterAndSortNotes(noteList, searchNotes, selectedItem) || [];
 
   return {
     addNote,

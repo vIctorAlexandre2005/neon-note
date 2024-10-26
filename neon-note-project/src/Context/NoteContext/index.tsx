@@ -44,32 +44,35 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
   const { user } = useContextGlobal();
 
-  async function addNote(note: any) {
-    // Obtém o usuário autenticado
+  const { selectedItem } = useContextGlobal();
 
+  async function addNote(note: any) {
     if (!user || !user.uid) {
       console.error('Usuário não autenticado.');
       return;
     }
-
+  
     const newNote = {
       ...note,
       date: Date.now(),
-      userId: user.uid, // Inclui o userId
+      userId: user.uid,
+      folderId: selectedItem, // Usa o selectedItem como folderId
     };
-
+  
+    try {
+      localStorage.setItem('listNotesForId', JSON.stringify(newNote));
+    } catch (error) {
+      console.log('Erro ao salvar localmente');
+    }
+  
     try {
       setLoading(true);
-      // Referência à subcoleção de notas do usuário
-      const docRef = await addDoc(
-        collection(db, `users/${user.uid}/notes`),
-        newNote
-      );
+      const docRef = await addDoc(collection(db, `users/${user.uid}/notes`), newNote);
       const updatedNote = { id: docRef.id, ...newNote };
-      setNoteList(prev => [updatedNote, ...prev]); // Atualiza a lista de notas
-      setActiveNote(docRef.id); // Define a nova nota como ativa
+      setNoteList(prev => [updatedNote, ...prev]);
+      setActiveNote(docRef.id);
     } catch (e) {
-      console.error('Erro ao adicionar a nota ao Firestore: ', e);
+      console.error('Erro ao adicionar a nota ao Firestore:', e);
     } finally {
       setLoading(false);
     }
@@ -157,6 +160,14 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         setIsBlockEdited(JSON.parse(parsedIsBlockEdited));
       }
 
+      const parsedNoteListForId = localStorage.getItem('listNotesForId');
+    if (parsedNoteListForId) {
+      const note = JSON.parse(parsedNoteListForId);
+      if (note.folderId === selectedItem) { // Verifica o folderId
+        setNoteList(prev => [note, ...prev]);
+      }
+    };
+
       try {
         const querySnapshot = await getDocs(
           collection(db, `users/${user.uid}/notes`)
@@ -175,7 +186,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     };
 
     fetchNotes();
-  }, []);
+  }, [selectedItem]);
 
   return (
     <NoteProvider.Provider
