@@ -6,10 +6,12 @@ import { truncateText } from '@/utils/truncate';
 import { ClipLoader, PulseLoader } from 'react-spinners';
 import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
-import { useSidebarNote } from '../ViewModel/useSidebarNote';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
 import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useSidebarNote } from '../ViewModel/useSidebarNote';
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
@@ -30,6 +32,7 @@ export function SidebarNote() {
     onOpen,
     searchNotes,
     loadingNotes,
+    moveNote,
   } = useSidebarNote();
 
   const handleSelectNote = (note: any) => {
@@ -70,7 +73,7 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} w-full rounded-xl h-full p-2`}
     >
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
@@ -100,10 +103,10 @@ export function SidebarNote() {
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
-          Total de anotações: {noteList.length}
+          Total de anotações: {selectedItem === 'All notes' ? noteList?.length : filteredNotes.length}
         </p>
-      </div>
-      <div className='flex flex-col mt-3 gap-4'>
+      </div> 
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
         {loadingNotes && (
           <div className='flex justify-center items-center mt-24'>
             <PulseLoader color='#004aff' size={24} />
@@ -111,15 +114,20 @@ export function SidebarNote() {
         )}
 
         {!loadingNotes && (
-          <>
-            <CardNotes
-              activeNote={activeNote}
-              darkMode={darkMode}
-              filteredNotes={filteredNotes}
-              handleSelectNote={handleSelectNote}
-              onOpen={onOpen}
-            />
-          </>
+          <DndProvider backend={HTML5Backend}>
+            {filteredNotes?.map((note: any, index: number) => (
+              <CardNotes 
+                activeNote={activeNote} 
+                key={index} 
+                note={note} 
+                handleSelectNote={handleSelectNote} 
+                onOpen={onOpen} 
+                darkMode={darkMode} 
+                moveNote={moveNote}
+                index={index}
+              />
+            ))}
+          </DndProvider>
         )}
       </div>
     </div>

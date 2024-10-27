@@ -1,87 +1,68 @@
 import { auth, db } from '@/services/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+
+/* const ItemType = {
+  NOTE: 'note',
+}; */
 
 export function TestComponent() {
-  // Função para adicionar título e descrição
-  const addTitleAndDescription = async (title: string, description: string) => {
-    const user = auth.currentUser; // Obtém o usuário autenticado
 
-    if (user) {
-      const userRef = doc(db, 'users', user.uid); // Referência ao documento do usuário
-      const dataToSave = {
-        title: title,
-        description: description,
-      };
+  /* const [notes, setNotes] = useState([
+    { id: '1', title: 'Nota 1', text: 'Conteúdo da nota 1' },
+    { id: '2', title: 'Nota 2', text: 'Conteúdo da nota 2' },
+    { id: '3', title: 'Nota 3', text: 'Conteúdo da nota 3' },
+    { id: '4', title: 'Nota 4', text: 'Conteúdo da nota 4' },
+  ]);
 
-      try {
-        await setDoc(userRef, { ...dataToSave }, { merge: true }); // Adiciona ou atualiza os dados
-        console.log('Título e descrição salvos com sucesso!');
-      } catch (error) {
-        console.error('Erro ao salvar título e descrição:', error);
-      }
-    } else {
-      console.log('Usuário não autenticado.');
-    }
-  };
-
-  const loadTitleAndDescription = async () => {
-    const user = auth.currentUser; // Obtém o usuário autenticado
-
-    if (user) {
-      const userRef = doc(db, 'users', user.uid); // Referência ao documento do usuário
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        console.log('Título:', data.title);
-        console.log('Descrição:', data.description);
-        // Aqui você pode fazer algo com os dados, como atualizá-los no estado do componente
-      } else {
-        console.log('Nenhum dado encontrado para este usuário.');
-      }
-    } else {
-      console.log('Usuário não autenticado.');
-    }
-  };
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-
-  const handleSave = () => {
-    addTitleAndDescription(title, description);
-  };
-
-  const handleLoad = () => {
-    loadTitleAndDescription();
+  const moveNote = (fromIndex: any, toIndex: any) => {
+    const updatedNotes = Array.from(notes);
+    const [movedNote] = updatedNotes.splice(fromIndex, 1);
+    updatedNotes.splice(toIndex, 0, movedNote);
+    setNotes(updatedNotes);
   };
 
   return (
-    <div>
-      <h1>Salvar Título e Descrição</h1>
-      <input
-        type='text'
-        placeholder='Título'
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      <textarea
-        placeholder='Descrição'
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-      />
-      <button
-        style={{ marginTop: '10px', backgroundColor: 'blue' }}
-        onClick={handleSave}
-      >
-        Salvar
-      </button>
-      <button
-        style={{ marginTop: '10px', backgroundColor: 'green' }}
-        onClick={handleLoad}
-      >
-        Carregar
-      </button>
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-lg">
+          {notes.map((note, index) => (
+            <NoteCard key={note.id} index={index} note={note} moveNote={moveNote} />
+          ))}
+        </div>
+      </div>
+    </DndProvider>
   );
+  
+  // Componente de um único card de nota
+  function NoteCard({ note, index, moveNote }) {
+    const [, ref] = useDrag({
+      type: ItemType.NOTE,
+      item: { index },
+    });
+  
+    const [, drop] = useDrop({
+      accept: ItemType.NOTE,
+      hover: (draggedItem: any) => {
+        if (draggedItem.index !== index) {
+          moveNote(draggedItem.index, index);
+          draggedItem.index = index;
+        }
+      },
+    });
+  
+    return (
+      <div
+        ref={(node) => ref(drop(node))}
+        className="p-4 mb-2 bg-white rounded-lg shadow-md cursor-pointer hover:bg-blue-100"
+      >
+        <h3 className="text-lg font-semibold text-gray-800">{note.title}</h3>
+        <p className="text-gray-600">{note.text}</p>
+      </div>
+    );
+  } // Componente principal com a lista de notas */
+
+  return <></>
 }

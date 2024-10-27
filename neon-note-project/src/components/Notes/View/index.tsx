@@ -1,6 +1,5 @@
 import { NoteMain } from './NoteMain';
 import { useTheme } from '../../ThemeDark';
-import { SidebarNote } from './SidebarNote';
 import { useEffect, useState } from 'react';
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
 import { InputComponent } from '../../common/InputField';
@@ -11,6 +10,7 @@ import { DrawerComponent } from '../../Modals/Drawer/DrawerModal';
 import { collection, doc, updateDoc } from 'firebase/firestore';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
+import { SidebarNote } from './SidebarNote';
 
 export function NeonNote() {
   const {
@@ -27,11 +27,13 @@ export function NeonNote() {
   } = useContextNoteData();
 
   const { darkMode } = useTheme();
-  const { isMobile, user } = useContextGlobal();         
+  const { isMobile, user } = useContextGlobal();
 
   const activeNoteId = noteList.find(note => note.id === activeNote); // Encontra a nota ativa
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+
+  const { selectedItem } = useContextGlobal();
 
   const debouncedUpdateNote = debounce(
     async (id: string, updatedFields: any) => {
@@ -77,50 +79,71 @@ export function NeonNote() {
     }
   }, [activeNote, noteList]);
 
-  return (
-    <div className='flex min-h-full p-4 gap-8'>
-      <div className='md:flex-none xs:w-full md:w-80'>
-        <SidebarNote />
+  if (!selectedItem) {
+    return (
+      <div className='flex flex-col justify-end items-center animate-flute'>
+        <img
+          src='/noFolders.svg'
+          alt='empty'
+          className='object-cover mt-24'
+          height={300}
+          width={300}
+        />
+        <h3
+          className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+        >
+          Crie, selecione e anote!
+        </h3>
       </div>
+    );
+  }
 
-      <div className='xs:hidden w-full md:block md:flex-1'>
-        {activeNote ? (
-          <NoteMain />
-        ) : (
-          <div className='flex mt-20 flex-col justify-end items-center animate-flute'>
-            <img
-              src='/empty.svg'
-              alt='empty'
-              className='object-cover'
-              height={300}
-              width={300}
+  if (selectedItem) {
+    return (
+      <div className='flex h-full pl-4 pt-2 gap-4'>
+        <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
+          <SidebarNote />
+        </div>
+
+        <div className='xs:hidden w-full md:block md:flex-1'>
+          {activeNote ? (
+            <NoteMain />
+          ) : (
+            <div className='flex mt-20 flex-col justify-end items-center animate-flute'>
+              <img
+                src='/empty.svg'
+                alt='empty'
+                className='object-cover'
+                height={300}
+                width={300}
+              />
+              <h3
+                className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+              >
+                Lembre-se das coisas mais importantes
+              </h3>
+            </div>
+          )}
+        </div>
+
+        {isOpen &&
+          isMobile && ( // abre modal apenas no mobile
+            <DrawerComponent
+              isOpen={isOpen}
+              onClose={onClose}
+              activeNoteId={activeNoteId}
+              titleNote={titleNote}
+              textNote={textNote}
+              darkMode={darkMode}
+              deleteNote={deleteNote}
+              saved={saved}
+              saving={saving}
+              updateNote={updateNote}
+              handleTextChange={handleTextChange}
+              handleTitleChange={handleTitleChange}
             />
-            <h3
-              className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
-            >
-              Lembre-se das coisas mais importantes
-            </h3>
-          </div>
-        )}
+          )}
       </div>
-
-      {isOpen &&
-        isMobile && ( // abre modal apenas no mobile
-          <DrawerComponent
-            isOpen={isOpen}
-            onClose={onClose}
-            activeNoteId={activeNoteId}
-            titleNote={titleNote}
-            textNote={textNote}
-            darkMode={darkMode}
-            deleteNote={deleteNote}
-            saved={saved}
-            saving={saving}
-            updateNote={updateNote}
-            handleTextChange={handleTextChange}
-            handleTitleChange={handleTitleChange}
-          />
-        )}
-    </div>
-  );
+    );
+  }
 }

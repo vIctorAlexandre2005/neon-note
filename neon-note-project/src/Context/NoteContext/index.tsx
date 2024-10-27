@@ -42,6 +42,9 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [loadingNotes, setLoadingNotes] = useState(true);
 
+  const [filteredNotes, setFilteredNotes] = useState<any[]>([]);
+
+
   const { user } = useContextGlobal();
 
   const { selectedItem } = useContextGlobal();
@@ -146,6 +149,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  
+
   useEffect(() => {
     const fetchNotes = async () => {
       const user = getAuth().currentUser; // Obtém o usuário autenticado
@@ -210,6 +215,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         isBlockEdited,
         blockNote,
         loadingNotes,
+        filteredNotes,
+        setFilteredNotes,
       }}
     >
       {children}

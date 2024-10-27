@@ -1,6 +1,6 @@
 import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useSidebarNote() {
   const {
@@ -14,26 +14,66 @@ export function useSidebarNote() {
     loading,
     textNote,
     titleNote,
+    setNoteList,
     loadingNotes,
+    filteredNotes,
+    setFilteredNotes,
   } = useContextNoteData();
 
   const { user, selectedItem } = useContextGlobal();
-
   const [searchNotes, setSearchNotes] = useState('');
 
-  function filterAndSortNotes(array: any[], search: string, name: string) {
+  function notesWithId(array: any[], search: string, name?: string) {
     return array
       .filter(note => {
-        const matchesSearch = 
+        const matchesSearch =
           note.title.toLowerCase().includes(search.toLowerCase()) ||
           note.text.toLowerCase().includes(search.toLowerCase());
         const matchesFolder = note.folderId === name;
         return matchesSearch && matchesFolder;
       })
-      .sort((a, b) => b.date - a.date); // Retorna todas as notas correspondentes
+      .sort((a, b) => b.date - a.date);
   }
 
-  const filteredNotes = filterAndSortNotes(noteList, searchNotes, selectedItem) || [];
+  function allNotes(array: any[], search: string) {
+
+    console.log('array', array.sort((a, b) => a.position - b.position));
+
+    return array
+      .filter(
+        note =>
+          note.title.toLowerCase().includes(search.toLowerCase()) ||
+          note.text.toLowerCase().includes(search.toLowerCase())
+      )
+      .sort((a, b) => a.position - b.position);
+  }
+
+  function moveNote(fromIndex: any, toIndex: any) {
+    const updatedNotes = Array.from(filteredNotes);
+    const [movedNote] = updatedNotes.splice(fromIndex, 1);
+    updatedNotes.splice(toIndex, 0, movedNote);
+    setFilteredNotes(updatedNotes);
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('listNotes', JSON.stringify(updatedNotes));
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const listNotes = localStorage.getItem('listNotes');
+      if (listNotes) {
+        setFilteredNotes(JSON.parse(listNotes));
+      } else {
+        // Caso não haja dados no localStorage, busca do Firestore
+        setFilteredNotes(
+          selectedItem === 'All notes'
+            ? allNotes(noteList, searchNotes)
+            : notesWithId(noteList, searchNotes, selectedItem)
+        );
+      }
+    }
+  }, [noteList, searchNotes, selectedItem]);
 
   return {
     addNote,
@@ -51,5 +91,7 @@ export function useSidebarNote() {
     filteredNotes,
     user,
     loadingNotes,
+    moveNote,
+    setFilteredNotes,
   };
 }

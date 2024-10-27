@@ -9,7 +9,7 @@ import { PulseLoader } from 'react-spinners';
 export default function Home() {
   const { darkMode, setDarkMode } = useTheme();
 
-  const { user } = useContextGlobal();
+  const { user, selectedItem } = useContextGlobal();
 
   return (
     <div className={`${darkMode ? 'bg-slate-950' : 'bg-black-50'} h-full`}>

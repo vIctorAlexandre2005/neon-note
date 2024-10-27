@@ -28,6 +28,8 @@ export interface NoteContextData {
   loading: boolean;
   isBlockEdited: boolean;
   blockNote: (id: number) => void;
+  filteredNotes: any[];
+  setFilteredNotes: Dispatch<SetStateAction<any[]>>;
 }
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -50,4 +52,6 @@ export const defaultValueNoteContextData: NoteContextData = {
   isBlockEdited: false,
   blockNote: () => {},
   loadingNotes: true,
+  filteredNotes: [],
+  setFilteredNotes: () => {},
 };

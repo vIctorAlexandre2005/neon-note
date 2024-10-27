@@ -19,12 +19,11 @@ import { AddFolderModal } from './modals/addFolter';
 import { AddFolderItemModal } from './modals/addItemFolder';
 import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 import { useContextGlobal } from '@/Context';
+import { HiDocumentText, HiOutlineDocumentText } from 'react-icons/hi2';
 
 interface SidebarProps {
   darkMode: boolean;
 }
-
-
 
 export function SecondarySidebar({ darkMode }: SidebarProps) {
   const router = useRouter();
@@ -57,8 +56,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     onOpen: onOpenAddItem,
     onClose: onCloseAddItem,
   } = useDisclosure();
-  
-  
 
   return (
     <div
@@ -90,6 +87,21 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
               </h1>
             </div>
           )}
+
+          <div
+            className='w-full mb-4 pl-4 flex justify-between items-center'
+            onClick={() => {
+              setSelectedFolderId(1);
+              handleItemClick('All notes');
+            }}
+          >
+            <div
+              className={`flex ${darkMode ? 'text-black-200' : 'text-black-700'} items-center w-full`}
+            >
+              <HiDocumentText size={24} />
+              <h1 className={`text-md font-bold`}>Todas as anotações</h1>
+            </div>
+          </div>
 
           {folders.length > 0 &&
             folders.map(folder => (
@@ -141,7 +153,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
         </div>
       </div>
       {isOpenAddFolder && (
-        <AddFolderModal 
+        <AddFolderModal
           darkMode={darkMode}
           handleAddFolder={handleAddFolder}
           isOpenAddFolder={isOpenAddFolder}

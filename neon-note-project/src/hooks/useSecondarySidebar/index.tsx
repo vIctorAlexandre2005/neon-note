@@ -1,3 +1,4 @@
+import { errorToast } from '@/utils/toasts/toasts';
 import { useEffect, useState } from 'react';
 
 interface Folder {
@@ -39,15 +40,15 @@ export function useSecondarySidebar() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('folders', JSON.stringify(updatedFolders));
       }
-    }
+    } else {
+      errorToast('Nome da pasta não pode ser vazio!');
+    };
   };
   
   const handleAddItem = () => {
     if (selectedFolderId && newItemName.trim()) {
       const updatedFolders = folders.map(folder =>
-        folder.id === selectedFolderId
-          ? { ...folder, items: [...folder.items, newItemName] }
-          : folder
+        folder.id === selectedFolderId ? { ...folder, items: [...folder.items, newItemName] } : folder
       );
   
       setFolders(updatedFolders);
@@ -57,6 +58,8 @@ export function useSecondarySidebar() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('folders', JSON.stringify(updatedFolders));
       }
+    } else {
+      errorToast('Nome da item não pode ser vazio!');
     }
   };
 

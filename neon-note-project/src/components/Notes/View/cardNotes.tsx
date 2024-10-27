@@ -1,28 +1,57 @@
 import FadeIn from '@/components/Effects/FadeIn';
 import { truncateText } from '@/utils/truncate';
 import { Fragment } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 
 interface Props {
-  filteredNotes: any[];
   activeNote: any;
   handleSelectNote: (note: any) => void;
   onOpen: () => void;
   darkMode: boolean;
+  moveNote: (fromIndex: any, toIndex: any) => void;
+  note: any;
+  index: any;
 }
 
+const ItemType = {
+  NOTE: 'note',
+};
+
 export function CardNotes({
-  filteredNotes,
   activeNote,
   handleSelectNote,
   onOpen,
   darkMode,
+  moveNote,
+  note,
+  index
 }: Props) {
+
+  const [, ref] = useDrag({
+    type: ItemType.NOTE,
+    item: { index },
+  });
+
+  const [, drop] = useDrop({
+    accept: ItemType.NOTE,
+    hover: (draggedItem: any) => {
+      if (draggedItem.index !== index) {
+        moveNote(draggedItem.index, index);
+        draggedItem.index = index;
+      }
+    },
+  });
+
   return (
     <>
-      {filteredNotes?.map((note: any, index: number) => (
-        <FadeIn key={note.id}>
+    <FadeIn key={note.id}>
           <Fragment key={index}>
             <div
+              ref={(node) => {
+                if (node !== null) {
+                  ref(drop(node));
+                }
+              }}
               onClick={() => {
                 handleSelectNote(note);
                 onOpen();
@@ -70,7 +99,6 @@ export function CardNotes({
             </div>
           </Fragment>
         </FadeIn>
-      ))}
     </>
   );
 }
