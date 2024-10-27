@@ -32,21 +32,35 @@ export function useSidebarNote() {
         const matchesFolder = note.folderId === name;
         return matchesSearch && matchesFolder;
       })
-      .sort((a, b) => b.date - a.date);
-  }
+      .sort((a, b) => {
+        const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
+  
+        if (dateComparison === 0) {
+          return a.position - b.position;
+        };
+  
+        return dateComparison;
+      });
+  };
 
   function allNotes(array: any[], search: string) {
-
-    console.log('array', array.sort((a, b) => a.position - b.position));
-
     return array
       .filter(
-        note =>
+        (note) =>
           note.title.toLowerCase().includes(search.toLowerCase()) ||
           note.text.toLowerCase().includes(search.toLowerCase())
       )
-      .sort((a, b) => a.position - b.position);
-  }
+      .sort((a, b) => {
+        const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
+  
+        if (dateComparison === 0) {
+          return a.position - b.position;
+        };
+  
+        return dateComparison;
+      });
+  };
+  
 
   function moveNote(fromIndex: any, toIndex: any) {
     const updatedNotes = Array.from(filteredNotes);
@@ -56,7 +70,7 @@ export function useSidebarNote() {
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('listNotes', JSON.stringify(updatedNotes));
-    }
+    };
   };
 
   useEffect(() => {
@@ -71,8 +85,8 @@ export function useSidebarNote() {
             ? allNotes(noteList, searchNotes)
             : notesWithId(noteList, searchNotes, selectedItem)
         );
-      }
-    }
+      };
+    };
   }, [noteList, searchNotes, selectedItem]);
 
   return {

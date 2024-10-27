@@ -43,7 +43,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     setNewItemName,
   } = useSecondarySidebar();
 
-  const { handleItemClick } = useContextGlobal();
+  const { handleItemClick, selectedItem } = useContextGlobal();
 
   const {
     isOpen: isOpenAddFolder,
@@ -72,21 +72,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
         </div>
 
         <div className='flex flex-col gap-1'>
-          {folders.length === 0 && (
-            <div className='flex flex-col justify-center mt-20 items-center'>
-              <Image
-                alt=''
-                src={'/emptyFolder1.svg'}
-                width={200}
-                height={200}
-              />
-              <h1
-                className={`text-md font-semibold ${darkMode ? 'text-black-200' : 'text-black-700'}`}
-              >
-                Você ainda não possui pastas
-              </h1>
-            </div>
-          )}
 
           <div
             className='w-full mb-4 pl-4 flex justify-between items-center'
@@ -96,7 +81,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
             }}
           >
             <div
-              className={`flex ${darkMode ? 'text-black-200' : 'text-black-700'} items-center w-full`}
+              className={`flex ${selectedItem === 'All notes' ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} items-center p-2 rounded w-auto`}
             >
               <HiDocumentText size={24} />
               <h1 className={`text-md font-bold`}>Todas as anotações</h1>
@@ -113,7 +98,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                   }}
                 >
                   <div
-                    className={`flex gap-2 ${darkMode ? 'text-black-200' : 'text-black-700'} w-full`}
+                    className={`flex gap-2 ${selectedFolderId === folder.id ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded p-1 w-full`}
                     onClick={() => openSubFolders(folder.id)}
                   >
                     {openSubFolder !== folder.id ? (
@@ -134,12 +119,12 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                 </div>
 
                 {openSubFolder && folder.id === selectedFolderId && (
-                  <div className='flex justify-center flex-col gap-2'>
+                  <div className='flex justify-center flex-col gap-2 p-2'>
                     {folder.items.map((item, index) => (
                       <FadeIn>
                         <div onClick={() => handleItemClick(item)}>
                           <h1
-                            className={`text-md text-center font-semibold ${darkMode ? 'text-black-100' : 'text-black-800'}`}
+                            className={`text-md text-center font-semibold ${selectedItem === item ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded-lg p-2`}
                           >
                             {item}
                           </h1>

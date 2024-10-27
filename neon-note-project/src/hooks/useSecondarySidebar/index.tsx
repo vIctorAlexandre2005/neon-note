@@ -25,6 +25,14 @@ export function useSecondarySidebar() {
   }
 
   const handleAddFolder = () => {
+
+    const folderExist = folders.some(folder => folder.name === newFolderName);
+
+    if(folderExist) {
+      errorToast(`"${newFolderName}" já existe`);
+      return;
+    };
+
     if (newFolderName.trim()) {
       const newFolder = {
         id: Date.now(),
@@ -42,10 +50,19 @@ export function useSecondarySidebar() {
       }
     } else {
       errorToast('Nome da pasta não pode ser vazio!');
+      return;
     };
   };
   
   const handleAddItem = () => {
+
+    const existItemName = folders.some(folder => folder.items.some(item => item === newItemName));
+
+    if(existItemName) {
+      errorToast(`"${newItemName}" já existe em sua pasta!`);
+      return;
+    }
+
     if (selectedFolderId && newItemName.trim()) {
       const updatedFolders = folders.map(folder =>
         folder.id === selectedFolderId ? { ...folder, items: [...folder.items, newItemName] } : folder
@@ -60,6 +77,7 @@ export function useSecondarySidebar() {
       }
     } else {
       errorToast('Nome da item não pode ser vazio!');
+      return;
     }
   };
 

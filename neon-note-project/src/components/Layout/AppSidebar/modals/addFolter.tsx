@@ -42,12 +42,12 @@ export function AddFolderModal({
                   onCloseAddFolder();
                 }}
                 text='Adicionar'
-                className='bg-neon-400 text-white text-center w-full rounded-lg'
+                className='bg-neon-400 text-white text-center font-semibold w-full rounded-lg'
               />
               <ButtonComponent
                 onClick={onCloseAddFolder}
                 text='Cancelar'
-                className='bg-red-500 w-full text-white text-center rounded-lg'
+                className='bg-red-500 w-full text-white text-center font-semibold rounded-lg'
               />
             </div>
           </div>

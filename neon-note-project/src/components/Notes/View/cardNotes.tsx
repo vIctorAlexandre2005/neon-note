@@ -24,9 +24,8 @@ export function CardNotes({
   darkMode,
   moveNote,
   note,
-  index
+  index,
 }: Props) {
-
   const [, ref] = useDrag({
     type: ItemType.NOTE,
     item: { index },
@@ -44,61 +43,61 @@ export function CardNotes({
 
   return (
     <>
-    <FadeIn key={note.id}>
-          <Fragment key={index}>
-            <div
-              ref={(node) => {
-                if (node !== null) {
-                  ref(drop(node));
-                }
-              }}
-              onClick={() => {
-                handleSelectNote(note);
-                onOpen();
-              }}
-              className={`
+      <FadeIn key={note.id}>
+        <Fragment key={index}>
+          <div
+            ref={node => {
+              if (node !== null) {
+                ref(drop(node));
+              }
+            }}
+            onClick={() => {
+              handleSelectNote(note);
+              onOpen();
+            }}
+            className={`
                   ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-neon-400'} w-full rounded-xl p-2 cursor-pointer
                 `}
-            >
-              {note.title ? (
-                <h2
-                  className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-96' : ''}`}
-                >
-                  {truncateText(note.title, 16)}
-                </h2>
-              ) : (
-                <h2
-                  className={`text-white text-2xl mb-2 font-bold italic ${darkMode ? 'opacity-30' : ''}`}
-                >
-                  Vazio
-                </h2>
-              )}
+          >
+            {note.title ? (
+              <h2
+                className={`text-white text-2xl mb-2 font-bold ${darkMode ? 'opacity-96' : ''}`}
+              >
+                {truncateText(note.title, 16)}
+              </h2>
+            ) : (
+              <h2
+                className={`text-white text-2xl mb-2 font-bold italic ${darkMode ? 'opacity-30' : ''}`}
+              >
+                Vazio
+              </h2>
+            )}
 
-              {note.text ? (
-                <p
-                  className={`text-white text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
-                >
-                  {truncateText(note.text, 66)}
-                </p>
-              ) : (
-                <p
-                  className={`text-white text-opacity-80 italic ${darkMode ? 'opacity-30' : ''}`}
-                >
-                  Vazio
-                </p>
-              )}
-              <div className='mt-4 flex justify-end'>
-                <p className='text-white opacity-40 text-xs'>
-                  Criada em {new Date(note.date).toLocaleDateString('pt-BR')} às{' '}
-                  {new Date(note.date).toLocaleTimeString('pt-BR', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>
-              </div>
+            {note.text ? (
+              <p
+                className={`text-white text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
+              >
+                {truncateText(note.text, 66)}
+              </p>
+            ) : (
+              <p
+                className={`text-white text-opacity-80 italic ${darkMode ? 'opacity-30' : ''}`}
+              >
+                Vazio
+              </p>
+            )}
+            <div className='mt-4 flex justify-end'>
+              <p className='text-white opacity-40 text-xs'>
+                Criada em {new Date(note.date).toLocaleDateString('pt-BR')} às{' '}
+                {new Date(note.date).toLocaleTimeString('pt-BR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
             </div>
-          </Fragment>
-        </FadeIn>
+          </div>
+        </Fragment>
+      </FadeIn>
     </>
   );
 }
