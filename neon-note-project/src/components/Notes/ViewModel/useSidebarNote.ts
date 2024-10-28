@@ -87,7 +87,7 @@ export function useSidebarNote() {
         );
       };
     };
-  }, [noteList, searchNotes, selectedItem]);
+  }, [noteList, searchNotes, selectedItem,  filteredNotes]);
 
   return {
     addNote,

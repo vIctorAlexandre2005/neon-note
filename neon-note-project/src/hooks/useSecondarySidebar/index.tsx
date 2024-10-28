@@ -81,6 +81,16 @@ export function useSecondarySidebar() {
     }
   };
 
+  function deleteFolder(id: number) {
+    const updatedFolders = folders.filter(folder => folder.id !== id);
+    setFolders(updatedFolders);
+
+    // Salva toda a estrutura atualizada no localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('folders', JSON.stringify(updatedFolders));
+    }
+  }
+
   useEffect(() => {
     const storedFolders = localStorage.getItem('folders');
     if (storedFolders) {
@@ -102,5 +112,6 @@ export function useSecondarySidebar() {
     handleAddItem,
     setNewFolderName,
     setNewItemName,
+    deleteFolder,
   }
 }

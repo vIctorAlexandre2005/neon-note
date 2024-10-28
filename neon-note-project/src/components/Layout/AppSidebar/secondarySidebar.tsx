@@ -20,6 +20,8 @@ import { AddFolderItemModal } from './modals/addItemFolder';
 import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 import { useContextGlobal } from '@/Context';
 import { HiDocumentText, HiOutlineDocumentText } from 'react-icons/hi2';
+import { BsTrash, BsTrash2 } from 'react-icons/bs';
+import { DeleteFolderModal } from './modals/deleteFolder';
 
 interface SidebarProps {
   darkMode: boolean;
@@ -41,6 +43,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     selectedFolderId,
     setSelectedFolderId,
     setNewItemName,
+    deleteFolder,
   } = useSecondarySidebar();
 
   const { handleItemClick, selectedItem } = useContextGlobal();
@@ -55,6 +58,12 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     isOpen: isOpenAddItem,
     onOpen: onOpenAddItem,
     onClose: onCloseAddItem,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDeleteFolder,
+    onOpen: onOpenDeleteFolder,
+    onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
   return (
@@ -72,7 +81,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
         </div>
 
         <div className='flex flex-col gap-1'>
-
           <div
             className='w-full mb-4 pl-4 flex justify-between items-center'
             onClick={() => {
@@ -109,11 +117,17 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>{folder.name}</h1>
                   </div>
-                  <div className='flex gap-4 -z-0 items-center justify-between'>
+                  <div className='flex -z-0 items-center justify-between'>
                     <ButtonComponent
                       onClick={onOpenAddItem}
                       icon={<BiPlus size={18} />}
                       className={`hover:bg-neon-400 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                    />
+
+                    <ButtonComponent
+                      onClick={onOpenDeleteFolder}
+                      icon={<BsTrash size={18} />}
+                      className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
                     />
                   </div>
                 </div>
@@ -156,6 +170,15 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
           newItemName={newItemName}
           onCloseAddItem={onCloseAddItem}
           setNewItemName={setNewItemName}
+        />
+      )}
+
+      {isOpenDeleteFolder && (
+        <DeleteFolderModal 
+          selectedFolderId={selectedFolderId} 
+          isOpenDeleteFolder={isOpenDeleteFolder} 
+          deleteFolder={deleteFolder} 
+          onCloseDeleteFolder={onCloseDeleteFolder} 
         />
       )}
     </div>
