@@ -169,7 +169,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         });
   
         // Define noteList dependendo da seleção
-        if (selectedItem === 'All notes') {
+        if (selectedItem === 'Todas as anotações') {
           setNoteList(notesArray);
         } else {
           setNoteList(notesArray.filter(note => note.itemId === selectedItem));

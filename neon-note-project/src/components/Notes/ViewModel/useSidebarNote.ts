@@ -81,7 +81,7 @@ export function useSidebarNote() {
     } else {
 
       const filtered =
-        selectedItem === 'All notes'
+        selectedItem === 'Todas as anotações'
           ? allNotes(noteList, searchNotes)
           : notesWithId(noteList, searchNotes, selectedItem as string);
   

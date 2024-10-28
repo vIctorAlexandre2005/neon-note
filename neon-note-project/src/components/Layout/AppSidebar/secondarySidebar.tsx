@@ -86,11 +86,11 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
             className='w-full mb-4 pl-4 flex justify-between items-center'
             onClick={() => {
               setSelectedFolderId(1);
-              handleItemClick('All notes');
+              handleItemClick('Todas as anotações');
             }}
           >
             <div
-              className={`flex ${selectedItem === 'All notes' ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} items-center p-2 rounded w-auto`}
+              className={`flex ${selectedItem === 'Todas as anotações' ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} items-center p-2 rounded w-auto`}
             >
               <HiDocumentText size={24} />
               <h1 className={`text-md font-bold`}>Todas as anotações</h1>

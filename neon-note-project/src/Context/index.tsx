@@ -22,12 +22,12 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<string | null>('Todas as anotações');
 
   const { setSelectedFolderId } = useSecondarySidebar();
 
   function handleItemClick(name: string) {
-    setSelectedFolderId(name === 'All notes' ? 1 : null);
+    setSelectedFolderId(name === 'Todas as anotações' ? 1 : null);
     console.log(name);
     setSelectedItem(name);
   }
