@@ -6,9 +6,12 @@ import { truncateText } from '@/utils/truncate';
 import { ClipLoader, PulseLoader } from 'react-spinners';
 import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
-import { useSidebarNote } from '../ViewModel/useSidebarNote';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
+import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useSidebarNote } from '../ViewModel/useSidebarNote';
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
@@ -29,6 +32,7 @@ export function SidebarNote() {
     onOpen,
     searchNotes,
     loadingNotes,
+    moveNote,
   } = useSidebarNote();
 
   const handleSelectNote = (note: any) => {
@@ -41,12 +45,14 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   }
 
-  function handleAddNote() {
+  const { selectedItem } = useContextGlobal();
+
+  function handleAddNote(itemId: string) {
     if (!user || !user.uid) {
       return;
     }
 
-    addNote({ title: '', text: '', date: Date.now(), userId: user.uid });
+    addNote({ title: '', text: '', date: Date.now(), userId: user.uid, itemId });
   }
 
   useEffect(() => {
@@ -67,12 +73,12 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} max-h-96 overflow-auto w-full rounded-xl min-h-full p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} w-full rounded-xl h-full p-2`}
     >
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
       >
-        Todas as anotações
+        {selectedItem}
       </h1>
       <div className='flex flex-col mt-3'>
         <div className='flex gap-1 items-center'>
@@ -85,7 +91,7 @@ export function SidebarNote() {
           />
           <div>
             <ButtonComponent
-              onClick={() => handleAddNote()}
+              onClick={() => handleAddNote(selectedItem as string)}
               isLoading={loading}
               icon={<BiPlus color='white' size={24} />}
               loader={<ClipLoader color='white' size={24} />}
@@ -97,10 +103,10 @@ export function SidebarNote() {
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
-          Total de anotações: {noteList.length}
+          Total de anotações: {selectedItem === 'Todas as anotações' ? noteList?.length : noteList?.filter(note => note.itemId === selectedItem).length}
         </p>
-      </div>
-      <div className='flex flex-col mt-3 gap-4'>
+      </div> 
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
         {loadingNotes && (
           <div className='flex justify-center items-center mt-24'>
             <PulseLoader color='#004aff' size={24} />
@@ -108,15 +114,20 @@ export function SidebarNote() {
         )}
 
         {!loadingNotes && (
-          <>
-            <CardNotes
-              activeNote={activeNote}
-              darkMode={darkMode}
-              filteredNotes={filteredNotes}
-              handleSelectNote={handleSelectNote}
-              onOpen={onOpen}
-            />
-          </>
+          <DndProvider backend={HTML5Backend}>
+            {noteList?.map((note: any, index: number) => (
+              <CardNotes 
+                activeNote={activeNote} 
+                key={index} 
+                note={note} 
+                handleSelectNote={handleSelectNote} 
+                onOpen={onOpen} 
+                darkMode={darkMode} 
+                moveNote={moveNote}
+                index={index}
+              />
+            ))}
+          </DndProvider>
         )}
       </div>
     </div>

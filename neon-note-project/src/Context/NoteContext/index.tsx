@@ -42,34 +42,40 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [loadingNotes, setLoadingNotes] = useState(true);
 
+  const [filteredNotes, setFilteredNotes] = useState<any[]>([]);
+
+
   const { user } = useContextGlobal();
 
-  async function addNote(note: any) {
-    // Obtém o usuário autenticado
+  const { selectedItem } = useContextGlobal();
 
+  async function addNote(note: any) {
     if (!user || !user.uid) {
       console.error('Usuário não autenticado.');
       return;
     }
-
+  
     const newNote = {
       ...note,
       date: Date.now(),
-      userId: user.uid, // Inclui o userId
+      userId: user.uid,
+      folderId: selectedItem, // Usa o selectedItem como folderId
     };
-
+  
+    try {
+      localStorage.setItem('listNotesForId', JSON.stringify(newNote));
+    } catch (error) {
+      console.log('Erro ao salvar localmente');
+    }
+  
     try {
       setLoading(true);
-      // Referência à subcoleção de notas do usuário
-      const docRef = await addDoc(
-        collection(db, `users/${user.uid}/notes`),
-        newNote
-      );
+      const docRef = await addDoc(collection(db, `users/${user.uid}/notes`), newNote);
       const updatedNote = { id: docRef.id, ...newNote };
-      setNoteList(prev => [updatedNote, ...prev]); // Atualiza a lista de notas
-      setActiveNote(docRef.id); // Define a nova nota como ativa
+      setNoteList(prev => [updatedNote, ...prev]);
+      setActiveNote(docRef.id);
     } catch (e) {
-      console.error('Erro ao adicionar a nota ao Firestore: ', e);
+      console.error('Erro ao adicionar a nota ao Firestore:', e);
     } finally {
       setLoading(false);
     }
@@ -143,39 +149,44 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
+  
+
   useEffect(() => {
     const fetchNotes = async () => {
-      const user = getAuth().currentUser; // Obtém o usuário autenticado
-
+      const user = getAuth().currentUser;
+  
       if (!user || !user.uid) {
         console.error('Usuário não autenticado.');
         return;
       }
-
-      const parsedIsBlockEdited = localStorage.getItem('isBlockEdited');
-      if (parsedIsBlockEdited) {
-        setIsBlockEdited(JSON.parse(parsedIsBlockEdited));
-      }
-
+  
+      const notesArray: any[] = [];
+  
       try {
-        const querySnapshot = await getDocs(
-          collection(db, `users/${user.uid}/notes`)
-        );
-        const notesArray: any[] = [];
+        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/notes`));
         querySnapshot.forEach(doc => {
           notesArray.push({ id: doc.id, ...doc.data() });
         });
-        setNoteList(notesArray);
+  
+        // Define noteList dependendo da seleção
+        if (selectedItem === 'Todas as anotações') {
+          setNoteList(notesArray);
+        } else {
+          setNoteList(notesArray.filter(note => note.itemId === selectedItem));
+        }
+
+        console.log('Notas recuperadas:', notesArray.filter(note => note.itemId === selectedItem));
       } catch (error) {
         console.error('Erro ao buscar as notas do Firestore:', error);
-        setNoteList([]); // Se houver erro, inicializa como array vazio
+        setNoteList([]);
       } finally {
         setLoadingNotes(false);
       }
     };
-
+  
     fetchNotes();
-  }, []);
+  }, [selectedItem]);
+  
 
   return (
     <NoteProvider.Provider
@@ -199,6 +210,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         isBlockEdited,
         blockNote,
         loadingNotes,
+        filteredNotes,
+        setFilteredNotes,
       }}
     >
       {children}

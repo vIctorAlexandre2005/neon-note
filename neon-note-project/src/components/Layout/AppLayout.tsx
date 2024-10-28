@@ -5,6 +5,7 @@ import { Sidebar } from './AppSidebar/sidebar';
 import { useRouter } from 'next/router';
 import { useContextGlobal } from '@/Context';
 import { Loader } from '../common/Loader';
+import { SecondarySidebar } from './AppSidebar/secondarySidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -35,22 +36,28 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div
-      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-slate-100'}`}
+      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-neon-50'}`}
     >
       <div
         className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
       >
         <NoteHeader />
       </div>
-      <div className='flex h-full gap-4'>
+      <div className='flex w-full h-full'>
         <div
-          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-56'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-24'}`}
         >
           <Sidebar darkMode={darkMode} />
         </div>
 
         <div
-          className={`flex-1 w-full ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-72'}`}
+        >
+          <SecondarySidebar darkMode={darkMode} />
+        </div>
+
+        <div
+          className={`flex-1 w-full ${darkMode ? 'bg-slate-900' : 'bg-black-50'}`}
         >
           {children}
         </div>

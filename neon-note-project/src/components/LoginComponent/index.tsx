@@ -1,4 +1,3 @@
-import { auth, provider } from '@/services/firebase';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
 import { IoToggleSharp } from 'react-icons/io5';
 import { FiToggleLeft } from 'react-icons/fi';
