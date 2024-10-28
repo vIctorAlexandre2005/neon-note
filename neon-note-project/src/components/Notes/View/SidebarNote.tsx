@@ -91,7 +91,7 @@ export function SidebarNote() {
           />
           <div>
             <ButtonComponent
-              onClick={() => handleAddNote(selectedItem)}
+              onClick={() => handleAddNote(selectedItem as string)}
               isLoading={loading}
               icon={<BiPlus color='white' size={24} />}
               loader={<ClipLoader color='white' size={24} />}
@@ -103,7 +103,7 @@ export function SidebarNote() {
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
-          Total de anotações: {selectedItem === 'All notes' ? noteList?.length : filteredNotes.length}
+          Total de anotações: {selectedItem === 'All notes' ? noteList?.length : noteList?.filter(note => note.itemId === selectedItem).length}
         </p>
       </div> 
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
@@ -115,7 +115,7 @@ export function SidebarNote() {
 
         {!loadingNotes && (
           <DndProvider backend={HTML5Backend}>
-            {filteredNotes?.map((note: any, index: number) => (
+            {noteList?.map((note: any, index: number) => (
               <CardNotes 
                 activeNote={activeNote} 
                 key={index} 

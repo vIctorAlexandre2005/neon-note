@@ -44,6 +44,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
     setSelectedFolderId,
     setNewItemName,
     deleteFolder,
+    handleDeleteItem,
   } = useSecondarySidebar();
 
   const { handleItemClick, selectedItem } = useContextGlobal();
@@ -133,16 +134,24 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                 </div>
 
                 {openSubFolder && folder.id === selectedFolderId && (
-                  <div className='flex justify-center flex-col gap-2 p-2'>
+                  <div className='flex w-full flex-col gap-2 p-2'>
                     {folder.items.map((item, index) => (
                       <FadeIn>
-                        <div onClick={() => handleItemClick(item)}>
+                        <div className={`text-md flex justify-center items-center text-center font-semibold ${selectedItem === item ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded-lg p-1`} onClick={() => handleItemClick(item)}>
                           <h1
-                            className={`text-md text-center font-semibold ${selectedItem === item ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded-lg p-2`}
+                            
                           >
                             {item}
                           </h1>
+                          <div className='flex justify-end w-full items-center'>
+                          <ButtonComponent
+                            onClick={() => handleDeleteItem(folder.id, item)}
+                            icon={<BsTrash size={18} />}
+                            className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                          />
                         </div>
+                        </div>
+                        
                       </FadeIn>
                     ))}
                   </div>
@@ -174,11 +183,11 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
       )}
 
       {isOpenDeleteFolder && (
-        <DeleteFolderModal 
-          selectedFolderId={selectedFolderId} 
-          isOpenDeleteFolder={isOpenDeleteFolder} 
-          deleteFolder={deleteFolder} 
-          onCloseDeleteFolder={onCloseDeleteFolder} 
+        <DeleteFolderModal
+          selectedFolderId={selectedFolderId}
+          isOpenDeleteFolder={isOpenDeleteFolder}
+          deleteFolder={deleteFolder}
+          onCloseDeleteFolder={onCloseDeleteFolder}
         />
       )}
     </div>

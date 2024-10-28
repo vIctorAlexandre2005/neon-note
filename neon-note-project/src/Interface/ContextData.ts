@@ -6,7 +6,8 @@ export interface ContextData {
   /* installPrompt: InstallPromptEvent | null; */
   isMobile: boolean;
   loading: boolean;
-  selectedItem: string;
+  selectedItem: string | null;
+  setSelectedItem: Dispatch<SetStateAction<string | null>>;
   handleItemClick: (name: string) => void;
 }
 
@@ -18,4 +19,5 @@ export const defaultValueContextData: ContextData = {
   handleItemClick(name) {
     console.log(name);
   },
+  setSelectedItem: () => {},
 };

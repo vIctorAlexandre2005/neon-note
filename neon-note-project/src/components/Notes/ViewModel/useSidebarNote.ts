@@ -63,10 +63,10 @@ export function useSidebarNote() {
   
 
   function moveNote(fromIndex: any, toIndex: any) {
-    const updatedNotes = Array.from(filteredNotes);
+    const updatedNotes = Array.from(noteList);
     const [movedNote] = updatedNotes.splice(fromIndex, 1);
     updatedNotes.splice(toIndex, 0, movedNote);
-    setFilteredNotes(updatedNotes);
+    setNoteList(updatedNotes);
 
     if (typeof window !== 'undefined') {
       localStorage.setItem('listNotes', JSON.stringify(updatedNotes));
@@ -74,20 +74,20 @@ export function useSidebarNote() {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const listNotes = localStorage.getItem('listNotes');
-      if (listNotes) {
-        setFilteredNotes(JSON.parse(listNotes));
-      } else {
-        // Caso não haja dados no localStorage, busca do Firestore
-        setFilteredNotes(
-          selectedItem === 'All notes'
-            ? allNotes(noteList, searchNotes)
-            : notesWithId(noteList, searchNotes, selectedItem)
-        );
-      };
-    };
-  }, [noteList, searchNotes, selectedItem,  filteredNotes]);
+    const listNotes = localStorage.getItem('listNotes');
+  
+    if (listNotes) {
+      setNoteList(JSON.parse(listNotes));
+    } else {
+      // Seleciona todas as notas ou as notas com o folderId específico
+      const filtered =
+        selectedItem === 'All notes'
+          ? allNotes(noteList, searchNotes)
+          : notesWithId(noteList, searchNotes, selectedItem as string);
+  
+      setNoteList(filtered);
+    }
+  }, [noteList, searchNotes, selectedItem]);
 
   return {
     addNote,

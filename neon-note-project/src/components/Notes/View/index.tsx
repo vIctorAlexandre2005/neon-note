@@ -79,26 +79,27 @@ export function NeonNote() {
     }
   }, [activeNote, noteList]);
 
-  if (!selectedItem) {
-    return (
-      <div className='flex flex-col justify-end items-center animate-flute'>
-        <img
-          src='/noFolders.svg'
-          alt='empty'
-          className='object-cover mt-24'
-          height={300}
-          width={300}
-        />
-        <h3
-          className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
-        >
-          Crie, selecione e anote!
-        </h3>
-      </div>
-    );
+  if (!isMobile && !selectedItem) {
+    
+      return (
+        <div className='flex flex-col justify-end items-center animate-flute'>
+          <img
+            src='/noFolders.svg'
+            alt='empty'
+            className='object-cover mt-24'
+            height={300}
+            width={300}
+          />
+          <h3
+            className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+          >
+            Crie, selecione e anote!
+          </h3>
+        </div>
+      );
   }
 
-  if (selectedItem) {
+  if (selectedItem && !isMobile) {
     return (
       <div className='flex h-full pl-4 pt-2 gap-4'>
         <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
@@ -145,5 +146,54 @@ export function NeonNote() {
           )}
       </div>
     );
+  }
+
+  if(isMobile) {
+    return (
+      <div className='flex h-full pl-4 pt-2 gap-4'>
+        <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
+          <SidebarNote />
+        </div>
+
+        <div className='xs:hidden w-full md:block md:flex-1'>
+          {activeNote ? (
+            <NoteMain />
+          ) : (
+            <div className='flex mt-20 flex-col justify-end items-center animate-flute'>
+              <img
+                src='/empty.svg'
+                alt='empty'
+                className='object-cover'
+                height={300}
+                width={300}
+              />
+              <h3
+                className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+              >
+                Lembre-se das coisas mais importantes
+              </h3>
+            </div>
+          )}
+        </div>
+
+        {isOpen &&
+          isMobile && ( // abre modal apenas no mobile
+            <DrawerComponent
+              isOpen={isOpen}
+              onClose={onClose}
+              activeNoteId={activeNoteId}
+              titleNote={titleNote}
+              textNote={textNote}
+              darkMode={darkMode}
+              deleteNote={deleteNote}
+              saved={saved}
+              saving={saving}
+              updateNote={updateNote}
+              handleTextChange={handleTextChange}
+              handleTitleChange={handleTitleChange}
+            />
+          )}
+      </div>
+    )
   }
 }

@@ -7,6 +7,7 @@ interface PropsNoteList {
   id: number;
   date: number;
   folderId: string;
+  itemId: string;
 }
 export interface NoteContextData {
   noteList: PropsNoteList[];

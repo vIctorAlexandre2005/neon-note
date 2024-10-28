@@ -1,3 +1,4 @@
+import { useContextGlobal } from '@/Context';
 import { errorToast } from '@/utils/toasts/toasts';
 import { useEffect, useState } from 'react';
 
@@ -13,6 +14,8 @@ export function useSecondarySidebar() {
   const [newFolderName, setNewFolderName] = useState('');
   const [newItemName, setNewItemName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
+
+  const {selectedItem, setSelectedItem } = useContextGlobal();
 
   function openSubFolders(id: number) {
     setOpenSubFolder(prev => {
@@ -91,12 +94,29 @@ export function useSecondarySidebar() {
     }
   }
 
+  function handleDeleteItem(folderId: number, itemId: string) {
+    const updatedFolders = folders.map(folder => {
+      if (folder.id === folderId) {
+        const updatedItems = folder.items.filter(item => item !== itemId);
+        return { ...folder, items: updatedItems };
+      }
+      return folder;
+    });
+    setFolders(updatedFolders);
+    setSelectedItem(null);
+
+    // Salva toda a estrutura atualizada no localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('folders', JSON.stringify(updatedFolders));
+    }
+  }
+
   useEffect(() => {
     const storedFolders = localStorage.getItem('folders');
     if (storedFolders) {
       setFolders(JSON.parse(storedFolders));
     }
-  }, []);
+  }, [selectedItem]);
   
 
   return {
@@ -113,5 +133,6 @@ export function useSecondarySidebar() {
     setNewFolderName,
     setNewItemName,
     deleteFolder,
+    handleDeleteItem
   }
 }

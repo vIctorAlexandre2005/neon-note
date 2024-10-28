@@ -12,6 +12,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 /* import { usePWA } from "@/utils/usePWA"; */
 import { ContextData, defaultValueContextData } from '@/Interface/ContextData';
 import { Loader } from '@/components/common/Loader';
+import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
@@ -21,9 +22,12 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const [selectedItem, setSelectedItem] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
+  const { setSelectedFolderId } = useSecondarySidebar();
 
   function handleItemClick(name: string) {
+    setSelectedFolderId(name === 'All notes' ? 1 : null);
     console.log(name);
     setSelectedItem(name);
   }
@@ -49,6 +53,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         loading,
         selectedItem,
         handleItemClick,
+        setSelectedItem,
       }}
     >
       {children}
