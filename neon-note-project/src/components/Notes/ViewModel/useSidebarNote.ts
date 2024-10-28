@@ -29,7 +29,7 @@ export function useSidebarNote() {
         const matchesSearch =
           note.title.toLowerCase().includes(search.toLowerCase()) ||
           note.text.toLowerCase().includes(search.toLowerCase());
-        const matchesFolder = note.folderId === name;
+        const matchesFolder = note.itemId === name;
         return matchesSearch && matchesFolder;
       })
       .sort((a, b) => {
@@ -75,11 +75,13 @@ export function useSidebarNote() {
 
   useEffect(() => {
     const listNotes = localStorage.getItem('listNotes');
-  
+
     if (listNotes) {
       setNoteList(JSON.parse(listNotes));
     } else {
-      // Seleciona todas as notas ou as notas com o folderId específico
+
+      console.log('caiu aqui')
+
       const filtered =
         selectedItem === 'All notes'
           ? allNotes(noteList, searchNotes)
@@ -87,7 +89,11 @@ export function useSidebarNote() {
   
       setNoteList(filtered);
     }
-  }, [noteList, searchNotes, selectedItem]);
+    
+      // Seleciona todas as notas ou as notas com o folderId específico
+      
+    
+  }, [ searchNotes, selectedItem]);
 
   return {
     addNote,
