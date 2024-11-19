@@ -106,7 +106,7 @@ export function SidebarNote() {
           Total de anotações: {selectedItem === 'Todas as anotações' ? noteList?.length : noteList?.filter(note => note.itemId === selectedItem).length}
         </p>
       </div> 
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-230px)]'>
         {loadingNotes && (
           <div className='flex justify-center items-center mt-24'>
             <PulseLoader color='#004aff' size={24} />
