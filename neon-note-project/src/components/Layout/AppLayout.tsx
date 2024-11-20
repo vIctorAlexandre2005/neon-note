@@ -46,13 +46,19 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <div
-          className={`flex-1 w-full flex-col ${darkMode ? 'bg-slate-900' : 'bg-black-50'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-72'}`}
+        >
+          <SecondarySidebar darkMode={darkMode} />
+        </div>
+
+        <div
+          className={`flex-1 flex-col w-full ${darkMode ? 'bg-slate-950' : 'bg-black-50'}`}
         >
           <div
-        className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
-      >
-        <NoteHeader />
-      </div>
+            className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
+          >
+            <NoteHeader />
+          </div>
           {children}
         </div>
       </div>

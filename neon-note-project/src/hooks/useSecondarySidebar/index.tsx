@@ -12,20 +12,10 @@ export function useSecondarySidebar() {
   const [openSubFolder, setOpenSubFolder] = useState<null | number>(null);
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
-  const [newItemName, setNewItemName] = useState('');
-  const [selectedFolderId, setSelectedFolderId] = useState<number | null>(null);
+  // const [newItemName, setNewItemName] = useState('');
+  const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
   const {selectedItem, setSelectedItem } = useContextGlobal();
-
-  function openSubFolders(id: number) {
-    setOpenSubFolder(prev => {
-      if (prev === id) {
-        return null;
-      } else {
-        return id;
-      }
-    });
-  }
 
   const handleAddFolder = () => {
 
@@ -56,54 +46,10 @@ export function useSecondarySidebar() {
       return;
     };
   };
-  
-  const handleAddItem = () => {
-
-    const existItemName = folders.some(folder => folder.items.some(item => item === newItemName));
-
-    if(existItemName) {
-      errorToast(`"${newItemName}" já existe em sua pasta!`);
-      return;
-    }
-
-    if (selectedFolderId && newItemName.trim()) {
-      const updatedFolders = folders.map(folder =>
-        folder.id === selectedFolderId ? { ...folder, items: [...folder.items, newItemName] } : folder
-      );
-  
-      setFolders(updatedFolders);
-      setNewItemName(''); // Limpa o campo de input
-  
-      // Salva toda a estrutura atualizada no localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('folders', JSON.stringify(updatedFolders));
-      }
-    } else {
-      errorToast('Nome da item não pode ser vazio!');
-      return;
-    }
-  };
 
   function deleteFolder(id: number) {
     const updatedFolders = folders.filter(folder => folder.id !== id);
     setFolders(updatedFolders);
-
-    // Salva toda a estrutura atualizada no localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('folders', JSON.stringify(updatedFolders));
-    }
-  }
-
-  function handleDeleteItem(folderId: number, itemId: string) {
-    const updatedFolders = folders.map(folder => {
-      if (folder.id === folderId) {
-        const updatedItems = folder.items.filter(item => item !== itemId);
-        return { ...folder, items: updatedItems };
-      }
-      return folder;
-    });
-    setFolders(updatedFolders);
-    setSelectedItem(null);
 
     // Salva toda a estrutura atualizada no localStorage
     if (typeof window !== 'undefined') {
@@ -120,19 +66,19 @@ export function useSecondarySidebar() {
   
 
   return {
-    openSubFolder,
-    setOpenSubFolder,
+    // openSubFolder,
+    // setOpenSubFolder,
     folders,
     newFolderName,
-    newItemName,
+    // newItemName,
     selectedFolderId,
     setSelectedFolderId,
-    openSubFolders,
+    // openSubFolders,
     handleAddFolder,
-    handleAddItem,
+    // handleAddItem,
     setNewFolderName,
-    setNewItemName,
+    // setNewItemName,
     deleteFolder,
-    handleDeleteItem
+    // handleDeleteItem
   }
 }

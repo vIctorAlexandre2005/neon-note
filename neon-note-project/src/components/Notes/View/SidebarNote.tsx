@@ -73,7 +73,7 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} w-full rounded-xl h-full p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-neon-50 border-2 shadow-lg'} w-full rounded-xl max-h-96 p-2`}
     >
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
@@ -106,7 +106,7 @@ export function SidebarNote() {
           Total de anotações: {selectedItem === 'Todas as anotações' ? noteList?.length : noteList?.filter(note => note.itemId === selectedItem).length}
         </p>
       </div> 
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-230px)]'>
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
         {loadingNotes && (
           <div className='flex justify-center items-center mt-24'>
             <PulseLoader color='#004aff' size={24} />

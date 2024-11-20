@@ -32,19 +32,19 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   const {
     folders,
-    openSubFolder,
-    setOpenSubFolder,
+    // openSubFolder,
+    // setOpenSubFolder,
     newFolderName,
     setNewFolderName,
     handleAddFolder,
-    handleAddItem,
-    newItemName,
-    openSubFolders,
+    // handleAddItem,
+    // newItemName,
+    // openSubFolders,
     selectedFolderId,
     setSelectedFolderId,
-    setNewItemName,
+    // setNewItemName,
     deleteFolder,
-    handleDeleteItem,
+    // handleDeleteItem,
   } = useSecondarySidebar();
 
   const { handleItemClick, selectedItem } = useContextGlobal();
@@ -69,7 +69,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   return (
     <div
-      className={`flex-none w-full h-full ${darkMode ? 'bg-slate-900' : 'bg-slate-50'}`}
+      className={`flex-none w-full ${darkMode ? 'bg-slate-900' : 'bg-slate-50'}`}
     >
       <div className={`flex-col mt-6 gap-4 flex`}>
         <div className='flex justify-between p-2 items-center'>
@@ -108,13 +108,11 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                 >
                   <div
                     className={`flex gap-2 ${selectedFolderId === folder.id ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded p-1 w-full`}
-                    onClick={() => openSubFolders(folder.id)}
+                    onClick={() => {
+                      setSelectedFolderId(folder.id);
+                      handleItemClick(folder.name);
+                    }}
                   >
-                    {openSubFolder !== folder.id ? (
-                      <IoIosArrowForward />
-                    ) : (
-                      <IoIosArrowDown />
-                    )}
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>{folder.name}</h1>
                   </div>
@@ -132,30 +130,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                     />
                   </div>
                 </div>
-
-                {openSubFolder && folder.id === selectedFolderId && (
-                  <div className='flex w-full flex-col gap-2 p-2'>
-                    {folder.items.map((item, index) => (
-                      <FadeIn>
-                        <div className={`text-md flex justify-center items-center text-center font-semibold ${selectedItem === item ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded-lg p-1`} onClick={() => handleItemClick(item)}>
-                          <h1
-                            
-                          >
-                            {item}
-                          </h1>
-                          <div className='flex justify-end w-full items-center'>
-                          <ButtonComponent
-                            onClick={() => handleDeleteItem(folder.id, item)}
-                            icon={<BsTrash size={18} />}
-                            className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                          />
-                        </div>
-                        </div>
-                        
-                      </FadeIn>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
         </div>
@@ -171,20 +145,9 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
         />
       )}
 
-      {isOpenAddItem && (
-        <AddFolderItemModal
-          darkMode={darkMode}
-          handleAddItem={handleAddItem}
-          isOpenAddItem={isOpenAddItem}
-          newItemName={newItemName}
-          onCloseAddItem={onCloseAddItem}
-          setNewItemName={setNewItemName}
-        />
-      )}
-
       {isOpenDeleteFolder && (
         <DeleteFolderModal
-          selectedFolderId={selectedFolderId}
+          selectedFolderId={selectedFolderId as number}
           isOpenDeleteFolder={isOpenDeleteFolder}
           deleteFolder={deleteFolder}
           onCloseDeleteFolder={onCloseDeleteFolder}
