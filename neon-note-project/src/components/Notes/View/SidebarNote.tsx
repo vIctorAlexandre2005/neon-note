@@ -52,7 +52,13 @@ export function SidebarNote() {
       return;
     }
 
-    addNote({ title: '', text: '', date: Date.now(), userId: user.uid, itemId });
+    addNote({
+      title: '',
+      text: '',
+      date: Date.now(),
+      userId: user.uid,
+      itemId,
+    });
   }
 
   useEffect(() => {
@@ -73,7 +79,7 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-white border-2 border-slate-200'} w-full h-full rounded-xl p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full rounded-xl p-2`}
     >
       <h1
         className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
@@ -103,26 +109,30 @@ export function SidebarNote() {
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
-          Total de anotações: {selectedItem === 'Todas as anotações' ? noteList?.length : noteList?.filter(note => note.itemId === selectedItem).length}
+          Total de anotações:{' '}
+          {selectedItem === 'Todas as anotações'
+            ? noteList?.length
+            : noteList?.filter(note => note.itemId === selectedItem).length}
         </p>
-      </div> 
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'> {/*  */}
+      </div>
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>
+        {' '}
+        {/*  */}
         {loadingNotes && (
           <div className='flex justify-center items-center mt-24'>
             <PulseLoader color='#004aff' size={24} />
           </div>
         )}
-
         {!loadingNotes && (
           <DndProvider backend={HTML5Backend}>
             {noteList?.map((note: any, index: number) => (
-              <CardNotes 
-                activeNote={activeNote} 
-                key={index} 
-                note={note} 
-                handleSelectNote={handleSelectNote} 
-                onOpen={onOpen} 
-                darkMode={darkMode} 
+              <CardNotes
+                activeNote={activeNote}
+                key={index}
+                note={note}
+                handleSelectNote={handleSelectNote}
+                onOpen={onOpen}
+                darkMode={darkMode}
                 moveNote={moveNote}
                 index={index}
               />

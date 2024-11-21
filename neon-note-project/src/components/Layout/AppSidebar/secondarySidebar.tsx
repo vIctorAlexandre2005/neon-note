@@ -84,7 +84,11 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
             }}
           >
             <div
-              className={`flex ${selectedItem === 'Todas as anotações' ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} items-center p-2 rounded w-auto`}
+              className={`flex ${selectedItem === 'Todas as anotações' && darkMode ? 
+                'bg-neon-800 bg-opacity-50 text-neon-200' : // quando a pasta for selecionada e estiver modo escuro 
+                selectedItem === 'Todas as anotações' && !darkMode ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' : // quando a pasta for selecionada e estiver modo claro
+                'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
+              }  items-center p-2 rounded w-auto`}
             >
               <HiDocumentText size={24} />
               <h1 className={`text-md font-bold`}>Todas as anotações</h1>
@@ -106,7 +110,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                       ${selectedFolderId === folder.id && darkMode ? 
                         'bg-neon-800 bg-opacity-50 text-neon-200' : // quando a pasta for selecionada e estiver modo escuro 
                         selectedFolderId === folder.id && !darkMode ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' : // quando a pasta for selecionada e estiver modo claro
-                        'text-black-700' // quando a pasta nao for selecionada
+                        'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
                       } 
                       rounded p-1 w-full
                     `}
