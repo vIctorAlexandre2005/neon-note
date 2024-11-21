@@ -102,11 +102,11 @@ export function NeonNote() {
   if (selectedItem && !isMobile) {
     return (
       <div className='flex h-full pl-4 pt-2 gap-4'>
-        <div className='md:flex-none xs:w-full md:w-80 h-full'>
+        <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
           <SidebarNote />
         </div>
 
-        <div className='xs:hidden w-full md:block md:flex-1'>
+        <div className='xs:hidden w-full h-full md:block md:flex-1'>
           {activeNote ? (
             <NoteMain />
           ) : (

@@ -50,15 +50,10 @@ export default function Layout({ children }: LayoutProps) {
         >
           <SecondarySidebar darkMode={darkMode} />
         </div>
-
         <div
-          className={`flex-1 flex-col w-full ${darkMode ? 'bg-slate-950' : 'bg-black-50'}`}
+          className={`flex-col flex flex-1 h-screen ${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
         >
-          <div
-            className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
-          >
-            <NoteHeader />
-          </div>
+          <NoteHeader />
           {children}
         </div>
       </div>

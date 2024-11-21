@@ -12,7 +12,7 @@ export default function Home() {
   const { user, selectedItem } = useContextGlobal();
 
   return (
-    <div>
+    <div className='h-full'>
       {user && <NeonNote />}
 
       {!user && null}
