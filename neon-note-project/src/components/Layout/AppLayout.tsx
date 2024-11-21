@@ -36,7 +36,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div
-      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-neon-50'}`}
+      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}
     >
       <div className='flex w-full h-full'>
         <div

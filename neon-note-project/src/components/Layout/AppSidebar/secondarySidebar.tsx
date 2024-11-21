@@ -56,12 +56,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
   } = useDisclosure();
 
   const {
-    isOpen: isOpenAddItem,
-    onOpen: onOpenAddItem,
-    onClose: onCloseAddItem,
-  } = useDisclosure();
-
-  const {
     isOpen: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
@@ -69,7 +63,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   return (
     <div
-      className={`flex-none w-full ${darkMode ? 'bg-slate-900' : 'bg-slate-50'}`}
+      className={`flex-none w-full ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
       <div className={`flex-col mt-6 gap-4 flex`}>
         <div className='flex justify-between p-2 items-center'>
@@ -107,7 +101,15 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                   }}
                 >
                   <div
-                    className={`flex gap-2 ${selectedFolderId === folder.id ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded p-1 w-full`}
+                    className={`
+                      flex gap-2 items-center 
+                      ${selectedFolderId === folder.id && darkMode ? 
+                        'bg-neon-800 bg-opacity-50 text-neon-200' : // quando a pasta for selecionada e estiver modo escuro 
+                        selectedFolderId === folder.id && !darkMode ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' : // quando a pasta for selecionada e estiver modo claro
+                        'text-black-700' // quando a pasta nao for selecionada
+                      } 
+                      rounded p-1 w-full
+                    `}
                     onClick={() => {
                       setSelectedFolderId(folder.id);
                       handleItemClick(folder.name);
@@ -116,12 +118,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>{folder.name}</h1>
                   </div>
-                  <div className='flex -z-0 items-center justify-between'>
-                    <ButtonComponent
-                      onClick={onOpenAddItem}
-                      icon={<BiPlus size={18} />}
-                      className={`hover:bg-neon-400 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                    />
+                  <div className='flex items-center justify-end'>
 
                     <ButtonComponent
                       onClick={onOpenDeleteFolder}

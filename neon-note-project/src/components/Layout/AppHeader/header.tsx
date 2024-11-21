@@ -30,8 +30,6 @@ export function NoteHeader() {
         flex 
         justify-between
         items-center
-        border-b-2
-        border-neon-400
         p-4
         `}
         onMouseLeave={onClose}
