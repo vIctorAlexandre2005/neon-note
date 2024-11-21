@@ -87,7 +87,7 @@ export function SidebarNote() {
             value={searchNotes}
             onChange={handleSearchNotes}
             placeholder='Pesquisar anotações'
-            className={`w-full rounded-full ${darkMode ? 'placeholder:text-white' : 'placeholder:text-black-900'} ${darkMode ? 'text-white' : 'text-black-900'} text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'} bg-white`}
+            className={`w-full rounded-full ${darkMode ? 'placeholder:text-white focus:border-2 focus:border-slate-700' : 'placeholder:text-black-900 bg-gray-200 focus:border border-gray-300'} duration-200 ${darkMode ? 'text-white' : 'text-black-900'} text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'} bg-white`}
           />
           <div>
             <ButtonComponent

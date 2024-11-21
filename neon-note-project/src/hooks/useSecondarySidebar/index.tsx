@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 interface Folder {
   id: number;
   name: string;
-  items: string[];
 }
 
 export function useSecondarySidebar() {
@@ -30,7 +29,6 @@ export function useSecondarySidebar() {
       const newFolder = {
         id: Date.now(),
         name: newFolderName,
-        items: [],
       };
   
       const updatedFolders = [...folders, newFolder];
