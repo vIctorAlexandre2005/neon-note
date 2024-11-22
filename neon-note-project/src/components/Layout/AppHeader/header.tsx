@@ -26,11 +26,12 @@ export function NoteHeader() {
     <>
       <header
         className={`
-        ${darkMode ? 'bg-slate-950' : 'bg-white'} 
+        ${darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200'} 
         flex 
         justify-between
         items-center
         p-4
+        border-b-2 
         `}
         onMouseLeave={onClose}
       >

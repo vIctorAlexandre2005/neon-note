@@ -119,7 +119,7 @@ export function NeonNote() {
                 width={300}
               />
               <h3
-                className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+                className={`${darkMode ? 'text-gray-300' : 'text-black-700'} text-xl mt-5`}
               >
                 Lembre-se das coisas mais importantes
               </h3>
