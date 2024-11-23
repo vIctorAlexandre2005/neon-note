@@ -1,6 +1,6 @@
 import { BiPlus } from 'react-icons/bi';
-import { useTheme } from '../../ThemeDark';
-import FadeIn from '../../Effects/FadeIn';
+import { useTheme } from '../../../ThemeDark';
+import FadeIn from '../../../Effects/FadeIn';
 import { Fragment, useEffect, useState } from 'react';
 import { truncateText } from '@/utils/truncate';
 import { ClipLoader, PulseLoader } from 'react-spinners';
@@ -11,7 +11,7 @@ import { ButtonComponent } from '@/components/common/Button';
 import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSidebarNote } from '../ViewModel/useSidebarNote';
+import { useSidebarNote } from '../../ViewModel/useSidebarNote';
 import { FaFolder, FaFolderOpen, FaFolderPlus } from 'react-icons/fa';
 import { IoFolderOpenSharp } from 'react-icons/io5';
 import {
@@ -23,6 +23,8 @@ import {
 import { ModalComponent } from '@/components/Modals/modal';
 import { BsTrash } from 'react-icons/bs';
 import { HiDocumentText } from 'react-icons/hi2';
+import { DrawerComponent } from '@/components/common/drawer';
+import { DrawerSidebarNote } from './drawer/drawerSidebarNote';
 
 export function SidebarNote() {
   const { darkMode } = useTheme();
@@ -185,80 +187,16 @@ export function SidebarNote() {
         )}
       </div>
       {isOpenModal && (
-        <Drawer placement='left' isOpen={isOpenModal} onClose={onCloseModal}>
-          <DrawerOverlay />
-          <DrawerContent p={4} bg={darkMode ? '#0f172a' : 'white'}>
-            <div>
-              <h1 className={`text-2xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-black-900'}`}>Minhas pastas</h1>
-            </div>
-
-            <div
-              className='w-full mb-2 flex justify-between items-center'
-              onClick={() => {
-                setSelectedFolderId(1);
-                handleItemClick('Todas as anotações');
-              }}
-            >
-              <div
-                className={`flex cursor-pointer
-                ${
-                  selectedItem === 'Todas as anotações' && darkMode
-                    ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                    : selectedItem === 'Todas as anotações' && !darkMode
-                      ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                      : darkMode
-                        ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                        : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                }  items-center p-2 rounded w-auto`}
-              >
-                <HiDocumentText size={24} />
-                <h1 className={`text-md font-bold`}>Todas as anotações</h1>
-              </div>
-            </div>
-
-            <div>
-              {folders?.map((folder: any) => (
-                <div className='flex flex-col'>
-                  <div
-                    className='w-full flex justify-between items-center'
-                    onClick={() => {
-                      setSelectedFolderId(folder.id);
-                    }}
-                  >
-                    <div
-                      className={`
-                    flex gap-2 items-center justify-between cursor-pointer
-                    ${
-                      selectedFolderId === folder.id && darkMode
-                        ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                        : selectedFolderId === folder.id && !darkMode
-                          ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                          : darkMode
-                            ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                            : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                    } 
-                    rounded p-1 w-full
-                  `}
-                      onClick={() => {
-                        handleItemClick(folder.name);
-                      }}
-                    >
-                      <div className='flex gap-2 items-center'>
-                        <FaFolder size={18} />
-                        <h1 className={`text-md font-bold`}>{folder.name}</h1>
-                      </div>
-                      <ButtonComponent
-                        onClick={onOpenDeleteFolder}
-                        icon={<BsTrash size={18} />}
-                        className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </DrawerContent>
-        </Drawer>
+        <DrawerSidebarNote
+          folders={folders}
+          onCloseModal={onCloseModal}
+          onOpenDeleteFolder={onOpenDeleteFolder}
+          selectedFolderId={selectedFolderId}
+          selectedItem={selectedItem}
+          setSelectedFolderId={setSelectedFolderId}
+          handleItemClick={handleItemClick}
+          isOpenModal={isOpenModal}
+        />
       )}
     </div>
   );

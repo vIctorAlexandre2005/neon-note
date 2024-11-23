@@ -1,4 +1,4 @@
-import { NoteMain } from './NoteMain';
+import { NoteMain } from './InputsNote/NoteMain';
 import { useTheme } from '../../ThemeDark';
 import { useEffect, useState } from 'react';
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
@@ -10,7 +10,7 @@ import { DrawerComponent } from '../../Modals/Drawer/DrawerModal';
 import { collection, doc, updateDoc } from 'firebase/firestore';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
-import { SidebarNote } from './SidebarNote';
+import { SidebarNote } from './SidebarNote/SidebarNote';
 
 export function NeonNote() {
   const {

@@ -1,7 +1,7 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { InputComponent } from '@/components/common/InputField';
 import FadeIn from '@/components/Effects/FadeIn';
-import { ModalDelete } from '@/components/Notes/View/modalDelete';
+import { ModalDelete } from '@/components/Notes/View/InputsNote/modalDelete';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { BiArrowBack, BiCheck, BiTrash } from 'react-icons/bi';
