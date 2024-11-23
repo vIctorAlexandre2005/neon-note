@@ -63,7 +63,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   return (
     <div
-      className={`flex-none w-full ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
+      className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
       <div className={`flex-col mt-6 gap-4 flex`}>
         <div className='flex justify-between p-2 items-center'>
@@ -124,7 +124,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                       rounded p-1 w-full
                     `}
                     onClick={() => {
-                      setSelectedFolderId(folder.id);
                       handleItemClick(folder.name);
                     }}
                   >

@@ -28,6 +28,7 @@ const config: Config = {
         sm: '560px',
         md: '768px',
         lg: '960px',
+        tabletLandscape: '1024px',
         xl: '1280px',
         '2xl': '1536px',
       },

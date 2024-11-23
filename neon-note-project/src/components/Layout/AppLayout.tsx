@@ -22,6 +22,8 @@ export default function Layout({ children }: LayoutProps) {
     return <Loader />;
   }
 
+  
+
   if (!user && router.pathname !== '/login') {
     router.push('/login');
     return null;
@@ -46,12 +48,12 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <div
-          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex sidebar flex-none xs:hidden md:flex md:w-24 lg:w-72'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'sidebar xs:hidden tabletLandscape:flex flex-none'}`}
         >
           <SecondarySidebar darkMode={darkMode} />
         </div>
         <div
-          className={`flex-col flex flex-1 h-screen ${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
+          className={`flex-col flex flex-1 h-screen`}
         >
           <NoteHeader />
           {children}

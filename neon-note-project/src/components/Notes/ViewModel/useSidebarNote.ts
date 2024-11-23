@@ -84,6 +84,12 @@ export function useSidebarNote() {
         selectedItem === 'Todas as anotações'
           ? allNotes(noteList, searchNotes)
           : notesWithId(noteList, searchNotes, selectedItem as string);
+
+          const arrayId = notesWithId(noteList, searchNotes, selectedItem as string);
+          const arrayAll = allNotes(noteList, searchNotes);
+
+          console.log('arrayId', arrayId);
+          console.log('arrayAll', arrayAll);
   
       setNoteList(filtered);
     }
