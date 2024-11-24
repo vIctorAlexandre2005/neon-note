@@ -7,18 +7,18 @@ import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
 
 interface ListFoldersProps {
-    setSelectedFolderId: (folderId: number) => void;
-    handleItemClick: (item: string) => void;
-    selectedFolderId: number | null | string;
-    folder: any;
-    onClose: () => void;
+  setSelectedFolderId: (folderId: number) => void;
+  handleItemClick: (item: string) => void;
+  selectedFolderId: number | null | string;
+  folder: any;
+  onClose: () => void;
 }
 export function ListFolders({
-    setSelectedFolderId,
-    handleItemClick,
-    selectedFolderId,
-    folder,
-    onClose,
+  setSelectedFolderId,
+  handleItemClick,
+  selectedFolderId,
+  folder,
+  onClose,
 }: ListFoldersProps) {
   const { darkMode } = useTheme();
 
@@ -54,7 +54,6 @@ export function ListFolders({
                   `}
           onClick={() => {
             handleItemClick(folder.name);
-            onClose();
           }}
         >
           <div className='flex gap-2 items-center'>

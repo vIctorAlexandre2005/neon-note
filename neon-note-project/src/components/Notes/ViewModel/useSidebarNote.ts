@@ -23,13 +23,15 @@ export function useSidebarNote() {
   const { user, selectedItem } = useContextGlobal();
   const [searchNotes, setSearchNotes] = useState('');
 
-  function notesWithId(array: any[], search: string, itemId?: string) {
+  function notesWithId(array: any[], search: string, folderId?: string) {
     return array
       .filter(note => {
+        console.log(note)
         const matchesSearch =
+          note.folderId = note.folderId === selectedItem && 
           note.title.toLowerCase().includes(search.toLowerCase()) ||
           note.text.toLowerCase().includes(search.toLowerCase());
-        const matchesFolder = note.itemId === itemId;
+        const matchesFolder = note.folderId === folderId;
         return matchesSearch && matchesFolder;
       })
       .sort((a, b) => {

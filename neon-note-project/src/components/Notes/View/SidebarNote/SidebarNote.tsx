@@ -41,15 +41,21 @@ export function SidebarNote() {
     setSearchNotes,
     loading,
     user,
-    filteredNotes,
     onOpen,
     searchNotes,
     loadingNotes,
     moveNote,
+    filteredNotes,
   } = useSidebarNote();
 
-  const { folders, selectedFolderId, setSelectedFolderId, newFolderName, handleAddFolder, setNewFolderName } =
-    useSecondarySidebar();
+  const {
+    folders,
+    selectedFolderId,
+    setSelectedFolderId,
+    newFolderName,
+    handleAddFolder,
+    setNewFolderName,
+  } = useSecondarySidebar();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);
@@ -108,18 +114,28 @@ export function SidebarNote() {
         >
           {selectedItem}
         </h1>
-        <ButtonComponent
-          onClick={() => {
-            onOpenModal();
-          }}
-          isLoading={loading}
-          icon={<IoFolderOpenSharp color='white' size={24} />}
-          className='bg-neon-400 hover:bg-neon-500 rounded-full'
-        />
+        <div className='flex gap-4 items-center'>
+          <ButtonComponent
+            onClick={() => {
+              onOpenModal();
+            }}
+            isLoading={loading}
+            icon={<IoFolderOpenSharp color='white' size={24} />}
+            className='bg-neon-400 hover:bg-neon-500 rounded-full'
+          />
+          <ButtonComponent
+            onClick={() => handleAddNote(selectedItem as string)}
+            isLoading={loading}
+            icon={<BiPlus color='white' size={24} />}
+            loader={<ClipLoader color='white' size={24} />}
+            disabled={loading}
+            className='bg-neon-400 hover:bg-neon-500 rounded-full'
+          />
+        </div>
       </div>
       <div className='flex flex-col mt-3'>
         <div className='flex gap-1 items-center'>
-          <input
+          {/* <input
             type='search'
             value={searchNotes}
             onChange={handleSearchNotes}
@@ -134,16 +150,16 @@ export function SidebarNote() {
                 ${darkMode ? 'text-white' : 'text-black-900'} 
                 ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'}
             `}
-          />
+          /> */}
           <div className=''>
-            <ButtonComponent
+            {/* <ButtonComponent
               onClick={() => handleAddNote(selectedItem as string)}
               isLoading={loading}
               icon={<BiPlus color='white' size={24} />}
               loader={<ClipLoader color='white' size={24} />}
               disabled={loading}
               className='bg-neon-400 hover:bg-neon-500 rounded-full'
-            />
+            /> */}
           </div>
         </div>
         <p
