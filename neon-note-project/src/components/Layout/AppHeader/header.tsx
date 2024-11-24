@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
@@ -22,17 +23,19 @@ export function NoteHeader() {
   const { user } = useContextGlobal();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const router = useRouter();
+
   return (
     <>
       <header
         className={`
-        ${darkMode ? 'bg-slate-950' : 'bg-white'} 
+        ${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'flex'}
+        ${darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200'} 
         flex 
         justify-between
         items-center
-        border-b-2
-        border-neon-400
         p-4
+        border-b-2 
         `}
         onMouseLeave={onClose}
       >

@@ -22,6 +22,8 @@ export default function Layout({ children }: LayoutProps) {
     return <Loader />;
   }
 
+  
+
   if (!user && router.pathname !== '/login') {
     router.push('/login');
     return null;
@@ -36,7 +38,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div
-      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-neon-50'}`}
+      className={`flex flex-col w-full h-screen ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}
     >
       <div className='flex w-full h-full'>
         <div
@@ -46,13 +48,14 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <div
-          className={`flex-1 w-full flex-col ${darkMode ? 'bg-slate-900' : 'bg-black-50'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'sidebar xs:hidden tabletLandscape:flex flex-none tabletLandscape:w-72'}`}
         >
-          <div
-        className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'block'}`}
-      >
-        <NoteHeader />
-      </div>
+          <SecondarySidebar darkMode={darkMode} />
+        </div>
+        <div
+          className={`flex-col flex flex-1 h-screen`}
+        >
+          <NoteHeader />
           {children}
         </div>
       </div>

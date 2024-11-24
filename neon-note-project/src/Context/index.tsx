@@ -27,7 +27,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const { setSelectedFolderId } = useSecondarySidebar();
 
   function handleItemClick(name: string) {
-    setSelectedFolderId(name === 'Todas as anotações' ? 1 : null);
+    setSelectedFolderId(name === 'Todas as anotações' ? 1 : name);
     console.log(name);
     setSelectedItem(name);
   }
@@ -41,8 +41,6 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   if (loading) {
     return <Loader />;
   }
-
-  /* const installPrompt = usePWA(); */
 
   return (
     <ParamsProvider.Provider

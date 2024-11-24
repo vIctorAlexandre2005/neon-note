@@ -1,4 +1,4 @@
-import { NoteMain } from './NoteMain';
+import { NoteMain } from './InputsNote/NoteMain';
 import { useTheme } from '../../ThemeDark';
 import { useEffect, useState } from 'react';
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
@@ -10,7 +10,7 @@ import { DrawerComponent } from '../../Modals/Drawer/DrawerModal';
 import { collection, doc, updateDoc } from 'firebase/firestore';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
-import { SidebarNote } from './SidebarNote';
+import { SidebarNote } from './SidebarNote/SidebarNote';
 
 export function NeonNote() {
   const {
@@ -106,7 +106,7 @@ export function NeonNote() {
           <SidebarNote />
         </div>
 
-        <div className='xs:hidden w-full md:block md:flex-1'>
+        <div className='xs:hidden w-full h-full md:block md:flex-1'>
           {activeNote ? (
             <NoteMain />
           ) : (
@@ -119,7 +119,7 @@ export function NeonNote() {
                 width={300}
               />
               <h3
-                className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+                className={`${darkMode ? 'text-gray-300' : 'text-black-700'} text-xl mt-5`}
               >
                 Lembre-se das coisas mais importantes
               </h3>
@@ -150,7 +150,7 @@ export function NeonNote() {
 
   if(isMobile) {
     return (
-      <div className='flex h-full pl-4 pt-2 gap-4'>
+      <div className='flex h-full xs:pt-0 md:pt-2 xs:pl-0 md:pl-4 gap-4'>
         <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
           <SidebarNote />
         </div>

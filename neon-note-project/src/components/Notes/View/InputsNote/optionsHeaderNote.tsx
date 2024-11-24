@@ -60,7 +60,7 @@ export function OptionsHeaderNote({
 
         <ButtonComponent
           onClick={() => blockNote(activeNoteId.id)}
-          className={`${darkMode ? 'text-white' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+          className={`${darkMode ? 'text-white' : 'text-black-800'}`}
           text={isBlockEdited ? 'Bloqueado' : 'Desbloqueado'}
           icon={
             isBlockEdited ? <TbLock size={24} /> : <TbLockOpen2 size={24} />

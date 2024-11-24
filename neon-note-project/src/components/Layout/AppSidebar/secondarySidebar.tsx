@@ -32,19 +32,19 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   const {
     folders,
-    openSubFolder,
-    setOpenSubFolder,
+    // openSubFolder,
+    // setOpenSubFolder,
     newFolderName,
     setNewFolderName,
     handleAddFolder,
-    handleAddItem,
-    newItemName,
-    openSubFolders,
+    // handleAddItem,
+    // newItemName,
+    // openSubFolders,
     selectedFolderId,
     setSelectedFolderId,
-    setNewItemName,
+    // setNewItemName,
     deleteFolder,
-    handleDeleteItem,
+    // handleDeleteItem,
   } = useSecondarySidebar();
 
   const { handleItemClick, selectedItem } = useContextGlobal();
@@ -56,12 +56,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
   } = useDisclosure();
 
   const {
-    isOpen: isOpenAddItem,
-    onOpen: onOpenAddItem,
-    onClose: onCloseAddItem,
-  } = useDisclosure();
-
-  const {
     isOpen: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
@@ -69,7 +63,7 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
 
   return (
     <div
-      className={`flex-none w-full h-full ${darkMode ? 'bg-slate-900' : 'bg-slate-50'}`}
+      className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
       <div className={`flex-col mt-6 gap-4 flex`}>
         <div className='flex justify-between p-2 items-center'>
@@ -90,7 +84,16 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
             }}
           >
             <div
-              className={`flex ${selectedItem === 'Todas as anotações' ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} items-center p-2 rounded w-auto`}
+              className={`flex cursor-pointer
+                ${
+                  selectedItem === 'Todas as anotações' && darkMode
+                    ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
+                    : selectedItem === 'Todas as anotações' && !darkMode
+                      ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
+                      : darkMode
+                        ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
+                        : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
+                }  items-center p-2 rounded w-auto`}
             >
               <HiDocumentText size={24} />
               <h1 className={`text-md font-bold`}>Todas as anotações</h1>
@@ -107,24 +110,27 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                   }}
                 >
                   <div
-                    className={`flex gap-2 ${selectedFolderId === folder.id ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded p-1 w-full`}
-                    onClick={() => openSubFolders(folder.id)}
+                    className={`
+                      flex gap-2 items-center justify-between cursor-pointer
+                      ${
+                        selectedFolderId === folder.id && darkMode
+                          ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
+                          : selectedFolderId === folder.id && !darkMode
+                            ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
+                            : darkMode
+                              ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
+                              : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
+                      } 
+                      rounded p-1 w-full
+                    `}
+                    onClick={() => {
+                      handleItemClick(folder.name);
+                    }}
                   >
-                    {openSubFolder !== folder.id ? (
-                      <IoIosArrowForward />
-                    ) : (
-                      <IoIosArrowDown />
-                    )}
-                    <FaFolder size={18} />
-                    <h1 className={`text-md font-bold`}>{folder.name}</h1>
-                  </div>
-                  <div className='flex -z-0 items-center justify-between'>
-                    <ButtonComponent
-                      onClick={onOpenAddItem}
-                      icon={<BiPlus size={18} />}
-                      className={`hover:bg-neon-400 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                    />
-
+                    <div className='flex gap-2 items-center'>
+                      <FaFolder size={18} />
+                      <h1 className={`text-md font-bold`}>{folder.name}</h1>
+                    </div>
                     <ButtonComponent
                       onClick={onOpenDeleteFolder}
                       icon={<BsTrash size={18} />}
@@ -132,30 +138,6 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
                     />
                   </div>
                 </div>
-
-                {openSubFolder && folder.id === selectedFolderId && (
-                  <div className='flex w-full flex-col gap-2 p-2'>
-                    {folder.items.map((item, index) => (
-                      <FadeIn>
-                        <div className={`text-md flex justify-center items-center text-center font-semibold ${selectedItem === item ? 'bg-neon-300 text-neon-500 text-opacity-80 bg-opacity-70' : darkMode ? 'text-black-200' : 'text-black-700'} rounded-lg p-1`} onClick={() => handleItemClick(item)}>
-                          <h1
-                            
-                          >
-                            {item}
-                          </h1>
-                          <div className='flex justify-end w-full items-center'>
-                          <ButtonComponent
-                            onClick={() => handleDeleteItem(folder.id, item)}
-                            icon={<BsTrash size={18} />}
-                            className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                          />
-                        </div>
-                        </div>
-                        
-                      </FadeIn>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
         </div>
@@ -171,20 +153,9 @@ export function SecondarySidebar({ darkMode }: SidebarProps) {
         />
       )}
 
-      {isOpenAddItem && (
-        <AddFolderItemModal
-          darkMode={darkMode}
-          handleAddItem={handleAddItem}
-          isOpenAddItem={isOpenAddItem}
-          newItemName={newItemName}
-          onCloseAddItem={onCloseAddItem}
-          setNewItemName={setNewItemName}
-        />
-      )}
-
       {isOpenDeleteFolder && (
         <DeleteFolderModal
-          selectedFolderId={selectedFolderId}
+          selectedFolderId={selectedFolderId as number}
           isOpenDeleteFolder={isOpenDeleteFolder}
           deleteFolder={deleteFolder}
           onCloseDeleteFolder={onCloseDeleteFolder}
