@@ -1,5 +1,8 @@
 import { ButtonComponent } from '@/components/common/Button';
+import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { useTheme } from '@/components/ThemeDark';
+import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useDisclosure } from '@chakra-ui/react';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
 
@@ -8,16 +11,24 @@ interface ListFoldersProps {
     handleItemClick: (item: string) => void;
     selectedFolderId: number | null | string;
     folder: any;
-    onOpenDeleteFolder: () => void;
+    onClose: () => void;
 }
 export function ListFolders({
     setSelectedFolderId,
     handleItemClick,
     selectedFolderId,
     folder,
-    onOpenDeleteFolder,
+    onClose,
 }: ListFoldersProps) {
   const { darkMode } = useTheme();
+
+  const {
+    isOpen: isOpenDeleteFolder,
+    onOpen: onOpenDeleteFolder,
+    onClose: onCloseDeleteFolder,
+  } = useDisclosure();
+
+  const { deleteFolder } = useSecondarySidebar();
 
   return (
     <div className='flex flex-col'>
@@ -43,6 +54,7 @@ export function ListFolders({
                   `}
           onClick={() => {
             handleItemClick(folder.name);
+            onClose();
           }}
         >
           <div className='flex gap-2 items-center'>
@@ -56,6 +68,15 @@ export function ListFolders({
           />
         </div>
       </div>
+
+      {isOpenDeleteFolder && (
+        <DeleteFolderModal
+          selectedFolderId={selectedFolderId as number}
+          isOpenDeleteFolder={isOpenDeleteFolder}
+          deleteFolder={deleteFolder}
+          onCloseDeleteFolder={onCloseDeleteFolder}
+        />
+      )}
     </div>
   );
 }

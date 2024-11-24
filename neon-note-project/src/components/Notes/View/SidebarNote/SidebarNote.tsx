@@ -48,7 +48,7 @@ export function SidebarNote() {
     moveNote,
   } = useSidebarNote();
 
-  const { folders, selectedFolderId, setSelectedFolderId } =
+  const { folders, selectedFolderId, setSelectedFolderId, newFolderName, handleAddFolder, setNewFolderName } =
     useSecondarySidebar();
 
   const handleSelectNote = (note: any) => {
@@ -66,12 +66,6 @@ export function SidebarNote() {
     isOpen: isOpenModal,
     onOpen: onOpenModal,
     onClose: onCloseModal,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenDeleteFolder,
-    onOpen: onOpenDeleteFolder,
-    onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
   function handleAddNote(itemId: string) {
@@ -106,7 +100,7 @@ export function SidebarNote() {
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full rounded-xl p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full xs:rounded-none md:rounded-xl p-2`}
     >
       <div className='flex justify-between items-center'>
         <h1
@@ -141,7 +135,7 @@ export function SidebarNote() {
                 ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'}
             `}
           />
-          <div className='xs:hidden md:flex'>
+          <div className=''>
             <ButtonComponent
               onClick={() => handleAddNote(selectedItem as string)}
               isLoading={loading}
@@ -190,12 +184,14 @@ export function SidebarNote() {
         <DrawerSidebarNote
           folders={folders}
           onCloseModal={onCloseModal}
-          onOpenDeleteFolder={onOpenDeleteFolder}
           selectedFolderId={selectedFolderId}
           selectedItem={selectedItem}
           setSelectedFolderId={setSelectedFolderId}
           handleItemClick={handleItemClick}
           isOpenModal={isOpenModal}
+          handleAddFolder={handleAddFolder}
+          newFolderName={newFolderName}
+          setNewFolderName={setNewFolderName}
         />
       )}
     </div>

@@ -42,8 +42,6 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
     return <Loader />;
   }
 
-  /* const installPrompt = usePWA(); */
-
   return (
     <ParamsProvider.Provider
       value={{

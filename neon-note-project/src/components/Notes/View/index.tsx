@@ -150,7 +150,7 @@ export function NeonNote() {
 
   if(isMobile) {
     return (
-      <div className='flex h-full pl-4 pt-2 gap-4'>
+      <div className='flex h-full xs:pt-0 md:pt-2 xs:pl-0 md:pl-4 gap-4'>
         <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
           <SidebarNote />
         </div>
