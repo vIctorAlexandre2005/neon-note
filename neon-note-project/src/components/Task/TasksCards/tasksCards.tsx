@@ -81,7 +81,13 @@ export function CardTasks({
               </div>
 
               <div>
-                <Progress value={5} borderRadius={'full'} size='xs' colorScheme='orange' max={10} />
+                <Progress
+                  value={5}
+                  borderRadius={'full'}
+                  size='xs'
+                  colorScheme='orange'
+                  max={10}
+                />
               </div>
             </div>
             <div className='mt-4 flex justify-end'>
