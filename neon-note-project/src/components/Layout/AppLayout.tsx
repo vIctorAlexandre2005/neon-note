@@ -22,8 +22,6 @@ export default function Layout({ children }: LayoutProps) {
     return <Loader />;
   }
 
-  
-
   if (!user && router.pathname !== '/login') {
     router.push('/login');
     return null;
@@ -48,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <div
-          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : 'sidebar xs:hidden tabletLandscape:flex flex-none tabletLandscape:w-72'}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : `sidebar xs:hidden tabletLandscape:flex flex-none ${router.pathname === '/tasks' ? 'tabletLandscape:w-56' : 'w-72'}`}`}
         >
           <SecondarySidebar darkMode={darkMode} />
         </div>
