@@ -6,13 +6,13 @@ import { useDrag, useDrop } from 'react-dnd';
 import { BsListTask } from 'react-icons/bs';
 
 interface Props {
-  activeNote: any;
-  handleSelectNote: (note: any) => void;
-  onOpen: () => void;
   darkMode: boolean;
   moveNote: (fromIndex: any, toIndex: any) => void;
   note: any;
   index: any;
+  colorProgressStatusBar: string;
+  numberTasksStatusDone: number;
+  numberTasksStatus: number;
 }
 
 const ItemType = {
@@ -20,13 +20,13 @@ const ItemType = {
 };
 
 export function CardTasks({
-  activeNote,
-  handleSelectNote,
-  onOpen,
   darkMode,
   moveNote,
   note,
   index,
+  colorProgressStatusBar,
+  numberTasksStatusDone,
+  numberTasksStatus
 }: Props) {
   const [, ref] = useDrag({
     type: ItemType.NOTE,
@@ -53,12 +53,8 @@ export function CardTasks({
                 ref(drop(node));
               }
             }}
-            onClick={() => {
-              handleSelectNote(note);
-              onOpen();
-            }}
             className={`
-                  ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-white border border-gray-300'} w-full rounded-xl p-2 cursor-pointer
+                  ${darkMode ? 'bg-neon-800' : 'bg-white border border-gray-300'} w-full rounded-xl p-2 cursor-pointer
                 `}
           >
             <h2
@@ -81,13 +77,7 @@ export function CardTasks({
               </div>
 
               <div>
-                <Progress
-                  value={5}
-                  borderRadius={'full'}
-                  size='xs'
-                  colorScheme='orange'
-                  max={10}
-                />
+                <Progress value={numberTasksStatusDone} borderRadius={'full'} size='xs' colorScheme={colorProgressStatusBar} max={numberTasksStatus} />
               </div>
             </div>
             <div className='mt-4 flex justify-end'>

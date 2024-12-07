@@ -61,39 +61,13 @@ export function SidebarTasks() {
           />
         </div>
 
-        {/* <div className='flex flex-col gap-1'>
-          <div
-            className='w-full mb-4 pl-4 flex justify-between items-center'
-            onClick={() => {
-              setSelectedFolderId(1);
-              handleItemClick('Todas as anotações');
-            }}
-          >
-            <div
-              className={`flex cursor-pointer
-                ${
-                  selectedItem === 'Todas as anotações' && darkMode
-                    ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                    : selectedItem === 'Todas as anotações' && !darkMode
-                      ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                      : darkMode
-                        ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                        : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                }  items-center p-2 rounded w-auto`}
-            >
-              <HiDocumentText size={24} />
-              <h1 className={`text-md font-bold`}>Todas as anotações</h1>
-            </div>
-          </div>
+        <div className='flex flex-col gap-1'>
 
           {folders.length > 0 &&
             folders.map(folder => (
               <div className='flex flex-col pl-4'>
                 <div
                   className='w-full mb-2 flex justify-between items-center'
-                  onClick={() => {
-                    setSelectedFolderId(folder.id);
-                  }}
                 >
                   <div
                     className={`
@@ -109,9 +83,6 @@ export function SidebarTasks() {
                       } 
                       rounded p-1 w-full
                     `}
-                    onClick={() => {
-                      handleItemClick(folder.name);
-                    }}
                   >
                     <div className='flex gap-2 items-center'>
                       <FaFolder size={18} />
@@ -126,7 +97,7 @@ export function SidebarTasks() {
                 </div>
               </div>
             ))}
-        </div> */}
+        </div>
       </div>
       {isOpenAddFolder && (
         <AddFolderModal
