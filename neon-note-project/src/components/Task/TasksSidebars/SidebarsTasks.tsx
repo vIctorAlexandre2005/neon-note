@@ -10,7 +10,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BiPlus } from 'react-icons/bi';
 import { IoFolderOpenSharp } from 'react-icons/io5';
-import { ClipLoader, PulseLoader } from 'react-spinners';
+import { ClipLoader, PuffLoader, PulseLoader } from 'react-spinners';
 import { RiProgress3Line } from 'react-icons/ri';
 import { CardTasks } from '../TasksCards/tasksCards';
 
@@ -98,12 +98,12 @@ export function SidebarTasks() {
     >
       <div className='flex gap-2 items-center'>
         <h1
-          className={`text-lg mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
+          className={`text-lg mt-2 animate-flute ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
         >
           Em progresso (8)
         </h1>
         <div className='p-2 flex bg-orange-500 bg-opacity-20 rounded-full'>
-          <RiProgress3Line size={18} color='orange' />
+          <PuffLoader size={20} color='orange' />
         </div>
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-170px)]'>
@@ -116,14 +116,13 @@ export function SidebarTasks() {
           <DndProvider backend={HTML5Backend}>
             {noteList?.map((note: any, index: number) => (
               <CardTasks
-                activeNote={activeNote}
-                key={index}
-                note={note}
-                handleSelectNote={handleSelectNote}
-                onOpen={onOpen}
-                darkMode={darkMode}
                 moveNote={moveNote}
+                note={note}
+                darkMode={darkMode}
                 index={index}
+                colorProgressStatusBar=''
+                numberTasksStatus={0}
+                numberTasksStatusDone={0}  
               />
             ))}
           </DndProvider>

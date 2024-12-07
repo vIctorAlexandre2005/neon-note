@@ -17,7 +17,7 @@ const config: Config = {
       keyframes: {
         flute: {
           '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-20px)' }, // Altere o valor conforme necessário para ajustar o movimento
+          '50%': { transform: 'translateY(-10px)' }, // Altere o valor conforme necessário para ajustar o movimento
         },
       },
       fontFamily: {
