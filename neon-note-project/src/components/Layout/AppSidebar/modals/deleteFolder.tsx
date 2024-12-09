@@ -5,8 +5,8 @@ import { successToast } from '@/utils/toasts/toasts';
 interface Props {
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
-  deleteFolder: (id: number) => void;
-  selectedFolderId: number | null;
+  deleteFolder: (id: string) => void;
+  selectedFolderId: string;
 }
 
 export function DeleteFolderModal({
@@ -16,6 +16,8 @@ export function DeleteFolderModal({
   selectedFolderId
 }: Props) {
   const { darkMode } = useTheme();
+
+  console.log("deleteFolder:", selectedFolderId)
 
   return (
     <ModalComponent isOpen={isOpenDeleteFolder} onClose={onCloseDeleteFolder}>
@@ -29,7 +31,7 @@ export function DeleteFolderModal({
           <button
             className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
             onClick={() => {
-                deleteFolder(selectedFolderId as number);
+                deleteFolder(selectedFolderId);
                 onCloseDeleteFolder();
                 successToast('Pasta excluída com sucesso!');
             }}

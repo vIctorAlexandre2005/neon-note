@@ -12,7 +12,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 /* import { usePWA } from "@/utils/usePWA"; */
 import { ContextData, defaultValueContextData } from '@/Interface/ContextData';
 import { Loader } from '@/components/common/Loader';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
@@ -24,7 +24,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
 
   const [selectedItem, setSelectedItem] = useState<string | null>('Todas as anotações');
 
-  const { setSelectedFolderId } = useSecondarySidebar();
+  const { setSelectedFolderId } = useSecondarySidebarHome();
 
   function handleItemClick(name: string) {
     setSelectedFolderId(name === 'Todas as anotações' ? 1 : name);

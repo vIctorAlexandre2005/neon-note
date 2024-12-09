@@ -7,14 +7,14 @@ interface Folder {
   name: string;
 }
 
-export function useSecondarySidebar() {
+export function useSecondarySidebarTask() {
   const [openSubFolder, setOpenSubFolder] = useState<null | number>(null);
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
   // const [newItemName, setNewItemName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
-  const {selectedItem, setSelectedItem } = useContextGlobal();
+  const {selectedItem, setSelectedItem, user } = useContextGlobal();
 
   const handleAddFolder = () => {
 

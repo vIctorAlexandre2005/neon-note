@@ -3,7 +3,7 @@ import { CardNotes } from '@/components/Notes/View/SidebarNote/cardNotes';
 import { useSidebarNote } from '@/components/Notes/ViewModel/useSidebarNote';
 import { useTheme } from '@/components/ThemeDark';
 import { useContextGlobal } from '@/Context';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { useDisclosure } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
@@ -43,7 +43,7 @@ export function SidebarTasks() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebar();
+  } = useSecondarySidebarHome();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);

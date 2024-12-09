@@ -1,7 +1,6 @@
 import { ButtonComponent } from "@/components/common/Button";
 import { useTheme } from "@/components/ThemeDark";
 import { useContextGlobal } from "@/Context";
-import { useSecondarySidebar } from "@/hooks/useSecondarySidebar";
 import { useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { BsTrash } from "react-icons/bs";
@@ -10,6 +9,7 @@ import { HiDocumentText } from "react-icons/hi2";
 import { AddFolderModal } from "../modals/addFolter";
 import { DeleteFolderModal } from "../modals/deleteFolder";
 import { IoAdd } from "react-icons/io5";
+import { useSecondarySidebarTask } from "@/hooks/useSecondarySidebar/sidebarTask";
 
 export function SidebarTasks() {
     const router = useRouter();
@@ -31,7 +31,7 @@ export function SidebarTasks() {
     // setNewItemName,
     deleteFolder,
     // handleDeleteItem,
-  } = useSecondarySidebar();
+  } = useSecondarySidebarTask();
 
   const { handleItemClick, selectedItem } = useContextGlobal();
 

@@ -8,7 +8,7 @@ import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSidebarNote } from '../../ViewModel/useSidebarNote';
@@ -55,7 +55,7 @@ export function SidebarNote() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebar();
+  } = useSecondarySidebarHome();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);

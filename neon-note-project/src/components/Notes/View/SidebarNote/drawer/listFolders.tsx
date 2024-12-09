@@ -1,7 +1,7 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { useTheme } from '@/components/ThemeDark';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { useDisclosure } from '@chakra-ui/react';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
@@ -28,7 +28,7 @@ export function ListFolders({
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
-  const { deleteFolder } = useSecondarySidebar();
+  const { deleteFolder } = useSecondarySidebarHome();
 
   return (
     <div className='flex flex-col'>
