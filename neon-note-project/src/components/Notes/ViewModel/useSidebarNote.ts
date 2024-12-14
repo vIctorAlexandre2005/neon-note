@@ -20,7 +20,7 @@ export function useSidebarNote() {
     setFilteredNotes,
   } = useContextNoteData();
 
-  const { user, selectedItem } = useContextGlobal();
+  const { user, selectedItem, selectedFolderId, setSelectedFolderId } = useContextGlobal();
   const [searchNotes, setSearchNotes] = useState('');
 
   function notesWithId(array: any[], search: string, folderId?: string) {
@@ -28,7 +28,7 @@ export function useSidebarNote() {
       .filter(note => {
         console.log(note)
         const matchesSearch =
-          note.folderId = note.folderId === selectedItem && 
+          note.folderId = note.folderId === selectedItem &&
           note.title.toLowerCase().includes(search.toLowerCase()) ||
           note.text.toLowerCase().includes(search.toLowerCase());
         const matchesFolder = note.folderId === folderId;
@@ -36,11 +36,11 @@ export function useSidebarNote() {
       })
       .sort((a, b) => {
         const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
-  
+
         if (dateComparison === 0) {
           return a.position - b.position;
         };
-  
+
         return dateComparison;
       });
   };
@@ -54,15 +54,15 @@ export function useSidebarNote() {
       )
       .sort((a, b) => {
         const dateComparison = new Date(b.date).getTime() - new Date(a.date).getTime();
-  
+
         if (dateComparison === 0) {
           return a.position - b.position;
         };
-  
+
         return dateComparison;
       });
   };
-  
+
 
   function moveNote(fromIndex: any, toIndex: any) {
     const updatedNotes = Array.from(noteList);
@@ -83,23 +83,23 @@ export function useSidebarNote() {
     } else {
 
       const filtered =
-        selectedItem === 'Todas as anotações'
+        selectedFolderId === 1
           ? allNotes(noteList, searchNotes)
           : notesWithId(noteList, searchNotes, selectedItem as string);
 
-          const arrayId = notesWithId(noteList, searchNotes, selectedItem as string);
-          const arrayAll = allNotes(noteList, searchNotes);
+      const arrayId = notesWithId(noteList, searchNotes, selectedItem as string);
+      const arrayAll = allNotes(noteList, searchNotes);
 
-          console.log('arrayId', arrayId);
-          console.log('arrayAll', arrayAll);
-  
+      console.log('arrayId', arrayId);
+      console.log('arrayAll', arrayAll);
+
       setNoteList(filtered);
     }
-    
-      // Seleciona todas as notas ou as notas com o folderId específico
-      
-    
-  }, [ searchNotes, selectedItem]);
+
+    // Seleciona todas as notas ou as notas com o folderId específico
+
+
+  }, [searchNotes, selectedItem]);
 
   return {
     addNote,

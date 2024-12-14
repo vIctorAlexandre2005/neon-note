@@ -166,9 +166,9 @@ export function SidebarNote() {
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
           Total de anotações:{' '}
-          {selectedItem === 'Todas as anotações'
+          {selectedFolderId === 1
             ? noteList?.length
-            : noteList?.filter(note => note.itemId === selectedItem).length}
+            : noteList?.filter(note => note.itemId === selectedFolderId).length}
         </p>
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>
