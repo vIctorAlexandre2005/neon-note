@@ -58,7 +58,7 @@ export function SidebarHome() {
           />
         </div>
 
-        <div className='flex flex-col gap-1'>
+        <div className='flex flex-col gap-1 p-2'>
           {folders.length > 0 ?
             folders.map((folder, idx) => (
               <Fragment key={idx}>
