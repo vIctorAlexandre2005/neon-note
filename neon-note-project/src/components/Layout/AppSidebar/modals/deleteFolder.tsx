@@ -6,7 +6,7 @@ interface Props {
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
   deleteFolder: (id: string) => void;
-  selectedFolderId: string;
+  selectedFolderId: string | number;
 }
 
 export function DeleteFolderModal({
@@ -31,7 +31,7 @@ export function DeleteFolderModal({
           <button
             className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
             onClick={() => {
-                deleteFolder(selectedFolderId);
+                deleteFolder(selectedFolderId as string);
                 onCloseDeleteFolder();
                 successToast('Pasta excluída com sucesso!');
             }}

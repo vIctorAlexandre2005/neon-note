@@ -114,7 +114,7 @@ export function SidebarTasks() {
         <DeleteFolderModal
           selectedFolderId={selectedFolderId as number}
           isOpenDeleteFolder={isOpenDeleteFolder}
-          deleteFolder={deleteFolder}
+          deleteFolder={deleteFolder as any}
           onCloseDeleteFolder={onCloseDeleteFolder}
         />
       )}

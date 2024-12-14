@@ -1,4 +1,5 @@
 import { useContextGlobal } from '@/Context';
+import { useContextNoteData } from '@/Context/NoteContext';
 import { db } from '@/services/firebase';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
@@ -14,10 +15,8 @@ interface Folder {
 export function useSecondarySidebarHome() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
-  // const [newItemName, setNewItemName] = useState('');
-  const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
-  const { selectedItem, setSelectedItem, user } = useContextGlobal();
+  const { selectedItem, setSelectedItem, user, handleItemClick, selectedFolderId, setSelectedFolderId } = useContextGlobal();
 
   async function handleAddFolder() {
     const folderExist = folders.some(folder => folder.name === newFolderName);
@@ -38,6 +37,7 @@ export function useSecondarySidebarHome() {
 
       setNewFolderName('');
       setFolders(updatedFolders);
+      setSelectedFolderId(docRef.id);
 
       // Salva toda a estrutura atualizada no localStorage
       if (typeof window !== 'undefined') {
@@ -71,7 +71,7 @@ export function useSecondarySidebarHome() {
       }
   
       // Limpa a pasta selecionada, se for a excluída
-      setSelectedFolderId(prevId => (prevId === id ? null : prevId));
+      setSelectedFolderId((prevId: any) => (prevId === id ? null : prevId));
     } catch (error) {
       errorToast('Erro ao deletar a pasta');
       console.error('Erro ao deletar a pasta:', error);
@@ -127,5 +127,7 @@ export function useSecondarySidebarHome() {
     // setNewItemName,
     deleteFolder,
     // handleDeleteItem
+    handleItemClick,
+    selectedItem
   }
 }

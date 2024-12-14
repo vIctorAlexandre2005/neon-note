@@ -22,19 +22,18 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const [selectedItem, setSelectedItem] = useState<string | null>('Todas as anotações');
+  const [selectedItem, setSelectedItem] = useState<string | null>('');
+  const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
-  const { setSelectedFolderId } = useSecondarySidebarHome();
-
-  function handleItemClick(name: string) {
-    setSelectedFolderId(name === 'Todas as anotações' ? 1 : name);
-    console.log(name);
-    setSelectedItem(name);
-  }
+  function handleItemClick(id: number, nameFolder: string) {
+    console.log(id, nameFolder);
+    setSelectedItem(id === 1 ? 'Todas as anotações' : nameFolder);
+    setSelectedFolderId(id);
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth <= 768);
     }
   }, [isMobile]);
 
@@ -52,6 +51,8 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         selectedItem,
         handleItemClick,
         setSelectedItem,
+        selectedFolderId,
+        setSelectedFolderId
       }}
     >
       {children}

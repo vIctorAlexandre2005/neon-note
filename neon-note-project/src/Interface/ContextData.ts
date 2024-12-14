@@ -8,7 +8,9 @@ export interface ContextData {
   loading: boolean;
   selectedItem: string | null;
   setSelectedItem: Dispatch<SetStateAction<string | null>>;
-  handleItemClick: (name: string) => void;
+  handleItemClick: (id: number, nameFolder: string) => void;
+  selectedFolderId: number | null | string;
+  setSelectedFolderId: (folderId: string | number | null | any) => void;
 }
 
 export const defaultValueContextData: ContextData = {
@@ -20,4 +22,6 @@ export const defaultValueContextData: ContextData = {
     console.log(name);
   },
   setSelectedItem: () => {},
+  selectedFolderId: null,
+  setSelectedFolderId: () => {}
 };

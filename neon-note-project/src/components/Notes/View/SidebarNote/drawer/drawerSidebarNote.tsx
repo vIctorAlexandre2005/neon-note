@@ -13,7 +13,7 @@ import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteF
 interface DrawerSidebarNoteProps {
   isOpenModal: boolean;
   onCloseModal: () => void;
-  handleItemClick: (item: string) => void;
+  handleItemClick: (item: number, name: string) => void;
   selectedItem: string | null;
   setSelectedFolderId: (folderId: number) => void;
   folders: any[];
@@ -67,7 +67,6 @@ export function DrawerSidebarNote({
         className='w-full mb-2 flex justify-between items-center'
         onClick={() => {
           setSelectedFolderId(1);
-          handleItemClick('Todas as anotações');
           onCloseModal();
         }}
       >

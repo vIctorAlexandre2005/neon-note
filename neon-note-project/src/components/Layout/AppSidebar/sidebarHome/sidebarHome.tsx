@@ -31,11 +31,12 @@ export function SidebarHome() {
     // setNewItemName,
     deleteFolder,
     // handleDeleteItem,
+    handleItemClick,
+    selectedItem
   } = useSecondarySidebarHome();
 
-  console.log("pastas:", folders)
-
-  const { handleItemClick, selectedItem } = useContextGlobal();
+  
+  console.log(selectedFolderId, selectedItem);
 
   const {
     isOpen: isOpenAddFolder,
@@ -66,10 +67,7 @@ export function SidebarHome() {
         <div className='flex flex-col gap-1'>
           <div
             className='w-full mb-4 pl-4 flex justify-between items-center'
-            onClick={() => {
-              setSelectedFolderId(1);
-              handleItemClick('Todas as anotações');
-            }}
+            onClick={() => handleItemClick(1, 'Todas as anotações')}
           >
             <div
               className={`flex cursor-pointer
@@ -93,10 +91,7 @@ export function SidebarHome() {
                 <div className='flex flex-col pl-4'>
                   <div
                     className='w-full mb-2 flex justify-between items-center'
-                    onClick={() => {
-                      setSelectedFolderId(folder.id);
-                      handleItemClick(folder.name);
-                    }}
+                    onClick={() => handleItemClick(folder.id, folder.name)}
                   >
                     <div
                       className={`

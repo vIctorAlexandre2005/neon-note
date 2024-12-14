@@ -124,7 +124,7 @@ export function SidebarNote() {
             className='bg-neon-400 hover:bg-neon-500 rounded-full'
           />
           <ButtonComponent
-            onClick={() => handleAddNote(selectedItem as string)}
+            onClick={() => handleAddNote(selectedFolderId as string)}
             isLoading={loading}
             icon={<BiPlus color='white' size={24} />}
             loader={<ClipLoader color='white' size={24} />}

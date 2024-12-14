@@ -31,6 +31,7 @@ export interface NoteContextData {
   blockNote: (id: number) => void;
   filteredNotes: any[];
   setFilteredNotes: Dispatch<SetStateAction<any[]>>;
+
 }
 
 export const defaultValueNoteContextData: NoteContextData = {
