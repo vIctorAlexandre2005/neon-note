@@ -85,7 +85,7 @@ export function useSidebarNote() {
       const filtered =
         selectedFolderId === 1
           ? allNotes(noteList, searchNotes)
-          : notesWithId(noteList, searchNotes, selectedItem as string);
+          : notesWithId(noteList, searchNotes, selectedFolderId as string);
 
       const arrayId = notesWithId(noteList, searchNotes, selectedItem as string);
       const arrayAll = allNotes(noteList, searchNotes);

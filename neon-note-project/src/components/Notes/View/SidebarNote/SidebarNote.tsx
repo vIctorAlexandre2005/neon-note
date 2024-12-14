@@ -121,7 +121,7 @@ export function SidebarNote() {
             }}
             isLoading={loading}
             icon={<IoFolderOpenSharp color='white' size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 rounded-full'
+            className='bg-neon-400 hover:bg-neon-500 rounded-full xs:flex md:hidden'
           />
           <ButtonComponent
             onClick={() => handleAddNote(selectedFolderId as string)}
@@ -168,7 +168,7 @@ export function SidebarNote() {
           Total de anotações:{' '}
           {selectedFolderId === 1
             ? noteList?.length
-            : noteList?.filter(note => note.itemId === selectedFolderId).length}
+            : noteList?.filter(note => note.itemId === selectedFolderId)?.length}
         </p>
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>

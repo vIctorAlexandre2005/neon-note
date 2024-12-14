@@ -24,6 +24,7 @@ import { useContextGlobal } from '..';
 import 'firebase/compat/auth';
 import { getAuth } from 'firebase/auth';
 import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
+import { errorToast } from '@/utils/toasts/toasts';
 
 const NoteProvider = createContext<NoteContextData>(
   defaultValueNoteContextData
@@ -53,10 +54,6 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
   } = useContextGlobal();
 
   async function addNote(note: any) {
-    if (!user || !user.uid) {
-      alert('Usuário nao autenticado.');
-      return;
-    };
   
     const newNote = {
       ...note,
@@ -64,11 +61,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
       userId: user.uid,
       folderId: selectedItem,
     };
-  
+    
     try {
       setLoading(true);
       const docRef = await addDoc(collection(db, `users/${user.uid}/folders/${selectedFolderId}/notes`), newNote);
-      console.log('Nota adicionada ao Firestore:', selectedFolderId);
       const updatedNote = { id: docRef.id, ...newNote };
       setNoteList(prev => [updatedNote, ...prev]);
       setActiveNote(docRef.id);
@@ -76,7 +72,7 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
       console.error('Erro ao adicionar a nota ao Firestore:', e);
     } finally {
       setLoading(false);
-    }
+    };
   };
 
   function selectNote(noteId: number) {
