@@ -13,17 +13,23 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { ContextData, defaultValueContextData } from '@/Interface/ContextData';
 import { Loader } from '@/components/common/Loader';
 import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
+import { useDisclosure } from '@chakra-ui/react';
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
 const ParamsContext = ({ children }: { children: ReactNode }) => {
   const [user, loading] = useAuthState(auth);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
   const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const [selectedItem, setSelectedItem] = useState<string | null>('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
+
+  const {
+    isOpen: isOpenModal,
+    onOpen: onOpenModal,
+    onClose: onCloseModal,
+  } = useDisclosure();
 
   function handleItemClick(id: number, nameFolder: string) {
     console.log(id, nameFolder);
@@ -52,7 +58,10 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         handleItemClick,
         setSelectedItem,
         selectedFolderId,
-        setSelectedFolderId
+        setSelectedFolderId,
+        isOpenModal,
+        onOpenModal,
+        onCloseModal,
       }}
     >
       {children}

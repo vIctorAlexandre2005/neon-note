@@ -13,7 +13,7 @@ interface ListFoldersProps {
   folder: any;
   onClose: () => void;
 }
-export function ListFolders({
+export function ListFoldersMobile({
   setSelectedFolderId,
   handleItemClick,
   selectedFolderId,

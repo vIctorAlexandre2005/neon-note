@@ -41,7 +41,7 @@ export function NoteHeader() {
       >
         <div>
           <h1
-            className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-black-800'}`}
+            className={`md:text-xl xs:text-sm font-bold ${darkMode ? 'text-white' : 'text-black-800'}`}
           >
             Bem vindo, {user?.displayName} 👋
           </h1>

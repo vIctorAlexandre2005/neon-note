@@ -11,7 +11,7 @@ interface PropsListFolders {
     onOpenDeleteFolder: () => void
 }
 
-export function ListFolders({
+export function ListFoldersDesktop({
     handleItemClick,
     folder,
     selectedFolderId,

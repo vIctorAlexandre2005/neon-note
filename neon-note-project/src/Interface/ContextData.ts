@@ -11,6 +11,9 @@ export interface ContextData {
   handleItemClick: (id: number, nameFolder: string) => void;
   selectedFolderId: number | null | string;
   setSelectedFolderId: (folderId: string | number | null | any) => void;
+  isOpenModal: boolean;
+  onCloseModal: () => void;
+  onOpenModal: () => void;
 }
 
 export const defaultValueContextData: ContextData = {
@@ -23,5 +26,8 @@ export const defaultValueContextData: ContextData = {
   },
   setSelectedItem: () => {},
   selectedFolderId: null,
-  setSelectedFolderId: () => {}
+  setSelectedFolderId: () => {},
+  isOpenModal: false,
+  onCloseModal: () => {},
+  onOpenModal: () => {},
 };
