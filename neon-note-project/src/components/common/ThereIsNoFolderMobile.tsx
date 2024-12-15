@@ -4,9 +4,26 @@ import { HashLoader } from 'react-spinners';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { ButtonComponent } from './Button';
 import { useContextGlobal } from '@/Context';
+import { DrawerSidebarNote } from '../Notes/View/SidebarNote/drawer/drawerSidebarNote';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 
 export function ThereIsNoFolderMobile() {
-  const { onOpenModal } = useContextNoteData();
+  const {
+    onOpenModal,
+    isOpenModal,
+    onCloseModal,
+    selectedItem,
+    handleItemClick,
+  } = useContextNoteData();
+
+  const {
+    folders,
+    selectedFolderId,
+    setSelectedFolderId,
+    newFolderName,
+    handleAddFolder,
+    setNewFolderName,
+  } = useSecondarySidebarHome();
 
   const { darkMode } = useTheme();
 
@@ -24,11 +41,26 @@ export function ThereIsNoFolderMobile() {
         <HashLoader size={24} color={darkMode ? '#042488' : '#0949ee'} />
       </div>
 
-      <ButtonComponent 
-        text='Selecione ou crie uma pasta' 
-        onClick={onOpenModal} 
+      <ButtonComponent
+        text='Selecione ou crie uma pasta'
+        onClick={onOpenModal}
         className={`mt-4 ${darkMode ? 'bg-neon-700' : 'bg-neon-400'} text-white rounded-md`}
       />
+
+      {isOpenModal && (
+        <DrawerSidebarNote
+          folders={folders}
+          onCloseModal={onCloseModal}
+          selectedFolderId={selectedFolderId}
+          selectedItem={selectedItem}
+          setSelectedFolderId={setSelectedFolderId}
+          handleItemClick={handleItemClick}
+          isOpenModal={isOpenModal}
+          handleAddFolder={handleAddFolder}
+          newFolderName={newFolderName}
+          setNewFolderName={setNewFolderName}
+        />
+      )}
     </div>
   );
 }

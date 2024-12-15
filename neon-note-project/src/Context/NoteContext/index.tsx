@@ -54,7 +54,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
   function handleItemClick(id: number, nameFolder: string) {
     console.log(id, nameFolder);
-    setSelectedItem(id === 1 ? 'Todas as anotações' : nameFolder);
+    setSelectedItem(nameFolder);
+
     setSelectedFolderId(id);
     setActiveNote(null);
   }

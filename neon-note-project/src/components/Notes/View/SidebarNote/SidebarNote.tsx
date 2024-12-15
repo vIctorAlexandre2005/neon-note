@@ -100,6 +100,8 @@ export function SidebarNote() {
     }
   }, [titleNote, textNote, activeNote, noteList]);
 
+  console.log("isOpenModal:", isOpenModal);
+
   return (
     <div
       className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full xs:rounded-none md:rounded-xl p-2`}

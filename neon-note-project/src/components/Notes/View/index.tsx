@@ -25,6 +25,8 @@ export function NeonNote() {
     textNote,
     activeNote,
     isOpen,
+    selectedFolderId,
+    setSelectedFolderId,
     onClose,
   } = useContextNoteData();
 
@@ -105,11 +107,21 @@ export function NeonNote() {
     return <ContainerSidebarAndNoteMain activeNote={activeNote} darkMode={darkMode} />
   };
 
+  useEffect(() => {
+    // Recupera o ID da pasta do localStorage
+    if (typeof window !== "undefined") {
+      const storedFolderId = localStorage.getItem("selectedFolderId");
+      if (storedFolderId) {
+        const folderId = JSON.parse(storedFolderId);
+        setSelectedFolderId(folderId);
+      }
+    }
+  }, []); // Executa apenas na montagem
+
   if(isMobile) {
     return (
-      // <div className='flex h-full xs:pt-0 md:pt-2 xs:pl-0 md:pl-4 gap-4'>
-      <div className='flex h-full justify-center gap-4'>  
-      {selectedItem ? (
+      <div className='flex h-full justify-center gap-4'>
+      {selectedFolderId ? (
           <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
           <SidebarNote />
         </div>
