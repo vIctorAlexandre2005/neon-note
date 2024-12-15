@@ -13,6 +13,7 @@ import { IoFolderOpenSharp } from 'react-icons/io5';
 import { ClipLoader, PuffLoader, PulseLoader } from 'react-spinners';
 import { RiProgress3Line } from 'react-icons/ri';
 import { CardTasks } from '../TasksCards/tasksCards';
+import { useContextNoteData } from '@/Context/NoteContext';
 
 export function SidebarTasks() {
   const { darkMode } = useTheme();
@@ -55,7 +56,7 @@ export function SidebarTasks() {
     setSearchNotes(e.target.value);
   }
 
-  const { selectedItem, handleItemClick } = useContextGlobal();
+  const { selectedItem, handleItemClick } = useContextNoteData();
   const {
     isOpen: isOpenModal,
     onOpen: onOpenModal,

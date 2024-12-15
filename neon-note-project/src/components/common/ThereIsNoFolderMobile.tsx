@@ -6,7 +6,7 @@ import { ButtonComponent } from './Button';
 import { useContextGlobal } from '@/Context';
 
 export function ThereIsNoFolderMobile() {
-  const { onOpenModal } = useContextGlobal();
+  const { onOpenModal } = useContextNoteData();
 
   const { darkMode } = useTheme();
 

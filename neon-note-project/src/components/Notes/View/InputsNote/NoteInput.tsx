@@ -27,9 +27,10 @@ export function NoteInput() {
     textNote,
     blockNote,
     isBlockEdited,
+    selectedFolderId,
   } = useContextNoteData();
 
-  const { user, selectedFolderId } = useContextGlobal();
+  const { user } = useContextGlobal();
 
   const {
     isOpen: isModalOpen,

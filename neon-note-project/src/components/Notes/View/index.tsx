@@ -35,7 +35,7 @@ export function NeonNote() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const { selectedItem } = useContextGlobal();
+  const { selectedItem } = useContextNoteData();
 
   const debouncedUpdateNote = debounce(
     async (id: string, updatedFields: any) => {

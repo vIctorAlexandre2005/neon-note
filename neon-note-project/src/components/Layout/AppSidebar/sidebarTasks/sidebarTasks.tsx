@@ -10,6 +10,7 @@ import { AddFolderModal } from "../modals/addFolter";
 import { DeleteFolderModal } from "../modals/deleteFolder";
 import { IoAdd } from "react-icons/io5";
 import { useSecondarySidebarTask } from "@/hooks/useSecondarySidebar/sidebarTask";
+import { useContextNoteData } from "@/Context/NoteContext";
 
 export function SidebarTasks() {
     const router = useRouter();
@@ -33,7 +34,7 @@ export function SidebarTasks() {
     // handleDeleteItem,
   } = useSecondarySidebarTask();
 
-  const { handleItemClick, selectedItem } = useContextGlobal();
+  const { handleItemClick, selectedItem } = useContextNoteData();
 
   const {
     isOpen: isOpenAddFolder,

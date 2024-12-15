@@ -6,28 +6,10 @@ export interface ContextData {
   /* installPrompt: InstallPromptEvent | null; */
   isMobile: boolean;
   loading: boolean;
-  selectedItem: string | null;
-  setSelectedItem: Dispatch<SetStateAction<string | null>>;
-  handleItemClick: (id: number, nameFolder: string) => void;
-  selectedFolderId: number | null | string;
-  setSelectedFolderId: (folderId: string | number | null | any) => void;
-  isOpenModal: boolean;
-  onCloseModal: () => void;
-  onOpenModal: () => void;
 }
 
 export const defaultValueContextData: ContextData = {
   user: null,
   isMobile: false,
   loading: false,
-  selectedItem: '',
-  handleItemClick(name) {
-    console.log(name);
-  },
-  setSelectedItem: () => {},
-  selectedFolderId: null,
-  setSelectedFolderId: () => {},
-  isOpenModal: false,
-  onCloseModal: () => {},
-  onOpenModal: () => {},
 };

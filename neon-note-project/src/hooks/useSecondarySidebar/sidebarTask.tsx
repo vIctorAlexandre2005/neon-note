@@ -1,4 +1,5 @@
 import { useContextGlobal } from '@/Context';
+import { useContextNoteData } from '@/Context/NoteContext';
 import { errorToast } from '@/utils/toasts/toasts';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +15,8 @@ export function useSecondarySidebarTask() {
   // const [newItemName, setNewItemName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
-  const {selectedItem, setSelectedItem, user } = useContextGlobal();
+  const { user } = useContextGlobal();
+  const {selectedItem, setSelectedItem } = useContextNoteData();
 
   const handleAddFolder = () => {
 

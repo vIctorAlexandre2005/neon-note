@@ -16,7 +16,13 @@ export function useSecondarySidebarHome() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
 
-  const { selectedItem, setSelectedItem, user, handleItemClick, selectedFolderId, setSelectedFolderId } = useContextGlobal();
+  const { user } = useContextGlobal();
+  const { 
+    selectedItem, 
+    handleItemClick, 
+    selectedFolderId, 
+    setSelectedFolderId 
+  } = useContextNoteData();
   
 
   async function handleAddFolder() {

@@ -1,4 +1,5 @@
 import { ButtonComponent } from "@/components/common/Button";
+import { useContextNoteData } from "@/Context/NoteContext";
 import { truncateText } from "@/utils/truncate";
 import { BsTrash } from "react-icons/bs";
 import { FaFolder } from "react-icons/fa";
@@ -18,6 +19,9 @@ export function ListFoldersDesktop({
     darkMode,
     onOpenDeleteFolder
 }: PropsListFolders) {
+
+    
+
     return (
         <div className='flex flex-col'>
             <div

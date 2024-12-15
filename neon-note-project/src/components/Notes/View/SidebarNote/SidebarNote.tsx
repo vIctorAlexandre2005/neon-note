@@ -67,7 +67,7 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   }
 
-  const { selectedItem, handleItemClick, isOpenModal, onOpenModal, onCloseModal } = useContextGlobal();
+  const { selectedItem, handleItemClick, isOpenModal, onOpenModal, onCloseModal } = useContextNoteData();
   
 
   function handleAddNote(itemId: string) {

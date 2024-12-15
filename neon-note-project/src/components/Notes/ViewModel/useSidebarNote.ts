@@ -20,7 +20,8 @@ export function useSidebarNote() {
     setFilteredNotes,
   } = useContextNoteData();
 
-  const { user, selectedItem, selectedFolderId, setSelectedFolderId } = useContextGlobal();
+  const { user } = useContextGlobal();
+  const { selectedItem, selectedFolderId, setSelectedFolderId } = useContextNoteData();
   const [searchNotes, setSearchNotes] = useState('');
 
   function notesWithId(array: any[], search: string, folderId?: string) {
