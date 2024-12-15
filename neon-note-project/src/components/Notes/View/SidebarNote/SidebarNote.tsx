@@ -130,34 +130,6 @@ export function SidebarNote() {
         </div>
       </div>
       <div className='flex flex-col mt-3'>
-        <div className='flex gap-1 items-center'>
-          {/* <input
-            type='search'
-            value={searchNotes}
-            onChange={handleSearchNotes}
-            placeholder='Pesquisar anotações'
-            className={`
-              w-full rounded-full duration-200 text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none bg-white
-              ${
-                darkMode
-                  ? 'placeholder:text-white focus:border-2 focus:border-slate-700'
-                  : 'placeholder:text-black-900 bg-gray-200 border border-gray-300 focus:border-gray-400'
-              } 
-                ${darkMode ? 'text-white' : 'text-black-900'} 
-                ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'}
-            `}
-          /> */}
-          <div className=''>
-            {/* <ButtonComponent
-              onClick={() => handleAddNote(selectedItem as string)}
-              isLoading={loading}
-              icon={<BiPlus color='white' size={24} />}
-              loader={<ClipLoader color='white' size={24} />}
-              disabled={loading}
-              className='bg-neon-400 hover:bg-neon-500 rounded-full'
-            /> */}
-          </div>
-        </div>
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >

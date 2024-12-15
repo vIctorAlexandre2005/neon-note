@@ -17,6 +17,7 @@ export function useSecondarySidebarHome() {
   const [newFolderName, setNewFolderName] = useState('');
 
   const { selectedItem, setSelectedItem, user, handleItemClick, selectedFolderId, setSelectedFolderId } = useContextGlobal();
+  
 
   async function handleAddFolder() {
     const folderExist = folders.some(folder => folder.name === newFolderName);
@@ -37,7 +38,6 @@ export function useSecondarySidebarHome() {
 
       setNewFolderName('');
       setFolders(updatedFolders);
-      setSelectedFolderId(docRef.id);
 
       // Salva toda a estrutura atualizada no localStorage
       if (typeof window !== 'undefined') {

@@ -71,7 +71,7 @@ export function CardNotes({
               <p
                 className={`text-white text-base text-opacity-80 ${darkMode ? 'opacity-96' : ''}`}
               >
-                {truncateText(note.text, 66)}
+                {truncateText(note.text, 55)}
               </p>
             )}
             <div className='mt-4 flex justify-end'>

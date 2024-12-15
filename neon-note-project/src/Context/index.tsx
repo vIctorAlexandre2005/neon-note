@@ -14,6 +14,7 @@ import { ContextData, defaultValueContextData } from '@/Interface/ContextData';
 import { Loader } from '@/components/common/Loader';
 import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { useDisclosure } from '@chakra-ui/react';
+import { useContextNoteData } from './NoteContext';
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
@@ -25,6 +26,8 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
 
+  const { setActiveNote } = useContextNoteData();
+
   const {
     isOpen: isOpenModal,
     onOpen: onOpenModal,
@@ -35,6 +38,7 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
     console.log(id, nameFolder);
     setSelectedItem(id === 1 ? 'Todas as anotações' : nameFolder);
     setSelectedFolderId(id);
+    setActiveNote(null);
   };
 
   useEffect(() => {
