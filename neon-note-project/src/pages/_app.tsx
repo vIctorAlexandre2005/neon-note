@@ -13,17 +13,19 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ParamsContext>
+      <NoteContext>
       <ChakraProvider>
         <ThemeProvider>
-          <NoteContext>
+          
             <Layout>
               <ConnectionStatus />
               <Component {...pageProps} />
             </Layout>
-          </NoteContext>
+          
           <ToastContainer pauseOnHover={false} position='bottom-right' />
         </ThemeProvider>
       </ChakraProvider>
+      </NoteContext>
     </ParamsContext>
   );
 }

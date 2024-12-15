@@ -3,7 +3,7 @@ import { CardNotes } from '@/components/Notes/View/SidebarNote/cardNotes';
 import { useSidebarNote } from '@/components/Notes/ViewModel/useSidebarNote';
 import { useTheme } from '@/components/ThemeDark';
 import { useContextGlobal } from '@/Context';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { useDisclosure } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
@@ -13,6 +13,7 @@ import { IoFolderOpenSharp } from 'react-icons/io5';
 import { ClipLoader, PuffLoader, PulseLoader } from 'react-spinners';
 import { RiProgress3Line } from 'react-icons/ri';
 import { CardTasks } from '../TasksCards/tasksCards';
+import { useContextNoteData } from '@/Context/NoteContext';
 
 export function SidebarTasks() {
   const { darkMode } = useTheme();
@@ -43,7 +44,7 @@ export function SidebarTasks() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebar();
+  } = useSecondarySidebarHome();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);
@@ -55,7 +56,7 @@ export function SidebarTasks() {
     setSearchNotes(e.target.value);
   }
 
-  const { selectedItem, handleItemClick } = useContextGlobal();
+  const { selectedItem, handleItemClick } = useContextNoteData();
   const {
     isOpen: isOpenModal,
     onOpen: onOpenModal,

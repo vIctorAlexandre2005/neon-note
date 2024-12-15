@@ -21,7 +21,6 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { useContextGlobal } from '..';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { getAuth } from 'firebase/auth';
 
@@ -42,35 +41,41 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [loadingNotes, setLoadingNotes] = useState(true);
 
+  const [selectedItem, setSelectedItem] = useState<string | null>('');
+  const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
+
   const [filteredNotes, setFilteredNotes] = useState<any[]>([]);
 
+  const {
+    isOpen: isOpenModal,
+    onOpen: onOpenModal,
+    onClose: onCloseModal,
+  } = useDisclosure();
+
+  function handleItemClick(id: number, nameFolder: string) {
+    console.log(id, nameFolder);
+    setSelectedItem(nameFolder);
+
+    setSelectedFolderId(id);
+    setActiveNote(null);
+  }
 
   const { user } = useContextGlobal();
 
-  const { selectedItem } = useContextGlobal();
-
   async function addNote(note: any) {
-    if (!user || !user.uid) {
-      console.error('Usuário não autenticado.');
-      return;
-    }
-  
     const newNote = {
       ...note,
       date: Date.now(),
       userId: user.uid,
-      folderId: selectedItem, // Usa o selectedItem como folderId
+      folderId: selectedItem,
     };
-  
-    try {
-      localStorage.setItem('listNotesForId', JSON.stringify(newNote));
-    } catch (error) {
-      console.log('Erro ao salvar localmente');
-    }
-  
+
     try {
       setLoading(true);
-      const docRef = await addDoc(collection(db, `users/${user.uid}/notes`), newNote);
+      const docRef = await addDoc(
+        collection(db, `users/${user.uid}/folders/${selectedFolderId}/notes`),
+        newNote
+      );
       const updatedNote = { id: docRef.id, ...newNote };
       setNoteList(prev => [updatedNote, ...prev]);
       setActiveNote(docRef.id);
@@ -110,7 +115,11 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
   async function deleteNote(id: string) {
     try {
-      const noteRef = doc(db, `users/${user.uid}/notes`, id);
+      const noteRef = doc(
+        db,
+        `users/${user.uid}/folders/${selectedFolderId}/notes`,
+        id
+      );
       const noteSnap = await getDoc(noteRef);
 
       if (!noteSnap.exists()) {
@@ -149,33 +158,39 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  
-
   useEffect(() => {
     const fetchNotes = async () => {
       const user = getAuth().currentUser;
-  
+
       if (!user || !user.uid) {
         console.error('Usuário não autenticado.');
         return;
       }
-  
+
       const notesArray: any[] = [];
-  
+
       try {
-        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/notes`));
+        const querySnapshot = await getDocs(
+          collection(db, `users/${user.uid}/folders/${selectedFolderId}/notes`)
+        );
         querySnapshot.forEach(doc => {
           notesArray.push({ id: doc.id, ...doc.data() });
         });
-  
+
         // Define noteList dependendo da seleção
-        if (selectedItem === 'Todas as anotações') {
+        console.log(selectedFolderId);
+        if (selectedFolderId === 1) {
           setNoteList(notesArray);
         } else {
-          setNoteList(notesArray.filter(note => note.itemId === selectedItem));
+          setNoteList(
+            notesArray.filter(note => note.itemId === selectedFolderId)
+          );
         }
 
-        console.log('Notas recuperadas:', notesArray.filter(note => note.itemId === selectedItem));
+        console.log(
+          'Notas recuperadas:',
+          notesArray.filter(note => note.itemId === selectedFolderId)
+        );
       } catch (error) {
         console.error('Erro ao buscar as notas do Firestore:', error);
         setNoteList([]);
@@ -183,10 +198,9 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         setLoadingNotes(false);
       }
     };
-  
+
     fetchNotes();
   }, [selectedItem]);
-  
 
   return (
     <NoteProvider.Provider
@@ -212,6 +226,14 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         loadingNotes,
         filteredNotes,
         setFilteredNotes,
+        handleItemClick,
+        isOpenModal,
+        onCloseModal,
+        onOpenModal,
+        selectedItem,
+        setSelectedItem,
+        selectedFolderId,
+        setSelectedFolderId,
       }}
     >
       {children}

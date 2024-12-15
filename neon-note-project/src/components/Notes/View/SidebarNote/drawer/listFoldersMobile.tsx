@@ -1,19 +1,19 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { useTheme } from '@/components/ThemeDark';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { useDisclosure } from '@chakra-ui/react';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
 
 interface ListFoldersProps {
   setSelectedFolderId: (folderId: number) => void;
-  handleItemClick: (item: string) => void;
+  handleItemClick: (item: number, name: string) => void;
   selectedFolderId: number | null | string;
   folder: any;
   onClose: () => void;
 }
-export function ListFolders({
+export function ListFoldersMobile({
   setSelectedFolderId,
   handleItemClick,
   selectedFolderId,
@@ -28,7 +28,7 @@ export function ListFolders({
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
-  const { deleteFolder } = useSecondarySidebar();
+  const { deleteFolder } = useSecondarySidebarHome();
 
   return (
     <div className='flex flex-col'>
@@ -41,19 +41,18 @@ export function ListFolders({
         <div
           className={`
                     flex gap-2 items-center justify-between cursor-pointer
-                    ${
-                      selectedFolderId === folder.id && darkMode
-                        ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                        : selectedFolderId === folder.id && !darkMode
-                          ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                          : darkMode
-                            ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                            : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                    } 
+                    ${selectedFolderId === folder.id && darkMode
+              ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
+              : selectedFolderId === folder.id && !darkMode
+                ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
+                : darkMode
+                  ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
+                  : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
+            } 
                     rounded p-1 w-full
                   `}
           onClick={() => {
-            handleItemClick(folder.name);
+            handleItemClick(folder.id, folder.name);
           }}
         >
           <div className='flex gap-2 items-center'>
@@ -70,7 +69,7 @@ export function ListFolders({
 
       {isOpenDeleteFolder && (
         <DeleteFolderModal
-          selectedFolderId={selectedFolderId as number}
+          selectedFolderId={selectedFolderId as number | string}
           isOpenDeleteFolder={isOpenDeleteFolder}
           deleteFolder={deleteFolder}
           onCloseDeleteFolder={onCloseDeleteFolder}

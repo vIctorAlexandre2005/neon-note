@@ -8,7 +8,7 @@ import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
+import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSidebarNote } from '../../ViewModel/useSidebarNote';
@@ -55,7 +55,7 @@ export function SidebarNote() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebar();
+  } = useSecondarySidebarHome();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);
@@ -67,12 +67,8 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   }
 
-  const { selectedItem, handleItemClick } = useContextGlobal();
-  const {
-    isOpen: isOpenModal,
-    onOpen: onOpenModal,
-    onClose: onCloseModal,
-  } = useDisclosure();
+  const { selectedItem, handleItemClick, isOpenModal, onOpenModal, onCloseModal } = useContextNoteData();
+  
 
   function handleAddNote(itemId: string) {
     if (!user || !user.uid) {
@@ -104,6 +100,8 @@ export function SidebarNote() {
     }
   }, [titleNote, textNote, activeNote, noteList]);
 
+  console.log("isOpenModal:", isOpenModal);
+
   return (
     <div
       className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full xs:rounded-none md:rounded-xl p-2`}
@@ -121,10 +119,10 @@ export function SidebarNote() {
             }}
             isLoading={loading}
             icon={<IoFolderOpenSharp color='white' size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 rounded-full'
+            className='bg-neon-400 hover:bg-neon-500 rounded-full xs:flex md:hidden'
           />
           <ButtonComponent
-            onClick={() => handleAddNote(selectedItem as string)}
+            onClick={() => handleAddNote(selectedFolderId as string)}
             isLoading={loading}
             icon={<BiPlus color='white' size={24} />}
             loader={<ClipLoader color='white' size={24} />}
@@ -134,41 +132,13 @@ export function SidebarNote() {
         </div>
       </div>
       <div className='flex flex-col mt-3'>
-        <div className='flex gap-1 items-center'>
-          {/* <input
-            type='search'
-            value={searchNotes}
-            onChange={handleSearchNotes}
-            placeholder='Pesquisar anotações'
-            className={`
-              w-full rounded-full duration-200 text-opacity-80 placeholder:opacity-30 p-2 focus:outline-none bg-white
-              ${
-                darkMode
-                  ? 'placeholder:text-white focus:border-2 focus:border-slate-700'
-                  : 'placeholder:text-black-900 bg-gray-200 border border-gray-300 focus:border-gray-400'
-              } 
-                ${darkMode ? 'text-white' : 'text-black-900'} 
-                ${darkMode ? 'bg-opacity-5' : 'bg-opacity-70'}
-            `}
-          /> */}
-          <div className=''>
-            {/* <ButtonComponent
-              onClick={() => handleAddNote(selectedItem as string)}
-              isLoading={loading}
-              icon={<BiPlus color='white' size={24} />}
-              loader={<ClipLoader color='white' size={24} />}
-              disabled={loading}
-              className='bg-neon-400 hover:bg-neon-500 rounded-full'
-            /> */}
-          </div>
-        </div>
         <p
           className={`mt-3 text-sm ${darkMode ? 'text-white' : 'text-black-900'} opacity-60`}
         >
           Total de anotações:{' '}
-          {selectedItem === 'Todas as anotações'
+          {selectedFolderId === 1
             ? noteList?.length
-            : noteList?.filter(note => note.itemId === selectedItem).length}
+            : noteList?.filter(note => note.itemId === selectedFolderId)?.length}
         </p>
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>

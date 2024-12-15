@@ -31,6 +31,14 @@ export interface NoteContextData {
   blockNote: (id: number) => void;
   filteredNotes: any[];
   setFilteredNotes: Dispatch<SetStateAction<any[]>>;
+  selectedItem: string | null;
+  setSelectedItem: Dispatch<SetStateAction<string | null>>;
+  selectedFolderId: number | null | string;
+  setSelectedFolderId: Dispatch<SetStateAction<number | null | string>>;
+  isOpenModal: boolean;
+  onOpenModal: () => void;
+  onCloseModal: () => void;
+  handleItemClick: (item: number, name: string) => void;
 }
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -55,4 +63,12 @@ export const defaultValueNoteContextData: NoteContextData = {
   loadingNotes: true,
   filteredNotes: [],
   setFilteredNotes: () => {},
+  handleItemClick: () => {},
+  selectedItem: null,
+  setSelectedItem: () => {},
+  selectedFolderId: null,
+  setSelectedFolderId: () => {},
+  isOpenModal: false,
+  onOpenModal: () => {},
+  onCloseModal: () => {},
 };

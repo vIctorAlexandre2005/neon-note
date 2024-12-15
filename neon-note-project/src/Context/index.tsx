@@ -9,49 +9,31 @@ import {
 } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-/* import { usePWA } from "@/utils/usePWA"; */
 import { ContextData, defaultValueContextData } from '@/Interface/ContextData';
 import { Loader } from '@/components/common/Loader';
-import { useSecondarySidebar } from '@/hooks/useSecondarySidebar';
 
 const ParamsProvider = createContext<ContextData>(defaultValueContextData);
 
 const ParamsContext = ({ children }: { children: ReactNode }) => {
   const [user, loading] = useAuthState(auth);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
-  const router = useRouter();
   const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  const [selectedItem, setSelectedItem] = useState<string | null>('Todas as anotações');
-
-  const { setSelectedFolderId } = useSecondarySidebar();
-
-  function handleItemClick(name: string) {
-    setSelectedFolderId(name === 'Todas as anotações' ? 1 : name);
-    console.log(name);
-    setSelectedItem(name);
-  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth <= 768);
     }
   }, [isMobile]);
 
   if (loading) {
     return <Loader />;
-  }
+  };
 
   return (
     <ParamsProvider.Provider
       value={{
         user,
-        /* installPrompt, */
         isMobile,
         loading,
-        selectedItem,
-        handleItemClick,
-        setSelectedItem,
       }}
     >
       {children}

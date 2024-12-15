@@ -27,6 +27,7 @@ export function NoteInput() {
     textNote,
     blockNote,
     isBlockEdited,
+    selectedFolderId,
   } = useContextNoteData();
 
   const { user } = useContextGlobal();
@@ -41,47 +42,41 @@ export function NoteInput() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const debouncedUpdateNote = debounce(
-    async (id: string, updatedFields: any) => {
-      setSaving(true); // Inicia o estado de salvamento
+  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
+    setSaving(true);
+    try {
+      const noteRef = doc(db, `users/${user?.uid}/folders/${selectedFolderId}/notes/${id}`);
+      const sanitizedFields: any = Object.fromEntries(
+        Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+      );
+      await updateDoc(noteRef, sanitizedFields);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error("Erro ao atualizar a nota:", error);
+    } finally {
+      setSaving(false);
+    }
+  }, 500);
 
-      try {
-        const noteRef = doc(db, 'users', user.uid, 'notes', id);
-
-        const sanitizedFields: any = Object.fromEntries(
-          Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
-        );
-
-        await updateDoc(noteRef, sanitizedFields);
-        setSaved(true);
-
-        setTimeout(() => setSaved(false), 2000);
-      } catch (error) {
-        console.error('Erro ao atualizar a nota:', error);
-      } finally {
-        setSaving(false);
-      }
-    },
-    500
-  );
-
-  // Funções de handle para capturar as mudanças nos inputs
+  // Manipuladores de mudanças no título e texto
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
-    setTitleNote(newTitle);
-    debouncedUpdateNote(activeNote, { title: newTitle }); // Atualiza no Firebase
+    setTitleNote(newTitle); // Atualiza o estado local imediatamente
+    debouncedUpdateNote(activeNote, { title: newTitle }); // Atualiza no Firebase com debounce
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
-    setTextNote(newText);
-    debouncedUpdateNote(activeNote, { text: newText }); // Atualiza no Firebase
+    setTextNote(newText); // Atualiza o estado local imediatamente
+    debouncedUpdateNote(activeNote, { text: newText }); // Atualiza no Firebase com debounce
   };
 
+  // Atualiza os campos quando a nota ativa muda
   useEffect(() => {
     if (activeNoteId) {
-      setTitleNote(activeNoteId.title);
-      setTextNote(activeNoteId.text);
+      setTitleNote(activeNoteId.title || "");
+      setTextNote(activeNoteId.text || "");
     }
   }, [activeNote, noteList]);
 

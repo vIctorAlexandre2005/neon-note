@@ -4,16 +4,16 @@ import { useTheme } from '@/components/ThemeDark';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi2';
-import { ListFolders } from './listFolders';
 import { Dispatch, Fragment, SetStateAction } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { AddFolderModal } from '@/components/Layout/AppSidebar/modals/addFolter';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
+import { ListFoldersMobile } from './listFoldersMobile';
 
 interface DrawerSidebarNoteProps {
   isOpenModal: boolean;
   onCloseModal: () => void;
-  handleItemClick: (item: string) => void;
+  handleItemClick: (item: number, name: string) => void;
   selectedItem: string | null;
   setSelectedFolderId: (folderId: number) => void;
   folders: any[];
@@ -63,34 +63,10 @@ export function DrawerSidebarNote({
           />
       </div>
 
-      <div
-        className='w-full mb-2 flex justify-between items-center'
-        onClick={() => {
-          setSelectedFolderId(1);
-          handleItemClick('Todas as anotações');
-          onCloseModal();
-        }}
-      >
-        <div
-          className={`flex cursor-pointer
-                ${
-                  selectedItem === 'Todas as anotações' && darkMode
-                    ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                    : selectedItem === 'Todas as anotações' && !darkMode
-                      ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                      : darkMode
-                        ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                        : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                }  items-center p-2 rounded w-auto`}
-        >
-          <HiDocumentText size={24} />
-          <h1 className={`text-md font-bold`}>Todas as anotações</h1>
-        </div>
-      </div>
-      <div>
+      <div className='flex flex-col gap-2 mt-6'>
         {folders?.map((folder: any) => (
           <Fragment key={folder.id}>
-            <ListFolders 
+            <ListFoldersMobile
               folder={folder} 
               handleItemClick={handleItemClick} 
               selectedFolderId={selectedFolderId} 
