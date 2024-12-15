@@ -29,7 +29,7 @@ export function NoteInput() {
     isBlockEdited,
   } = useContextNoteData();
 
-  const { user } = useContextGlobal();
+  const { user, selectedFolderId } = useContextGlobal();
 
   const {
     isOpen: isModalOpen,
@@ -46,7 +46,8 @@ export function NoteInput() {
       setSaving(true); // Inicia o estado de salvamento
 
       try {
-        const noteRef = doc(db, 'users', user.uid, 'notes', id);
+        // const noteRef = doc(db, 'users', user.uid, 'folders', selectedFolderId, 'notes', id);
+        const noteRef = doc(db,`users/${user?.uid}/folders/${selectedFolderId}/notes/${id}`);
 
         const sanitizedFields: any = Object.fromEntries(
           Object.entries(updatedFields).filter(([_, v]) => v !== undefined)

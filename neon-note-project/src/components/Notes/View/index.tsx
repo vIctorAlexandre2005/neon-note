@@ -102,10 +102,8 @@ export function NeonNote() {
   }
 
   if (selectedItem && !isMobile) {
-    return (
-      <ContainerSidebarAndNoteMain />
-    );
-  }
+    return <ContainerSidebarAndNoteMain activeNote={activeNote} darkMode={darkMode} />
+  };
 
   if(isMobile) {
     return (
