@@ -2,7 +2,7 @@ import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
 import { db } from '@/services/firebase';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 interface Folder {
