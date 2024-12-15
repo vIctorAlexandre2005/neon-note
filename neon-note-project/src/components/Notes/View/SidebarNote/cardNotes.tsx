@@ -75,7 +75,11 @@ export function CardNotes({
               </p>
             )}
             <div className='mt-4 flex justify-end'>
-              <p className={`${darkMode ? 'text-white' : 'text-white opacity-60 text-xs'}`}>
+              <p className={`
+                text-xs
+                ${darkMode ? 'text-white opacity-60' : 'text-white opacity-60'} 
+                `}
+              >
                 Criada em {new Date(note.date).toLocaleDateString('pt-BR')}
               </p>
             </div>

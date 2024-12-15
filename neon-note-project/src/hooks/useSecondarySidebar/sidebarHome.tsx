@@ -9,8 +9,7 @@ interface Folder {
   id: number;
   name: string;
   userId: string;
-
-}
+};
 
 export function useSecondarySidebarHome() {
   const [folders, setFolders] = useState<Folder[]>([]);
@@ -24,14 +23,13 @@ export function useSecondarySidebarHome() {
     setSelectedFolderId 
   } = useContextNoteData();
   
+  const folderExist = folders.some(folder => folder.name === newFolderName);
 
   async function handleAddFolder() {
-    const folderExist = folders.some(folder => folder.name === newFolderName);
-
     if (folderExist) {
-      errorToast(`"${newFolderName}" já existe`);
+      errorToast(`A pasta "${newFolderName}" já existe`);
       return;
-    }
+    };
 
     const newFolder = {
       name: newFolderName,
@@ -52,9 +50,7 @@ export function useSecondarySidebarHome() {
 
     } catch (error) {
       errorToast('Erro ao adicionar a pasta');
-      console.error(error);
-    } finally {
-
+      console.error('Erro ao adicionar a pasta:', error);
     }
   }
 
@@ -68,13 +64,14 @@ export function useSecondarySidebarHome() {
         }
         return updatedFolders;
       });
-  
+      
       // Exclui a pasta do Firestore
-      const folderRef = doc(db, `users/${user.uid}/folders`, id);
-      await deleteDoc(folderRef);
+      const notesAndFoldersDeleted = doc(db, `users/${user.uid}/folders${id}/notes`);
+      await deleteDoc(notesAndFoldersDeleted);
+  
       if (typeof window !== 'undefined') {
         window.location.reload();
-      }
+      };
   
       // Limpa a pasta selecionada, se for a excluída
       setSelectedFolderId((prevId: any) => (prevId === id ? null : prevId));
@@ -83,7 +80,6 @@ export function useSecondarySidebarHome() {
       console.error('Erro ao deletar a pasta:', error);
     }
   }
-  
 
   useEffect(() => {
     async function getFoldersNote() {
@@ -101,38 +97,23 @@ export function useSecondarySidebarHome() {
           ...doc.data(),
         }));
   
-        // Atualiza o estado com a sincronização
         setFolders(foldersNotesArray);
-  
-        // Atualiza o localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('folders', JSON.stringify(foldersNotesArray));
-        }
       } catch (error) {
         console.error('Erro ao obter as pastas:', error);
-      }
-    }
+      };
+    };
   
     getFoldersNote();
   }, [selectedItem]);
   
-
-
   return {
-    // openSubFolder,
-    // setOpenSubFolder,
     folders,
     newFolderName,
-    // newItemName,
     selectedFolderId,
     setSelectedFolderId,
-    // openSubFolders,
     handleAddFolder,
-    // handleAddItem,
     setNewFolderName,
-    // setNewItemName,
     deleteFolder,
-    // handleDeleteItem
     handleItemClick,
     selectedItem
   }
