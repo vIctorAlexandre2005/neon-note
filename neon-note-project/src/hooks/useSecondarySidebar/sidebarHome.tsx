@@ -66,7 +66,7 @@ export function useSecondarySidebarHome() {
       });
       
       // Exclui a pasta do Firestore
-      const notesAndFoldersDeleted = doc(db, `users/${user.uid}/folders${id}/notes`);
+      const notesAndFoldersDeleted = doc(db, `users/${user.uid}/folders`, id);
       await deleteDoc(notesAndFoldersDeleted);
   
       if (typeof window !== 'undefined') {

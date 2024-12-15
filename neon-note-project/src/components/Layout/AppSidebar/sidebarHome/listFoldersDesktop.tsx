@@ -23,6 +23,7 @@ export function ListFoldersDesktop({
     <div className='flex flex-col'>
       <div
         className='w-full mb-2 flex justify-between items-center'
+        onClick={() => handleItemClick(folder.id, folder.name)}
       >
         <div
           className={`
@@ -39,7 +40,7 @@ export function ListFoldersDesktop({
             rounded p-1 w-full
           `}
         >
-          <div className='flex gap-2 items-center' onClick={() => handleItemClick(folder.id, folder.name)}>
+          <div className='flex gap-2 items-center'>
             <FaFolder size={18} />
             <h1 className={`text-md font-bold`}>
               {truncateText(folder.name, 22)}
