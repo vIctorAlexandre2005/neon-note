@@ -100,17 +100,6 @@ export function NeonNote() {
     return <ContainerSidebarAndNoteMain activeNote={activeNote} darkMode={darkMode} />
   };
 
-  useEffect(() => {
-    // Recupera o ID da pasta do localStorage
-    if (typeof window !== "undefined") {
-      const storedFolderId = localStorage.getItem("selectedFolderId");
-      if (storedFolderId) {
-        const folderId = JSON.parse(storedFolderId);
-        setSelectedFolderId(folderId);
-      }
-    }
-  }, []); // Executa apenas na montagem
-
   if(isMobile) {
     return (
       <div className='flex h-full justify-center gap-4'>

@@ -12,6 +12,7 @@ import { useSecondarySidebarHome } from "@/hooks/useSecondarySidebar/sidebarHome
 import { Fragment } from "react";
 import { ThereIsNoFolder } from "@/components/common/ThereIsNoFolder";
 import { ListFoldersDesktop } from "./listFoldersDesktop";
+import { ClipLoader } from "react-spinners";
 
 
 export function SidebarHome() {
@@ -27,7 +28,9 @@ export function SidebarHome() {
     selectedFolderId,
     deleteFolder,
     handleItemClick,
-    selectedItem
+    selectedItem,
+    loadingFolders,
+    setLoadingFolders
   } = useSecondarySidebarHome();
 
   const {
@@ -57,6 +60,12 @@ export function SidebarHome() {
         </div>
 
         <div className='flex flex-col gap-1 p-2'>
+          {loadingFolders && (
+            <div className="flex items-center justify-center">
+              <ClipLoader size={24} color="#36d7b7" />
+            </div>
+          )}
+          
           {folders.length > 0 ?
             folders.map((folder, idx) => (
               <Fragment key={idx}>
@@ -69,7 +78,7 @@ export function SidebarHome() {
                 />
               </Fragment>
             )) : (
-              <ThereIsNoFolder />
+              !loadingFolders && <ThereIsNoFolder />
             )}
         </div>
       </div>

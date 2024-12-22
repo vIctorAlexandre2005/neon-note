@@ -20,7 +20,9 @@ export function useSecondarySidebarHome() {
     selectedItem, 
     handleItemClick, 
     selectedFolderId, 
-    setSelectedFolderId 
+    setSelectedFolderId,
+    loadingFolders,
+    setLoadingFolders,
   } = useContextNoteData();
   
   const folderExist = folders.some(folder => folder.name === newFolderName);
@@ -84,6 +86,8 @@ export function useSecondarySidebarHome() {
   useEffect(() => {
     async function getFoldersNote() {
       try {
+
+        setLoadingFolders(true);
         // Lê do localStorage primeiro para refletir atualizações locais
         const parsedFolders = localStorage.getItem('folders');
         if (parsedFolders) {
@@ -100,6 +104,8 @@ export function useSecondarySidebarHome() {
         setFolders(foldersNotesArray);
       } catch (error) {
         console.error('Erro ao obter as pastas:', error);
+      } finally {
+        setLoadingFolders(false);
       };
     };
   
@@ -115,6 +121,8 @@ export function useSecondarySidebarHome() {
     setNewFolderName,
     deleteFolder,
     handleItemClick,
-    selectedItem
+    selectedItem,
+    loadingFolders,
+    setLoadingFolders
   }
 }

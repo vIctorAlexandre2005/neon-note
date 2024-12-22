@@ -9,6 +9,8 @@ import { useDisclosure } from '@chakra-ui/react';
 import { AddFolderModal } from '@/components/Layout/AppSidebar/modals/addFolter';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { ListFoldersMobile } from './listFoldersMobile';
+import { useContextNoteData } from '@/Context/NoteContext';
+import { ClipLoader } from 'react-spinners';
 
 interface DrawerSidebarNoteProps {
   isOpenModal: boolean;
@@ -43,6 +45,11 @@ export function DrawerSidebarNote({
     onClose: onCloseAddFolder,
   } = useDisclosure();
 
+  const {
+    loadingFolders,
+    setLoadingFolders,
+  } = useContextNoteData();
+
   return (
     <DrawerComponent
       isOpen={isOpenModal}
@@ -64,6 +71,13 @@ export function DrawerSidebarNote({
       </div>
 
       <div className='flex flex-col gap-2 mt-6'>
+        
+        {loadingFolders && (
+          <div className='flex items-center justify-center'>
+            <ClipLoader color='#0949ee' size={24} />
+          </div>
+        )}
+
         {folders?.map((folder: any) => (
           <Fragment key={folder.id}>
             <ListFoldersMobile

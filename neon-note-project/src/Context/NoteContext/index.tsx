@@ -39,7 +39,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
+  
+  // loaders
   const [loadingNotes, setLoadingNotes] = useState(true);
+  const [loadingFolders, setLoadingFolders] = useState(true);
 
   const [selectedItem, setSelectedItem] = useState<string | null>('');
   const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
@@ -221,6 +224,8 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
         onClose,
         onOpen,
         loading,
+        loadingFolders,
+        setLoadingFolders,
         isBlockEdited,
         blockNote,
         loadingNotes,

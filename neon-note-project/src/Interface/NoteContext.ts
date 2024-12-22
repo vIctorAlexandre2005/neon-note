@@ -39,6 +39,8 @@ export interface NoteContextData {
   onOpenModal: () => void;
   onCloseModal: () => void;
   handleItemClick: (item: number, name: string) => void;
+  loadingFolders: boolean;
+  setLoadingFolders: Dispatch<SetStateAction<boolean>>;
 }
 
 export const defaultValueNoteContextData: NoteContextData = {
@@ -71,4 +73,6 @@ export const defaultValueNoteContextData: NoteContextData = {
   isOpenModal: false,
   onOpenModal: () => {},
   onCloseModal: () => {},
+  loadingFolders: false,
+  setLoadingFolders: () => {},
 };
