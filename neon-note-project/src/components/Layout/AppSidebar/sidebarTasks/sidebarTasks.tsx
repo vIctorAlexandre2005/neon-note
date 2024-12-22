@@ -11,6 +11,8 @@ import { DeleteFolderModal } from "../modals/deleteFolder";
 import { IoAdd } from "react-icons/io5";
 import { useSecondarySidebarTask } from "@/hooks/useSecondarySidebar/sidebarTask";
 import { useContextNoteData } from "@/Context/NoteContext";
+import { ClipLoader } from "react-spinners";
+import { ThereIsNoFolder } from "@/components/common/ThereIsNoFolder";
 
 export function SidebarTasks() {
     const router = useRouter();
@@ -31,6 +33,7 @@ export function SidebarTasks() {
     setSelectedFolderId,
     // setNewItemName,
     deleteFolder,
+    loadingFolders
     // handleDeleteItem,
   } = useSecondarySidebarTask();
 
@@ -64,11 +67,18 @@ export function SidebarTasks() {
 
         <div className='flex flex-col gap-1'>
 
-          {folders.length > 0 &&
+          {loadingFolders && (
+            <div className='flex justify-center items-center'>
+              <ClipLoader size={20} color="#1e40af" />
+            </div>
+          )}
+
+          {folders.length > 0 ?
             folders.map(folder => (
               <div className='flex flex-col pl-4'>
                 <div
                   className='w-full mb-2 flex justify-between items-center'
+                  onClick={() => handleItemClick(folder.id, folder.name)}
                 >
                   <div
                     className={`
@@ -97,7 +107,11 @@ export function SidebarTasks() {
                   </div>
                 </div>
               </div>
-            ))}
+            )): (
+              !loadingFolders && (
+                <ThereIsNoFolder />
+              )
+            )}
         </div>
       </div>
       {isOpenAddFolder && (

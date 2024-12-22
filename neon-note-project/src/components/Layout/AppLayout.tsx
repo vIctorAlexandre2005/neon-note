@@ -46,7 +46,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         <div
-          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : `sidebar xs:hidden tabletLandscape:flex flex-none ${router.pathname === '/tasks' ? 'tabletLandscape:w-56' : 'w-72'}`}`}
+          className={`${router.pathname === '/login' || router.pathname === '/error' ? 'hidden' : `sidebar xs:hidden tabletLandscape:flex flex-none w-72`}`}
         >
           <SecondarySidebar darkMode={darkMode} />
         </div>

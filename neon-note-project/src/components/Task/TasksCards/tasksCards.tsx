@@ -62,17 +62,16 @@ export function CardTasks({
             >
               Título
             </h2>
-            <p
-              className={`text-base text-opacity-80 ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
-            >
-              Descrição feita
-            </p>
 
             <div>
-              <div>
-                <p className='text-sm mb-2 flex items-center text-black-500 gap-2 mt-2'>
+              <div className='flex justify-between items-center'>
+                <p className='mb-2 flex items-center text-black-200 gap-2 mt-2'>
                   <BsListTask size={20} />
                   Progresso
+                </p>
+
+                <p className='mb-2 flex items-center text-black-200 gap-2 mt-2'>
+                  {numberTasksStatusDone}/{numberTasksStatus}
                 </p>
               </div>
 
@@ -80,9 +79,9 @@ export function CardTasks({
                 <Progress value={numberTasksStatusDone} borderRadius={'full'} size='xs' colorScheme={colorProgressStatusBar} max={numberTasksStatus} />
               </div>
             </div>
-            <div className='mt-4 flex justify-end'>
+            <div className='mt-4 flex justify-start'>
               <p
-                className={`${darkMode ? 'text-white' : 'text-black-800 bg-black-100 p-2 rounded-full opacity-60 text-xs'}`}
+                className={`${darkMode ? 'text-gray-400' : 'text-black-800 bg-black-100 p-2 rounded-full opacity-60 text-xs'}`}
               >
                 {new Date(note.date).toLocaleDateString('pt-BR')}
               </p>

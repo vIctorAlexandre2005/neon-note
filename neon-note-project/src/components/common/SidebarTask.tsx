@@ -37,7 +37,7 @@ export function SidebarTasksComponent({
           >
             {statusTitle} ({numberTasksStatus})
           </h1>
-          <div className={`p-2 flex animate-flute bg-${statusIconColorBackground}-500 bg-opacity-20 rounded-full`}>
+          <div className={`p-2 flex bg-${statusIconColorBackground}-500 bg-opacity-20 rounded-full`}>
             {statusIcon}
           </div>
         </div>

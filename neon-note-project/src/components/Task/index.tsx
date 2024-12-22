@@ -6,15 +6,18 @@ import { useSidebarNote } from "../Notes/ViewModel/useSidebarNote";
 import { MdOutlineEditNote } from "react-icons/md";
 import { BiCheck, BiCheckCircle } from "react-icons/bi";
 import { useTheme } from "../ThemeDark";
+import { useContextNoteData } from "@/Context/NoteContext";
 
 export function TaskComponent() {
 
-  const { noteList } = useSidebarNote();
+  const { noteList} = useSidebarNote();
   const { darkMode } = useTheme();
+
+  const { selectedItem } = useContextNoteData();
 
   return (
     <div className='flex flex-col h-full gap-2 p-4'>
-      <h1 className={`text-2xl ${darkMode ? 'text-gray-300' : 'text-black-800'} font-bold`}>Pasta selecionada</h1>
+      <h1 className={`text-2xl ${darkMode ? 'text-gray-300' : 'text-black-800'} font-bold`}> {selectedItem} </h1>
       <div className="flex gap-4 h-full">
       <SidebarTasksComponent
         arrayTasks={noteList}
@@ -32,7 +35,7 @@ export function TaskComponent() {
         statusTitle="Em progresso" 
         statusIconColorBackground="orange"
         colorProgressStatusBar="orange"
-        numberTasksStatusDone={15} />
+        numberTasksStatusDone={4} />
 
       <SidebarTasksComponent 
         arrayTasks={noteList} 

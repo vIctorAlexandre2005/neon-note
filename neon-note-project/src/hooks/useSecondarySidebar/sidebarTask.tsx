@@ -1,6 +1,8 @@
 import { useContextGlobal } from '@/Context';
 import { useContextNoteData } from '@/Context/NoteContext';
+import { db } from '@/services/firebase';
 import { errorToast } from '@/utils/toasts/toasts';
+import { collection, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
 interface Folder {
@@ -13,10 +15,10 @@ export function useSecondarySidebarTask() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
   // const [newItemName, setNewItemName] = useState('');
-  const [selectedFolderId, setSelectedFolderId] = useState<number | null | string>(null);
+  
 
   const { user } = useContextGlobal();
-  const {selectedItem, setSelectedItem } = useContextNoteData();
+  const {selectedItem, selectedFolderId, setSelectedFolderId, loadingFolders, setLoadingFolders } = useContextNoteData();
 
   const handleAddFolder = () => {
 
@@ -58,10 +60,27 @@ export function useSecondarySidebarTask() {
   }
 
   useEffect(() => {
-    const storedFolders = localStorage.getItem('folders');
-    if (storedFolders) {
-      setFolders(JSON.parse(storedFolders));
-    }
+    async function getFoldersNote() {
+      try {
+
+        setLoadingFolders(true);
+  
+        // Em seguida, sincroniza com o Firestore
+        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/folders`));
+        const foldersNotesArray: any = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+  
+        setFolders(foldersNotesArray);
+      } catch (error) {
+        console.error('Erro ao obter as pastas:', error);
+      } finally {
+        setLoadingFolders(false);
+      };
+    };
+  
+    getFoldersNote();
   }, [selectedItem]);
   
 
@@ -79,6 +98,8 @@ export function useSecondarySidebarTask() {
     setNewFolderName,
     // setNewItemName,
     deleteFolder,
-    // handleDeleteItem
+    // handleDeleteItem,
+    loadingFolders,
+    setLoadingFolders
   }
 }
