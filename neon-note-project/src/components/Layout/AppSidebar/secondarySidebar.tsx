@@ -2,11 +2,8 @@ import { SecondarySidebarNoteFolders } from '@/components/Notes/View/AppSecondar
 import { SecondarySidebarTaskFolders } from '@/components/Task/View/AppSecondarySidebarTask/SecondarySidebarTaskFolders';
 import { useRouter } from 'next/router';
 
-interface SidebarProps {
-  darkMode: boolean;
-}
 
-export function SecondarySidebar({ darkMode }: SidebarProps) {
+export function SecondarySidebar() {
   const router = useRouter();
 
   if (router.pathname === '/') {

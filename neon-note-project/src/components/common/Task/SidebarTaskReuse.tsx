@@ -13,6 +13,7 @@ interface TaskProps {
   numberTasksStatus: number;
   colorProgressStatusBar: string;
   numberTasksStatusDone: number;
+  thereIsNoButtonCreateTaskInSidebar: boolean
 }
 
 export function SidebarTasksReuse({
@@ -23,6 +24,7 @@ export function SidebarTasksReuse({
   numberTasksStatus,
   colorProgressStatusBar,
   numberTasksStatusDone,
+  thereIsNoButtonCreateTaskInSidebar
 }: TaskProps) {
 const { darkMode } = useContextGlobal();
 
@@ -42,10 +44,12 @@ const { darkMode } = useContextGlobal();
           </div>
         </div>
 
-        <div className={`flex hover:bg-slate-200 duration-300 rounded-full cursor-pointer text-black-700 p-2 gap-1 items-center`}>
+        {thereIsNoButtonCreateTaskInSidebar && (
+          <div className={`flex hover:bg-slate-200 duration-300 rounded-full cursor-pointer text-black-700 p-2 gap-1 items-center`}>
           <FaPlus size={20} />
           <h1>Criar tarefa</h1>
         </div>
+        )}
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-220px)]'>
 
