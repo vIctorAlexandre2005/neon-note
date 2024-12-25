@@ -1,5 +1,5 @@
 import { useContextGlobal } from '@/Context';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { db } from '@/services/firebase';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
@@ -11,7 +11,7 @@ interface Folder {
   userId: string;
 };
 
-export function useSecondarySidebarHome() {
+export function useSecondarySidebarNote() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolderName, setNewFolderName] = useState('');
 

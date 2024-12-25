@@ -1,11 +1,10 @@
 import { RiFolderCloseFill } from 'react-icons/ri';
-import { useTheme } from '../ThemeDark';
 import { HashLoader } from 'react-spinners';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ButtonComponent } from './Button';
 import { useContextGlobal } from '@/Context';
 import { DrawerSidebarNote } from '../Notes/View/SidebarNote/drawer/drawerSidebarNote';
-import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
+import { useSecondarySidebarNote } from '../Notes/ViewModel/useSecondarySidebarNote';
 
 export function ThereIsNoFolderMobile() {
   const {
@@ -23,10 +22,10 @@ export function ThereIsNoFolderMobile() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebarHome();
+  } = useSecondarySidebarNote();
 
-  const { darkMode } = useTheme();
-
+  const { darkMode } = useContextGlobal();
+  
   return (
     <div
       className={`flex flex-col gap-1 items-center justify-center ${darkMode ? 'text-neon-800 opacity-80' : 'text-black-600'}`}

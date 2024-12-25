@@ -1,11 +1,10 @@
-import { useTheme } from '@/components/ThemeDark';
 import { debounce } from '@/utils/debounce';
 import { BiCheck, BiTrash } from 'react-icons/bi';
 import { auth, db } from '@/services/firebase';
 import { useEffect, useState } from 'react';
-import FadeIn from '@/components/Effects/FadeIn';
+import FadeIn from '@/components/common/Effects/FadeIn';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
 import { InputComponent } from '@/components/common/InputField';
 import { TbLock, TbLockOpen2 } from 'react-icons/tb';
@@ -16,7 +15,7 @@ import { OptionsHeaderNote } from './optionsHeaderNote';
 import { ModalDelete } from './modalDelete';
 
 export function NoteInput() {
-  const { darkMode } = useTheme();
+  const { darkMode } = useContextGlobal();  
   const {
     setTitleNote,
     setTextNote,

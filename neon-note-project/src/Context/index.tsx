@@ -18,6 +18,17 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
   const [user, loading] = useAuthState(auth);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  
+    function toggleDarkMode() {
+      setDarkMode(prevMode => !prevMode);
+      localStorage.setItem('darkMode', JSON.stringify(!darkMode));
+    }
+  
+    function setLightMode() {
+      setDarkMode(false);
+    }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsMobile(window.innerWidth <= 768);
@@ -34,6 +45,9 @@ const ParamsContext = ({ children }: { children: ReactNode }) => {
         user,
         isMobile,
         loading,
+        darkMode,
+        toggleDarkMode,
+        setDarkMode,
       }}
     >
       {children}

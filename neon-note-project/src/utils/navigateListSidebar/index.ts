@@ -20,9 +20,4 @@ export const navigateListSidebar: NavigateListSidebarProps[] = [
     link: '/tasks',
     icon: FaTasks,
   },
-  {
-    name: 'Tabelas',
-    link: '/tables',
-    icon: FaTable,
-  },
 ];

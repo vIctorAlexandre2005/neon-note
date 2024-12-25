@@ -1,9 +1,8 @@
-import { useTheme } from '../ThemeDark';
+import { useContextGlobal } from '@/Context';
 import Image from 'next/image';
 
 export function Loader() {
-  const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   return (
     <div
       className={`h-screen w-full ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}

@@ -1,14 +1,13 @@
 import { NoteMain } from './InputsNote/NoteMain';
-import { useTheme } from '../../ThemeDark';
 import { useEffect, useState } from 'react';
 import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
 import { InputComponent } from '../../common/InputField';
 import { debounce } from '@/utils/debounce';
 import { db } from '@/services/firebase';
-import FadeIn from '../../Effects/FadeIn';
-import { DrawerComponent } from '../../Modals/Drawer/DrawerModal';
+import FadeIn from '../../common/Effects/FadeIn';
+import { DrawerToUseNote } from '../../Modals/Drawer/DrawerModal';
 import { collection, doc, updateDoc } from 'firebase/firestore';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
 import { SidebarNote } from './SidebarNote/SidebarNote';
 import { ContainerSidebarAndNoteMain } from './SidebarNote/ContainerSidebarAndNoteMain';
@@ -30,8 +29,7 @@ export function NeonNote() {
     onClose,
   } = useContextNoteData();
 
-  const { darkMode } = useTheme();
-  const { isMobile, user } = useContextGlobal();
+  const { isMobile, user, darkMode } = useContextGlobal();
 
   const activeNoteId = noteList.find(note => note.id === activeNote); // Encontra a nota ativa
   const [saving, setSaving] = useState(false);
@@ -113,7 +111,7 @@ export function NeonNote() {
 
         {isOpen &&
           isMobile && ( // abre modal apenas no mobile
-            <DrawerComponent
+            <DrawerToUseNote
               isOpen={isOpen}
               onClose={onClose}
               activeNoteId={activeNoteId}

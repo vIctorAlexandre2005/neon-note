@@ -1,12 +1,11 @@
-import { useTheme } from '@/components/ThemeDark';
+import { useContextGlobal } from '@/Context';
 import { errorToast } from '@/utils/toasts/toasts';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function ErrorConnection() {
-  const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   const router = useRouter();
 
   useEffect(() => {

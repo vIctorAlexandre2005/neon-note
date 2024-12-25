@@ -1,5 +1,5 @@
 import { useContextGlobal } from '@/Context';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { db } from '@/services/firebase';
 import { errorToast } from '@/utils/toasts/toasts';
 import { collection, getDocs } from 'firebase/firestore';

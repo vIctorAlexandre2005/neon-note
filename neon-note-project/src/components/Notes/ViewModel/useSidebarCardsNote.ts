@@ -1,8 +1,8 @@
 import { useContextGlobal } from '@/Context';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useEffect, useState } from 'react';
 
-export function useSidebarNote() {
+export function useSidebarCardsNote() {
   const {
     addNote,
     noteList,
@@ -18,10 +18,11 @@ export function useSidebarNote() {
     loadingNotes,
     filteredNotes,
     setFilteredNotes,
+    selectedItem, 
+    selectedFolderId,
   } = useContextNoteData();
 
   const { user } = useContextGlobal();
-  const { selectedItem, selectedFolderId, setSelectedFolderId } = useContextNoteData();
   const [searchNotes, setSearchNotes] = useState('');
 
   function notesWithId(array: any[], search: string, folderId?: string) {
@@ -87,12 +88,6 @@ export function useSidebarNote() {
         selectedFolderId === 1
           ? allNotes(noteList, searchNotes)
           : notesWithId(noteList, searchNotes, selectedFolderId as string);
-
-      const arrayId = notesWithId(noteList, searchNotes, selectedItem as string);
-      const arrayAll = allNotes(noteList, searchNotes);
-
-      console.log('arrayId', arrayId);
-      console.log('arrayAll', arrayAll);
 
       setNoteList(filtered);
     }

@@ -1,6 +1,6 @@
 import { ButtonComponent } from '@/components/common/Button';
-import FadeIn from '@/components/Effects/FadeIn';
-import { useTheme } from '@/components/ThemeDark';
+import FadeIn from '@/components/common/Effects/FadeIn';
+import { useContextGlobal } from '@/Context';
 import { BiCheck, BiTrash } from 'react-icons/bi';
 import { TbLock, TbLockOpen2 } from 'react-icons/tb';
 
@@ -25,8 +25,8 @@ export function OptionsHeaderNote({
   onModalOpen,
   onModalClose,
 }: Props) {
-  const { darkMode } = useTheme();
-  return (
+const { darkMode } = useContextGlobal();  
+return (
     <div className='flex justify-between items-center'>
       <div className='flex gap-2 items-center justify-start'>
         {!saving && saved && (

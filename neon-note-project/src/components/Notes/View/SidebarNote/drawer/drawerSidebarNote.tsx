@@ -1,6 +1,5 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { DrawerComponent } from '@/components/common/drawer';
-import { useTheme } from '@/components/ThemeDark';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi2';
@@ -9,8 +8,9 @@ import { useDisclosure } from '@chakra-ui/react';
 import { AddFolderModal } from '@/components/Layout/AppSidebar/modals/addFolter';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { ListFoldersMobile } from './listFoldersMobile';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ClipLoader } from 'react-spinners';
+import { useContextGlobal } from '@/Context';
 
 interface DrawerSidebarNoteProps {
   isOpenModal: boolean;
@@ -37,8 +37,7 @@ export function DrawerSidebarNote({
   newFolderName,
   setNewFolderName
 }: DrawerSidebarNoteProps) {
-  const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   const {
     isOpen: isOpenAddFolder,
     onOpen: onOpenAddFolder,

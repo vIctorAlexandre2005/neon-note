@@ -1,4 +1,4 @@
-import FadeIn from '@/components/Effects/FadeIn';
+import FadeIn from '@/components/common/Effects/FadeIn';
 import { truncateText } from '@/utils/truncate';
 import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';

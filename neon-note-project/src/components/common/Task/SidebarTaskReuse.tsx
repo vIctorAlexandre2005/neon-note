@@ -1,9 +1,9 @@
 import { PuffLoader, PulseLoader } from "react-spinners";
-import { useTheme } from "../ThemeDark";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { CardTasks } from "../Task/TasksCards/tasksCards";
+import { CardTasks } from "../../Task/View/TasksCards/tasksCards";
 import { FaPlus } from "react-icons/fa";
+import { useContextGlobal } from "@/Context";
 
 interface TaskProps {
   statusTitle: string;
@@ -15,7 +15,7 @@ interface TaskProps {
   numberTasksStatusDone: number;
 }
 
-export function SidebarTasksComponent({
+export function SidebarTasksReuse({
   arrayTasks,
   statusIconColorBackground,
   statusIcon,
@@ -24,7 +24,7 @@ export function SidebarTasksComponent({
   colorProgressStatusBar,
   numberTasksStatusDone,
 }: TaskProps) {
-  const { darkMode } = useTheme();
+const { darkMode } = useContextGlobal();
 
   return (
     <div

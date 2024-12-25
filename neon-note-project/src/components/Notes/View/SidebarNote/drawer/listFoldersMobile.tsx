@@ -1,7 +1,7 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
-import { useTheme } from '@/components/ThemeDark';
-import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
+import { useSecondarySidebarNote } from '@/components/Notes/ViewModel/useSecondarySidebarNote';
+import { useContextGlobal } from '@/Context';
 import { useDisclosure } from '@chakra-ui/react';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
@@ -20,15 +20,14 @@ export function ListFoldersMobile({
   folder,
   onClose,
 }: ListFoldersProps) {
-  const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   const {
     isOpen: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
-  const { deleteFolder } = useSecondarySidebarHome();
+  const { deleteFolder } = useSecondarySidebarNote();
 
   return (
     <div className='flex flex-col'>

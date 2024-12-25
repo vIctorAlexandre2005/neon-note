@@ -1,5 +1,5 @@
 import { ModalComponent } from '@/components/Modals/modal';
-import { useTheme } from '@/components/ThemeDark';
+import { useContextGlobal } from '@/Context';
 import { successToast } from '@/utils/toasts/toasts';
 
 interface Props {
@@ -15,9 +15,7 @@ export function DeleteFolderModal({
   deleteFolder,
   selectedFolderId
 }: Props) {
-  const { darkMode } = useTheme();
-
-  console.log("deleteFolder:", selectedFolderId)
+const { darkMode } = useContextGlobal();
 
   return (
     <ModalComponent isOpen={isOpenDeleteFolder} onClose={onCloseDeleteFolder}>
@@ -25,7 +23,7 @@ export function DeleteFolderModal({
         <p
           className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
         >
-          Tem certeza que deseja excluir esta pasta?
+          Tem certeza que deseja excluir essa pasta?
         </p>
         <div className='flex justify-center gap-4 mt-6'>
           <button

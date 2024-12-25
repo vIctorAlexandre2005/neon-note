@@ -1,4 +1,4 @@
-import { LoginComponent } from '@/components/LoginComponent';
+import { LoginComponent } from '@/components/Login';
 import { useContextGlobal } from '@/Context';
 import { useRouter } from 'next/router';
 
