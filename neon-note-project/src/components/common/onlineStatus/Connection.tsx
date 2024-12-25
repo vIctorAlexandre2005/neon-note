@@ -1,4 +1,4 @@
-import { useOnlineStatus } from '@/hooks/Connection/onlineStatus';
+import { useOnlineStatus } from '@/components/common/onlineStatus/Hook/onlineStatus';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

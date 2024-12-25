@@ -1,5 +1,4 @@
-import { Logout } from '@/components/Logout';
-import { useTheme } from '@/components/ThemeDark';
+import { Logout } from '@/components/common/Logout';
 import { useContextGlobal } from '@/Context';
 import { handleSignin } from '@/utils/login';
 import {
@@ -19,7 +18,7 @@ import { FiToggleLeft } from 'react-icons/fi';
 import { IoToggleSharp } from 'react-icons/io5';
 
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } = useTheme();
+  const { darkMode, toggleDarkMode } = useContextGlobal();  
   const { user } = useContextGlobal();
   const { isOpen, onClose, onOpen } = useDisclosure();
 

@@ -20,7 +20,7 @@ import {
   getDocs,
   serverTimestamp,
 } from 'firebase/firestore';
-import { useContextGlobal } from '..';
+import { useContextGlobal } from '../../../../Context';
 import 'firebase/compat/auth';
 import { getAuth } from 'firebase/auth';
 

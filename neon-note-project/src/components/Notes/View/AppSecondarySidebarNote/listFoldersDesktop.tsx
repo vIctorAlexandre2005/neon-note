@@ -1,5 +1,5 @@
 import { ButtonComponent } from '@/components/common/Button';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { truncateText } from '@/utils/truncate';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';

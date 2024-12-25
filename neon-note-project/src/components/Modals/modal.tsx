@@ -1,10 +1,10 @@
+import { useContextGlobal } from '@/Context';
 import {
   Modal,
   ModalContent,
   ModalOverlay,
   ChakraProps,
 } from '@chakra-ui/react';
-import { useTheme } from '../ThemeDark';
 
 interface ModalProps extends ChakraProps {
   children: React.ReactNode;
@@ -23,8 +23,7 @@ export function ModalComponent({
   ...rest
 }: ModalProps) {
 
-  const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   return (
     <Modal isOpen={isOpen} isCentered onClose={onClose} size={size}>
       <ModalOverlay />

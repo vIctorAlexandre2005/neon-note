@@ -1,17 +1,14 @@
 import { BiPlus } from 'react-icons/bi';
-import { useTheme } from '../../../ThemeDark';
-import FadeIn from '../../../Effects/FadeIn';
+import FadeIn from '../../../common/Effects/FadeIn';
 import { Fragment, useEffect, useState } from 'react';
 import { truncateText } from '@/utils/truncate';
 import { ClipLoader, PulseLoader } from 'react-spinners';
 import { useContextGlobal } from '@/Context';
-import { useContextNoteData } from '@/Context/NoteContext';
+import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { CardNotes } from './cardNotes';
 import { ButtonComponent } from '@/components/common/Button';
-import { useSecondarySidebarHome } from '@/hooks/useSecondarySidebar/sidebarHome';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSidebarNote } from '../../ViewModel/useSidebarNote';
 import { FaFolder, FaFolderOpen, FaFolderPlus } from 'react-icons/fa';
 import { IoFolderOpenSharp } from 'react-icons/io5';
 import {
@@ -25,10 +22,11 @@ import { BsTrash } from 'react-icons/bs';
 import { HiDocumentText } from 'react-icons/hi2';
 import { DrawerComponent } from '@/components/common/drawer';
 import { DrawerSidebarNote } from './drawer/drawerSidebarNote';
+import { useSidebarCardsNote } from '../../ViewModel/useSidebarCardsNote';
+import { useSecondarySidebarNote } from '../../ViewModel/useSecondarySidebarNote';
 
 export function SidebarNote() {
-  const { darkMode } = useTheme();
-
+  const { darkMode } = useContextGlobal();
   const {
     noteList,
     addNote,
@@ -46,7 +44,7 @@ export function SidebarNote() {
     loadingNotes,
     moveNote,
     filteredNotes,
-  } = useSidebarNote();
+  } = useSidebarCardsNote();
 
   const {
     folders,
@@ -55,7 +53,7 @@ export function SidebarNote() {
     newFolderName,
     handleAddFolder,
     setNewFolderName,
-  } = useSecondarySidebarHome();
+  } = useSecondarySidebarNote();
 
   const handleSelectNote = (note: any) => {
     setTitleNote(note.title);
@@ -99,8 +97,6 @@ export function SidebarNote() {
       }
     }
   }, [titleNote, textNote, activeNote, noteList]);
-
-  console.log("isOpenModal:", isOpenModal);
 
   return (
     <div

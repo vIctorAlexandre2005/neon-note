@@ -1,11 +1,10 @@
 import { RiFolderCloseFill } from "react-icons/ri";
-import { useTheme } from "../ThemeDark";
 import { HashLoader } from "react-spinners";
+import { useContextGlobal } from "@/Context";
 
 export function ThereIsNoFolder() {
 
-    const { darkMode } = useTheme();
-
+const { darkMode } = useContextGlobal();
   return (
     <div
       className={`flex flex-col gap-1 items-center p-2 ${darkMode ? 'text-neon-800 opacity-80' : 'text-black-600'}`}

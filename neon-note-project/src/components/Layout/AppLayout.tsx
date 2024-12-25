@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useTheme } from '../ThemeDark';
 import { NoteHeader } from './AppHeader/header';
 import { Sidebar } from './AppSidebar/sidebar';
 import { useRouter } from 'next/router';
@@ -12,8 +11,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { darkMode, setDarkMode } = useTheme();
-
+  const { darkMode, setDarkMode } = useContextGlobal();
   const { user, loading } = useContextGlobal();
 
   const router = useRouter();

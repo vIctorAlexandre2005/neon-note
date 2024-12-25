@@ -1,8 +1,7 @@
 import Layout from '@/components/Layout/AppLayout';
-import { ThemeProvider } from '@/components/ThemeDark';
-import { ConnectionStatus } from '@/components/View/onlineStatus/Connection';
+import { ConnectionStatus } from '@/components/common/onlineStatus/Connection';
 import ParamsContext from '@/Context';
-import NoteContext from '@/Context/NoteContext';
+import NoteContext from '@/components/Notes/Context/NoteContext';
 import '@/styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
@@ -14,17 +13,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ParamsContext>
       <NoteContext>
-      <ChakraProvider>
-        <ThemeProvider>
-          
-            <Layout>
-              <ConnectionStatus />
-              <Component {...pageProps} />
-            </Layout>
-          
+        <ChakraProvider>
+          <Layout>
+            <ConnectionStatus />
+            <Component {...pageProps} />
+          </Layout>
           <ToastContainer pauseOnHover={false} position='bottom-right' />
-        </ThemeProvider>
-      </ChakraProvider>
+        </ChakraProvider>
       </NoteContext>
     </ParamsContext>
   );

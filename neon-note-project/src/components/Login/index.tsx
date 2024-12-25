@@ -1,12 +1,11 @@
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
 import { IoToggleSharp } from 'react-icons/io5';
 import { FiToggleLeft } from 'react-icons/fi';
-import { useTheme } from '../ThemeDark';
 import { handleSignin } from '@/utils/login';
+import { useContextGlobal } from '@/Context';
 
 export function LoginComponent() {
-  const { darkMode, toggleDarkMode } = useTheme();
-
+const { darkMode, toggleDarkMode } = useContextGlobal();
   return (
     <>
       <div
