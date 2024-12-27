@@ -69,7 +69,7 @@ const { darkMode } = useContextGlobal();
           />
       </div>
 
-      <div className='flex flex-col gap-2 mt-6'>
+      <div className='flex flex-col gap-2 mt-6 overflow-auto max-h-[calc(100vh-115px)]'>
         
         {loadingFolders && (
           <div className='flex items-center justify-center'>
