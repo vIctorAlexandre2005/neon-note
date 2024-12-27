@@ -21,7 +21,7 @@ import { ModalComponent } from '@/components/Modals/modal';
 import { BsTrash } from 'react-icons/bs';
 import { HiDocumentText } from 'react-icons/hi2';
 import { DrawerComponent } from '@/components/common/drawer';
-import { DrawerSidebarNote } from './drawer/drawerSidebarNote';
+import { DrawerSidebarNote } from './drawerFolders/drawerSidebarNote';
 import { useSidebarCardsNote } from '../../ViewModel/useSidebarCardsNote';
 import { useSecondarySidebarNote } from '../../ViewModel/useSecondarySidebarNote';
 

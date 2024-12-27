@@ -5,7 +5,7 @@ import { InputComponent } from '../../common/InputField';
 import { debounce } from '@/utils/debounce';
 import { db } from '@/services/firebase';
 import FadeIn from '../../common/Effects/FadeIn';
-import { DrawerToUseNote } from '../../Modals/Drawer/DrawerModal';
+import { DrawerToUseNote } from './DrawerOpenSelectedNote/DrawerToUseNote';
 import { collection, doc, updateDoc } from 'firebase/firestore';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
