@@ -3,7 +3,7 @@ import { HashLoader } from 'react-spinners';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ButtonComponent } from './Button';
 import { useContextGlobal } from '@/Context';
-import { DrawerSidebarNote } from '../Notes/View/SidebarNote/drawer/drawerSidebarNote';
+import { DrawerSidebarNote } from '../Notes/View/SidebarNote/drawerFolders/drawerSidebarNote';
 import { useSecondarySidebarNote } from '../Notes/ViewModel/useSecondarySidebarNote';
 
 export function ThereIsNoFolderMobile() {

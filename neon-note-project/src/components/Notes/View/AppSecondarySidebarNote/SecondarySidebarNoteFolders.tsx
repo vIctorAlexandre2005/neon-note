@@ -61,7 +61,7 @@ export function SecondarySidebarNoteFolders() {
           />
         </div>
 
-        <div className='flex flex-col gap-1 p-2'>
+        <div className='flex flex-col gap-1 p-2 overflow-auto max-h-[calc(100vh-115px)]'>
           {loadingFolders && (
             <div className='flex items-center justify-center'>
               <ClipLoader size={24} color='#36d7b7' />
@@ -78,6 +78,7 @@ export function SecondarySidebarNoteFolders() {
                     selectedFolderId={selectedFolderId}
                     onOpenDeleteFolder={onOpenDeleteFolder}
                   />
+                  
                 </Fragment>
               ))
             : !loadingFolders && <ThereIsNoFolder />}
