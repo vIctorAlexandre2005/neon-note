@@ -104,7 +104,7 @@ export function SidebarNote() {
     >
       <div className='flex justify-between items-center'>
         <h1
-          className={`text-2xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
+          className={`text-xl mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-900'}`}
         >
           {selectedItem}
         </h1>
@@ -137,7 +137,7 @@ export function SidebarNote() {
             : noteList?.filter(note => note.itemId === selectedFolderId)?.length}
         </p>
       </div>
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
         {' '}
         {/*  */}
         {loadingNotes && (
