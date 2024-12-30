@@ -137,7 +137,7 @@ export function SidebarNote() {
             : noteList?.filter(note => note.itemId === selectedFolderId)?.length}
         </p>
       </div>
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-240px)]'>
+      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-270px)]'>
         {' '}
         {/*  */}
         {loadingNotes && (
