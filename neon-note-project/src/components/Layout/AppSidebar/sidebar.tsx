@@ -29,7 +29,7 @@ export function Sidebar({ darkMode }: SidebarProps) {
               className={`
                   ${
                     router.pathname === item.link
-                      ? 'bg-blue-950 bg-opacity-40 text-white p-2 flex justify-center rounded-full'
+                      ? darkMode ? 'bg-blue-900 bg-opacity-40 text-white p-2 flex justify-center rounded-full' : 'bg-blue-950 bg-opacity-50 text-white p-2 flex justify-center rounded-full'
                       : 'bg-transparent hover:bg-blue-950 hover:bg-opacity-40 p-2 rounded-full transition duration-300 text-white'
                   }
                 `}
