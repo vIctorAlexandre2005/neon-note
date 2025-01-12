@@ -7,13 +7,22 @@ const TaskProvider = createContext<TaskContextData>(
   
   const TaskContext = ({ children }: { children: ReactNode }) => {
     
-    const [foldersTasks, setFoldersTasks] = useState<ListFoldersTask>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [tasksFolders, setTasksFolders] = useState<ListFoldersTask[]>([]); // Lista de pastas
+    const [isLoadingTaskFolder, setIsLoadingTaskFolder] = useState<boolean>(false); // Indica se as pastas estao sendo carregadas
+    const [newTaskFolderName, setNewTaskFolderName] = useState<string>(''); // Nome da nova pasta criada
+    const [selectedTaskFolder, setSelectedTaskFolder] = useState<number | null>(null); // Pasta selecionada
   
     return (
       <TaskProvider.Provider
         value={{
-            foldersTasks,
+          tasksFolders,
+          setTasksFolders,
+          isLoadingTaskFolder,
+          setIsLoadingTaskFolder,
+          newTaskFolderName,
+          setNewTaskFolderName,
+          selectedTaskFolder,
+          setSelectedTaskFolder
         }}
       >
         {children}

@@ -1,7 +1,4 @@
 import { ClockLoader, HashLoader } from 'react-spinners';
-import { SidebarNote } from '../../Notes/View/SidebarNote/SidebarNote';
-import { SidebarTasks } from './TasksSidebars/SidebarsTasksCard';
-import { MdOutlineEditNote } from 'react-icons/md';
 import { BiCheck, BiCheckCircle } from 'react-icons/bi';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';

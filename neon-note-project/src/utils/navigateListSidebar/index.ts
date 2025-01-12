@@ -15,9 +15,9 @@ export const navigateListSidebar: NavigateListSidebarProps[] = [
     link: '/',
     icon: HiOutlinePencilSquare,
   },
-  // {
-  //   name: 'Tarefas',
-  //   link: '/tasks',
-  //   icon: FaTasks,
-  // },
+  {
+    name: 'Tarefas',
+    link: '/tasks',
+    icon: FaTasks,
+  },
 ];

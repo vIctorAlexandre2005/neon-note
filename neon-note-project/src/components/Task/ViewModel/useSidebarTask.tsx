@@ -4,54 +4,53 @@ import { db } from '@/services/firebase';
 import { errorToast } from '@/utils/toasts/toasts';
 import { collection, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-
-interface Folder {
-  id: number;
-  name: string;
-}
+import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 
 export function useSecondarySidebarTask() {
-  const [openSubFolder, setOpenSubFolder] = useState<null | number>(null);
-  const [folders, setFolders] = useState<Folder[]>([]);
-  const [newFolderName, setNewFolderName] = useState('');
-  // const [newItemName, setNewItemName] = useState('');
-  
+  const {
+    isLoadingTaskFolder,
+    setIsLoadingTaskFolder,
+    newTaskFolderName,
+    setNewTaskFolderName,
+    tasksFolders,
+    setTasksFolders,
+    selectedTaskFolder,
+    setSelectedTaskFolder,
+  } = useContextTaskData();
 
-  const { user } = useContextGlobal();
-  const {selectedItem, selectedFolderId, setSelectedFolderId, loadingFolders, setLoadingFolders } = useContextNoteData();
+  function handleAddFolderTask() {
+    const folderExist = tasksFolders.some(
+      folder => folder.name === newTaskFolderName
+    );
 
-  const handleAddFolder = () => {
-
-    const folderExist = folders.some(folder => folder.name === newFolderName);
-
-    if(folderExist) {
-      errorToast(`"${newFolderName}" já existe`);
+    if (folderExist) {
+      errorToast(`"${newTaskFolderName}" já existe`);
       return;
-    };
+    }
 
-    if (newFolderName.trim()) {
+    if (newTaskFolderName.trim()) {
       const newFolder = {
         id: Date.now(),
-        name: newFolderName,
+        name: newTaskFolderName,
       };
-  
-      const updatedFolders = [...folders, newFolder];
-      setFolders(updatedFolders);
-      setNewFolderName(''); // Limpa o campo de input
-  
+
+      const updatedFolders = [...tasksFolders, newFolder];
+      setTasksFolders(updatedFolders);
+      setNewTaskFolderName(''); // Limpa o campo de input
+
       // Salva toda a estrutura no localStorage
       if (typeof window !== 'undefined') {
-        localStorage.setItem('folders', JSON.stringify(updatedFolders));
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
       }
     } else {
-      errorToast('Nome da pasta não pode ser vazio!');
+      errorToast('Nome da pasta não pode estar vazio!');
       return;
-    };
-  };
+    }
+  }
 
-  function deleteFolder(id: number) {
-    const updatedFolders = folders.filter(folder => folder.id !== id);
-    setFolders(updatedFolders);
+  function deleteFolderTask(id: number) {
+    const updatedFolders = tasksFolders.filter(folder => folder.id !== id);
+    setTasksFolders(updatedFolders);
 
     // Salva toda a estrutura atualizada no localStorage
     if (typeof window !== 'undefined') {
@@ -62,44 +61,33 @@ export function useSecondarySidebarTask() {
   useEffect(() => {
     async function getFoldersNote() {
       try {
-
-        setLoadingFolders(true);
-  
-        // Em seguida, sincroniza com o Firestore
-        const querySnapshot = await getDocs(collection(db, `users/${user.uid}/folders`));
-        const foldersNotesArray: any = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-  
-        setFolders(foldersNotesArray);
+        setIsLoadingTaskFolder(true);
+        // Lê do localStorage primeiro para refletir atualizações locais
+        const parsedFolders = localStorage.getItem('foldersTask');
+        if (parsedFolders) {
+          setTasksFolders(JSON.parse(parsedFolders));
+        }
       } catch (error) {
+        errorToast('Erro ao obter as pastas');
         console.error('Erro ao obter as pastas:', error);
       } finally {
-        setLoadingFolders(false);
-      };
-    };
-  
+        setIsLoadingTaskFolder(false);
+      }
+    }
+
     getFoldersNote();
-  }, [selectedItem]);
-  
+  }, [selectedTaskFolder]);
 
   return {
-    // openSubFolder,
-    // setOpenSubFolder,
-    folders,
-    newFolderName,
-    // newItemName,
-    selectedFolderId,
-    setSelectedFolderId,
-    // openSubFolders,
-    handleAddFolder,
-    // handleAddItem,
-    setNewFolderName,
-    // setNewItemName,
-    deleteFolder,
-    // handleDeleteItem,
-    loadingFolders,
-    setLoadingFolders
-  }
+    isLoadingTaskFolder,
+    setIsLoadingTaskFolder,
+    newTaskFolderName,
+    setNewTaskFolderName,
+    tasksFolders,
+    setTasksFolders,
+    selectedTaskFolder,
+    setSelectedTaskFolder,
+    handleAddFolderTask,
+    deleteFolderTask,
+  };
 }

@@ -12,60 +12,30 @@ import { useContextGlobal } from '@/Context';
 import { SidebarNote } from './SidebarNote/SidebarNote';
 import { ContainerSidebarAndNoteMain } from './SidebarNote/ContainerSidebarAndNoteMain';
 import { ThereIsNoFolderMobile } from '@/components/common/ThereIsNoFolderMobile';
+import { useNoteMain } from '../ViewModel/useNoteMain';
 
 export function NeonNote() {
   const {
-    setTitleNote,
-    setTextNote,
+    activeNoteId,
+    activeNote,
     noteList,
-    updateNote,
+    darkMode,
     deleteNote,
+    handleTextChange,
+    handleTitleChange,
     titleNote,
     textNote,
-    activeNote,
+    selectedItem,
+    isMobile,
     isOpen,
-    selectedFolderId,
-    setSelectedFolderId,
     onClose,
-  } = useContextNoteData();
-
-  const { isMobile, user, darkMode } = useContextGlobal();
-
-  const activeNoteId = noteList.find(note => note.id === activeNote); // Encontra a nota ativa
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  const { selectedItem } = useContextNoteData();
-
-  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
-      setSaving(true);
-      try {
-        const noteRef = doc(db, `users/${user?.uid}/folders/${selectedFolderId}/notes/${id}`);
-        const sanitizedFields: any = Object.fromEntries(
-          Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
-        );
-        await updateDoc(noteRef, sanitizedFields);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
-      } catch (error) {
-        console.error("Erro ao atualizar a nota:", error);
-      } finally {
-        setSaving(false);
-      }
-    }, 500);
-
-  // Funções de handle para capturar as mudanças nos inputs
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    setTitleNote(newTitle);
-    debouncedUpdateNote(activeNote, { title: newTitle }); // Atualiza no Firebase
-  };
-
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = e.target.value;
-    setTextNote(newText);
-    debouncedUpdateNote(activeNote, { text: newText }); // Atualiza no Firebase
-  };
+    saved,
+    saving,
+    selectedFolderId,
+    setTitleNote,
+    setTextNote,
+    updateNote,
+  } = useNoteMain();
 
   useEffect(() => {
     if (activeNoteId) {
@@ -75,36 +45,40 @@ export function NeonNote() {
   }, [activeNote, noteList]);
 
   if (!isMobile && !selectedItem) {
-    
-      return (
-        <div className='flex flex-col justify-end items-center animate-flute'>
-          <img
-            src='/noFolders.svg'
-            alt='empty'
-            className='object-cover mt-24'
-            height={300}
-            width={300}
-          />
-          <h3
-            className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
-          >
-            Crie e inspire-se!
-          </h3>
-        </div>
-      );
+    return (
+      <div className='flex flex-col justify-end items-center animate-flute'>
+        <img
+          src='/noFolders.svg'
+          alt='empty'
+          className='object-cover mt-24'
+          height={300}
+          width={300}
+        />
+        <h3
+          className={`${darkMode ? 'text-white' : 'text-black'} text-xl mt-5`}
+        >
+          Crie e inspire-se!
+        </h3>
+      </div>
+    );
   }
 
   if (selectedItem && !isMobile) {
-    return <ContainerSidebarAndNoteMain activeNote={activeNote} darkMode={darkMode} />
-  };
+    return (
+      <ContainerSidebarAndNoteMain
+        activeNote={activeNote}
+        darkMode={darkMode}
+      />
+    );
+  }
 
-  if(isMobile) {
+  if (isMobile) {
     return (
       <div className='flex h-full justify-center gap-4'>
-      {selectedFolderId ? (
+        {selectedFolderId ? (
           <div className='md:flex-none xs:w-full md:w-80 max-h-full'>
-          <SidebarNote />
-        </div>
+            <SidebarNote />
+          </div>
         ) : (
           <ThereIsNoFolderMobile />
         )}
@@ -127,6 +101,6 @@ export function NeonNote() {
             />
           )}
       </div>
-    )
+    );
   }
 }
