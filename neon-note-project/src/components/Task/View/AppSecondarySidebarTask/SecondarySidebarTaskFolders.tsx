@@ -6,14 +6,16 @@ import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolter';
 import { DeleteFolderModal } from '../../../Layout/AppSidebar/modals/deleteFolder';
-import { useSecondarySidebarTask } from '@/components/Task/ViewModel/useSidebarTask';
+import { useSecondarySidebarTask } from '@/components/Task/ViewModel/useSecondarySidebarTask';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ClipLoader } from 'react-spinners';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { truncateText } from '@/utils/truncate';
+import { ListFoldersTask } from './ListFoldersTask';
+import { AddFolderModalTask } from '../modal/addFolter';
+import { DeleteFolderModalTask } from '../modal/deleteFolder';
 
 export function SecondarySidebarTaskFolders() {
-  
   const { darkMode } = useContextGlobal();
   const {
     tasksFolders,
@@ -22,22 +24,15 @@ export function SecondarySidebarTaskFolders() {
     handleAddFolderTask,
     deleteFolderTask,
     newTaskFolderName,
-    setNewTaskFolderName
+    setNewTaskFolderName,
+    handleSelectFolderTask,
+    isOpenAddFolder,
+    isOpenDeleteFolder,
+    onCloseAddFolder,
+    onCloseDeleteFolder,
+    onOpenAddFolder,
+    onOpenDeleteFolder
   } = useSecondarySidebarTask();
-
-  const { handleItemClick } = useContextNoteData();
-
-  const {
-    isOpen: isOpenAddFolder,
-    onOpen: onOpenAddFolder,
-    onClose: onCloseAddFolder,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenDeleteFolder,
-    onOpen: onOpenDeleteFolder,
-    onClose: onCloseDeleteFolder,
-  } = useDisclosure();
 
   return (
     <div
@@ -57,53 +52,21 @@ export function SecondarySidebarTaskFolders() {
           />
         </div>
 
-        <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-115px)]'>
-          {isLoadingTaskFolder && (
-            <div className='flex justify-center items-center'>
-              <ClipLoader size={20} color='#1e40af' />
-            </div>
-          )}
-
-          {tasksFolders.length > 0
-            ? tasksFolders.map(folder => (
-                <div className='flex flex-col pl-4'>
-                  <div
-                    className='w-full mb-2 flex justify-between items-center'
-                    onClick={() => handleItemClick(folder.id, folder.name)}
-                  >
-                    <div
-                      className={`
-                      flex gap-2 items-center justify-between cursor-pointer
-                      ${
-                        selectedTaskFolder === folder.id && darkMode
-                          ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedTaskFolder === folder.id && !darkMode
-                            ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                            : darkMode
-                              ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                              : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                      } 
-                      rounded p-1 w-full
-                    `}
-                    >
-                      <div className='flex gap-2 items-center'>
-                        <FaFolder size={18} />
-                        <h1 className={`text-md font-bold`}>{truncateText(folder.name, 30)}</h1>
-                      </div>
-                      <ButtonComponent
-                        onClick={onOpenDeleteFolder}
-                        icon={<BsTrash size={18} />}
-                        className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))
-            : !isLoadingTaskFolder && <ThereIsNoFolder />}
-        </div>
+        {tasksFolders?.length > 0 ? (
+          <ListFoldersTask
+            isLoadingTaskFolder={isLoadingTaskFolder}
+            tasksFolders={tasksFolders}
+            selectedTaskFolder={selectedTaskFolder}
+            handleSelectFolderTask={handleSelectFolderTask}
+            onOpenDeleteFolder={onOpenDeleteFolder}
+          />
+        ) : (
+          <ThereIsNoFolder />
+        )}
       </div>
+
       {isOpenAddFolder && (
-        <AddFolderModal
+        <AddFolderModalTask
           darkMode={darkMode}
           handleAddFolder={handleAddFolderTask}
           isOpenAddFolder={isOpenAddFolder}
@@ -114,7 +77,7 @@ export function SecondarySidebarTaskFolders() {
       )}
 
       {isOpenDeleteFolder && (
-        <DeleteFolderModal
+        <DeleteFolderModalTask
           selectedFolderId={selectedTaskFolder as number}
           isOpenDeleteFolder={isOpenDeleteFolder}
           deleteFolder={deleteFolderTask as any}

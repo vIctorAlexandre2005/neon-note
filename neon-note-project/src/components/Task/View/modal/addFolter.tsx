@@ -11,7 +11,7 @@ interface Props {
   darkMode: boolean;
 }
 
-export function AddFolderModal({
+export function AddFolderModalTask({
   isOpenAddFolder,
   onCloseAddFolder,
   newFolderName,

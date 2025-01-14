@@ -1,10 +1,7 @@
-import { useContextGlobal } from '@/Context';
-import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
-import { db } from '@/services/firebase';
-import { errorToast } from '@/utils/toasts/toasts';
-import { collection, getDocs } from 'firebase/firestore';
+import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { useEffect, useState } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
+import { useDisclosure } from '@chakra-ui/react';
 
 export function useSecondarySidebarTask() {
   const {
@@ -17,6 +14,18 @@ export function useSecondarySidebarTask() {
     selectedTaskFolder,
     setSelectedTaskFolder,
   } = useContextTaskData();
+
+  const {
+    isOpen: isOpenAddFolder,
+    onOpen: onOpenAddFolder,
+    onClose: onCloseAddFolder,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDeleteFolder,
+    onOpen: onOpenDeleteFolder,
+    onClose: onCloseDeleteFolder,
+  } = useDisclosure();
 
   function handleAddFolderTask() {
     const folderExist = tasksFolders.some(
@@ -41,11 +50,17 @@ export function useSecondarySidebarTask() {
       // Salva toda a estrutura no localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        successToast('Pasta criada com sucesso!');
       }
     } else {
       errorToast('Nome da pasta não pode estar vazio!');
       return;
     }
+  }
+
+  function handleSelectFolderTask(id: number, nameFolder: string) {
+    setSelectedTaskFolder(id);
+    setNewTaskFolderName(nameFolder);
   }
 
   function deleteFolderTask(id: number) {
@@ -54,7 +69,7 @@ export function useSecondarySidebarTask() {
 
     // Salva toda a estrutura atualizada no localStorage
     if (typeof window !== 'undefined') {
-      localStorage.setItem('folders', JSON.stringify(updatedFolders));
+      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
     }
   }
 
@@ -79,15 +94,28 @@ export function useSecondarySidebarTask() {
   }, [selectedTaskFolder]);
 
   return {
-    isLoadingTaskFolder,
-    setIsLoadingTaskFolder,
     newTaskFolderName,
     setNewTaskFolderName,
+
+    isLoadingTaskFolder,
+    setIsLoadingTaskFolder,
+    
     tasksFolders,
     setTasksFolders,
+    
     selectedTaskFolder,
     setSelectedTaskFolder,
+    
     handleAddFolderTask,
     deleteFolderTask,
+    handleSelectFolderTask,
+
+    isOpenAddFolder,
+    onOpenAddFolder,
+    onCloseAddFolder,
+
+    isOpenDeleteFolder,
+    onOpenDeleteFolder,
+    onCloseDeleteFolder,
   };
 }
