@@ -4,6 +4,7 @@ import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
 
 export function useSecondarySidebarTask() {
+
   const {
     isLoadingTaskFolder,
     setIsLoadingTaskFolder,
@@ -13,6 +14,10 @@ export function useSecondarySidebarTask() {
     setTasksFolders,
     selectedTaskFolder,
     setSelectedTaskFolder,
+    openFixedFolders,
+    setOpenFixedFolders,
+    openNotFixedFolders,
+    setOpenNotFixedFolders
   } = useContextTaskData();
 
   const {
@@ -71,7 +76,15 @@ export function useSecondarySidebarTask() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
     }
-  }
+  };
+
+  function handleOpenNotFixedFolders() {
+    setOpenNotFixedFolders(!openNotFixedFolders);
+  };
+
+  function handleOpenFixedFolders() {
+    setOpenFixedFolders(!openFixedFolders);
+  };
 
   useEffect(() => {
     async function getFoldersNote() {
@@ -117,5 +130,14 @@ export function useSecondarySidebarTask() {
     isOpenDeleteFolder,
     onOpenDeleteFolder,
     onCloseDeleteFolder,
+
+    openFixedFolders,
+    setOpenFixedFolders,
+
+    openNotFixedFolders,
+    setOpenNotFixedFolders,
+
+    handleOpenNotFixedFolders,
+    handleOpenFixedFolders
   };
 }

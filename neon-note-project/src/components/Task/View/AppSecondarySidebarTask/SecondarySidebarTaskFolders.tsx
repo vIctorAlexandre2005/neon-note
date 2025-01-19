@@ -2,7 +2,7 @@ import { ButtonComponent } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
 import { useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { BsTrash } from 'react-icons/bs';
+import { BsFillPinAngleFill, BsPinAngle, BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolter';
 import { DeleteFolderModal } from '../../../Layout/AppSidebar/modals/deleteFolder';
@@ -11,9 +11,13 @@ import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ClipLoader } from 'react-spinners';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { truncateText } from '@/utils/truncate';
-import { ListFoldersTask } from './ListFoldersTask';
-import { AddFolderModalTask } from '../modal/addFolter';
+import { ListFoldersTask } from '.';
+import { AddFolderModalTask } from '../modal/addFolder';
 import { DeleteFolderModalTask } from '../modal/deleteFolder';
+import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
+import { CiFolderOn } from 'react-icons/ci';
+import { ListFixedFolders } from './ListFoldersTask/Fixed/fixedFolders';
+import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
 
 export function SecondarySidebarTaskFolders() {
   const { darkMode } = useContextGlobal();
@@ -31,14 +35,18 @@ export function SecondarySidebarTaskFolders() {
     onCloseAddFolder,
     onCloseDeleteFolder,
     onOpenAddFolder,
-    onOpenDeleteFolder
+    onOpenDeleteFolder,
+    openFixedFolders,
+    openNotFixedFolders,
+    handleOpenNotFixedFolders,
+    handleOpenFixedFolders,
   } = useSecondarySidebarTask();
 
   return (
     <div
       className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
-      <div className={`flex-col mt-6 gap-4 flex`}>
+      <div className={`flex-col gap-2 flex`}>
         <div className='flex justify-between p-2 items-center'>
           <h1
             className={`text-xl font-bold ${darkMode ? 'text-black-400' : 'text-black-700'}`}
@@ -52,17 +60,29 @@ export function SecondarySidebarTaskFolders() {
           />
         </div>
 
-        {tasksFolders?.length > 0 ? (
-          <ListFoldersTask
-            isLoadingTaskFolder={isLoadingTaskFolder}
-            tasksFolders={tasksFolders}
-            selectedTaskFolder={selectedTaskFolder}
+        <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
+          {/* Pastas fixadas */}
+          <ListFixedFolders 
+            handleOpenFixedFolders={handleOpenFixedFolders} 
+            openFixedFolders={openFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
+            isLoadingTaskFolder={isLoadingTaskFolder}
             onOpenDeleteFolder={onOpenDeleteFolder}
+            selectedTaskFolder={selectedTaskFolder}
+            tasksFolders={tasksFolders}  
           />
-        ) : (
-          <ThereIsNoFolder />
-        )}
+
+          {/* Todas as pastas */}
+          <ListAllTaskFolders 
+            handleOpenNotFixedFolders={handleOpenNotFixedFolders} 
+            handleSelectFolderTask={handleSelectFolderTask} 
+            openNotFixedFolders={openNotFixedFolders} 
+            isLoadingTaskFolder={isLoadingTaskFolder}
+            onOpenDeleteFolder={onOpenDeleteFolder}
+            selectedTaskFolder={selectedTaskFolder}
+            tasksFolders={tasksFolders}
+          />
+        </div>
       </div>
 
       {isOpenAddFolder && (

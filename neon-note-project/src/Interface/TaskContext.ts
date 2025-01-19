@@ -14,6 +14,11 @@ export interface TaskContextData {
     setIsLoadingTaskFolder: Dispatch<SetStateAction<boolean>>;
     selectedTaskFolder: number | null;
     setSelectedTaskFolder: Dispatch<SetStateAction<number | null>>;
+
+    openFixedFolders: boolean;
+    setOpenFixedFolders: Dispatch<SetStateAction<boolean>>;
+    openNotFixedFolders: boolean;
+    setOpenNotFixedFolders: Dispatch<SetStateAction<boolean>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -25,4 +30,8 @@ export const defaultValueTaskContextData: TaskContextData = {
     setIsLoadingTaskFolder: () => {},
     selectedTaskFolder: null,
     setSelectedTaskFolder: () => {},
+    openFixedFolders: false,
+    setOpenFixedFolders: () => {},
+    openNotFixedFolders: false,
+    setOpenNotFixedFolders: () => {},
 };

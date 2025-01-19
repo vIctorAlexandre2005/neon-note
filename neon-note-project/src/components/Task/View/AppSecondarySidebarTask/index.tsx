@@ -1,4 +1,5 @@
 import { ButtonComponent } from '@/components/common/Button';
+import FadeIn from '@/components/common/Effects/FadeIn';
 import { useContextGlobal } from '@/Context';
 import { truncateText } from '@/utils/truncate';
 import { BsTrash } from 'react-icons/bs';
@@ -23,22 +24,23 @@ export function ListFoldersTask({
   const { darkMode } = useContextGlobal();
 
   return (
-    <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-115px)]'>
+    <div className='flex flex-col p-2 gap-1'>
       {isLoadingTaskFolder && (
         <div className='flex justify-center items-center'>
           <ClipLoader size={20} color='#1e40af' />
         </div>
       )}
 
-      {tasksFolders &&
-        tasksFolders.map(folder => (
-          <div className='flex flex-col pl-4'>
-            <div
-              className='w-full mb-2 flex justify-between items-center'
-              onClick={() => handleSelectFolderTask(folder.id, folder.name)}
-            >
+      <FadeIn>
+        {tasksFolders &&
+          tasksFolders.map(folder => (
+            <div className='flex flex-col'>
               <div
-                className={`
+                className='w-full mb-2 flex justify-between items-center'
+                onClick={() => handleSelectFolderTask(folder.id, folder.name)}
+              >
+                <div
+                  className={`
                       flex gap-2 items-center justify-between cursor-pointer
                       ${
                         selectedTaskFolder === folder.id && darkMode
@@ -51,22 +53,23 @@ export function ListFoldersTask({
                       } 
                       rounded p-1 w-full
                     `}
-              >
-                <div className='flex gap-2 items-center'>
-                  <FaFolder size={18} />
-                  <h1 className={`text-md font-bold`}>
-                    {truncateText(folder.name, 30)}
-                  </h1>
+                >
+                  <div className='flex gap-2 items-center'>
+                    <FaFolder size={18} />
+                    <h1 className={`text-md font-bold`}>
+                      {truncateText(folder.name, 30)}
+                    </h1>
+                  </div>
+                  <ButtonComponent
+                    onClick={onOpenDeleteFolder}
+                    icon={<BsTrash size={18} />}
+                    className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                  />
                 </div>
-                <ButtonComponent
-                  onClick={onOpenDeleteFolder}
-                  icon={<BsTrash size={18} />}
-                  className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                />
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+      </FadeIn>
     </div>
   );
 }
