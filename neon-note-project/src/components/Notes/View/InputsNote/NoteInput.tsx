@@ -89,6 +89,7 @@ export function NoteInput() {
       {activeNoteId && (
         <div className='flex flex-col h-full gap-4'>
           <OptionsHeaderNote
+            isModalOpen={isModalOpen}
             activeNoteId={activeNoteId}
             blockNote={blockNote}
             deleteNote={deleteNote}
@@ -145,17 +146,6 @@ export function NoteInput() {
         ${darkMode ? 'placeholder:opacity-50' : 'placeholder:opacity-95'}
     `}
           />
-
-          {isModalOpen && (
-            <ModalDelete
-              activeNoteId={activeNoteId}
-              darkMode={darkMode}
-              deleteNote={deleteNote}
-              onModalClose={onModalClose}
-              isModalOpen={isModalOpen}
-              onClose={() => {}}
-            />
-          )}
         </div>
       )}
     </>

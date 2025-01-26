@@ -18,7 +18,6 @@ export function DeleteFolderModal({
   const { darkMode } = useContextGlobal();
 
   return (
-    <ModalContentComponent>
       <div className='p-4'>
         <p
           className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
@@ -44,6 +43,5 @@ export function DeleteFolderModal({
           </button>
         </div>
       </div>
-    </ModalContentComponent>
   );
 }

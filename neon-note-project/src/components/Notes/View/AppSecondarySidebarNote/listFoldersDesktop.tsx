@@ -1,4 +1,9 @@
 import { ButtonComponent } from '@/components/common/Button';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
+import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { truncateText } from '@/utils/truncate';
 import { BsTrash } from 'react-icons/bs';
@@ -10,6 +15,9 @@ interface PropsListFolders {
   selectedFolderId: string | number | null;
   darkMode: boolean;
   onOpenDeleteFolder: () => void;
+  isOpenDeleteFolder: boolean;
+  onCloseDeleteFolder: () => void;
+  deleteFolder: (id: string) => void;
 }
 
 export function ListFoldersDesktop({
@@ -18,6 +26,9 @@ export function ListFoldersDesktop({
   selectedFolderId,
   darkMode,
   onOpenDeleteFolder,
+  isOpenDeleteFolder,
+  onCloseDeleteFolder,
+  deleteFolder,
 }: PropsListFolders) {
   return (
     <div className='flex flex-col'>
@@ -46,11 +57,26 @@ export function ListFoldersDesktop({
               {truncateText(folder.name, 22)}
             </h1>
           </div>
-          <ButtonComponent
-            onClick={onOpenDeleteFolder}
-            icon={<BsTrash size={18} />}
-            className={`hover:bg-red-500 hover:text-white z-50 ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-          />
+          <ModalRootComponent isOpen={isOpenDeleteFolder} onClose={onCloseDeleteFolder}>
+            <>
+              <ButtonComponent
+                onClick={onOpenDeleteFolder}
+                icon={<BsTrash size={18} />}
+                className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+              />
+
+              <ModalContentComponent
+                content={
+                  <DeleteFolderModal
+                    selectedFolderId={selectedFolderId as string}
+                    isOpenDeleteFolder={isOpenDeleteFolder}
+                    deleteFolder={deleteFolder}
+                    onCloseDeleteFolder={onCloseDeleteFolder}
+                  />
+                }
+              />
+            </>
+          </ModalRootComponent>
         </div>
       </div>
     </div>

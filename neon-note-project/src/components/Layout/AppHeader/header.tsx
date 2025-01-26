@@ -5,11 +5,7 @@ import {
 } from '@/components/common/Popover/PopoverModal';
 import { useContextGlobal } from '@/Context';
 import { handleSignin } from '@/utils/login';
-import {
-  PopoverBody,
-  PopoverHeader,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { PopoverBody, PopoverHeader, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
@@ -62,7 +58,11 @@ export function NoteHeader() {
               {isOpen && (
                 <>
                   <PopoverHeader>
-                    <h3 className='text-lg'>Configurações</h3>
+                    <h3
+                      className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'}`}
+                    >
+                      Configurações
+                    </h3>
                   </PopoverHeader>
 
                   <PopoverBody>
@@ -86,7 +86,10 @@ export function NoteHeader() {
 
                       <button
                         onClick={() => toggleDarkMode()}
-                        className='bg-transparent text-black items-center mt-4 flex gap-2 p-2 rounded-lg font-semibold hover:text-neon-500'
+                        className={`
+                          bg-transparent items-center mt-4 flex gap-2 p-2 rounded-lg font-semibold hover:text-neon-500 
+                          ${darkMode ? 'text-white' : 'text-black-800'}
+                        `}
                       >
                         {darkMode ? (
                           <BsMoonStarsFill size={25} />

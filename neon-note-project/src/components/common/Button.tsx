@@ -1,3 +1,4 @@
+import { useContextGlobal } from '@/Context';
 import { ClipLoader } from 'react-spinners';
 
 type ButtonProps = {
@@ -20,14 +21,19 @@ export function ButtonComponent({
   className = '',
   ...rest
 }: ButtonProps) {
+  const { darkMode } = useContextGlobal();
   return (
     <button
       onClick={onClick}
       disabled={disabled || isLoading} // Desabilitar se estiver carregando ou desabilitado
-      className={`transition duration-200 p-2 flex justify-center items-center ${className}`} // Permite adicionar classes extras
+      className={`transition duration-200 rounded-lg p-2 flex justify-center text-center items-center ${className}`} // Permite adicionar classes extras
       {...rest}
     >
-      {!isLoading && text && <span className='ml-2'>{text}</span>}{' '}
+      {!isLoading && text && (
+        <span>
+          {text}
+        </span>
+      )}{' '}
       {isLoading ? loader : icon}
       {/* Exibe o texto se não estiver carregando */}
     </button>

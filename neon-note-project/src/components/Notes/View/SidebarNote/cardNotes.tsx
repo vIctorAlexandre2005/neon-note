@@ -53,7 +53,6 @@ export function CardNotes({
             }}
             onClick={() => {
               handleSelectNote(note);
-              onOpen();
             }}
             className={`
                   ${activeNote === note.id ? 'bg-neon-500' : darkMode ? 'bg-neon-800' : 'bg-neon-400'} w-full rounded-xl p-2 cursor-pointer

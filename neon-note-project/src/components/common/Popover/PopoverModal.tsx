@@ -35,7 +35,7 @@ export function PopoverContentComponent({
 }: PopoverContentComponentProps) {
   const { darkMode } = useContextGlobal();
   return (
-    <PopoverContent p={4} bg={darkMode ? '#0f172a' : 'white'}>
+    <PopoverContent bg={darkMode ? '#0f172a' : 'white'}>
       <PopoverArrow />
       {children}
     </PopoverContent>

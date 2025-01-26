@@ -144,7 +144,6 @@ export function DrawerToUseNote({
           darkMode={darkMode}
           activeNoteId={activeNoteId}
           deleteNote={deleteNote}
-          onClose={onClose}
         />
       )}
     </DrawerContentComponent>

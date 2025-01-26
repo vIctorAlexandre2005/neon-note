@@ -21,7 +21,6 @@ export function AddFolderModal({
 }: Props) {
 
   return (
-    <ModalContentComponent>
       <div className='flex flex-col p-4 gap-4'>
         <h1
           className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-black-800'}`}
@@ -51,6 +50,5 @@ export function AddFolderModal({
           />
         </div>
       </div>
-    </ModalContentComponent>
   );
 }

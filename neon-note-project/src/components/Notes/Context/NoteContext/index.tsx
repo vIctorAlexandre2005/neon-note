@@ -23,6 +23,7 @@ import {
 import { useContextGlobal } from '../../../../Context';
 import 'firebase/compat/auth';
 import { getAuth } from 'firebase/auth';
+import { errorToast, successToast } from '@/utils/toasts/toasts';
 
 const NoteProvider = createContext<NoteContextData>(
   defaultValueNoteContextData
@@ -141,8 +142,10 @@ const NoteContext = ({ children }: { children: ReactNode }) => {
       // Tenta excluir a nota do Firestore
       await deleteDoc(noteRef);
       setActiveNote(null); // Desativa a nota ativa
+      successToast('Nota excluida com sucesso');
     } catch (error) {
       console.error('Erro ao deletar a nota:', error);
+      errorToast('Erro ao deletar a nota');
     }
   }
 

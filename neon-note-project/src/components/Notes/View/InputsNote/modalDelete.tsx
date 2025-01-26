@@ -7,19 +7,16 @@ interface Props {
   darkMode: boolean;
   activeNoteId: any;
   deleteNote: (id: any) => void;
-  onClose: () => void;
 }
 
 export function ModalDelete({
   darkMode,
-  isModalOpen,
   onModalClose,
   activeNoteId,
   deleteNote,
-  onClose,
 }: Props) {
   return (
-    <ModalContentComponent>
+    
       <div className='p-4'>
         <p
           className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
@@ -33,7 +30,6 @@ export function ModalDelete({
               deleteNote(activeNoteId.id);
               onModalClose();
               successToast('Nota excluída com sucesso!');
-              onClose();
             }}
           >
             Sim
@@ -46,6 +42,6 @@ export function ModalDelete({
           </button>
         </div>
       </div>
-    </ModalContentComponent>
+    
   );
 }
