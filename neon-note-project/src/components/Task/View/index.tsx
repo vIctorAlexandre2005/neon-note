@@ -7,7 +7,7 @@ import { SidebarTasksReuse } from '../../common/Task/SidebarTaskReuse';
 import { useSecondarySidebarTask } from '../ViewModel/useSecondarySidebarTask';
 
 export function TaskComponent() {
-  const { tasksFolders, newTaskFolderName } = useSecondarySidebarTask()
+  const { tasksAllFolders, newTaskFolderName } = useSecondarySidebarTask()
   const { darkMode } = useContextGlobal();
 
   return (
@@ -19,8 +19,8 @@ export function TaskComponent() {
         </h1>
       <div className='flex gap-4 h-full'>
         <SidebarTasksReuse
-          arrayTasks={tasksFolders}
-          numberTasksStatus={tasksFolders?.length}
+          arrayTasks={tasksAllFolders}
+          numberTasksStatus={tasksAllFolders?.length}
           statusIcon={<HashLoader size={24} color='blue' />}
           statusTitle='A começar'
           statusIconColorBackground='blue'
@@ -30,8 +30,8 @@ export function TaskComponent() {
         />
 
         <SidebarTasksReuse
-          arrayTasks={tasksFolders}
-          numberTasksStatus={tasksFolders?.length}
+          arrayTasks={tasksAllFolders}
+          numberTasksStatus={tasksAllFolders?.length}
           statusIcon={<ClockLoader size={20} color='orange' />}
           statusTitle='Em progresso'
           statusIconColorBackground='orange'
@@ -41,13 +41,13 @@ export function TaskComponent() {
         />
 
         <SidebarTasksReuse
-          arrayTasks={tasksFolders}
-          numberTasksStatus={tasksFolders?.length}
+          arrayTasks={tasksAllFolders}
+          numberTasksStatus={tasksAllFolders?.length}
           statusIcon={<BiCheckCircle size={24} color='#02ad41' />}
           statusTitle='Concluído'
           statusIconColorBackground='green'
           colorProgressStatusBar='green'
-          numberTasksStatusDone={tasksFolders?.length}
+          numberTasksStatusDone={tasksAllFolders?.length}
           thereIsNoButtonCreateTaskInSidebar={false}
         />
       </div>

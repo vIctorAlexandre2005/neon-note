@@ -1,4 +1,4 @@
-import { ModalComponent } from '@/components/Modals/modal';
+import { ModalContentComponent } from '@/components/common/modal';
 import { useContextGlobal } from '@/Context';
 import { successToast } from '@/utils/toasts/toasts';
 
@@ -18,7 +18,7 @@ export function DeleteFolderModalTask({
 const { darkMode } = useContextGlobal();
 
   return (
-    <ModalComponent isOpen={isOpenDeleteFolder} onClose={onCloseDeleteFolder}>
+    <ModalContentComponent>
       <div className='p-4'>
         <p
           className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
@@ -44,6 +44,6 @@ const { darkMode } = useContextGlobal();
           </button>
         </div>
       </div>
-    </ModalComponent>
+    </ModalContentComponent>
   );
 }

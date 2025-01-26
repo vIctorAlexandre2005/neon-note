@@ -1,13 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
 
+export interface ListFoldersTaskFixed {
+    name: string;
+    id: number;
+}
+
 export interface ListFoldersTask {
     name: string;
     id: number;
 }
 
 export interface TaskContextData {
-    tasksFolders: ListFoldersTask[];
-    setTasksFolders: (folders: ListFoldersTask[]) => void;
+    tasksAllFolders: ListFoldersTask[];
+    setAllTasksFolders: Dispatch<SetStateAction<ListFoldersTask[]>>;
+    tasksFixedFolders: ListFoldersTaskFixed[];
+    setTasksFixedFolders: Dispatch<SetStateAction<ListFoldersTaskFixed[]>>;
     newTaskFolderName: string;
     setNewTaskFolderName: Dispatch<SetStateAction<string>>;
     isLoadingTaskFolder: boolean;
@@ -22,8 +29,10 @@ export interface TaskContextData {
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
-    tasksFolders: [],
-    setTasksFolders: () => {},
+    tasksAllFolders: [],
+    setAllTasksFolders: () => {},
+    tasksFixedFolders: [],
+    setTasksFixedFolders: () => {},
     newTaskFolderName: '',
     setNewTaskFolderName: () => {},
     isLoadingTaskFolder: false,

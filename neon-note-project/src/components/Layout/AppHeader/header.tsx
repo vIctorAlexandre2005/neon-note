@@ -1,26 +1,25 @@
 import { Logout } from '@/components/common/Logout';
+import {
+  PopoverContentComponent,
+  PopoverRootComponent,
+} from '@/components/common/Popover/PopoverModal';
 import { useContextGlobal } from '@/Context';
 import { handleSignin } from '@/utils/login';
 import {
-  Popover,
-  PopoverArrow,
   PopoverBody,
-  PopoverContent,
   PopoverHeader,
-  PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
-import { FaRegUser } from 'react-icons/fa';
 import { FiToggleLeft } from 'react-icons/fi';
 import { IoToggleSharp } from 'react-icons/io5';
 
 export function NoteHeader() {
-  const { darkMode, toggleDarkMode } = useContextGlobal();  
+  const { darkMode, toggleDarkMode } = useContextGlobal();
   const { user } = useContextGlobal();
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { open: isOpen, onClose: onClose, onOpen: onOpen } = useDisclosure();
 
   const router = useRouter();
 
@@ -46,23 +45,20 @@ export function NoteHeader() {
           </h1>
         </div>
         <div onMouseEnter={onOpen}>
-          <Popover isOpen={isOpen} onClose={onClose}>
-            <PopoverTrigger>
-              <div onMouseEnter={onOpen} onClick={onOpen}>
-                {user && user?.photoURL && (
-                  <div className='flex items-center gap-2'>
-                    <img
-                      src={user?.photoURL}
-                      className='rounded-full border-2 border-neon-600 object-cover'
-                      height={35}
-                      width={35}
-                    />
-                  </div>
-                )}
-              </div>
-            </PopoverTrigger>
-            <PopoverContent bg={'#f9f9f9f9'}>
-              <PopoverArrow />
+          <PopoverRootComponent isOpen={isOpen} onClose={onClose}>
+            <div onMouseEnter={onOpen} onClick={onOpen}>
+              {user && user?.photoURL && (
+                <div className='flex items-center gap-2'>
+                  <img
+                    src={user?.photoURL}
+                    className='rounded-full border-2 border-neon-600 object-cover'
+                    height={35}
+                    width={35}
+                  />
+                </div>
+              )}
+            </div>
+            <PopoverContentComponent>
               {isOpen && (
                 <>
                   <PopoverHeader>
@@ -107,8 +103,8 @@ export function NoteHeader() {
                   </PopoverBody>
                 </>
               )}
-            </PopoverContent>
-          </Popover>
+            </PopoverContentComponent>
+          </PopoverRootComponent>
         </div>
       </header>
     </>

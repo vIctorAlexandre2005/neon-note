@@ -1,33 +1,65 @@
 import { useContextGlobal } from '@/Context';
-import {
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  ChakraProps,
-} from '@chakra-ui/react';
+import { DialogCloseTrigger, DialogContent, DialogRoot, DialogTrigger } from '../ui/dialog';
 
-interface ModalProps extends ChakraProps {
+interface ModalRootComponentProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  size?: string;
-  isCentered?: boolean;
-}
+  size?: "sm" | "md" | "lg" | "xl" | "xs" | "cover" | "full" | undefined;
+  placement?: "center" | "top" | "bottom" | undefined;
+};
 
-export function ModalComponent({
+interface ModalContentComponentProps {
+  children: React.ReactNode;
+};
+
+export function ModalRootComponent({
   children,
   onClose,
   isOpen,
   size,
-  isCentered,
-  ...rest
-}: ModalProps) {
+}: ModalRootComponentProps) {
+  return (
+    <DialogRoot open={isOpen} size={size} onOpenChange={onClose} placement={'center'}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+    </DialogRoot>
+  );
+}
+
+export function ModalContentComponent({
+  children,
+}: ModalContentComponentProps) {
 
 const { darkMode } = useContextGlobal();
   return (
-    <Modal isOpen={isOpen} isCentered onClose={onClose} size={size}>
-      <ModalOverlay />
-      <ModalContent bg={darkMode ? '#1a1a1a' : 'white'} {...rest}>{children}</ModalContent>
-    </Modal>
+    <DialogContent p={4} bg={darkMode ? '#0f172a' : 'white'}>
+      {children}
+    </DialogContent>
   );
 }
+
+{/* <DialogRoot>
+<DialogTrigger asChild>
+  <Button variant="outline" size="sm">
+    Open Dialog
+  </Button>
+</DialogTrigger>
+<DialogContent>
+  <DialogHeader>
+    <DialogTitle>Dialog Title</DialogTitle>
+  </DialogHeader>
+  <DialogBody>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+  </DialogBody>
+  <DialogFooter>
+    <DialogActionTrigger asChild>
+      <Button variant="outline">Cancel</Button>
+    </DialogActionTrigger>
+    <Button>Save</Button>
+  </DialogFooter>
+  <DialogCloseTrigger />
+</DialogContent>
+</DialogRoot> */}

@@ -4,36 +4,37 @@ import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
 
 export function useSecondarySidebarTask() {
-
   const {
     isLoadingTaskFolder,
     setIsLoadingTaskFolder,
     newTaskFolderName,
     setNewTaskFolderName,
-    tasksFolders,
-    setTasksFolders,
+    tasksAllFolders,
+    setAllTasksFolders,
     selectedTaskFolder,
     setSelectedTaskFolder,
     openFixedFolders,
     setOpenFixedFolders,
     openNotFixedFolders,
-    setOpenNotFixedFolders
+    setOpenNotFixedFolders,
+    tasksFixedFolders,
+    setTasksFixedFolders,
   } = useContextTaskData();
 
   const {
-    isOpen: isOpenAddFolder,
+    open: isOpenAddFolder,
     onOpen: onOpenAddFolder,
     onClose: onCloseAddFolder,
   } = useDisclosure();
 
   const {
-    isOpen: isOpenDeleteFolder,
+    open: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
   function handleAddFolderTask() {
-    const folderExist = tasksFolders.some(
+    const folderExist = tasksAllFolders.some(
       folder => folder.name === newTaskFolderName
     );
 
@@ -48,8 +49,8 @@ export function useSecondarySidebarTask() {
         name: newTaskFolderName,
       };
 
-      const updatedFolders = [...tasksFolders, newFolder];
-      setTasksFolders(updatedFolders);
+      const updatedFolders = [...tasksAllFolders, newFolder];
+      setAllTasksFolders(updatedFolders);
       setNewTaskFolderName(''); // Limpa o campo de input
 
       // Salva toda a estrutura no localStorage
@@ -69,41 +70,58 @@ export function useSecondarySidebarTask() {
   }
 
   function deleteFolderTask(id: number) {
-    const updatedFolders = tasksFolders.filter(folder => folder.id !== id);
-    setTasksFolders(updatedFolders);
+    const updatedFolders = tasksAllFolders.filter(folder => folder.id !== id);
+    setAllTasksFolders(updatedFolders);
 
     // Salva toda a estrutura atualizada no localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
     }
-  };
+  }
 
   function handleOpenNotFixedFolders() {
     setOpenNotFixedFolders(!openNotFixedFolders);
-  };
+  }
 
   function handleOpenFixedFolders() {
     setOpenFixedFolders(!openFixedFolders);
-  };
+  }
+
+  async function getAllFoldersTask() {
+    try {
+      setIsLoadingTaskFolder(true);
+      // Lê do localStorage primeiro para refletir atualizações locais
+      const parsedFolders = localStorage.getItem('foldersTask');
+      if (parsedFolders) {
+        setAllTasksFolders(JSON.parse(parsedFolders));
+      }
+    } catch (error) {
+      errorToast('Erro ao obter as pastas');
+      console.error('Erro ao obter as pastas:', error);
+    } finally {
+      setIsLoadingTaskFolder(false);
+    }
+  }
+
+  async function getFolderTaskFixed() {
+    try {
+      setIsLoadingTaskFolder(true);
+      // Lê do localStorage primeiro para refletir atualizações locais
+      const parsedFolders = localStorage.getItem('foldersTaskFixed');
+      if (parsedFolders) {
+        setTasksFixedFolders(JSON.parse(parsedFolders));
+      }
+    } catch (error) {
+      errorToast('Erro ao obter as pastas');
+      console.error('Erro ao obter as pastas:', error);
+    } finally {
+      setIsLoadingTaskFolder(false);
+    }
+  }
 
   useEffect(() => {
-    async function getFoldersNote() {
-      try {
-        setIsLoadingTaskFolder(true);
-        // Lê do localStorage primeiro para refletir atualizações locais
-        const parsedFolders = localStorage.getItem('foldersTask');
-        if (parsedFolders) {
-          setTasksFolders(JSON.parse(parsedFolders));
-        }
-      } catch (error) {
-        errorToast('Erro ao obter as pastas');
-        console.error('Erro ao obter as pastas:', error);
-      } finally {
-        setIsLoadingTaskFolder(false);
-      }
-    }
-
-    getFoldersNote();
+    getFolderTaskFixed();
+    getAllFoldersTask();
   }, [selectedTaskFolder]);
 
   return {
@@ -112,13 +130,13 @@ export function useSecondarySidebarTask() {
 
     isLoadingTaskFolder,
     setIsLoadingTaskFolder,
-    
-    tasksFolders,
-    setTasksFolders,
-    
+
+    tasksAllFolders,
+    setAllTasksFolders,
+
     selectedTaskFolder,
     setSelectedTaskFolder,
-    
+
     handleAddFolderTask,
     deleteFolderTask,
     handleSelectFolderTask,
@@ -138,6 +156,9 @@ export function useSecondarySidebarTask() {
     setOpenNotFixedFolders,
 
     handleOpenNotFixedFolders,
-    handleOpenFixedFolders
+    handleOpenFixedFolders,
+
+    tasksFixedFolders,
+    setTasksFixedFolders,
   };
 }

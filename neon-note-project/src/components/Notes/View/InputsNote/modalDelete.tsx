@@ -1,4 +1,4 @@
-import { ModalComponent } from '@/components/Modals/modal';
+import { ModalContentComponent } from '@/components/common/modal';
 import { successToast } from '@/utils/toasts/toasts';
 
 interface Props {
@@ -11,22 +11,15 @@ interface Props {
 }
 
 export function ModalDelete({
-  onModalClose,
-  isModalOpen,
   darkMode,
+  isModalOpen,
+  onModalClose,
   activeNoteId,
   deleteNote,
   onClose,
 }: Props) {
   return (
-    <ModalComponent
-      onClose={onModalClose}
-      isOpen={isModalOpen}
-      size='md'
-      isCentered
-      bg={darkMode ? '#1a1a1a' : 'white'}
-      w={'auto'}
-    >
+    <ModalContentComponent>
       <div className='p-4'>
         <p
           className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
@@ -53,6 +46,6 @@ export function ModalDelete({
           </button>
         </div>
       </div>
-    </ModalComponent>
+    </ModalContentComponent>
   );
 }

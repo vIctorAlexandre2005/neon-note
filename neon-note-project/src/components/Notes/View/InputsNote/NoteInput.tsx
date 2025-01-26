@@ -9,13 +9,12 @@ import { useContextGlobal } from '@/Context';
 import { InputComponent } from '@/components/common/InputField';
 import { TbLock, TbLockOpen2 } from 'react-icons/tb';
 import { useDisclosure } from '@chakra-ui/react';
-import { ModalComponent } from '@/components/Modals/modal';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { OptionsHeaderNote } from './optionsHeaderNote';
 import { ModalDelete } from './modalDelete';
 
 export function NoteInput() {
-  const { darkMode } = useContextGlobal();  
+  const { darkMode } = useContextGlobal();
   const {
     setTitleNote,
     setTextNote,
@@ -32,7 +31,7 @@ export function NoteInput() {
   const { user } = useContextGlobal();
 
   const {
-    isOpen: isModalOpen,
+    open: isModalOpen,
     onOpen: onModalOpen,
     onClose: onModalClose,
   } = useDisclosure();
@@ -41,22 +40,28 @@ export function NoteInput() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const debouncedUpdateNote = debounce(async (id: string, updatedFields: any) => {
-    setSaving(true);
-    try {
-      const noteRef = doc(db, `users/${user?.uid}/folders/${selectedFolderId}/notes/${id}`);
-      const sanitizedFields: any = Object.fromEntries(
-        Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
-      );
-      await updateDoc(noteRef, sanitizedFields);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } catch (error) {
-      console.error("Erro ao atualizar a nota:", error);
-    } finally {
-      setSaving(false);
-    }
-  }, 500);
+  const debouncedUpdateNote = debounce(
+    async (id: string, updatedFields: any) => {
+      setSaving(true);
+      try {
+        const noteRef = doc(
+          db,
+          `users/${user?.uid}/folders/${selectedFolderId}/notes/${id}`
+        );
+        const sanitizedFields: any = Object.fromEntries(
+          Object.entries(updatedFields).filter(([_, v]) => v !== undefined)
+        );
+        await updateDoc(noteRef, sanitizedFields);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+      } catch (error) {
+        console.error('Erro ao atualizar a nota:', error);
+      } finally {
+        setSaving(false);
+      }
+    },
+    500
+  );
 
   // Manipuladores de mudanças no título e texto
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,8 +79,8 @@ export function NoteInput() {
   // Atualiza os campos quando a nota ativa muda
   useEffect(() => {
     if (activeNoteId) {
-      setTitleNote(activeNoteId.title || "");
-      setTextNote(activeNoteId.text || "");
+      setTitleNote(activeNoteId.title || '');
+      setTextNote(activeNoteId.text || '');
     }
   }, [activeNote, noteList]);
 

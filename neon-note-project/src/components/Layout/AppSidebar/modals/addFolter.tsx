@@ -1,6 +1,6 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { InputComponent } from '@/components/common/InputField';
-import { ModalComponent } from '@/components/Modals/modal';
+import { ModalContentComponent } from '@/components/common/modal';
 
 interface Props {
   isOpenAddFolder: boolean;
@@ -20,10 +20,8 @@ export function AddFolderModal({
   darkMode,
 }: Props) {
 
-  console.log(newFolderName);
-
   return (
-    <ModalComponent onClose={onCloseAddFolder} isOpen={isOpenAddFolder}>
+    <ModalContentComponent>
       <div className='flex flex-col p-4 gap-4'>
         <h1
           className={`text-2xl font-semibold ${darkMode ? 'text-white' : 'text-black-800'}`}
@@ -53,6 +51,6 @@ export function AddFolderModal({
           />
         </div>
       </div>
-    </ModalComponent>
+    </ModalContentComponent>
   );
 }

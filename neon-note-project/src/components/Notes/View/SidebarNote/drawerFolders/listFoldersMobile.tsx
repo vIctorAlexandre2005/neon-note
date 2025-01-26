@@ -22,7 +22,7 @@ export function ListFoldersMobile({
 }: ListFoldersProps) {
 const { darkMode } = useContextGlobal();
   const {
-    isOpen: isOpenDeleteFolder,
+    open: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
   } = useDisclosure();

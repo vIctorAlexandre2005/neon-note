@@ -2,11 +2,12 @@ import { BsPinAngle } from 'react-icons/bs';
 import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
 import { ListFoldersTask } from '../..';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
+import { useContextGlobal } from '@/Context';
 
 interface PropsListFixedFolders {
   openFixedFolders: boolean;
   handleOpenFixedFolders: () => void;
-  tasksFolders: any[];
+  listTypeTask: any[];
   isLoadingTaskFolder: boolean;
   selectedTaskFolder: number | null;
   handleSelectFolderTask: (id: number, name: string) => void;
@@ -16,35 +17,39 @@ interface PropsListFixedFolders {
 export function ListFixedFolders({
   openFixedFolders,
   handleOpenFixedFolders,
-  tasksFolders,
+  listTypeTask,
   isLoadingTaskFolder,
   selectedTaskFolder,
   handleSelectFolderTask,
   onOpenDeleteFolder,
 }: PropsListFixedFolders) {
+  const { darkMode } = useContextGlobal();
+
   return (
     <div onClick={handleOpenFixedFolders}>
       <div className='flex p-2 rounded-full hover:bg-gray-500 hover:bg-opacity-30 transition-all cursor-pointer duration-300 gap-2 items-center justify-between'>
-        <div className='flex gap-2 items-center'>
+        <div
+          className={`flex gap-2 items-center ${darkMode ? 'text-black-100' : 'text-black-700'}`}
+        >
           <p className='text-lg font-semibold'>Fixado</p>
           <BsPinAngle size={20} />
         </div>
 
         <div>
           {openFixedFolders ? (
-            <IoMdArrowDropdown size={20} />
+            <IoMdArrowDropdown color={darkMode ? '#fff' : '#000'} size={20} />
           ) : (
-            <IoMdArrowDropleft size={20} />
+            <IoMdArrowDropleft color={darkMode ? '#fff' : '#000'} size={20} />
           )}
         </div>
       </div>
 
       <div>
         {openFixedFolders &&
-          (tasksFolders?.length > 0 ? (
+          (listTypeTask?.length > 0 ? (
             <ListFoldersTask
               isLoadingTaskFolder={isLoadingTaskFolder}
-              tasksFolders={tasksFolders}
+              listTypeTask={listTypeTask}
               selectedTaskFolder={selectedTaskFolder}
               handleSelectFolderTask={handleSelectFolderTask}
               onOpenDeleteFolder={onOpenDeleteFolder}

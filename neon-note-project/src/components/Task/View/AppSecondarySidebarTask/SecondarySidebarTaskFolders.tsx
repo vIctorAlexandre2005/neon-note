@@ -22,7 +22,7 @@ import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTask
 export function SecondarySidebarTaskFolders() {
   const { darkMode } = useContextGlobal();
   const {
-    tasksFolders,
+    tasksAllFolders,
     isLoadingTaskFolder,
     selectedTaskFolder,
     handleAddFolderTask,
@@ -40,6 +40,8 @@ export function SecondarySidebarTaskFolders() {
     openNotFixedFolders,
     handleOpenNotFixedFolders,
     handleOpenFixedFolders,
+    tasksFixedFolders,
+    setTasksFixedFolders,
   } = useSecondarySidebarTask();
 
   return (
@@ -61,31 +63,31 @@ export function SecondarySidebarTaskFolders() {
         </div>
 
         <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
-          {/* Pastas fixadas */}
-          <ListFixedFolders 
-            handleOpenFixedFolders={handleOpenFixedFolders} 
+          {/* Pastas fixas */}
+          <ListFixedFolders
+            handleOpenFixedFolders={handleOpenFixedFolders}
             openFixedFolders={openFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
             isLoadingTaskFolder={isLoadingTaskFolder}
             onOpenDeleteFolder={onOpenDeleteFolder}
             selectedTaskFolder={selectedTaskFolder}
-            tasksFolders={tasksFolders}  
+            listTypeTask={tasksFixedFolders}
           />
 
           {/* Todas as pastas */}
-          <ListAllTaskFolders 
-            handleOpenNotFixedFolders={handleOpenNotFixedFolders} 
-            handleSelectFolderTask={handleSelectFolderTask} 
-            openNotFixedFolders={openNotFixedFolders} 
+          <ListAllTaskFolders
+            handleOpenNotFixedFolders={handleOpenNotFixedFolders}
+            handleSelectFolderTask={handleSelectFolderTask}
+            openNotFixedFolders={openNotFixedFolders}
             isLoadingTaskFolder={isLoadingTaskFolder}
             onOpenDeleteFolder={onOpenDeleteFolder}
             selectedTaskFolder={selectedTaskFolder}
-            tasksFolders={tasksFolders}
+            tasksAllFolders={tasksAllFolders}
           />
         </div>
       </div>
 
-      {isOpenAddFolder && (
+      {isOpenAddFolder && ( // Modal para adicionar pasta
         <AddFolderModalTask
           darkMode={darkMode}
           handleAddFolder={handleAddFolderTask}
@@ -96,7 +98,7 @@ export function SecondarySidebarTaskFolders() {
         />
       )}
 
-      {isOpenDeleteFolder && (
+      {isOpenDeleteFolder && ( // Modal para deletar pasta
         <DeleteFolderModalTask
           selectedFolderId={selectedTaskFolder as number}
           isOpenDeleteFolder={isOpenDeleteFolder}

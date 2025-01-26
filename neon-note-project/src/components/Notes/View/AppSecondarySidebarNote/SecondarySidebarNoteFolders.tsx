@@ -32,13 +32,13 @@ export function SecondarySidebarNoteFolders() {
   } = useSecondarySidebarNote();
 
   const {
-    isOpen: isOpenAddFolder,
+    open: isOpenAddFolder,
     onOpen: onOpenAddFolder,
     onClose: onCloseAddFolder,
   } = useDisclosure();
 
   const {
-    isOpen: isOpenDeleteFolder,
+    open: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
   } = useDisclosure();

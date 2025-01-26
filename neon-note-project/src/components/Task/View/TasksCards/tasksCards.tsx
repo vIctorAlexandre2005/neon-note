@@ -1,6 +1,5 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
-import { truncateText } from '@/utils/truncate';
-import { Progress } from '@chakra-ui/react';
+import { ProgressBar, ProgressRoot } from '@/components/ui/progress';
 import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { BsListTask } from 'react-icons/bs';
@@ -76,7 +75,9 @@ export function CardTasks({
               </div>
 
               <div>
-                <Progress value={numberTasksStatusDone} borderRadius={'full'} size='xs' colorScheme={colorProgressStatusBar} max={numberTasksStatus} />
+                <ProgressRoot color={colorProgressStatusBar} size={'lg'}>
+                  <ProgressBar  />
+                </ProgressRoot>
               </div>
             </div>
             <div className='mt-4 flex justify-start'>

@@ -1,16 +1,15 @@
 import { ButtonComponent } from '@/components/common/Button';
-import { DrawerComponent } from '@/components/common/drawer';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi2';
 import { Dispatch, Fragment, SetStateAction } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { AddFolderModal } from '@/components/Layout/AppSidebar/modals/addFolter';
-import { DeleteFolderModal } from '@/components/Layout/AppSidebar/modals/deleteFolder';
 import { ListFoldersMobile } from './listFoldersMobile';
 import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { ClipLoader } from 'react-spinners';
 import { useContextGlobal } from '@/Context';
+import { DrawerContentComponent } from '@/components/common/drawer';
 
 interface DrawerSidebarNoteProps {
   isOpenModal: boolean;
@@ -39,7 +38,7 @@ export function DrawerSidebarNote({
 }: DrawerSidebarNoteProps) {
 const { darkMode } = useContextGlobal();
   const {
-    isOpen: isOpenAddFolder,
+    open: isOpenAddFolder,
     onOpen: onOpenAddFolder,
     onClose: onCloseAddFolder,
   } = useDisclosure();
@@ -50,12 +49,7 @@ const { darkMode } = useContextGlobal();
   } = useContextNoteData();
 
   return (
-    <DrawerComponent
-      isOpen={isOpenModal}
-      onClose={onCloseModal}
-      placement='left'
-      onEsc={onCloseModal}
-    >
+    <DrawerContentComponent>
       <div className='flex items-center justify-between'>
         <h1
           className={`text-2xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-black-900'}`}
@@ -100,6 +94,6 @@ const { darkMode } = useContextGlobal();
           setNewFolderName={setNewFolderName}
         />
       )}
-    </DrawerComponent>
+    </DrawerContentComponent>
   );
 }
