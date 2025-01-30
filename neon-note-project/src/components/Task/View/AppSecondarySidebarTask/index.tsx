@@ -9,6 +9,11 @@ import { RxDotsHorizontal } from 'react-icons/rx';
 import { useState } from 'react';
 import { MenuRoot, MenuTrigger } from '@/components/ui/menu';
 import { DropDownFolderTasks } from './ListFoldersTask/DropDown';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
+import { DeleteFolderModalTask } from '../modal/deleteFolder';
 
 interface PropsListFoldersTask {
   isLoadingTaskFolder: boolean;
@@ -16,6 +21,9 @@ interface PropsListFoldersTask {
   selectedTaskFolder: number | null;
   onOpenDeleteFolder: () => void;
   handleSelectFolderTask: (id: number, name: string) => void;
+  isOpenDeleteFolder: boolean;
+  onCloseDeleteFolder: () => void;
+  deleteFolderTask: (id: number) => void;
 }
 
 export function ListFoldersTask({
@@ -24,6 +32,9 @@ export function ListFoldersTask({
   selectedTaskFolder,
   handleSelectFolderTask,
   onOpenDeleteFolder,
+  isOpenDeleteFolder,
+  onCloseDeleteFolder,
+  deleteFolderTask,
 }: PropsListFoldersTask) {
   const { darkMode } = useContextGlobal();
 
@@ -71,20 +82,36 @@ export function ListFoldersTask({
                     </h1>
                   </div>
                   <div className='flex gap-2 items-center'>
-                    <ButtonComponent
-                      onClick={onOpenDeleteFolder}
-                      icon={<BsTrash size={18} />}
-                      className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                    />
+                    <ModalRootComponent
+                      isOpen={isOpenDeleteFolder}
+                      onClose={onCloseDeleteFolder}
+                    >
+                      <>
                         <ButtonComponent
-                          onClick={handleOpenDropDown}
-                          icon={<RxDotsHorizontal size={18} />}
-                          className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                          onClick={onOpenDeleteFolder}
+                          icon={<BsTrash size={18} />}
+                          className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
                         />
 
-                        {openDrowpDown && (
-                          <DropDownFolderTasks />
-                        )}
+                        <ModalContentComponent
+                          content={
+                            <DeleteFolderModalTask
+                              selectedFolderId={selectedTaskFolder as number}
+                              isOpenDeleteFolder={isOpenDeleteFolder}
+                              deleteFolder={deleteFolderTask as any}
+                              onCloseDeleteFolder={onCloseDeleteFolder}
+                            />
+                          }
+                        />
+                      </>
+                    </ModalRootComponent>
+                    <ButtonComponent
+                      onClick={handleOpenDropDown}
+                      icon={<RxDotsHorizontal size={18} />}
+                      className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                    />
+
+                    {openDrowpDown && <DropDownFolderTasks />}
                   </div>
                 </div>
               </div>

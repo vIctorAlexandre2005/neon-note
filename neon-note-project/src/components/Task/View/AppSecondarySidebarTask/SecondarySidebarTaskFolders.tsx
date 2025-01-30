@@ -18,6 +18,10 @@ import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
 import { CiFolderOn } from 'react-icons/ci';
 import { ListFixedFolders } from './ListFoldersTask/Fixed/fixedFolders';
 import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
 
 export function SecondarySidebarTaskFolders() {
   const { darkMode } = useContextGlobal();
@@ -55,11 +59,31 @@ export function SecondarySidebarTaskFolders() {
           >
             Minhas Pastas
           </h1>
-          <ButtonComponent
-            onClick={onOpenAddFolder}
-            icon={<FaFolderPlus size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
-          />
+          <ModalRootComponent
+            isOpen={isOpenAddFolder}
+            onClose={onCloseAddFolder}
+          >
+            <>
+            <ButtonComponent
+              onClick={onOpenAddFolder}
+              icon={<FaFolderPlus size={24} />}
+              className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
+            />
+
+            <ModalContentComponent
+              content={
+                <AddFolderModalTask
+                  darkMode={darkMode}
+                  handleAddFolder={handleAddFolderTask}
+                  isOpenAddFolder={isOpenAddFolder}
+                  newFolderName={newTaskFolderName}
+                  onCloseAddFolder={onCloseAddFolder}
+                  setNewFolderName={setNewTaskFolderName}
+                />
+              }
+            />
+            </>
+          </ModalRootComponent>
         </div>
 
         <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
@@ -83,29 +107,12 @@ export function SecondarySidebarTaskFolders() {
             onOpenDeleteFolder={onOpenDeleteFolder}
             selectedTaskFolder={selectedTaskFolder}
             tasksAllFolders={tasksAllFolders}
+            isOpenDeleteFolder={isOpenDeleteFolder}
+            onCloseDeleteFolder={onCloseDeleteFolder}
+            deleteFolderTask={deleteFolderTask}
           />
         </div>
       </div>
-
-      {isOpenAddFolder && ( // Modal para adicionar pasta
-        <AddFolderModalTask
-          darkMode={darkMode}
-          handleAddFolder={handleAddFolderTask}
-          isOpenAddFolder={isOpenAddFolder}
-          newFolderName={newTaskFolderName}
-          onCloseAddFolder={onCloseAddFolder}
-          setNewFolderName={setNewTaskFolderName}
-        />
-      )}
-
-      {isOpenDeleteFolder && ( // Modal para deletar pasta
-        <DeleteFolderModalTask
-          selectedFolderId={selectedTaskFolder as number}
-          isOpenDeleteFolder={isOpenDeleteFolder}
-          deleteFolder={deleteFolderTask as any}
-          onCloseDeleteFolder={onCloseDeleteFolder}
-        />
-      )}
     </div>
   );
 }
