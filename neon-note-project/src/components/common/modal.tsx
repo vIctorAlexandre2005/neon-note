@@ -21,6 +21,7 @@ export function ModalRootComponent({
 }: ModalRootComponentProps) {
   return (
     <DialogRoot open={isOpen} size={size} onOpenChange={onClose} placement={'center'}>
+      <DialogBackdrop bg={'transparent'} />
       <DialogTrigger asChild>{children}</DialogTrigger>
     </DialogRoot>
   );
@@ -32,7 +33,7 @@ export function ModalContentComponent({
 
 const { darkMode } = useContextGlobal();
   return (
-    <DialogContent boxShadow={"sm"} bg={darkMode ? '#0f172a' : '#fff'}>
+    <DialogContent boxShadow={"xs"} bg={darkMode ? '#0f172a' : '#fff'}>
       {content}
     </DialogContent>
   );

@@ -20,7 +20,7 @@ export function DeleteFolderModal({
   return (
       <div className='p-4'>
         <p
-          className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
+          className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} text-center font-medium`}
         >
           Tem certeza que deseja excluir essa pasta?
         </p>
