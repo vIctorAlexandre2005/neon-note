@@ -5,15 +5,15 @@ import { truncateText } from '@/utils/truncate';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder } from 'react-icons/fa';
 import { ClipLoader } from 'react-spinners';
-import { RxDotsHorizontal } from 'react-icons/rx';
+import { RxDotsHorizontal, RxDrawingPinFilled } from 'react-icons/rx';
 import { useState } from 'react';
 import { MenuRoot, MenuTrigger } from '@/components/ui/menu';
-import { DropDownFolderTasks } from './ListFoldersTask/DropDown';
 import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
 import { DeleteFolderModalTask } from '../modal/deleteFolder';
+import { useTaskSidebarAllFolders } from '../../ViewModel/useTaskSidebarAllFolders';
 
 interface PropsListFoldersTask {
   isLoadingTaskFolder: boolean;
@@ -37,6 +37,7 @@ export function ListFoldersTask({
   deleteFolderTask,
 }: PropsListFoldersTask) {
   const { darkMode } = useContextGlobal();
+  const { handleFixedFolder } = useTaskSidebarAllFolders();
 
   const [openDrowpDown, setOpenDrowpDown] = useState(false);
 
@@ -106,12 +107,10 @@ export function ListFoldersTask({
                       </>
                     </ModalRootComponent>
                     <ButtonComponent
-                      onClick={handleOpenDropDown}
-                      icon={<RxDotsHorizontal size={18} />}
+                      onClick={handleFixedFolder}
+                      icon={<RxDrawingPinFilled size={20} />}
                       className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
                     />
-
-                    {openDrowpDown && <DropDownFolderTasks />}
                   </div>
                 </div>
               </div>

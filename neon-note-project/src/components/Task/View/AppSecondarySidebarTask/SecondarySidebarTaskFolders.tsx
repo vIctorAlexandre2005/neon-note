@@ -1,21 +1,8 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
-import { useDisclosure } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { BsFillPinAngleFill, BsPinAngle, BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
-import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolter';
-import { DeleteFolderModal } from '../../../Layout/AppSidebar/modals/deleteFolder';
-import { useSecondarySidebarTask } from '@/components/Task/ViewModel/useSecondarySidebarTask';
-import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
-import { ClipLoader } from 'react-spinners';
-import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
-import { truncateText } from '@/utils/truncate';
-import { ListFoldersTask } from '.';
+import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
 import { AddFolderModalTask } from '../modal/addFolder';
-import { DeleteFolderModalTask } from '../modal/deleteFolder';
-import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
-import { CiFolderOn } from 'react-icons/ci';
 import { ListFixedFolders } from './ListFoldersTask/Fixed/fixedFolders';
 import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
 import {
@@ -45,8 +32,7 @@ export function SecondarySidebarTaskFolders() {
     handleOpenNotFixedFolders,
     handleOpenFixedFolders,
     tasksFixedFolders,
-    setTasksFixedFolders,
-  } = useSecondarySidebarTask();
+  } = useTaskSidebarAllFolders();
 
   return (
     <div

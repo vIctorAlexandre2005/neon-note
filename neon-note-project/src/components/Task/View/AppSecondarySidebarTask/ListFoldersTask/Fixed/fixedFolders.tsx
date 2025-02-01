@@ -48,6 +48,9 @@ export function ListFixedFolders({
         {openFixedFolders &&
           (listTypeTask?.length > 0 ? (
             <ListFoldersTask
+              deleteFolderTask={() => {}}
+              isOpenDeleteFolder={false}
+              onCloseDeleteFolder={() => {}}
               isLoadingTaskFolder={isLoadingTaskFolder}
               listTypeTask={listTypeTask}
               selectedTaskFolder={selectedTaskFolder}

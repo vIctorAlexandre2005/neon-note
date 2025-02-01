@@ -4,10 +4,10 @@ import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
 import { useSidebarCardsNote } from '../../Notes/ViewModel/useSidebarCardsNote';
 import { SidebarTasksReuse } from '../../common/Task/SidebarTaskReuse';
-import { useSecondarySidebarTask } from '../ViewModel/useSecondarySidebarTask';
+import { useTaskSidebarAllFolders } from '../ViewModel/useTaskSidebarAllFolders';
 
 export function TaskComponent() {
-  const { tasksAllFolders, newTaskFolderName } = useSecondarySidebarTask()
+  const { tasksAllFolders, newTaskFolderName } = useTaskSidebarAllFolders()
   const { darkMode } = useContextGlobal();
 
   return (

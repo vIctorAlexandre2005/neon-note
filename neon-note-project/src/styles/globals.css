@@ -6,6 +6,21 @@
   font-family: 'Nunito', sans-serif;
 }
 
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #0b70ff; /* Cor azul */
+  height: 4px; /* Altura da barra */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1031;
+}
+
+
 ::-webkit-scrollbar {
   width: 4px; /* Largura da scrollbar */
 }

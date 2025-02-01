@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
 
-export function useSecondarySidebarTask() {
+export function useTaskSidebarAllFolders() {
   const {
     isLoadingTaskFolder,
     setIsLoadingTaskFolder,
@@ -119,6 +119,27 @@ export function useSecondarySidebarTask() {
     }
   }
 
+  function handleFixedFolder() {
+    try {
+      if (selectedTaskFolder) {
+        const folder = tasksAllFolders.find(
+          folder => folder.id === selectedTaskFolder
+        );
+        if (folder) {
+          const updatedFolders = tasksAllFolders.filter(
+            folder => folder.id !== selectedTaskFolder
+          );
+          setAllTasksFolders(updatedFolders);
+          setTasksFixedFolders(prevFolders => [...prevFolders, folder]);
+          successToast('Pasta fixada com sucesso!');
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao fixar a pasta:', error);
+      errorToast('Erro ao fixar a pasta, tente novamente.');
+    }
+  }
+
   useEffect(() => {
     getFolderTaskFixed();
     getAllFoldersTask();
@@ -160,5 +181,7 @@ export function useSecondarySidebarTask() {
 
     tasksFixedFolders,
     setTasksFixedFolders,
+
+    handleFixedFolder,
   };
 }
