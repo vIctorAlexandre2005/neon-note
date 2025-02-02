@@ -9,6 +9,9 @@ import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
+import { mockPastas } from '@/pages/tasks/[id]';
+import nProgress from 'nprogress';
+import { NextRouter, Router, useRouter } from 'next/router';
 
 export function SecondarySidebarTaskFolders() {
   const { darkMode } = useContextGlobal();
@@ -34,6 +37,13 @@ export function SecondarySidebarTaskFolders() {
     tasksFixedFolders,
   } = useTaskSidebarAllFolders();
 
+  const router = useRouter();
+
+  const handleNavigation = ( router: NextRouter, url: string) => {
+    nProgress.start(); // Inicia a barra de carregamento
+    router.push(url).finally(() => nProgress.done()); // Finaliza quando a navegação termina
+  };
+
   return (
     <div
       className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
@@ -50,31 +60,31 @@ export function SecondarySidebarTaskFolders() {
             onClose={onCloseAddFolder}
           >
             <>
-            <ButtonComponent
-              onClick={onOpenAddFolder}
-              icon={<FaFolderPlus size={24} />}
-              className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
-            />
+              <ButtonComponent
+                onClick={onOpenAddFolder}
+                icon={<FaFolderPlus size={24} />}
+                className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
+              />
 
-            <ModalContentComponent
-              content={
-                <AddFolderModalTask
-                  darkMode={darkMode}
-                  handleAddFolder={handleAddFolderTask}
-                  isOpenAddFolder={isOpenAddFolder}
-                  newFolderName={newTaskFolderName}
-                  onCloseAddFolder={onCloseAddFolder}
-                  setNewFolderName={setNewTaskFolderName}
-                />
-              }
-            />
+              <ModalContentComponent
+                content={
+                  <AddFolderModalTask
+                    darkMode={darkMode}
+                    handleAddFolder={handleAddFolderTask}
+                    isOpenAddFolder={isOpenAddFolder}
+                    newFolderName={newTaskFolderName}
+                    onCloseAddFolder={onCloseAddFolder}
+                    setNewFolderName={setNewTaskFolderName}
+                  />
+                }
+              />
             </>
           </ModalRootComponent>
         </div>
 
         <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
           {/* Pastas fixas */}
-          <ListFixedFolders
+          {/* <ListFixedFolders
             handleOpenFixedFolders={handleOpenFixedFolders}
             openFixedFolders={openFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
@@ -85,7 +95,7 @@ export function SecondarySidebarTaskFolders() {
           />
 
           {/* Todas as pastas */}
-          <ListAllTaskFolders
+          {/* <ListAllTaskFolders
             handleOpenNotFixedFolders={handleOpenNotFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
             openNotFixedFolders={openNotFixedFolders}
@@ -96,7 +106,22 @@ export function SecondarySidebarTaskFolders() {
             isOpenDeleteFolder={isOpenDeleteFolder}
             onCloseDeleteFolder={onCloseDeleteFolder}
             deleteFolderTask={deleteFolderTask}
-          />
+          />  */}
+
+          <div>
+            <ul>
+              {mockPastas.map(pasta => (
+                <li
+                  className='text-black-600'
+                  key={pasta.id}
+                  onClick={() => handleNavigation(router, `/tasks/${pasta.id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {pasta.nome}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
