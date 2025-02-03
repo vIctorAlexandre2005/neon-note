@@ -9,9 +9,9 @@ import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
-import { mockPastas } from '@/pages/tasks/[id]';
 import nProgress from 'nprogress';
 import { NextRouter, Router, useRouter } from 'next/router';
+import { mockPastas } from '@/utils/mockFolders';
 
 export function SecondarySidebarTaskFolders() {
   const { darkMode } = useContextGlobal();

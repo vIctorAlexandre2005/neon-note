@@ -1,6 +1,5 @@
 import { SecondarySidebarNoteFolders } from '@/components/Notes/View/AppSecondarySidebarNote/SecondarySidebarNoteFolders';
 import { SecondarySidebarTaskFolders } from '@/components/Task/View/AppSecondarySidebarTask/SecondarySidebarTaskFolders';
-import { mockPastas } from '@/pages/tasks/[id]';
 import { useRouter } from 'next/router';
 
 

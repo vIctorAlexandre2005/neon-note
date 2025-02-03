@@ -7,21 +7,7 @@ import NProgress from 'nprogress';
 import { BiArrowBack, BiFolder, BiPlus } from 'react-icons/bi';
 import { GrProjects } from 'react-icons/gr';
 import Image from 'next/image';
-
-export const mockPastas = [
-  {
-    id: '1',
-    nome: 'Trabalho',
-  },
-  {
-    id: '2',
-    nome: 'Estudos',
-  },
-  {
-    id: '3',
-    nome: 'Pessoal',
-  },
-];
+import { mockPastas } from '@/utils/mockFolders';
 
 export default function MainTaskFolderDetails() {
   const router = useRouter();
@@ -31,6 +17,8 @@ export default function MainTaskFolderDetails() {
   const pasta = mockPastas.find(p => p.id === id);
 
   if (!pasta) return <p className='text-black-600'>Pasta não encontrada.</p>;
+
+  const projects = mockPastas.find(p => p.id === id)?.projects || [];
 
   return (
     <div className='p-4 w-full h-72'>
@@ -44,7 +32,9 @@ export default function MainTaskFolderDetails() {
         className={`w-full h-full p-4 flex rounded shadow ${darkMode ? 'bg-neon-900 bg-opacity-30' : 'bg-gray-100'}`}
       >
         <div className='flex gap-2 flex-col w-full'>
-          <div className={`${darkMode ? 'text-white' : 'text-black-700'} w-full mb-4 flex justify-between`}>
+          <div
+            className={`${darkMode ? 'text-white' : 'text-black-700'} w-full mb-4 flex justify-between`}
+          >
             <div className='flex items-center gap-2'>
               <GrProjects size={20} />
               <h1 className={`text-xl font-semibold text-left`}>
@@ -78,13 +68,19 @@ export default function MainTaskFolderDetails() {
                 <h1 className='font-semibold text-xl'>Criar projeto</h1>
               </div>
             </div>
-            {mockPastas.map(pasta => (
+            {projects.map(projectId => (
               <div
-                key={pasta.id}
+                key={projectId.id}
+                onClick={() =>
+                  handleNavigation(
+                    router,
+                    `/tasks/${pasta.id}/project/${projectId.id}`
+                  )
+                }
                 className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300`}
               >
                 <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
-                  {pasta.nome}
+                  {projectId.nome}
                 </p>
               </div>
             ))}
