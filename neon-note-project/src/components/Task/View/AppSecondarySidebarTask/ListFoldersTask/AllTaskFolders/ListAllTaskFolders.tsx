@@ -3,6 +3,7 @@ import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
 import { ListFoldersTask } from '../..';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { useContextGlobal } from '@/Context';
+import { mockPastas } from '@/utils/mockFolders';
 
 interface PropsListNotFixedFolders {
   openNotFixedFolders: boolean;
@@ -10,11 +11,12 @@ interface PropsListNotFixedFolders {
   tasksAllFolders: any[];
   isLoadingTaskFolder: boolean;
   selectedTaskFolder: number | null;
-  handleSelectFolderTask: (id: number, name: string) => void;
+  handleSelectFolderTask: (id: number) => void;
   onOpenDeleteFolder: () => void;
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
-  deleteFolderTask: (id: number) => void;
+  deleteFolderTask: (id: string) => void;
+  mockArray: any[];
 }
 
 export function ListAllTaskFolders({
@@ -28,6 +30,7 @@ export function ListAllTaskFolders({
   onCloseDeleteFolder,
   deleteFolderTask,
   onOpenDeleteFolder,
+  mockArray,
 }: PropsListNotFixedFolders) {
   const { darkMode } = useContextGlobal();
 
@@ -53,10 +56,10 @@ export function ListAllTaskFolders({
 
       <div>
         {openNotFixedFolders &&
-          (tasksAllFolders?.length > 0 ? (
+          (mockArray?.length > 0 ? (
             <ListFoldersTask
               isLoadingTaskFolder={isLoadingTaskFolder}
-              listTypeTask={tasksAllFolders}
+              listTypeTask={mockArray}
               selectedTaskFolder={selectedTaskFolder}
               handleSelectFolderTask={handleSelectFolderTask}
               onOpenDeleteFolder={onOpenDeleteFolder}

@@ -2,6 +2,7 @@ import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { useEffect, useState } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
+import { mockPastas, MockProps } from '@/utils/mockFolders';
 
 export function useTaskSidebarAllFolders() {
   const {
@@ -33,45 +34,54 @@ export function useTaskSidebarAllFolders() {
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
-  function handleAddFolderTask() {
-    const folderExist = tasksAllFolders.some(
-      folder => folder.name === newTaskFolderName
-    );
+  const [mockArray, setMockArray] = useState<MockProps[]>(mockPastas);
 
+  function handleAddFolderTask() {
+    const folderExist = mockArray.some(folder => folder.folderName === newTaskFolderName);
+  
     if (folderExist) {
       errorToast(`"${newTaskFolderName}" já existe`);
       return;
     }
-
+  
     if (newTaskFolderName.trim()) {
+
+      const newId = mockArray?.length + 1;
+
       const newFolder = {
-        id: Date.now(),
-        name: newTaskFolderName,
+        id: newId.toString(), // Mantém o padrão de ID como string
+        folderName: newTaskFolderName,
+        projects: [
+          {
+            id: '1',
+            projectName: 'Projeto 1',
+          }
+        ], // Garante que a estrutura é a mesma
       };
 
-      const updatedFolders = [...tasksAllFolders, newFolder];
-      setAllTasksFolders(updatedFolders);
+      console.log(newFolder);
+  
+      const updatedFolders = [...mockArray, newFolder];
+      setMockArray(updatedFolders as any); // O "as any" não é necessário
+  
       setNewTaskFolderName(''); // Limpa o campo de input
-
-      // Salva toda a estrutura no localStorage
+  
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         successToast('Pasta criada com sucesso!');
       }
     } else {
       errorToast('Nome da pasta não pode estar vazio!');
-      return;
     }
-  }
+  }  
 
-  function handleSelectFolderTask(id: number, nameFolder: string) {
+  function handleSelectFolderTask(id: number) {
     setSelectedTaskFolder(id);
-    setNewTaskFolderName(nameFolder);
   }
 
-  function deleteFolderTask(id: number) {
-    const updatedFolders = tasksAllFolders.filter(folder => folder.id !== id);
-    setAllTasksFolders(updatedFolders);
+  function deleteFolderTask(id: string) {
+    const updatedFolders = mockArray.filter(folder => folder.id !== id);
+    setMockArray(updatedFolders);
 
     // Salva toda a estrutura atualizada no localStorage
     if (typeof window !== 'undefined') {
@@ -93,7 +103,7 @@ export function useTaskSidebarAllFolders() {
       // Lê do localStorage primeiro para refletir atualizações locais
       const parsedFolders = localStorage.getItem('foldersTask');
       if (parsedFolders) {
-        setAllTasksFolders(JSON.parse(parsedFolders));
+        setMockArray(JSON.parse(parsedFolders));
       }
     } catch (error) {
       errorToast('Erro ao obter as pastas');
@@ -183,5 +193,6 @@ export function useTaskSidebarAllFolders() {
     setTasksFixedFolders,
 
     handleFixedFolder,
+    mockArray
   };
 }

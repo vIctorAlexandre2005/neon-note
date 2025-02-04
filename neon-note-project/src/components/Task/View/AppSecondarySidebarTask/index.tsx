@@ -14,16 +14,18 @@ import {
 } from '@/components/common/modal';
 import { DeleteFolderModalTask } from '../modal/deleteFolder';
 import { useTaskSidebarAllFolders } from '../../ViewModel/useTaskSidebarAllFolders';
+import { handleNavigation } from '@/utils/navigationProgress';
+import { useRouter } from 'next/router';
 
 interface PropsListFoldersTask {
   isLoadingTaskFolder: boolean;
   listTypeTask: any[];
   selectedTaskFolder: number | null;
   onOpenDeleteFolder: () => void;
-  handleSelectFolderTask: (id: number, name: string) => void;
+  handleSelectFolderTask: (id: number) => void;
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
-  deleteFolderTask: (id: number) => void;
+  deleteFolderTask: (id: string) => void;
 }
 
 export function ListFoldersTask({
@@ -39,11 +41,14 @@ export function ListFoldersTask({
   const { darkMode } = useContextGlobal();
   const { handleFixedFolder } = useTaskSidebarAllFolders();
 
+  const router = useRouter();
+  console.log(listTypeTask);
+
   const [openDrowpDown, setOpenDrowpDown] = useState(false);
 
   function handleOpenDropDown() {
     setOpenDrowpDown(!openDrowpDown);
-  }
+  };
 
   return (
     <div className='flex flex-col p-2 gap-1'>
@@ -55,19 +60,22 @@ export function ListFoldersTask({
 
       <FadeIn>
         {listTypeTask &&
-          listTypeTask.map(folder => (
+          listTypeTask.map((folder, idx) => (
             <div className='flex flex-col'>
               <div
                 className='w-full mb-2 flex justify-between items-center'
-                onClick={() => handleSelectFolderTask(folder.id, folder.name)}
+                onClick={() =>  {
+                  handleNavigation(router, `/tasks/${idx + 1}`)
+                  handleSelectFolderTask(idx);
+                }}
               >
                 <div
                   className={`
                       flex gap-2 items-center justify-between cursor-pointer
                       ${
-                        selectedTaskFolder === folder.id && darkMode
+                        selectedTaskFolder === idx && darkMode
                           ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedTaskFolder === folder.id && !darkMode
+                          : selectedTaskFolder === idx && !darkMode
                             ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
                             : darkMode
                               ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
@@ -79,7 +87,7 @@ export function ListFoldersTask({
                   <div className='flex gap-2 items-center'>
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>
-                      {truncateText(folder.name, 30)}
+                      {truncateText(folder.folderName, 30)}
                     </h1>
                   </div>
                   <div className='flex gap-2 items-center'>

@@ -35,6 +35,7 @@ export function SecondarySidebarTaskFolders() {
     handleOpenNotFixedFolders,
     handleOpenFixedFolders,
     tasksFixedFolders,
+    mockArray,
   } = useTaskSidebarAllFolders();
 
   const router = useRouter();
@@ -95,7 +96,7 @@ export function SecondarySidebarTaskFolders() {
           />
 
           {/* Todas as pastas */}
-          {/* <ListAllTaskFolders
+          <ListAllTaskFolders
             handleOpenNotFixedFolders={handleOpenNotFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
             openNotFixedFolders={openNotFixedFolders}
@@ -106,9 +107,10 @@ export function SecondarySidebarTaskFolders() {
             isOpenDeleteFolder={isOpenDeleteFolder}
             onCloseDeleteFolder={onCloseDeleteFolder}
             deleteFolderTask={deleteFolderTask}
-          />  */}
+            mockArray={mockArray}
+          />
 
-          <div>
+          {/* <div>
             <ul>
               {mockPastas.map(pasta => (
                 <li
@@ -121,7 +123,7 @@ export function SecondarySidebarTaskFolders() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
