@@ -37,15 +37,16 @@ export function useTaskSidebarAllFolders() {
   const [mockArray, setMockArray] = useState<MockProps[]>(mockPastas);
 
   function handleAddFolderTask() {
-    const folderExist = mockArray.some(folder => folder.folderName === newTaskFolderName);
-  
+    const folderExist = mockArray.some(
+      folder => folder.folderName === newTaskFolderName
+    );
+
     if (folderExist) {
       errorToast(`"${newTaskFolderName}" já existe`);
       return;
     }
-  
-    if (newTaskFolderName.trim()) {
 
+    if (newTaskFolderName.trim()) {
       const newId = mockArray?.length + 1;
 
       const newFolder = {
@@ -55,17 +56,17 @@ export function useTaskSidebarAllFolders() {
           {
             id: '1',
             projectName: 'Projeto 1',
-          }
+          },
         ], // Garante que a estrutura é a mesma
       };
 
       console.log(newFolder);
-  
+
       const updatedFolders = [...mockArray, newFolder];
       setMockArray(updatedFolders as any); // O "as any" não é necessário
-  
+
       setNewTaskFolderName(''); // Limpa o campo de input
-  
+
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         successToast('Pasta criada com sucesso!');
@@ -73,19 +74,28 @@ export function useTaskSidebarAllFolders() {
     } else {
       errorToast('Nome da pasta não pode estar vazio!');
     }
-  }  
+  }
 
-  function handleSelectFolderTask(id: number) {
+  function handleSelectFolderTask(id: string) {
     setSelectedTaskFolder(id);
   }
 
-  function deleteFolderTask(id: string) {
-    const updatedFolders = mockArray.filter(folder => folder.id !== id);
-    setMockArray(updatedFolders);
+  function deleteFolderTask(id: string | string[] | undefined) {
 
-    // Salva toda a estrutura atualizada no localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+    console.log(id);
+
+    try {
+      const updatedFolders = mockArray.filter(folder => folder.id !== id);
+      setMockArray(updatedFolders);
+
+      // Salva toda a estrutura atualizada no localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        successToast('Pasta excluida!')
+      }
+    } catch (error) {
+      errorToast('Erro ao deletar a pasta');
+      console.error('Erro ao deletar a pasta:', error);
     }
   }
 
@@ -133,11 +143,11 @@ export function useTaskSidebarAllFolders() {
     try {
       if (selectedTaskFolder) {
         const folder = tasksAllFolders.find(
-          folder => folder.id === selectedTaskFolder
+          folder => folder.id.toString() === selectedTaskFolder
         );
         if (folder) {
           const updatedFolders = tasksAllFolders.filter(
-            folder => folder.id !== selectedTaskFolder
+            folder => folder.id.toString() !== selectedTaskFolder
           );
           setAllTasksFolders(updatedFolders);
           setTasksFixedFolders(prevFolders => [...prevFolders, folder]);
@@ -193,6 +203,6 @@ export function useTaskSidebarAllFolders() {
     setTasksFixedFolders,
 
     handleFixedFolder,
-    mockArray
+    mockArray,
   };
 }

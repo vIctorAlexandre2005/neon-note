@@ -10,13 +10,14 @@ interface PropsListNotFixedFolders {
   handleOpenNotFixedFolders: () => void;
   tasksAllFolders: any[];
   isLoadingTaskFolder: boolean;
-  selectedTaskFolder: number | null;
-  handleSelectFolderTask: (id: number) => void;
+  selectedTaskFolder: string | null;
+  handleSelectFolderTask: (id: string) => void;
   onOpenDeleteFolder: () => void;
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
-  deleteFolderTask: (id: string) => void;
+  deleteFolderTask: (id: string | string[] | undefined) => void;
   mockArray: any[];
+  id: string | string[] | undefined;
 }
 
 export function ListAllTaskFolders({
@@ -30,6 +31,7 @@ export function ListAllTaskFolders({
   onCloseDeleteFolder,
   deleteFolderTask,
   onOpenDeleteFolder,
+  id,
   mockArray,
 }: PropsListNotFixedFolders) {
   const { darkMode } = useContextGlobal();
@@ -66,6 +68,7 @@ export function ListAllTaskFolders({
               isOpenDeleteFolder={isOpenDeleteFolder}
               onCloseDeleteFolder={onCloseDeleteFolder}
               deleteFolderTask={deleteFolderTask}
+              id={id}
             />
           ) : (
             <ThereIsNoFolder />

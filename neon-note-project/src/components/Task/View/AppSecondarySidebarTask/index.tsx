@@ -20,12 +20,13 @@ import { useRouter } from 'next/router';
 interface PropsListFoldersTask {
   isLoadingTaskFolder: boolean;
   listTypeTask: any[];
-  selectedTaskFolder: number | null;
+  selectedTaskFolder: string | null;
   onOpenDeleteFolder: () => void;
-  handleSelectFolderTask: (id: number) => void;
+  handleSelectFolderTask: (id: string) => void;
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
   deleteFolderTask: (id: string) => void;
+  id: string | string[] | undefined;
 }
 
 export function ListFoldersTask({
@@ -36,6 +37,7 @@ export function ListFoldersTask({
   onOpenDeleteFolder,
   isOpenDeleteFolder,
   onCloseDeleteFolder,
+  id,
   deleteFolderTask,
 }: PropsListFoldersTask) {
   const { darkMode } = useContextGlobal();
@@ -66,16 +68,16 @@ export function ListFoldersTask({
                 className='w-full mb-2 flex justify-between items-center'
                 onClick={() =>  {
                   handleNavigation(router, `/tasks/${idx + 1}`)
-                  handleSelectFolderTask(idx);
+                  handleSelectFolderTask(idx.toString());
                 }}
               >
                 <div
                   className={`
                       flex gap-2 items-center justify-between cursor-pointer
                       ${
-                        selectedTaskFolder === idx && darkMode
+                        selectedTaskFolder === idx.toString() && darkMode
                           ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedTaskFolder === idx && !darkMode
+                          : selectedTaskFolder === idx.toString() && !darkMode
                             ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
                             : darkMode
                               ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
@@ -105,10 +107,11 @@ export function ListFoldersTask({
                         <ModalContentComponent
                           content={
                             <DeleteFolderModalTask
-                              selectedFolderId={selectedTaskFolder as number}
+                              selectedFolderId={selectedTaskFolder as string}
                               isOpenDeleteFolder={isOpenDeleteFolder}
                               deleteFolder={deleteFolderTask as any}
                               onCloseDeleteFolder={onCloseDeleteFolder}
+                              id={id}
                             />
                           }
                         />

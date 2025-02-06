@@ -9,8 +9,8 @@ interface PropsListFixedFolders {
   handleOpenFixedFolders: () => void;
   listTypeTask: any[];
   isLoadingTaskFolder: boolean;
-  selectedTaskFolder: number | null;
-  handleSelectFolderTask: (id: number) => void;
+  selectedTaskFolder: string | null;
+  handleSelectFolderTask: (id: string) => void;
   onOpenDeleteFolder: () => void;
 }
 
@@ -56,6 +56,7 @@ export function ListFixedFolders({
               selectedTaskFolder={selectedTaskFolder}
               handleSelectFolderTask={handleSelectFolderTask}
               onOpenDeleteFolder={onOpenDeleteFolder}
+              id={''}
             />
           ) : (
             <ThereIsNoFolder />

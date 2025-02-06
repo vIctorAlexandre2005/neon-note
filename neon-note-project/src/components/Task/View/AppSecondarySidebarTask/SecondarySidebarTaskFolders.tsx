@@ -13,7 +13,12 @@ import nProgress from 'nprogress';
 import { NextRouter, Router, useRouter } from 'next/router';
 import { mockPastas } from '@/utils/mockFolders';
 
-export function SecondarySidebarTaskFolders() {
+
+interface SecondarySidebarTaskFoldersProps {
+  id: string | string[] | undefined;
+}
+
+export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersProps) {
   const { darkMode } = useContextGlobal();
   const {
     tasksAllFolders,
@@ -108,22 +113,8 @@ export function SecondarySidebarTaskFolders() {
             onCloseDeleteFolder={onCloseDeleteFolder}
             deleteFolderTask={deleteFolderTask}
             mockArray={mockArray}
+            id={id}
           />
-
-          {/* <div>
-            <ul>
-              {mockPastas.map(pasta => (
-                <li
-                  className='text-black-600'
-                  key={pasta.id}
-                  onClick={() => handleNavigation(router, `/tasks/${pasta.id}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {pasta.nome}
-                </li>
-              ))}
-            </ul>
-          </div> */}
         </div>
       </div>
     </div>

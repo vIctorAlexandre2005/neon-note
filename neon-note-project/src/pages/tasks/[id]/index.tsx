@@ -19,8 +19,6 @@ export default function MainTaskFolderDetails() {
 
   const pasta = mockArray.find(pasta => pasta.id === id);
 
-  console.log(mockArray);
-
   return (
     <div className='p-4 w-full h-72'>
       <div

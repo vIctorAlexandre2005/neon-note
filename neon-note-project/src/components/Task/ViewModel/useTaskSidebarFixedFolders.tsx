@@ -64,7 +64,7 @@ export function useTaskSidebarFixedFolders() {
     }
   }
 
-  function handleSelectFolderTask(id: number, nameFolder: string) {
+  function handleSelectFolderTask(id: string, nameFolder: string) {
     setSelectedTaskFolder(id);
     setNewTaskFolderName(nameFolder);
   }
@@ -123,11 +123,11 @@ export function useTaskSidebarFixedFolders() {
     try {
       if (selectedTaskFolder) {
         const folder = tasksAllFolders.find(
-          folder => folder.id === selectedTaskFolder
+          folder => folder.id.toString() === selectedTaskFolder
         );
         if (folder) {
           const updatedFolders = tasksAllFolders.filter(
-            folder => folder.id !== selectedTaskFolder
+            folder => folder.id.toString() !== selectedTaskFolder
           );
           setAllTasksFolders(updatedFolders);
           setTasksFixedFolders(prevFolders => [...prevFolders, folder]);

@@ -13,7 +13,7 @@ const TaskProvider = createContext<TaskContextData>(
 
     const [isLoadingTaskFolder, setIsLoadingTaskFolder] = useState<boolean>(false); // Indica se as pastas estao sendo carregadas
     
-    const [selectedTaskFolder, setSelectedTaskFolder] = useState<number | null>(null); // Pasta selecionada
+    const [selectedTaskFolder, setSelectedTaskFolder] = useState<string | null>(null); // Pasta selecionada
     const [openFixedFolders, setOpenFixedFolders] = useState<boolean>(false); // Indica se as pastas fixas estao abertas
     const [openNotFixedFolders, setOpenNotFixedFolders] = useState<boolean>(false); // Indica se as pastas nao fixas estao abertas
   

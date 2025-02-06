@@ -2,17 +2,17 @@ import { SecondarySidebarNoteFolders } from '@/components/Notes/View/AppSecondar
 import { SecondarySidebarTaskFolders } from '@/components/Task/View/AppSecondarySidebarTask/SecondarySidebarTaskFolders';
 import { useRouter } from 'next/router';
 
-
 export function SecondarySidebar() {
   const router = useRouter();
 
-  const includeTask = router.pathname.includes('/tasks');
+  const includeTaskInRoute = router.pathname.includes('/tasks');
 
   if (router.pathname === '/') {
     return <SecondarySidebarNoteFolders />;
   };
 
-  if (includeTask) {
-    return <SecondarySidebarTaskFolders />;
+  if (includeTaskInRoute) {
+    const { id } = router.query;
+    return <SecondarySidebarTaskFolders id={id} />;
   };
 }

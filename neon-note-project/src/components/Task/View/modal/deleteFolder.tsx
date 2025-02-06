@@ -6,15 +6,17 @@ import { useTaskSidebarAllFolders } from '../../ViewModel/useTaskSidebarAllFolde
 interface Props {
   isOpenDeleteFolder: boolean;
   onCloseDeleteFolder: () => void;
-  deleteFolder: (id: string) => void;
+  deleteFolder: (id: string | string[] | undefined) => void;
   selectedFolderId: string | number;
+  id: string | string[] | undefined;
 }
 
 export function DeleteFolderModalTask({
   isOpenDeleteFolder,
   onCloseDeleteFolder,
   deleteFolder,
-  selectedFolderId
+  selectedFolderId,
+  id,
 }: Props) {
 const { darkMode } = useContextGlobal();
 
@@ -30,9 +32,8 @@ const { darkMode } = useContextGlobal();
           <button
             className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
             onClick={() => {
-                deleteFolder(selectedFolderId as string);
+                deleteFolder(id);
                 onCloseDeleteFolder();
-                successToast('Pasta excluída com sucesso!');
             }}
           >
             Sim
