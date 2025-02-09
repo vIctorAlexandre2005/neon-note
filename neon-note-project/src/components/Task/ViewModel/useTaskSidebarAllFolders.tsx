@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
 import { mockPastas, MockProps } from '@/utils/mockFolders';
+import { useRouter } from 'next/router';
 
 export function useTaskSidebarAllFolders() {
   const {
@@ -34,7 +35,17 @@ export function useTaskSidebarAllFolders() {
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
 
+  const router = useRouter();
+
   const [mockArray, setMockArray] = useState<MockProps[]>(mockPastas);
+  const [previousMockArrayLength, setPreviousMockArrayLength] = useState(mockArray?.length);
+
+
+  useEffect(() => {
+    if (mockArray?.length < previousMockArrayLength) {
+      router.replace('/tasks');
+    };
+  }, [mockArray]);
 
   function handleAddFolderTask() {
     const folderExist = mockArray.some(
@@ -47,25 +58,22 @@ export function useTaskSidebarAllFolders() {
     }
 
     if (newTaskFolderName.trim()) {
-      const newId = mockArray?.length + 1;
+      const newId = mockArray?.length;
 
       const newFolder = {
-        id: newId.toString(), // Mantém o padrão de ID como string
+        id: newId.toString(),
         folderName: newTaskFolderName,
         projects: [
           {
             id: '1',
             projectName: 'Projeto 1',
           },
-        ], // Garante que a estrutura é a mesma
+        ],
       };
 
-      console.log(newFolder);
-
       const updatedFolders = [...mockArray, newFolder];
-      setMockArray(updatedFolders as any); // O "as any" não é necessário
-
-      setNewTaskFolderName(''); // Limpa o campo de input
+      setMockArray(updatedFolders as any);
+      setNewTaskFolderName('');
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
@@ -73,31 +81,34 @@ export function useTaskSidebarAllFolders() {
       }
     } else {
       errorToast('Nome da pasta não pode estar vazio!');
-    }
-  }
+    };
+  };
 
   function handleSelectFolderTask(id: string) {
     setSelectedTaskFolder(id);
-  }
+  };
 
   function deleteFolderTask(id: string | string[] | undefined) {
-
-    console.log(id);
-
+    
     try {
       const updatedFolders = mockArray.filter(folder => folder.id !== id);
       setMockArray(updatedFolders);
+      setPreviousMockArrayLength(updatedFolders?.length); // Atualiza a contagem
 
       // Salva toda a estrutura atualizada no localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
-        successToast('Pasta excluida!')
-      }
+        successToast('Pasta excluida!');
+      };
+      setTimeout(() => {
+        router.replace('/tasks');
+      }, 200);
+      setSelectedTaskFolder(null);
     } catch (error) {
       errorToast('Erro ao deletar a pasta');
       console.error('Erro ao deletar a pasta:', error);
-    }
-  }
+    };
+  };
 
   function handleOpenNotFixedFolders() {
     setOpenNotFixedFolders(!openNotFixedFolders);
@@ -205,4 +216,4 @@ export function useTaskSidebarAllFolders() {
     handleFixedFolder,
     mockArray,
   };
-}
+};

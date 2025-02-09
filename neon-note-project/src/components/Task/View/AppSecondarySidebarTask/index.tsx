@@ -67,7 +67,7 @@ export function ListFoldersTask({
               <div
                 className='w-full mb-2 flex justify-between items-center'
                 onClick={() =>  {
-                  handleNavigation(router, `/tasks/${idx + 1}`)
+                  handleNavigation(router, `/tasks/${idx}`);
                   handleSelectFolderTask(idx.toString());
                 }}
               >

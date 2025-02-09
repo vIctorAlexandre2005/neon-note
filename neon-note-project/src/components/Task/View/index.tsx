@@ -7,16 +7,16 @@ import { SidebarTasksReuse } from '../../common/Task/SidebarTaskReuse';
 import { useTaskSidebarAllFolders } from '../ViewModel/useTaskSidebarAllFolders';
 
 export function TaskComponent() {
-  const { tasksAllFolders, newTaskFolderName } = useTaskSidebarAllFolders()
+  const { tasksAllFolders, newTaskFolderName } = useTaskSidebarAllFolders();
   const { darkMode } = useContextGlobal();
 
   return (
     <div className='flex flex-col h-full gap-2 p-2'>
-        <h1
-          className={`text-xl ${darkMode ? 'text-gray-300' : 'text-black-800'} font-bold`}
-        >
-          {newTaskFolderName}
-        </h1>
+      <h1
+        className={`text-xl ${darkMode ? 'text-gray-300' : 'text-black-800'} font-bold`}
+      >
+        {newTaskFolderName}
+      </h1>
       <div className='flex gap-4 h-full'>
         <SidebarTasksReuse
           arrayTasks={tasksAllFolders}
