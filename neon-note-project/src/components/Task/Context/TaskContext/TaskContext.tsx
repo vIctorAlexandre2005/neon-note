@@ -10,6 +10,7 @@ const TaskProvider = createContext<TaskContextData>(
     const [tasksAllFolders, setAllTasksFolders] = useState<ListFoldersTask[]>([]); // Lista de pastas
     const [tasksFixedFolders, setTasksFixedFolders] = useState<ListFoldersTaskFixed[]>([]); // Lista de pastas fixas
     const [newTaskFolderName, setNewTaskFolderName] = useState<string>(''); // Nome da nova pasta criada
+    const [editedTaskFolderName, setEditedTaskFolderName] = useState<string>(''); // Nome da pasta editada
 
     const [isLoadingTaskFolder, setIsLoadingTaskFolder] = useState<boolean>(false); // Indica se as pastas estao sendo carregadas
     
@@ -33,7 +34,9 @@ const TaskProvider = createContext<TaskContextData>(
           openFixedFolders,
           setOpenFixedFolders,
           openNotFixedFolders,
-          setOpenNotFixedFolders
+          setOpenNotFixedFolders,
+          editedTaskFolderName,
+          setEditedTaskFolderName,
         }}
       >
         {children}

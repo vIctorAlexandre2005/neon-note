@@ -17,6 +17,8 @@ export interface TaskContextData {
     setTasksFixedFolders: Dispatch<SetStateAction<ListFoldersTaskFixed[]>>;
     newTaskFolderName: string;
     setNewTaskFolderName: Dispatch<SetStateAction<string>>;
+    editedTaskFolderName: string;
+    setEditedTaskFolderName: Dispatch<SetStateAction<string>>;
     isLoadingTaskFolder: boolean;
     setIsLoadingTaskFolder: Dispatch<SetStateAction<boolean>>;
     selectedTaskFolder: string | null;
@@ -43,4 +45,6 @@ export const defaultValueTaskContextData: TaskContextData = {
     setOpenFixedFolders: () => {},
     openNotFixedFolders: false,
     setOpenNotFixedFolders: () => {},
+    editedTaskFolderName: '',
+    setEditedTaskFolderName:() => {},
 };

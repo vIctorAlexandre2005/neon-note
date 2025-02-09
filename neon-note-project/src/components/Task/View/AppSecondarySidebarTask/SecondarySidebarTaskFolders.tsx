@@ -3,15 +3,11 @@ import { useContextGlobal } from '@/Context';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
 import { AddFolderModalTask } from '../modal/addFolder';
-import { ListFixedFolders } from './ListFoldersTask/Fixed/fixedFolders';
 import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
 import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
-import nProgress from 'nprogress';
-import { NextRouter, Router, useRouter } from 'next/router';
-import { mockPastas } from '@/utils/mockFolders';
 
 
 interface SecondarySidebarTaskFoldersProps {
@@ -41,14 +37,8 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
     handleOpenFixedFolders,
     tasksFixedFolders,
     mockArray,
+    handleEditFolderTask,
   } = useTaskSidebarAllFolders();
-
-  const router = useRouter();
-
-  const handleNavigation = ( router: NextRouter, url: string) => {
-    nProgress.start(); // Inicia a barra de carregamento
-    router.push(url).finally(() => nProgress.done()); // Finaliza quando a navegação termina
-  };
 
   return (
     <div
@@ -89,16 +79,6 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
         </div>
 
         <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
-          {/* Pastas fixas */}
-          {/* <ListFixedFolders
-            handleOpenFixedFolders={handleOpenFixedFolders}
-            openFixedFolders={openFixedFolders}
-            handleSelectFolderTask={handleSelectFolderTask}
-            isLoadingTaskFolder={isLoadingTaskFolder}
-            onOpenDeleteFolder={onOpenDeleteFolder}
-            selectedTaskFolder={selectedTaskFolder}
-            listTypeTask={tasksFixedFolders}
-          />
 
           {/* Todas as pastas */}
           <ListAllTaskFolders
@@ -113,6 +93,7 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
             onCloseDeleteFolder={onCloseDeleteFolder}
             deleteFolderTask={deleteFolderTask}
             mockArray={mockArray}
+            handleEditFolderTask={handleEditFolderTask}
             id={id}
           />
         </div>
