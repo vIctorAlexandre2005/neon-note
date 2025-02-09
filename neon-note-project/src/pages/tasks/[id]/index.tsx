@@ -52,8 +52,8 @@ export default function MainTaskFolderDetails() {
               <Image
                 src={'/tasks/organize_projects.svg'}
                 alt='Imagem'
-                width={150}
-                height={150}
+                width={200}
+                height={200}
               />
             </div>
           </div>

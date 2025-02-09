@@ -7,7 +7,7 @@ import { FaFolder } from 'react-icons/fa';
 import { ClipLoader } from 'react-spinners';
 import { RxDotsHorizontal, RxDrawingPinFilled } from 'react-icons/rx';
 import { useState } from 'react';
-import { MenuRoot, MenuTrigger } from '@/components/ui/menu';
+import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '@/components/ui/menu';
 import { MdEdit } from 'react-icons/md';
 
 import {
@@ -106,7 +106,13 @@ export function ListFoldersTask({
                       {truncateText(folder.folderName, 15)}
                     </h1>
                   </div>
-                  <div className='flex gap-2 items-center'>
+                  <MenuRoot>
+                    <MenuTrigger>
+                      <ButtonComponent icon={<RxDotsHorizontal size={18} />} />
+                    </MenuTrigger>
+
+                    <MenuContent bg={darkMode ? '#0f172a' : 'white'} boxShadow={'sm'}>
+                    <div className='flex flex-col gap-2 items-center'>
                     <ModalRootComponent
                       isOpen={openModalEditNameFolder}
                       onClose={onCloseModalEditNameFolder}
@@ -114,8 +120,9 @@ export function ListFoldersTask({
                       <>
                         <ButtonComponent
                           onClick={onOpenModalEditNameFolder}
-                          icon={<MdEdit size={18} />}
-                          className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                          icon={<MdEdit size={20} />}
+                          text='Editar'
+                          className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
                         />
 
                         <ModalContentComponent
@@ -142,8 +149,9 @@ export function ListFoldersTask({
                       <>
                         <ButtonComponent
                           onClick={onOpenDeleteFolder}
+                          text='Excluir'
                           icon={<BsTrash size={18} />}
-                          className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                          className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
                         />
 
                         <ModalContentComponent
@@ -161,10 +169,13 @@ export function ListFoldersTask({
                     </ModalRootComponent>
                     <ButtonComponent
                       onClick={handleFixedFolder}
+                      text='Fixar'
                       icon={<RxDrawingPinFilled size={20} />}
-                      className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
+                      className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
                     />
                   </div>
+                    </MenuContent>
+                  </MenuRoot>
                 </div>
               </div>
             </div>

@@ -79,8 +79,6 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
         </div>
 
         <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
-
-          {/* Todas as pastas */}
           <ListAllTaskFolders
             handleOpenNotFixedFolders={handleOpenNotFixedFolders}
             handleSelectFolderTask={handleSelectFolderTask}
