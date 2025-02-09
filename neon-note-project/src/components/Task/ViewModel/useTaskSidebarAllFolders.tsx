@@ -52,13 +52,12 @@ export function useTaskSidebarAllFolders() {
       folder => folder.folderName === newTaskFolderName
     );
 
-    if (folderExist) {
-      errorToast(`"${newTaskFolderName}" já existe`);
-      return;
-    }
+    if (folderExist) return errorToast(`"${newTaskFolderName}" já existe`);
+
+    if (newTaskFolderName.length > 30) return errorToast('Limite de 30 caracteres');
 
     if (newTaskFolderName.trim()) {
-      const newId = mockArray?.length;
+      const newId = mockArray?.length + 1;
 
       const newFolder = {
         id: newId.toString(),
@@ -67,6 +66,18 @@ export function useTaskSidebarAllFolders() {
           {
             id: '1',
             projectName: 'Projeto 1',
+          },
+          {
+            id: '2',
+            projectName: 'Projeto 2',
+          },
+          {
+            id: '3',
+            projectName: 'Projeto 3',
+          },
+          {
+            id: '4',
+            projectName: 'Projeto 4',
           },
         ],
       };
@@ -78,6 +89,7 @@ export function useTaskSidebarAllFolders() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         successToast('Pasta criada com sucesso!');
+        onCloseAddFolder();
       }
     } else {
       errorToast('Nome da pasta não pode estar vazio!');

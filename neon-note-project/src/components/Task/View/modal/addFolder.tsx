@@ -38,7 +38,6 @@ export function AddFolderModalTask({
           <ButtonComponent
             onClick={() => {
               handleAddFolder();
-              onCloseAddFolder();
             }}
             text='Adicionar'
             className='bg-neon-400 text-white text-center font-semibold w-full rounded-lg'

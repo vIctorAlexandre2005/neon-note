@@ -9,6 +9,7 @@ import { GrProjects } from 'react-icons/gr';
 import Image from 'next/image';
 import { mockPastas } from '@/utils/mockFolders';
 import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { truncateText } from '@/utils/truncate';
 
 export default function MainTaskFolderDetails() {
   const router = useRouter();
@@ -19,13 +20,19 @@ export default function MainTaskFolderDetails() {
 
   const pasta = mockArray.find(pasta => pasta.id === id);
 
+  if (!pasta) return (
+    <div className={`${darkMode ? 'text-white' : 'text-black-800'}`}>
+      <h1>Oops! Pasta não encontrada :(</h1>
+    </div>
+  );
+
   return (
     <div className='p-4 w-full h-72'>
       <div
         className={`flex w-full items-center gap-2 mb-4 ${darkMode ? 'text-white' : 'text-black-800'}`}
       >
         <FcFolder size={32} />
-        <h1 className={`text-2xl  font-bold`}>{pasta?.folderName}</h1>
+        <h1 className={`text-2xl  font-bold`}>{truncateText(pasta?.folderName || '', 60)}</h1>
       </div>
       <div
         className={`w-full h-full p-4 flex rounded shadow ${darkMode ? 'bg-neon-900 bg-opacity-30' : 'bg-gray-100'}`}

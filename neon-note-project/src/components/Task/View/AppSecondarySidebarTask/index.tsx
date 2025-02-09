@@ -62,22 +62,22 @@ export function ListFoldersTask({
 
       <FadeIn>
         {listTypeTask &&
-          listTypeTask.map((folder, idx) => (
+          listTypeTask.map((folder) => (
             <div className='flex flex-col'>
               <div
                 className='w-full mb-2 flex justify-between items-center'
                 onClick={() =>  {
-                  handleNavigation(router, `/tasks/${idx}`);
-                  handleSelectFolderTask(idx.toString());
+                  handleNavigation(router, `/tasks/${folder.id}`);
+                  handleSelectFolderTask(folder.id.toString());
                 }}
               >
                 <div
                   className={`
                       flex gap-2 items-center justify-between cursor-pointer
                       ${
-                        selectedTaskFolder === idx.toString() && darkMode
+                        selectedTaskFolder === folder.id.toString() && darkMode
                           ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedTaskFolder === idx.toString() && !darkMode
+                          : selectedTaskFolder === folder.id.toString() && !darkMode
                             ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
                             : darkMode
                               ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
@@ -89,7 +89,7 @@ export function ListFoldersTask({
                   <div className='flex gap-2 items-center'>
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>
-                      {truncateText(folder.folderName, 30)}
+                      {truncateText(folder.folderName, 15)}
                     </h1>
                   </div>
                   <div className='flex gap-2 items-center'>
