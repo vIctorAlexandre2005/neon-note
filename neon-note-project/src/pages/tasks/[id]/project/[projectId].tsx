@@ -1,39 +1,32 @@
+import { TaskComponent } from '@/components/Task/View';
+import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { useContextGlobal } from '@/Context';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-interface ProjectDetails {
-    id: string;
-    name: string;
-    description: string;
-  }
-
 export default function MainPageProject() {
   const router = useRouter();
+  const { darkMode } = useContextGlobal();
 
   const { id, projectId } = router.query; // Obtém o ID da pasta e do projeto
-  const [project, setProject] = useState<ProjectDetails | null>(null);
 
-  useEffect(() => {
-    if (!id || !projectId) return;
+  const { mockArray } = useTaskSidebarAllFolders();
+  
+  const project = mockArray.find(pasta => pasta.projects.find(project => project.id === projectId));
 
-    // Simulando uma API para buscar detalhes do projeto
-    setProject({
-      id: projectId as string,
-      name: `Projeto ${projectId}`,
-      description: `Descrição do projeto ${projectId} dentro da pasta ${id}`,
-    });
-  }, [id, projectId]);
+  console.log(project);
 
   if (!projectId) {
     return <p>Projeto não encontrado.</p>;
   }
 
-
   return (
-    <div>
-      <h1>{project?.name}</h1>
-      <p>{project?.description}</p>
-      <button onClick={() => router.push(`/tasks/${id}`)}>Voltar</button>
+    <div className='w-full h-full p-6'>
+      <TaskComponent 
+        projectName={
+          project?.projects.find(project => project.id === projectId)?.projectName
+        } 
+      />
     </div>
   );
 }

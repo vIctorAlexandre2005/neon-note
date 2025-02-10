@@ -6,25 +6,29 @@ import { useSidebarCardsNote } from '../../Notes/ViewModel/useSidebarCardsNote';
 import { SidebarTasksReuse } from '../../common/Task/SidebarTaskReuse';
 import { useTaskSidebarAllFolders } from '../ViewModel/useTaskSidebarAllFolders';
 
-export function TaskComponent() {
-  const { tasksAllFolders, newTaskFolderName } = useTaskSidebarAllFolders();
+interface TaskProps {
+  projectName: string | undefined;
+}
+
+export function TaskComponent({projectName}: TaskProps) {
+  const { tasksAllFolders } = useTaskSidebarAllFolders();
   const { darkMode } = useContextGlobal();
 
   return (
     <div className='flex flex-col h-full gap-2 p-2'>
       <h1
-        className={`text-xl ${darkMode ? 'text-gray-300' : 'text-black-800'} font-bold`}
+        className={`text-2xl ${darkMode ? 'text-gray-300' : 'text-black-700'} font-semibold`}
       >
-        {newTaskFolderName}
+        {projectName}
       </h1>
       <div className='flex gap-4 h-full'>
         <SidebarTasksReuse
           arrayTasks={tasksAllFolders}
           numberTasksStatus={tasksAllFolders?.length}
-          statusIcon={<HashLoader size={24} color='blue' />}
+          statusIcon={<HashLoader size={24} color='gray' />}
           statusTitle='A começar'
-          statusIconColorBackground='blue'
-          colorProgressStatusBar='blue'
+          statusIconColorBackground='gray'
+          colorProgressStatusBar='gray'
           numberTasksStatusDone={0}
           thereIsNoButtonCreateTaskInSidebar={true}
         />

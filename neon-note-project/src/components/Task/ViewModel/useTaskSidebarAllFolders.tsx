@@ -74,8 +74,7 @@ export function useTaskSidebarAllFolders() {
 
   function handleAddFolderTask() {
     try {
-      const isFolderNameValid =
-        newTaskFolderName.trim().length > 0 && newTaskFolderName.length <= 30;
+      const isFolderNameValid = newTaskFolderName.trim().length > 0 && newTaskFolderName.length <= 30;
       const isFolderNameUnique = !mockArray.some(
         folder => folder.folderName === newTaskFolderName
       );
@@ -272,7 +271,7 @@ export function useTaskSidebarAllFolders() {
     mockArray,
     handleEditFolderTask,
 
-    editedTaskFolderName,
+    editedTaskFolderName,            
     setEditedTaskFolderName,
 
     openModalEditNameFolder,
