@@ -86,7 +86,7 @@ export function useTaskSidebarAllFolders() {
       }
 
       if (!isFolderNameUnique) {
-        errorToast(`"${newTaskFolderName}" já existe`);
+        errorToast(`"${newTaskFolderName}" já existe.`);
         return;
       }
 
