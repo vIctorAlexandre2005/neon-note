@@ -74,7 +74,8 @@ export function useTaskSidebarAllFolders() {
 
   function handleAddFolderTask() {
     try {
-      const isFolderNameValid = newTaskFolderName.trim().length > 0 && newTaskFolderName.length <= 30;
+      const isFolderNameValid =
+        newTaskFolderName.trim().length > 0 && newTaskFolderName.length <= 30;
       const isFolderNameUnique = !mockArray.some(
         folder => folder.folderName === newTaskFolderName
       );
@@ -120,19 +121,22 @@ export function useTaskSidebarAllFolders() {
   }
 
   function handleEditFolderTask(id: string | string[] | undefined) {
-
-    const validEditedName = editedTaskFolderName.trim().length > 0 && editedTaskFolderName.length <= 30;
-    const isFolderNameUnique = !mockArray.some(folder => folder.folderName === editedTaskFolderName);
+    const validEditedName =
+      editedTaskFolderName.trim().length > 0 &&
+      editedTaskFolderName.length <= 30;
+    const isFolderNameUnique = !mockArray.some(
+      folder => folder.folderName === editedTaskFolderName
+    );
 
     if (!validEditedName) {
       errorToast('Nome da pasta deve ter entre 1 e 30 caracteres');
       return;
-    };
+    }
 
     if (!isFolderNameUnique) {
       errorToast(`"${editedTaskFolderName}" já existe`);
       return;
-    };
+    }
 
     try {
       const folder = mockArray.find(folder => folder.id === id);
@@ -148,12 +152,12 @@ export function useTaskSidebarAllFolders() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(mockArray));
         successToast('Pasta editada com sucesso!');
-      };
+      }
     } catch (error) {
       errorToast('Erro ao editar a pasta');
       console.error('Erro ao editar a pasta:', error);
-    };
-  };
+    }
+  }
 
   function deleteFolderTask(id: string | string[] | undefined) {
     try {
@@ -184,49 +188,7 @@ export function useTaskSidebarAllFolders() {
     setSelectedTaskFolder(id);
   }
 
-  function handleOpenFixedFolders() {
-    setOpenFixedFolders(!openFixedFolders);
-  }
-
-  async function getFolderTaskFixed() {
-    try {
-      setIsLoadingTaskFolder(true);
-      // Lê do localStorage primeiro para refletir atualizações locais
-      const parsedFolders = localStorage.getItem('foldersTaskFixed');
-      if (parsedFolders) {
-        setTasksFixedFolders(JSON.parse(parsedFolders));
-      }
-    } catch (error) {
-      errorToast('Erro ao obter as pastas');
-      console.error('Erro ao obter as pastas:', error);
-    } finally {
-      setIsLoadingTaskFolder(false);
-    }
-  }
-
-  function handleFixedFolder() {
-    try {
-      if (selectedTaskFolder) {
-        const folder = tasksAllFolders.find(
-          folder => folder.id.toString() === selectedTaskFolder
-        );
-        if (folder) {
-          const updatedFolders = tasksAllFolders.filter(
-            folder => folder.id.toString() !== selectedTaskFolder
-          );
-          setAllTasksFolders(updatedFolders);
-          setTasksFixedFolders(prevFolders => [...prevFolders, folder]);
-          successToast('Pasta fixada com sucesso!');
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao fixar a pasta:', error);
-      errorToast('Erro ao fixar a pasta, tente novamente.');
-    }
-  }
-
   useEffect(() => {
-    getFolderTaskFixed();
     getAllFoldersTask();
   }, [selectedTaskFolder]);
 
@@ -262,16 +224,13 @@ export function useTaskSidebarAllFolders() {
     setOpenNotFixedFolders,
 
     handleOpenNotFixedFolders,
-    handleOpenFixedFolders,
 
     tasksFixedFolders,
     setTasksFixedFolders,
-
-    handleFixedFolder,
     mockArray,
     handleEditFolderTask,
 
-    editedTaskFolderName,            
+    editedTaskFolderName,
     setEditedTaskFolderName,
 
     openModalEditNameFolder,

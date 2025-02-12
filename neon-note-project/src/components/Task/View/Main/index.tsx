@@ -13,6 +13,8 @@ import { BiPlus } from 'react-icons/bi';
 import { FcFolder } from 'react-icons/fc';
 import { GrProjects } from 'react-icons/gr';
 import { ModalNameProject } from './dialogs/createProject';
+import { useTaskProjects } from '../../ViewModel/useTaskProjects';
+import { useContextTaskData } from '../../Context/TaskContext/TaskContext';
 
 interface MainScreenProps {
   pasta: MockProps | undefined;
@@ -25,6 +27,7 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
     onClose: onCloseModalCreateProject,
   } = useDisclosure();
   const { darkMode } = useContextGlobal();
+  const { listProjects } = useTaskProjects();
   const router = useRouter();
   return (
     <div className='p-4 w-full h-72'>
@@ -83,22 +86,20 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                   </div>
                 </div>
 
-                <ModalContentComponent 
-                    content={
-                    <ModalNameProject
-                        onClose={onCloseModalCreateProject}
-                    />
-                } 
+                <ModalContentComponent
+                  content={
+                    <ModalNameProject onClose={onCloseModalCreateProject} />
+                  }
                 />
               </>
             </ModalRootComponent>
-            {pasta?.projects.map(projectId => (
+            {listProjects?.map(projectId => (
               <div
-                key={projectId.id}
+                key={projectId?.id}
                 onClick={() =>
                   handleNavigation(
                     router,
-                    `/tasks/${pasta.id}/project/${projectId.id}`
+                    `/tasks/${projectId.id}/project/${projectId.id}`
                   )
                 }
                 className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300`}

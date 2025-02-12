@@ -34,7 +34,6 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
     openFixedFolders,
     openNotFixedFolders,
     handleOpenNotFixedFolders,
-    handleOpenFixedFolders,
     tasksFixedFolders,
     mockArray,
     handleEditFolderTask,

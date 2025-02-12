@@ -1,4 +1,5 @@
 import { defaultValueTaskContextData, ListFoldersTask, ListFoldersTaskFixed, TaskContextData } from "@/Interface/TaskContext";
+import { ProjectProps } from "@/utils/mockFolders";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 const TaskProvider = createContext<TaskContextData>(
@@ -17,7 +18,9 @@ const TaskProvider = createContext<TaskContextData>(
     const [selectedTaskFolder, setSelectedTaskFolder] = useState<string | null>(null); // Pasta selecionada
     const [openFixedFolders, setOpenFixedFolders] = useState<boolean>(false); // Indica se as pastas fixas estao abertas
     const [openNotFixedFolders, setOpenNotFixedFolders] = useState<boolean>(true); // Indica se as pastas nao fixas estao abertas
-  
+    const [newTaskProjectName, setNewTaskProjectName] = useState<string | null>(null); //nome do projeto a ser criado
+    const [listProjects, setListProjects] = useState<ProjectProps[]>([]);
+
     return (
       <TaskProvider.Provider
         value={{
@@ -37,6 +40,10 @@ const TaskProvider = createContext<TaskContextData>(
           setOpenNotFixedFolders,
           editedTaskFolderName,
           setEditedTaskFolderName,
+          newTaskProjectName,
+          setNewTaskProjectName,
+          listProjects,
+          setListProjects
         }}
       >
         {children}

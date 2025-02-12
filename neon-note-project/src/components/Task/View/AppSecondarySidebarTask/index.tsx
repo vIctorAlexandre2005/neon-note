@@ -48,7 +48,6 @@ export function ListFoldersTask({
 }: PropsListFoldersTask) {
   const { darkMode } = useContextGlobal();
   const {
-    handleFixedFolder,
     setNewTaskFolderName,
     newTaskFolderName,
     onCloseModalEditNameFolder,
@@ -167,12 +166,12 @@ export function ListFoldersTask({
                         />
                       </>
                     </ModalRootComponent>
-                    <ButtonComponent
+                    {/* <ButtonComponent
                       onClick={handleFixedFolder}
                       text='Fixar'
                       icon={<RxDrawingPinFilled size={20} />}
                       className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
-                    />
+                    /> */}
                   </div>
                     </MenuContent>
                   </MenuRoot>
