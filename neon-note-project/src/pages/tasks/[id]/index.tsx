@@ -21,9 +21,9 @@ export default function MainTaskFolderDetails() {
   const { id } = router.query;
   const { darkMode } = useContextGlobal();
 
-  const { mockArray } = useTaskSidebarAllFolders();
+  const { foldersTask } = useTaskSidebarAllFolders();
 
-  const pasta = mockArray.find(pasta => pasta.id === id);
+  const pasta = foldersTask.find(pasta => pasta.id === id);
 
   if (!pasta)
     return (

@@ -32,8 +32,8 @@ export interface TaskContextData {
     setOpenNotFixedFolders: Dispatch<SetStateAction<boolean>>;
     listProjects: ProjectProps[];
     setListProjects: Dispatch<SetStateAction<ProjectProps[]>>;
-    mockArray: MockProps[];
-    setMockArray: Dispatch<SetStateAction<MockProps[]>>;
+    foldersTask: MockProps[];
+    setFoldersTask: Dispatch<SetStateAction<MockProps[]>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -57,6 +57,6 @@ export const defaultValueTaskContextData: TaskContextData = {
     setNewTaskProjectName: () => {},
     listProjects: [],
     setListProjects: () => {},
-    mockArray: [],
-    setMockArray: () => {},
+    foldersTask: [],
+    setFoldersTask: () => {},
 };

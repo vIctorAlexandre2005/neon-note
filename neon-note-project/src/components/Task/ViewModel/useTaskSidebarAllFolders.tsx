@@ -23,8 +23,8 @@ export function useTaskSidebarAllFolders() {
     setTasksFixedFolders,
     editedTaskFolderName,
     setEditedTaskFolderName,
-    mockArray,
-    setMockArray,
+    foldersTask,
+    setFoldersTask,
   } = useContextTaskData();
 
   const {
@@ -41,9 +41,8 @@ export function useTaskSidebarAllFolders() {
 
   const router = useRouter();
 
-  
   const [previousMockArrayLength, setPreviousMockArrayLength] = useState(
-    mockArray?.length
+    foldersTask?.length
   );
 
   const {
@@ -53,10 +52,10 @@ export function useTaskSidebarAllFolders() {
   } = useDisclosure();
 
   useEffect(() => {
-    if (mockArray?.length < previousMockArrayLength) {
+    if (foldersTask?.length < previousMockArrayLength) {
       router.replace('/tasks');
     }
-  }, [mockArray]);
+  }, [foldersTask]);
 
   async function getAllFoldersTask() {
     try {
@@ -64,7 +63,7 @@ export function useTaskSidebarAllFolders() {
       // Lê do localStorage primeiro para refletir atualizações locais
       const parsedFolders = localStorage.getItem('foldersTask');
       if (parsedFolders) {
-        setMockArray(JSON.parse(parsedFolders));
+        setFoldersTask(JSON.parse(parsedFolders));
       }
     } catch (error) {
       errorToast('Erro ao obter as pastas');
@@ -78,7 +77,7 @@ export function useTaskSidebarAllFolders() {
     try {
       const isFolderNameValid =
         newTaskFolderName.trim().length > 0 && newTaskFolderName.length <= 30;
-      const isFolderNameUnique = !mockArray.some(
+      const isFolderNameUnique = !foldersTask.some(
         folder => folder.folderName === newTaskFolderName
       );
 
@@ -93,19 +92,18 @@ export function useTaskSidebarAllFolders() {
       }
 
       const newFolder: MockProps = {
-        id: (mockArray.length + 1).toString(),
+        id: (foldersTask.length + 1).toString(),
         folderName: newTaskFolderName,
         projects: [],
       };
 
-      setMockArray([...mockArray, newFolder]);
+      const newFolders = [...foldersTask, newFolder];
+
+      setFoldersTask(newFolders);
       setNewTaskFolderName('');
 
       if (typeof window !== 'undefined') {
-        localStorage.setItem(
-          'foldersTask',
-          JSON.stringify([...mockArray, newFolder])
-        );
+        localStorage.setItem('foldersTask', JSON.stringify(newFolders));
         successToast('Pasta criada com sucesso!');
         onCloseAddFolder();
       }
@@ -119,7 +117,7 @@ export function useTaskSidebarAllFolders() {
     const validEditedName =
       editedTaskFolderName.trim().length > 0 &&
       editedTaskFolderName.length <= 30;
-    const isFolderNameUnique = !mockArray.some(
+    const isFolderNameUnique = !foldersTask.some(
       folder => folder.folderName === editedTaskFolderName
     );
 
@@ -134,10 +132,10 @@ export function useTaskSidebarAllFolders() {
     }
 
     try {
-      const folder = mockArray.find(folder => folder.id === id);
+      const folder = foldersTask.find(folder => folder.id === id);
       if (folder) {
         folder.folderName = editedTaskFolderName;
-        setMockArray([...mockArray]);
+        setFoldersTask([...foldersTask]);
         setEditedTaskFolderName('');
         onCloseModalEditNameFolder();
       } else {
@@ -145,7 +143,7 @@ export function useTaskSidebarAllFolders() {
       }
 
       if (typeof window !== 'undefined') {
-        localStorage.setItem('foldersTask', JSON.stringify(mockArray));
+        localStorage.setItem('foldersTask', JSON.stringify(foldersTask));
         successToast('Pasta editada com sucesso!');
       }
     } catch (error) {
@@ -156,8 +154,8 @@ export function useTaskSidebarAllFolders() {
 
   function deleteFolderTask(id: string | string[] | undefined) {
     try {
-      const updatedFolders = mockArray.filter(folder => folder.id !== id);
-      setMockArray(updatedFolders);
+      const updatedFolders = foldersTask.filter(folder => folder.id !== id);
+      setFoldersTask(updatedFolders);
       setPreviousMockArrayLength(updatedFolders?.length); // Atualiza a contagem
 
       // Salva toda a estrutura atualizada no localStorage
@@ -222,7 +220,7 @@ export function useTaskSidebarAllFolders() {
 
     tasksFixedFolders,
     setTasksFixedFolders,
-    mockArray,
+    foldersTask,
     handleEditFolderTask,
 
     editedTaskFolderName,

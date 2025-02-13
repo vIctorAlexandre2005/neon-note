@@ -35,7 +35,7 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
     openNotFixedFolders,
     handleOpenNotFixedFolders,
     tasksFixedFolders,
-    mockArray,
+    foldersTask,
     handleEditFolderTask,
   } = useTaskSidebarAllFolders();
 
@@ -89,7 +89,7 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
             isOpenDeleteFolder={isOpenDeleteFolder}
             onCloseDeleteFolder={onCloseDeleteFolder}
             deleteFolderTask={deleteFolderTask}
-            mockArray={mockArray}
+            foldersTask={foldersTask}
             handleEditFolderTask={handleEditFolderTask}
             id={id}
           />

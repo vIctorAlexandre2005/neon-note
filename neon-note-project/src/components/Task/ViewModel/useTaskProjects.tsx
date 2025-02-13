@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
-import { ProjectProps } from '@/utils/mockFolders';
+import { MockProps, ProjectProps } from '@/utils/mockFolders';
 import { useTaskSidebarAllFolders } from './useTaskSidebarAllFolders';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
+import { useRouter } from 'next/router';
 
 export function useTaskProjects() {
   const {
@@ -10,27 +11,47 @@ export function useTaskProjects() {
     setNewTaskProjectName,
     listProjects,
     setListProjects,
+    foldersTask,
+    setFoldersTask,
   } = useContextTaskData();
 
-  console.log('listProjects', listProjects);
+  const router = useRouter();
+  const { id } = router.query;
 
   function handleCreateTaskProject(projectName: string) {
     try {
+      if (!id) {
+        errorToast('Erro: Nenhuma pasta selecionada.');
+        return;
+      }
+
       const totalProjects = listProjects.length + 1;
-      console.log('totalProjects', totalProjects);
 
       const newProject: ProjectProps = {
         id: totalProjects.toString(),
         projectName: projectName,
       };
 
-      const updatedProjects = [...listProjects, newProject]; // Adiciona ao array existente
-      console.log('updatedProjects', updatedProjects);
+      // Encontra a pasta correspondente ao id atual da rota
+      const updatedFolders = foldersTask.map(folder => 
+        folder.id === id ? 
+        {...folder, 
+          projects: [
+            ...folder.projects, 
+            newProject
+          ]
+        } : folder
+      );
 
+      // Atualizar o array de projetos apenas na pasta correta
       if (typeof window !== 'undefined') {
-        localStorage.setItem('taskProjects', JSON.stringify(updatedProjects));
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        setFoldersTask(updatedFolders);
       }
-      setListProjects(updatedProjects); // Agora é um array
+
+      // Atualiza a lista de projetos da pasta aberta
+      setListProjects(prevProjects => [...prevProjects, newProject]);
+
       setNewTaskProjectName('');
       successToast('Projeto criado!');
     } catch (error) {
@@ -39,11 +60,25 @@ export function useTaskProjects() {
     }
   }
 
+  const selectedFolder = foldersTask.find(folder => folder.id === id);
   function getTaskProjects() {
     try {
-      const parsedListTaskProjects = localStorage.getItem('taskProjects');
-      if (parsedListTaskProjects) {
-        setListProjects(JSON.parse(parsedListTaskProjects) || []); // Garante que sempre será um array
+      if (!id) {
+        errorToast('Erro: Nenhuma pasta selecionada.');
+        return;
+      };
+
+      const storedFolders = localStorage.getItem('foldersTask');
+      if (storedFolders) {
+        const parsedFolders: MockProps[] = JSON.parse(storedFolders);
+        // Encontra a pasta correspondente ao id atual
+        const selectedFolder = parsedFolders.find(folder => folder.id === id);
+
+        if (selectedFolder) {
+          setListProjects(selectedFolder.projects || []); // Garante que seja um array
+        } else {
+          setListProjects([]); // Se a pasta não for encontrada, retorna um array vazio
+        }
       }
     } catch (error) {
       console.error('Erro ao buscar projetos:', error);
@@ -53,7 +88,7 @@ export function useTaskProjects() {
 
   useEffect(() => {
     getTaskProjects();
-  }, []);
+  }, [selectedFolder, id]);
 
   return {
     handleCreateTaskProject,
@@ -61,5 +96,6 @@ export function useTaskProjects() {
     newTaskProjectName,
     setNewTaskProjectName,
     listProjects,
+    foldersTask,
   };
 }
