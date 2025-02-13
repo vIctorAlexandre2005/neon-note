@@ -1,4 +1,5 @@
 import { TaskComponent } from '@/components/Task/View';
+import { useTaskProjects } from '@/components/Task/ViewModel/useTaskProjects';
 import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
 import { useContextGlobal } from '@/Context';
 import { useRouter } from 'next/router';
@@ -10,22 +11,14 @@ export default function MainPageProject() {
 
   const { id, projectId } = router.query; // Obtém o ID da pasta e do projeto
 
-  const { mockArray } = useTaskSidebarAllFolders();
-  
-  const project = mockArray.find(pasta => pasta.projects.find(project => project.id === projectId));
-
-  console.log(project);
-
-  if (!projectId) {
-    return <p>Projeto não encontrado.</p>;
-  }
-
+  const { listProjects } = useTaskProjects();
+  const projectName = listProjects.find(project => project.id === projectId)?.projectName;
+  console.log('listProjects', listProjects);
+  console.log('projectName', projectName);
   return (
     <div className='w-full h-full p-6'>
       <TaskComponent 
-        projectName={
-          project?.projects.find(project => project.id === projectId)?.projectName
-        } 
+        projectName={projectName} 
       />
     </div>
   );

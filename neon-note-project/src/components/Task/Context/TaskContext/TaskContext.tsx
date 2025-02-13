@@ -1,5 +1,5 @@
 import { defaultValueTaskContextData, ListFoldersTask, ListFoldersTaskFixed, TaskContextData } from "@/Interface/TaskContext";
-import { ProjectProps } from "@/utils/mockFolders";
+import { mockPastas, MockProps, ProjectProps } from "@/utils/mockFolders";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 const TaskProvider = createContext<TaskContextData>(
@@ -19,8 +19,10 @@ const TaskProvider = createContext<TaskContextData>(
     const [openFixedFolders, setOpenFixedFolders] = useState<boolean>(false); // Indica se as pastas fixas estao abertas
     const [openNotFixedFolders, setOpenNotFixedFolders] = useState<boolean>(true); // Indica se as pastas nao fixas estao abertas
     const [newTaskProjectName, setNewTaskProjectName] = useState<string | null>(null); //nome do projeto a ser criado
-    const [listProjects, setListProjects] = useState<ProjectProps[]>([]);
-
+    const [mockArray, setMockArray] = useState<MockProps[]>(mockPastas);
+    const mapListProject = mockArray.map(folder => folder.projects.map(project => project));
+    console.log('mapListProject', mapListProject);
+    const [listProjects, setListProjects] = useState<ProjectProps[]>(mapListProject.flat() || []);    
     return (
       <TaskProvider.Provider
         value={{
@@ -43,7 +45,9 @@ const TaskProvider = createContext<TaskContextData>(
           newTaskProjectName,
           setNewTaskProjectName,
           listProjects,
-          setListProjects
+          setListProjects,
+          mockArray,
+          setMockArray
         }}
       >
         {children}

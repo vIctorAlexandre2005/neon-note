@@ -29,6 +29,9 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
   const { darkMode } = useContextGlobal();
   const { listProjects } = useTaskProjects();
   const router = useRouter();
+
+  const projectName = listProjects.find(project => project.id === pasta?.id)?.projectName;
+
   return (
     <div className='p-4 w-full h-72'>
       <div
@@ -93,21 +96,21 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                 />
               </>
             </ModalRootComponent>
-            {listProjects?.map(projectId => (
+            {listProjects.map((project, idx) => (
               <div
-                key={projectId?.id}
-                onClick={() =>
-                  handleNavigation(
-                    router,
-                    `/tasks/${projectId.id}/project/${projectId.id}`
-                  )
-                }
-                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300`}
-              >
-                <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
-                  {projectId.projectName}
-                </p>
-              </div>
+              key={idx}
+              onClick={() =>
+                handleNavigation(
+                  router,
+                  `/tasks/${project.id}/project/${project.id}`
+                )
+              }
+              className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300`}
+            >
+              <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
+                {project.projectName}
+              </p>
+            </div>
             ))}
           </SimpleGrid>
         </div>

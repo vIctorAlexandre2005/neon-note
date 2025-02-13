@@ -23,6 +23,8 @@ export function useTaskSidebarAllFolders() {
     setTasksFixedFolders,
     editedTaskFolderName,
     setEditedTaskFolderName,
+    mockArray,
+    setMockArray,
   } = useContextTaskData();
 
   const {
@@ -39,7 +41,7 @@ export function useTaskSidebarAllFolders() {
 
   const router = useRouter();
 
-  const [mockArray, setMockArray] = useState<MockProps[]>(mockPastas);
+  
   const [previousMockArrayLength, setPreviousMockArrayLength] = useState(
     mockArray?.length
   );
@@ -90,17 +92,10 @@ export function useTaskSidebarAllFolders() {
         return;
       }
 
-      const totalProjects = mockArray.map(folder => folder.projects.length + 1);
-
       const newFolder: MockProps = {
         id: (mockArray.length + 1).toString(),
         folderName: newTaskFolderName,
-        projects: [
-          {
-            id: totalProjects.toString(),
-            projectName: 'Teste',
-          },
-        ],
+        projects: [],
       };
 
       setMockArray([...mockArray, newFolder]);

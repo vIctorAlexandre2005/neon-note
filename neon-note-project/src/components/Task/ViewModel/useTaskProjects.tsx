@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
-import { mockPastas, MockProps, ProjectProps } from '@/utils/mockFolders';
+import { ProjectProps } from '@/utils/mockFolders';
 import { useTaskSidebarAllFolders } from './useTaskSidebarAllFolders';
-import { useRouter } from 'next/router';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 
 export function useTaskProjects() {
@@ -12,12 +11,13 @@ export function useTaskProjects() {
     listProjects,
     setListProjects,
   } = useContextTaskData();
-  const { mockArray } = useTaskSidebarAllFolders();
-  const router = useRouter();
+
+  console.log('listProjects', listProjects);
 
   function handleCreateTaskProject(projectName: string) {
     try {
-      const totalProjects = mockArray.map(folder => folder.projects.length + 1);
+      const totalProjects = listProjects.length + 1;
+      console.log('totalProjects', totalProjects);
 
       const newProject: ProjectProps = {
         id: totalProjects.toString(),
@@ -25,17 +25,19 @@ export function useTaskProjects() {
       };
 
       const updatedProjects = [...listProjects, newProject]; // Adiciona ao array existente
+      console.log('updatedProjects', updatedProjects);
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('taskProjects', JSON.stringify(updatedProjects));
       }
       setListProjects(updatedProjects); // Agora é um array
-      successToast('Projeto criado!')
+      setNewTaskProjectName('');
+      successToast('Projeto criado!');
     } catch (error) {
       console.error('Erro ao criar:', error);
       errorToast('Erro ao criar projeto');
-    };
-  };
+    }
+  }
 
   function getTaskProjects() {
     try {
@@ -47,7 +49,7 @@ export function useTaskProjects() {
       console.error('Erro ao buscar projetos:', error);
       errorToast('Erro ao buscar projetos');
     }
-  };
+  }
 
   useEffect(() => {
     getTaskProjects();

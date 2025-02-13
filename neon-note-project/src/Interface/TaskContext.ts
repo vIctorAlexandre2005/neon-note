@@ -1,4 +1,4 @@
-import { ProjectProps } from "@/utils/mockFolders";
+import { MockProps, ProjectProps } from "@/utils/mockFolders";
 import { Dispatch, SetStateAction } from "react";
 
 export interface ListFoldersTaskFixed {
@@ -32,6 +32,8 @@ export interface TaskContextData {
     setOpenNotFixedFolders: Dispatch<SetStateAction<boolean>>;
     listProjects: ProjectProps[];
     setListProjects: Dispatch<SetStateAction<ProjectProps[]>>;
+    mockArray: MockProps[];
+    setMockArray: Dispatch<SetStateAction<MockProps[]>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -55,4 +57,6 @@ export const defaultValueTaskContextData: TaskContextData = {
     setNewTaskProjectName: () => {},
     listProjects: [],
     setListProjects: () => {},
+    mockArray: [],
+    setMockArray: () => {},
 };
