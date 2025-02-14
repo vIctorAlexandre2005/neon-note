@@ -24,33 +24,23 @@ export function useTaskProjects() {
         errorToast('Erro: Nenhuma pasta selecionada.');
         return;
       }
-
       const totalProjects = listProjects.length + 1;
-
       const newProject: ProjectProps = {
         id: totalProjects.toString(),
         projectName: projectName,
       };
-
       // Encontra a pasta correspondente ao id atual da rota
-      const updatedFolders = foldersTask.map(folder => 
-        folder.id === id ? 
-        {...folder, 
-          projects: [
-            ...folder.projects, 
-            newProject
-          ]
-        } : folder
+      const updatedFolders = foldersTask.map(folder =>
+        folder.id === id
+          ? { ...folder, projects: [...folder.projects, newProject] }
+          : folder
       );
-
       // Atualizar o array de projetos apenas na pasta correta
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         setFoldersTask(updatedFolders);
+        setListProjects(prevProjects => [...prevProjects, newProject]);
       }
-
-      // Atualiza a lista de projetos da pasta aberta
-      setListProjects(prevProjects => [...prevProjects, newProject]);
 
       setNewTaskProjectName('');
       successToast('Projeto criado!');
@@ -62,27 +52,21 @@ export function useTaskProjects() {
 
   const selectedFolder = foldersTask.find(folder => folder.id === id);
   function getTaskProjects() {
-    try {
-      if (!id) {
-        errorToast('Erro: Nenhuma pasta selecionada.');
-        return;
-      };
+    if (!id) {
+      errorToast('Erro: Nenhuma pasta selecionada.');
+      return;
+    }
+    const foldersData = localStorage.getItem('foldersTask');
+    if (foldersData) {
+      try {
+        const folders: MockProps[] = JSON.parse(foldersData);
+        const currentFolder = folders.find(folder => folder.id === id);
 
-      const storedFolders = localStorage.getItem('foldersTask');
-      if (storedFolders) {
-        const parsedFolders: MockProps[] = JSON.parse(storedFolders);
-        // Encontra a pasta correspondente ao id atual
-        const selectedFolder = parsedFolders.find(folder => folder.id === id);
-
-        if (selectedFolder) {
-          setListProjects(selectedFolder.projects || []); // Garante que seja um array
-        } else {
-          setListProjects([]); // Se a pasta não for encontrada, retorna um array vazio
-        }
+        setListProjects(currentFolder?.projects || []);
+      } catch (error) {
+        console.error('Erro ao processar dados das pastas:', error);
+        errorToast('Erro ao buscar projetos');
       }
-    } catch (error) {
-      console.error('Erro ao buscar projetos:', error);
-      errorToast('Erro ao buscar projetos');
     }
   }
 
