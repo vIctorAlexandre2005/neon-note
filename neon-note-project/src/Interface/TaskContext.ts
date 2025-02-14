@@ -1,4 +1,4 @@
-import { MockProps, ProjectProps } from "@/utils/mockFolders";
+import { MockProps, ProjectProps, StatusTasksFromProjectProps } from "@/utils/mockFolders";
 import { Dispatch, SetStateAction } from "react";
 
 export interface ListFoldersTaskFixed {
@@ -34,6 +34,13 @@ export interface TaskContextData {
     setListProjects: Dispatch<SetStateAction<ProjectProps[]>>;
     foldersTask: MockProps[];
     setFoldersTask: Dispatch<SetStateAction<MockProps[]>>;
+    
+    tasksToStartInProject: StatusTasksFromProjectProps[];
+    setTasksToStartInProject: Dispatch<SetStateAction<StatusTasksFromProjectProps[]>>;
+    tasksInProgressInProject: StatusTasksFromProjectProps[];
+    setTasksInProgressInProject: Dispatch<SetStateAction<StatusTasksFromProjectProps[]>>;
+    tasksFinishedInProject: StatusTasksFromProjectProps[];
+    setTasksFinishedInProject: Dispatch<SetStateAction<StatusTasksFromProjectProps[]>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -59,4 +66,10 @@ export const defaultValueTaskContextData: TaskContextData = {
     setListProjects: () => {},
     foldersTask: [],
     setFoldersTask: () => {},
+    tasksToStartInProject: [],
+    setTasksToStartInProject: () => {},
+    tasksInProgressInProject: [],
+    setTasksInProgressInProject: () => {},
+    tasksFinishedInProject: [],
+    setTasksFinishedInProject: () => {},
 };

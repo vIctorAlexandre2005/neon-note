@@ -4,7 +4,7 @@ import {
   ListFoldersTaskFixed,
   TaskContextData,
 } from '@/Interface/TaskContext';
-import { mockPastas, MockProps, ProjectProps } from '@/utils/mockFolders';
+import { mockPastas, MockProps, ProjectProps, StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 const TaskProvider = createContext<TaskContextData>(
@@ -37,6 +37,10 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   const [listProjects, setListProjects] = useState<ProjectProps[]>(
     mapListProject.flat() || []
   );
+  const [tasksToStartInProject, setTasksToStartInProject] = useState<StatusTasksFromProjectProps[]>([]);
+  const [tasksInProgressInProject, setTasksInProgressInProject] = useState<StatusTasksFromProjectProps[]>([]);
+  const [tasksFinishedInProject, setTasksFinishedInProject] = useState<StatusTasksFromProjectProps[]>([]);
+
   return (
     <TaskProvider.Provider
       value={{
@@ -62,6 +66,12 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         setListProjects,
         foldersTask,
         setFoldersTask,
+        tasksToStartInProject,
+        setTasksToStartInProject,
+        tasksInProgressInProject,
+        setTasksInProgressInProject,
+        tasksFinishedInProject,
+        setTasksFinishedInProject,
       }}
     >
       {children}

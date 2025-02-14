@@ -9,5 +9,5 @@ export function handleNavigation(router: NextRouter, url: string) {
   } catch (error) {
     console.error('Erro ao navegar para a URL:', error);
     errorToast('Erro ao navegar para a URL, tente novamente.');
-  }
-}
+  };
+};

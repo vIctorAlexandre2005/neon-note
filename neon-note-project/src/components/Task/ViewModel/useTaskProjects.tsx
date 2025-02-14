@@ -4,6 +4,8 @@ import { MockProps, ProjectProps } from '@/utils/mockFolders';
 import { useTaskSidebarAllFolders } from './useTaskSidebarAllFolders';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { useRouter } from 'next/router';
+import { generateIdProjects } from '@/utils/generateId';
+import { v4 as uuidv4 } from 'uuid';
 
 export function useTaskProjects() {
   const {
@@ -19,35 +21,38 @@ export function useTaskProjects() {
   const { id } = router.query;
 
   function handleCreateTaskProject(projectName: string) {
-    try {
-      if (!id) {
-        errorToast('Erro: Nenhuma pasta selecionada.');
-        return;
-      }
-      const totalProjects = listProjects.length + 1;
-      const newProject: ProjectProps = {
-        id: totalProjects.toString(),
-        projectName: projectName,
-      };
-      // Encontra a pasta correspondente ao id atual da rota
-      const updatedFolders = foldersTask.map(folder =>
-        folder.id === id
-          ? { ...folder, projects: [...folder.projects, newProject] }
-          : folder
-      );
-      // Atualizar o array de projetos apenas na pasta correta
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
-        setFoldersTask(updatedFolders);
-        setListProjects(prevProjects => [...prevProjects, newProject]);
-      }
-
-      setNewTaskProjectName('');
-      successToast('Projeto criado!');
-    } catch (error) {
-      console.error('Erro ao criar:', error);
-      errorToast('Erro ao criar projeto');
+    if (!id) {
+      errorToast('Nenhuma pasta selecionada.');
+      return;
     }
+
+    const newProject: ProjectProps = {
+      id: uuidv4(),
+      projectName: projectName,
+      projectTasks: {
+        total: 0,
+        status: {
+          toStart: [],
+          inProgress: [],
+          finished: [],
+        },
+      },
+    };
+
+    const updatedFolders = foldersTask.map(folder =>
+      folder.id === id
+        ? { ...folder, projects: [...folder.projects, newProject] }
+        : folder
+    );
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+      setFoldersTask(updatedFolders);
+      setListProjects(prevProjects => [...prevProjects, newProject]);
+    }
+
+    setNewTaskProjectName('');
+    successToast('Projeto criado!');
   }
 
   const selectedFolder = foldersTask.find(folder => folder.id === id);

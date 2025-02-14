@@ -4,6 +4,7 @@ import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useDisclosure } from '@chakra-ui/react';
 import { mockPastas, MockProps } from '@/utils/mockFolders';
 import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from "uuid";
 
 export function useTaskSidebarAllFolders() {
   const {
@@ -92,7 +93,7 @@ export function useTaskSidebarAllFolders() {
       }
 
       const newFolder: MockProps = {
-        id: (foldersTask.length + 1).toString(),
+        id: uuidv4(),
         folderName: newTaskFolderName,
         projects: [],
       };
