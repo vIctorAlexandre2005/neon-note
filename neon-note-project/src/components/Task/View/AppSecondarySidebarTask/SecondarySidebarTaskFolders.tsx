@@ -41,7 +41,7 @@ export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersPro
 
   return (
     <div
-      className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
+      className={`flex-none fixed h-full w-72 shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
       <div className={`flex-col gap-2 flex`}>
         <div className='flex justify-between p-2 items-center'>
