@@ -54,7 +54,7 @@ export function useTaskSidebarAllFolders() {
 
   useEffect(() => {
     if (foldersTask?.length < previousMockArrayLength) {
-      router.replace('/tasks');
+      router.replace('/tasksFolders');
     }
   }, [foldersTask]);
 
@@ -165,7 +165,7 @@ export function useTaskSidebarAllFolders() {
         successToast('Pasta excluida!');
       }
       setTimeout(() => {
-        router.replace('/tasks');
+        router.replace('/tasksFolders');
       }, 200);
       setSelectedTaskFolder(null);
     } catch (error) {

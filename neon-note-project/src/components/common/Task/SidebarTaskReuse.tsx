@@ -55,7 +55,7 @@ export function SidebarTasksReuse({
           </div>
         )}
       </div>
-      <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-220px)]'>
+      <div className='flex flex-col mt-3 gap-4 p-2 overflow-auto max-h-[calc(100vh-220px)]'>
         <DndProvider backend={HTML5Backend}>
           {arrayTasks?.map((note: any, index: number) => (
             <CardTasks

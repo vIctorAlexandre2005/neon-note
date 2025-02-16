@@ -63,7 +63,7 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
               />
             </div>
           </div>
-          <SimpleGrid columns={3} justifyContent={'center'} gap={4}>
+          <SimpleGrid columns={3} pb={4} justifyContent={'center'} gap={4}>
             <ModalRootComponent
               isOpen={isOpenModalCreateProject}
               onClose={onCloseModalCreateProject}
@@ -100,10 +100,12 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                 onClick={() =>
                   handleNavigation(
                     router,
-                    `/tasks/${pasta?.id}/project/${project.id}`
+                    `/tasksFolders/${pasta?.id}/project/${project.id}`
                   )
                 }
-                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300`}
+                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} 
+                    shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300
+                  `}
               >
                 <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
                   {project.projectName}

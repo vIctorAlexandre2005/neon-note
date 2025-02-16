@@ -32,5 +32,9 @@ export default function MainTaskFolderDetails() {
       </div>
     );
 
-  return <MainScreenTaskComponent pasta={pasta} />
+  return (
+    <div className='w-full h-full overflow-auto p-2'>
+      <MainScreenTaskComponent pasta={pasta} />
+    </div>
+  )
 }

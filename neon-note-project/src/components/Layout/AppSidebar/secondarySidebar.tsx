@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 export function SecondarySidebar() {
   const router = useRouter();
 
-  const includeTaskInRoute = router.pathname.includes('/tasks');
+  const includeTaskInRoute = router.pathname.includes('/tasksFolders');
 
   if (router.pathname === '/') {
     return <SecondarySidebarNoteFolders />;
