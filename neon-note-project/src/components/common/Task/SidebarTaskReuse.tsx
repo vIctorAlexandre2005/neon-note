@@ -30,28 +30,27 @@ export function SidebarTasksReuse({
 
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-white border border-gray-200'} w-full h-full xs:rounded-none md:rounded-xl p-2`}
+      className={`${darkMode ? 'bg-slate-700 bg-opacity-20 border border-slate-800 border-opacity-70' : 'bg-slate-50 shadow-xl border border-gray-500 border-opacity-20'} w-full h-full rounded-3xl p-2`}
     >
-      <div className='flex items-center justify-between'>
-        <div className='flex gap-2 items-center'>
-          <h1
-            className={`text-lg mt-2 ${darkMode ? 'text-white text-opacity-80' : 'text-black-700'}`}
-          >
-            {statusTitle} ({numberTasksStatus})
-          </h1>
+      <div
+        className={`flex items-center justify-between ${statusTitle === 'A iniciar' ? 'bg-neon-500' : statusTitle === 'Em progresso' ? 'bg-orange-500' : 'bg-green-500'} rounded-full p-1`}
+      >
+        <div className={`flex gap-2 items-center `}>
           <div
-            className={`p-2 flex bg-${statusIconColorBackground}-500 bg-opacity-20 rounded-full`}
+            className={`flex justify-center font-semibold items-center rounded-full h-8 w-12 bg-white ${statusTitle === 'A iniciar' ? 'text-neon-500' : statusTitle === 'Em progresso' ? 'text-orange-500' : 'text-green-500'}`}
           >
-            {statusIcon}
+            {numberTasksStatus}
           </div>
+          <h1 className={`text-lg text-black-50 font-semibold`}>
+            {statusTitle}
+          </h1>
         </div>
 
         {thereIsNoButtonCreateTaskInSidebar && (
           <div
-            className={`flex hover:bg-slate-200 duration-300 rounded-full cursor-pointer text-black-700 p-2 gap-1 items-center`}
+            className={`flex duration-300 rounded-full cursor-pointer gap-1 items-center pr-2`}
           >
             <FaPlus size={20} />
-            <h1>Criar tarefa</h1>
           </div>
         )}
       </div>
