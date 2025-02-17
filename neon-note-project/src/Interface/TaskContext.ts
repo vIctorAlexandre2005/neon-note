@@ -41,6 +41,17 @@ export interface TaskContextData {
     setTasksInProgressInProject: Dispatch<SetStateAction<StatusTasksFromProjectProps[]>>;
     tasksFinishedInProject: StatusTasksFromProjectProps[];
     setTasksFinishedInProject: Dispatch<SetStateAction<StatusTasksFromProjectProps[]>>;
+
+    nameCreatedTask: string;
+    setNameCreatedTask: Dispatch<SetStateAction<string>>;
+
+    descriptionCreatedTask: string;
+    setDescriptionCreatedTask: Dispatch<SetStateAction<string>>;
+    limitDateToFinishTask: Date;
+    setLimitDateToFinishTask: Dispatch<SetStateAction<Date>>;
+    levelPriorityTask: string;
+    setLevelPriorityTask: Dispatch<SetStateAction<string>>;
+
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -72,4 +83,12 @@ export const defaultValueTaskContextData: TaskContextData = {
     setTasksInProgressInProject: () => {},
     tasksFinishedInProject: [],
     setTasksFinishedInProject: () => {},
+    nameCreatedTask: '',
+    setNameCreatedTask: () => {},
+    descriptionCreatedTask: '',
+    setDescriptionCreatedTask: () => {},
+    limitDateToFinishTask: new Date,
+    setLimitDateToFinishTask: () => {},
+    levelPriorityTask: '',
+    setLevelPriorityTask: () => {},
 };

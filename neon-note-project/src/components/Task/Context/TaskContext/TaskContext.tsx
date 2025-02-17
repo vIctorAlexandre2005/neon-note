@@ -41,6 +41,11 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   const [tasksInProgressInProject, setTasksInProgressInProject] = useState<StatusTasksFromProjectProps[]>([]);
   const [tasksFinishedInProject, setTasksFinishedInProject] = useState<StatusTasksFromProjectProps[]>([]);
 
+  const [nameCreatedTask, setNameCreatedTask] = useState('');
+  const [descriptionCreatedTask, setDescriptionCreatedTask] = useState('');
+  const [limitDateToFinishTask, setLimitDateToFinishTask] = useState(new Date);
+  const [levelPriorityTask, setLevelPriorityTask] = useState('');
+
   return (
     <TaskProvider.Provider
       value={{
@@ -72,6 +77,14 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         setTasksInProgressInProject,
         tasksFinishedInProject,
         setTasksFinishedInProject,
+        nameCreatedTask,
+        setNameCreatedTask,
+        descriptionCreatedTask,
+        setDescriptionCreatedTask,
+        limitDateToFinishTask,
+        setLimitDateToFinishTask,
+        levelPriorityTask,
+        setLevelPriorityTask
       }}
     >
       {children}

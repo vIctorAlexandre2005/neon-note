@@ -13,6 +13,7 @@ export interface StatusTasksFromProjectProps {
   progressTask: number;
   subTasks?: SubTasks[];
   taskCreatedDate: string | undefined;
+  taskLimitDate: number | undefined;
   label?: string;
 };
 

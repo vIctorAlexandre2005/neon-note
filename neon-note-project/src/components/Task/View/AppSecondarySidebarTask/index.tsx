@@ -107,7 +107,7 @@ export function ListFoldersTask({
                   </div>
                   <MenuRoot>
                     <MenuTrigger>
-                      <ButtonComponent icon={<RxDotsHorizontal size={18} />} />
+                      <ButtonComponent text='' icon={<RxDotsHorizontal size={18} />} />
                     </MenuTrigger>
 
                     <MenuContent bg={darkMode ? '#0f172a' : 'white'} boxShadow={'sm'}>

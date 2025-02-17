@@ -13,6 +13,15 @@ export function useCardTasks() {
     setTasksInProgressInProject,
     tasksFinishedInProject,
     setTasksFinishedInProject,
+    nameCreatedTask,
+    setNameCreatedTask,
+    descriptionCreatedTask,
+    setDescriptionCreatedTask,
+    limitDateToFinishTask,
+    setLimitDateToFinishTask,
+    levelPriorityTask,
+    setLevelPriorityTask
+
   } = useContextTaskData();
 
   const getListTasks = foldersTask.map(folder =>
@@ -21,11 +30,11 @@ export function useCardTasks() {
 
   const tasksToStart = getListTasks
     .flat()
-    .map(tasks => tasks.status.toStart.map(task => task));
+    .map(tasks => tasks?.status.toStart.map(task => task));
   const tasksInProgress = getListTasks
     .flat()
-    .map(tasks => tasks.status.inProgress);
-  const tasksFinished = getListTasks.flat().map(tasks => tasks.status.finished);
+    .map(tasks => tasks?.status.inProgress);
+  const tasksFinished = getListTasks.flat().map(tasks => tasks?.status?.finished);
 
   function createCardTask(
     status: string,
@@ -40,6 +49,7 @@ export function useCardTasks() {
       subTasks: [],
       progressTask: 0,
       totalTasksThisStatus: 0,
+      taskLimitDate: new Date().getDate() + 3,
       taskCreatedDate: new Date().toLocaleString(),
       label: label,
     };
@@ -104,6 +114,18 @@ export function useCardTasks() {
   }, []);
 
   return {
+    tasksToStartInProject,
+    tasksInProgressInProject,
+    tasksFinishedInProject,
+    createCardTask,
     getListTasks,
+    nameCreatedTask,
+    setNameCreatedTask,
+    descriptionCreatedTask,
+    setDescriptionCreatedTask,
+    limitDateToFinishTask,
+    setLimitDateToFinishTask,
+    levelPriorityTask,
+    setLevelPriorityTask
   };
 }
