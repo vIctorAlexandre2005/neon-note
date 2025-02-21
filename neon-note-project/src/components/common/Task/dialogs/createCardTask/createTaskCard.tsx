@@ -6,34 +6,19 @@ import {
 } from '../../../Button';
 import { FormCreateTaskCard } from './formCreateTaskCard';
 import FadeIn from '@/components/common/Effects/FadeIn';
+import { Dispatch, SetStateAction } from 'react';
 import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 
 interface CreateModalTaskCardProps {
   onCloseModalCreateCard: () => void;
 }
-export function CreateModalTaskCard({onCloseModalCreateCard}: CreateModalTaskCardProps) {
-  const {
-    createCardTask,
-    tasksFinishedInProject,
-    tasksInProgressInProject,
-    tasksToStartInProject,
-    nameCreatedTask,
-    setNameCreatedTask,
-    descriptionCreatedTask,
-    setDescriptionCreatedTask,
-    limitDateToFinishTask,
-    setLimitDateToFinishTask,
-    levelPriorityTask,
-    setLevelPriorityTask,
-  } = useCardTasks();
-
+export function CreateModalTaskCard({ onCloseModalCreateCard}: CreateModalTaskCardProps) {
+  const { createCardTask, levelPriorityTask, nameCreatedTask, descriptionCreatedTask, limitDateToFinishTask } = useCardTasks();
   const { darkMode } = useContextGlobal();
   return (
     <div className='flex justify-start flex-col z-0'>
       <FadeIn>
         <div>
-          {' '}
-          {/* header */}
           <h1
             className={`${darkMode ? 'text-gray-100' : 'text-black-900'} mb-4 font-semibold text-xl`}
           >
@@ -42,8 +27,6 @@ export function CreateModalTaskCard({onCloseModalCreateCard}: CreateModalTaskCar
         </div>
 
         <div className='flex justify-center w-full mb-4'>
-          {' '}
-          {/* body */}
           <FormCreateTaskCard />
         </div>
       </FadeIn>
@@ -54,7 +37,7 @@ export function CreateModalTaskCard({onCloseModalCreateCard}: CreateModalTaskCar
           text='Cancelar' 
         />
         <PositiveButtonComponent
-          onClick={() => console.log('oi')}
+          onClick={() => createCardTask('toStart', nameCreatedTask, descriptionCreatedTask, limitDateToFinishTask)}
           text='Criar'
         />
       </footer>

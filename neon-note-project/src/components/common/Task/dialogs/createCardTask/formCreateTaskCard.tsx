@@ -5,29 +5,51 @@ import {
   TextAreaCreateTaskCard,
 } from './inputs';
 import { useContextGlobal } from '@/Context';
+import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 
 export function FormCreateTaskCard() {
   const { darkMode } = useContextGlobal();
+  const {
+    nameCreatedTask,
+    setNameCreatedTask,
+    descriptionCreatedTask,
+    setDescriptionCreatedTask,
+    limitDateToFinishTask,
+    setLimitDateToFinishTask,
+    levelPriorityTask,
+    setLevelPriorityTask,
+  } = useCardTasks();
+  console.log('nameCreatedTask', nameCreatedTask);
+  console.log('descriptionCreatedTask', descriptionCreatedTask);
+  console.log('limitDateToFinishTask', limitDateToFinishTask);
+  console.log('levelPriorityTask', levelPriorityTask);
+
   return (
     <div className='flex flex-col justify-center w-full'>
       <SimpleGrid columns={2} gap={4} w={'full'}>
-        <InputsCreateTaskCard type='text' placeholder='Tarefa resumida' />
-        <InputsCreateTaskCard type='date' placeholder='' label='Prazo:' />
-        <TextAreaCreateTaskCard placeholder='Descreva com mais detalhes a sua tarefa...' />
-        <SelectPriority />
+        <InputsCreateTaskCard
+          value={nameCreatedTask}
+          onChange={(e) => setNameCreatedTask(e.target.value)}
+          type='text'
+          placeholder='Tarefa resumida'
+        />
+        <InputsCreateTaskCard
+          value={limitDateToFinishTask.toISOString().split('T')[0]}
+          onChange={(e) => setLimitDateToFinishTask(new Date(e.target.value))}
+          type='date'
+          placeholder=''
+          label='Prazo:'
+        />
+        <TextAreaCreateTaskCard
+          value={descriptionCreatedTask}
+          onChange={(e) => setDescriptionCreatedTask(e.target.value)}
+          placeholder='Descreva com mais detalhes a sua tarefa...'
+        />
+        <SelectPriority
+          value={levelPriorityTask}
+          onChange={(e) => setLevelPriorityTask(e.target.value)}
+        />
       </SimpleGrid>
-
-      {/* <Separator className='border mt-4' /> */}
-      {/* <div className='mt-2'>
-        <div className='flex items-center gap-1'>
-          <h1
-            className={`${darkMode ? 'text-gray-100' : 'text-black-800'} font-semibold text-xl`}
-          >
-            Sub-tarefas
-          </h1>
-          <PiPlus size={20} />
-        </div>
-      </div> */}
     </div>
   );
 }

@@ -1,20 +1,21 @@
 import { SimpleGrid } from '@chakra-ui/react';
-
 import { useContextGlobal } from '@/Context';
 import { HTMLInputTypeAttribute, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import FadeIn from '@/components/common/Effects/FadeIn';
-import {
-  RadioCardItem,
-  RadioCardRoot,
-} from '@/components/ui/radio-card';
+import { RadioCardItem, RadioCardRoot } from '@/components/ui/radio-card';
 
 interface InputsCreateTaskCard {
   placeholder: string;
   type: HTMLInputTypeAttribute | undefined;
   label?: string;
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
 export function InputsCreateTaskCard({
+  value,
+  onChange,
   label,
   placeholder,
   type,
@@ -30,6 +31,8 @@ export function InputsCreateTaskCard({
       <input
         placeholder={placeholder}
         type={type}
+        value={value}
+        onChange={onChange}
         className={`
         ${darkMode ? 'text-gray-100' : 'text-black-900'}
         ${darkMode ? 'border-slate-700' : 'border-gray-300'}
@@ -45,7 +48,7 @@ export function InputsCreateTaskCard({
 interface TextAreaCreateTaskCard {
   placeholder: string;
   value?: string;
-  onChange?: (e: HTMLAreaElement) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export function TextAreaCreateTaskCard({
@@ -57,6 +60,8 @@ export function TextAreaCreateTaskCard({
   return (
     <textarea
       placeholder={placeholder}
+      value={value}
+      onChange={onChange}
       className={`
         ${darkMode ? 'text-gray-100' : 'text-black-900'}
         ${darkMode ? 'border-slate-700' : 'border-gray-300'}
@@ -68,13 +73,22 @@ export function TextAreaCreateTaskCard({
   );
 }
 
-export function SelectPriority() {
+interface SelectPriorityProps {
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+export function SelectPriority({ value, onChange }: SelectPriorityProps) {
   const [openListLevelPrioritys, setOpenListLevelPrioritys] = useState(false);
   function handleOpenLevelPrioritys() {
     setOpenListLevelPrioritys(!openListLevelPrioritys);
   }
-
   const { darkMode } = useContextGlobal();
+  const levelsPrioritys = [
+    { value: 'URGENTE', title: 'URGENTE', bg: 'red' },
+    { value: 'IMPORTANTE', title: 'IMPORTANTE', bg: 'orange' },
+    { value: 'MÉDIO', title: 'MÉDIO', bg: 'purple' },
+    { value: 'BAIXO', title: 'BAIXO', bg: 'green' },
+  ];
   return (
     <div className='flex flex-col gap-4'>
       <div
@@ -88,12 +102,13 @@ export function SelectPriority() {
         <FadeIn>
           <RadioCardRoot defaultValue={'Urgente'}>
             <SimpleGrid columns={2}>
-              {items.map(item => (
+              {levelsPrioritys.map(level => (
                 <RadioCardItem
-                  label={item.title}
-                  key={item.value}
-                  value={item.value}
-                  colorPalette={item.bg}
+                  label={level.title}
+                  key={level.value}
+                  value={level.value}
+                  onChange={onChange}
+                  colorPalette={level.bg}
                   className={`${darkMode ? 'text-gray-100' : 'text-black-800'} text-base font-bold cursor-pointer`}
                 />
               ))}
@@ -104,9 +119,3 @@ export function SelectPriority() {
     </div>
   );
 }
-const items = [
-  { value: 'Urgente', title: 'URGENTE', bg: 'red' },
-  { value: 'Importante', title: 'IMPORTANTE', bg: 'orange' },
-  { value: 'Média', title: 'MÉDIO', bg: 'purple' },
-  { value: 'Baixo', title: 'BAIXO', bg: 'green' },
-];

@@ -21,7 +21,6 @@ export function useCardTasks() {
     setLimitDateToFinishTask,
     levelPriorityTask,
     setLevelPriorityTask
-
   } = useContextTaskData();
 
   const getListTasks = foldersTask.map(folder =>
@@ -40,30 +39,26 @@ export function useCardTasks() {
     status: string,
     title: string,
     description?: string,
-    label?: string
+    limitDateToFinishTask?: Date
   ) {
+    console.log('PARAMS:', status, title, description, limitDateToFinishTask);
     const newTask: StatusTasksFromProjectProps = {
       id: uuidv4(),
       title: title,
       description: description,
       subTasks: [],
       progressTask: 0,
-      totalTasksThisStatus: 0,
-      taskLimitDate: new Date().getDate() + 3,
-      taskCreatedDate: new Date().toLocaleString(),
-      label: label,
+      taskLimitDate: limitDateToFinishTask && limitDateToFinishTask.getDate(),
+      taskCreatedDate: new Date().toISOString().split('T')[0],
     };
 
-    const listTaskToStart = [...tasksToStart, newTask];
+    const listTaskToStart = [...tasksToStartInProject, newTask];
     const listTaskInProgress = [...tasksInProgress, newTask];
     const listTaskFinished = [...tasksFinished, newTask];
 
-    const updatedTasks =
-      status === 'toStart'
-        ? listTaskToStart
-        : status === 'inProgress'
-          ? listTaskInProgress
-          : status === 'finished' && listTaskFinished;
+    console.log('listTaskToStart', listTaskToStart)
+
+    const updatedTasks = listTaskToStart;
 
     try {
       localStorage.setItem(
@@ -97,17 +92,17 @@ export function useCardTasks() {
       const listTasksFromProjects = localStorage.getItem(
         'listTasksFromProjects'
       );
-
       if (listTasksFromProjects) {
-        return JSON.parse(listTasksFromProjects);
+        const tasks: StatusTasksFromProjectProps[] = JSON.parse(
+          listTasksFromProjects
+        );
+        setTasksToStartInProject(tasks);
       }
     } catch (error) {
       console.error('Erro ao obter as pastas:', error);
       errorToast('Erro ao obter as tarefas');
     }
   }
-
-  console.log('tasksToStart', getListTasks);
 
   useEffect(() => {
     getTasks();

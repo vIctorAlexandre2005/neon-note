@@ -83,7 +83,13 @@ export function CardTasks({
               </div>
 
               <div>
-                <Progress.Root size={'xs'} colorPalette={'blue'} variant={'outline'} className='w-full' value={90}>
+                <Progress.Root
+                  size={'xs'}
+                  colorPalette={'blue'}
+                  variant={'outline'}
+                  className='w-full'
+                  value={90}
+                >
                   <Progress.Track>
                     <Progress.Range />
                   </Progress.Track>

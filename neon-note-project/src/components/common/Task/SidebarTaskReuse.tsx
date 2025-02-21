@@ -6,7 +6,11 @@ import { FaPlus } from 'react-icons/fa';
 import { useContextGlobal } from '@/Context';
 import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 import { useDisclosure } from '@chakra-ui/react';
-import { ConfirmationModal, ModalContentComponent, ModalRootComponent } from '../modal';
+import {
+  ConfirmationModal,
+  ModalContentComponent,
+  ModalRootComponent,
+} from '../modal';
 import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
 
 interface TaskProps {
@@ -38,6 +42,18 @@ export function SidebarTasksReuse({
     onClose: onCloseModalCreateCard,
   } = useDisclosure();
 
+  const {
+    nameCreatedTask,
+    setNameCreatedTask,
+    descriptionCreatedTask,
+    setDescriptionCreatedTask,
+    limitDateToFinishTask,
+    setLimitDateToFinishTask,
+    levelPriorityTask,
+    setLevelPriorityTask,
+    tasksToStartInProject
+  } = useCardTasks();
+
   return (
     <div
       className={`${darkMode ? 'bg-slate-700 bg-opacity-20 border border-slate-800 border-opacity-70' : 'bg-slate-50 shadow-xl border border-gray-500 border-opacity-20'} w-full h-full rounded-3xl p-2`}
@@ -56,32 +72,38 @@ export function SidebarTasksReuse({
           </h1>
         </div>
 
-        <ModalRootComponent size='lg' isOpen={openModalCreateCard} onClose={onCloseModalCreateCard}>
-        <>
-        {thereIsNoButtonCreateTaskInSidebar && (
-          <div
-            onClick={onOpenModalCreateCard}
-            className={`flex text-white duration-300 rounded-full cursor-pointer gap-1 items-center pr-2`}
-          >
-            <FaPlus size={20} />
-          </div>
-        )}
+        <ModalRootComponent
+          size='lg'
+          isOpen={openModalCreateCard}
+          onClose={onCloseModalCreateCard}
+        >
+          <>
+            {thereIsNoButtonCreateTaskInSidebar && (
+              <div
+                onClick={onOpenModalCreateCard}
+                className={`flex text-white duration-300 rounded-full cursor-pointer gap-1 items-center pr-2`}
+              >
+                <FaPlus size={20} />
+              </div>
+            )}
 
-        <ModalContentComponent
-          content={
-            <CreateModalTaskCard onCloseModalCreateCard={onCloseModalCreateCard} />
-          } 
-        />
-        </>
+            <ModalContentComponent
+              content={
+                <CreateModalTaskCard
+                  onCloseModalCreateCard={onCloseModalCreateCard}
+                />
+              }
+            />
+          </>
         </ModalRootComponent>
       </div>
       <div className='flex flex-col mt-3 gap-4 p-2 overflow-auto max-h-[calc(100vh-220px)]'>
         <DndProvider backend={HTML5Backend}>
-          {arrayTasks?.map((note: any, index: number) => (
+          {tasksToStartInProject?.map((task, index) => (
             <CardTasks
               key={index}
               colorProgressStatusBar={colorProgressStatusBar}
-              note={note}
+              note={task}
               darkMode={darkMode}
               moveNote={() => {}}
               index={index}

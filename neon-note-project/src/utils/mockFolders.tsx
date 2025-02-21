@@ -9,12 +9,11 @@ export interface StatusTasksFromProjectProps {
   id: string;
   title: string;
   description?: string;
-  totalTasksThisStatus: number;
   progressTask: number;
   subTasks?: SubTasks[];
   taskCreatedDate: string | undefined;
   taskLimitDate: number | undefined;
-  label?: string;
+  label?: Date;
 };
 
 export interface ProjectTasksPropsStatus {
