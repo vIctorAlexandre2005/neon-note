@@ -14,6 +14,7 @@ export interface StatusTasksFromProjectProps {
   taskCreatedDate: string | undefined;
   taskLimitDate: number | undefined;
   label?: Date;
+  priority: string;
 };
 
 export interface ProjectTasksPropsStatus {

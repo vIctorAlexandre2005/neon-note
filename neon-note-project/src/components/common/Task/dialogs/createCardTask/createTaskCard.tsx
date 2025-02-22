@@ -50,7 +50,8 @@ export function CreateModalTaskCard({
               'toStart',
               nameCreatedTask,
               descriptionCreatedTask,
-              limitDateToFinishTask
+              limitDateToFinishTask,
+              levelPriorityTask,
             );
             onCloseModalCreateCard();
           }}

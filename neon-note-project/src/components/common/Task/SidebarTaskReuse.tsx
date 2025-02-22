@@ -102,6 +102,7 @@ export function SidebarTasksReuse({
         
           {arrayTasks?.map((task: StatusTasksFromProjectProps, index) => (
             <CardTasks
+              priority={task.priority}
               key={index}
               colorProgressStatusBar={colorProgressStatusBar}
               task={task}

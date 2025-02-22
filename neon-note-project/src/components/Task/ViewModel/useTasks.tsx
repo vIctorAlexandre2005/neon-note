@@ -35,7 +35,8 @@ export function useCardTasks() {
     status: keyof ProjectTasksPropsStatus,
     title: string,
     description?: string,
-    limitDateToFinishTask?: Date
+    limitDateToFinishTask?: Date,
+    levelPriorityTask?: string
   ) {
     const newTask: StatusTasksFromProjectProps = {
       id: uuidv4(),
@@ -45,6 +46,7 @@ export function useCardTasks() {
       progressTask: 0,
       taskLimitDate: limitDateToFinishTask?.getDate(),
       taskCreatedDate: new Date().toISOString().split('T')[0],
+      priority: levelPriorityTask || '',
     };
   
     // Atualiza as pastas e projetos
