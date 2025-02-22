@@ -32,12 +32,6 @@ export function useCardTasks() {
   const router = useRouter();
   const { id, projectId } = router.query;
 
-  const currentFolder = foldersTask.find(folder => folder.id === id);
-
-  const getListTasks = foldersTask.map(folder =>
-    folder.projects.map(project => project.projectTasks)
-  );
-
   function createCardTask(
     status: keyof ProjectTasksPropsStatus,
     title: string,
@@ -45,6 +39,10 @@ export function useCardTasks() {
     limitDateToFinishTask?: Date,
     levelPriorityTask?: string
   ) {
+    if (title === '' || levelPriorityTask === '') {
+      errorToast('Erro: título ou prioridade da tarefa vazia.');
+      return null;
+    };
     const newTask: StatusTasksFromProjectProps = {
       id: uuidv4(),
       title,
@@ -122,7 +120,6 @@ export function useCardTasks() {
     tasksInProgressInProject,
     tasksFinishedInProject,
     createCardTask,
-    getListTasks,
     nameCreatedTask,
     setNameCreatedTask,
     descriptionCreatedTask,
