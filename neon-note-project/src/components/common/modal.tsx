@@ -52,12 +52,16 @@ export function ModalContentComponent({ content }: ModalContentComponentProps) {
 interface ModalHeaderProps {
   titleHeader: string;
   iconHeader?: React.JSX.Element;
+  positiveOnClick: () => void;
+  negativeOnClick: () => void;
+  textToNegativeButton: string;
+  textToPositiveButton: string;
 }
-export function ConfirmationModal({ titleHeader, iconHeader }: ModalHeaderProps) {
+export function ConfirmationModal({ titleHeader, iconHeader, positiveOnClick, negativeOnClick, textToNegativeButton, textToPositiveButton }: ModalHeaderProps) {
   const { darkMode } = useContextGlobal();
   return (
     <div className={`flex flex-col`}>
-      <div className='flex items-center p-2 mb-2 gap-2'>
+      <div className='flex items-center justify-center mb-2 gap-2'>
         <h1
           className={`${darkMode ? 'text-gray-100' : 'text-black-900'} font-semibold text-xl`}
         >
@@ -67,8 +71,8 @@ export function ConfirmationModal({ titleHeader, iconHeader }: ModalHeaderProps)
       </div>
 
       <div className='w-full flex gap-2 p-2'>
-        <NegativeButtonComponent text='Cancelar' />
-        <PositiveButtonComponent text='Criar' />
+        <NegativeButtonComponent onClick={negativeOnClick} text={textToNegativeButton} />
+        <PositiveButtonComponent onClick={positiveOnClick} text={textToPositiveButton} />
       </div>
     </div>
   );

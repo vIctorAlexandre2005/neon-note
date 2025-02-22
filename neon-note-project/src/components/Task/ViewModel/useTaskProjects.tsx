@@ -53,7 +53,20 @@ export function useTaskProjects() {
 
     setNewTaskProjectName('');
     successToast('Projeto criado!');
-  }
+  };
+
+  function deleteTaskProject(projectId: string) {
+    const updatedFolders = foldersTask.map(folder => ({
+      ...folder,
+      projects: folder.projects.filter(project => project.id !== projectId),
+    }));
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+      setFoldersTask(updatedFolders);
+      successToast('Projeto deletado!');
+    };
+  };
 
   const selectedFolder = foldersTask.find(folder => folder.id === id);
   function getTaskProjects() {
@@ -86,5 +99,6 @@ export function useTaskProjects() {
     setNewTaskProjectName,
     listProjects,
     foldersTask,
+    deleteTaskProject,
   };
 }

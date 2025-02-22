@@ -1,4 +1,5 @@
 import {
+  ConfirmationModal,
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
@@ -15,6 +16,8 @@ import { GrProjects } from 'react-icons/gr';
 import { ModalNameProject } from './dialogs/createProject';
 import { useTaskProjects } from '../../ViewModel/useTaskProjects';
 import { useContextTaskData } from '../../Context/TaskContext/TaskContext';
+import { ButtonComponent } from '@/components/common/Button';
+import { PiDotsThree } from 'react-icons/pi';
 
 interface MainScreenProps {
   pasta: MockProps | undefined;
@@ -26,8 +29,14 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
     onOpen: onOpenModalCreateProject,
     onClose: onCloseModalCreateProject,
   } = useDisclosure();
+
+  const {
+    open: isOpenModalDeleteProject,
+    onOpen: onOpenModalDeleteProject,
+    onClose: onCloseModalDeleteProject,
+  } = useDisclosure();
   const { darkMode } = useContextGlobal();
-  const { listProjects } = useTaskProjects();
+  const { listProjects, deleteTaskProject } = useTaskProjects();
   const router = useRouter();
 
   return (
@@ -97,19 +106,43 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
             {listProjects.map((project, idx) => (
               <div
                 key={idx}
-                onClick={() =>
+                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'}
+                    flex justify-between
+                    shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300
+                  `}
+              >
+                <div onClick={() =>
                   handleNavigation(
                     router,
                     `/tasksFolders/${pasta?.id}/project/${project.id}`
                   )
-                }
-                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'} 
-                    shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300
-                  `}
-              >
+                }>
                 <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
                   {project.projectName}
                 </p>
+                </div>
+
+                <div>
+                  <ModalRootComponent isOpen={isOpenModalDeleteProject} onClose={onCloseModalDeleteProject}>
+                    <>
+                    <ButtonComponent onClick={onOpenModalDeleteProject} icon={<PiDotsThree size={24} />} />
+                    <ModalContentComponent 
+                      content={
+                        <>
+                        <ConfirmationModal
+                          negativeOnClick={onCloseModalDeleteProject}
+                          positiveOnClick={() => deleteTaskProject(project.id)}
+                          titleHeader={`Deseja realmente excluir este projeto?`}
+                          textToNegativeButton='Cancelar'
+                          textToPositiveButton='Excluir'
+                        />
+                        </>
+                      }
+                    />
+                    </>
+                  </ModalRootComponent>
+                
+                </div>
               </div>
             ))}
           </SimpleGrid>
