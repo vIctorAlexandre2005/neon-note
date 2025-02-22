@@ -12,8 +12,16 @@ import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 interface CreateModalTaskCardProps {
   onCloseModalCreateCard: () => void;
 }
-export function CreateModalTaskCard({ onCloseModalCreateCard}: CreateModalTaskCardProps) {
-  const { createCardTask, levelPriorityTask, nameCreatedTask, descriptionCreatedTask, limitDateToFinishTask } = useCardTasks();
+export function CreateModalTaskCard({
+  onCloseModalCreateCard,
+}: CreateModalTaskCardProps) {
+  const {
+    createCardTask,
+    levelPriorityTask,
+    nameCreatedTask,
+    descriptionCreatedTask,
+    limitDateToFinishTask,
+  } = useCardTasks();
   const { darkMode } = useContextGlobal();
   return (
     <div className='flex justify-start flex-col z-0'>
@@ -32,12 +40,20 @@ export function CreateModalTaskCard({ onCloseModalCreateCard}: CreateModalTaskCa
       </FadeIn>
 
       <footer className='flex w-full gap-4 items-center'>
-        <NegativeButtonComponent 
+        <NegativeButtonComponent
           onClick={onCloseModalCreateCard}
-          text='Cancelar' 
+          text='Cancelar'
         />
         <PositiveButtonComponent
-          onClick={() => createCardTask('toStart', nameCreatedTask, descriptionCreatedTask, limitDateToFinishTask)}
+          onClick={() => {
+            createCardTask(
+              'toStart',
+              nameCreatedTask,
+              descriptionCreatedTask,
+              limitDateToFinishTask
+            );
+            onCloseModalCreateCard();
+          }}
           text='Criar'
         />
       </footer>

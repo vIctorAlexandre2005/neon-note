@@ -56,7 +56,6 @@ export function ListFoldersTask({
   } = useTaskSidebarAllFolders();
 
   const router = useRouter();
-  console.log(listTypeTask);
 
   const [openDrowpDown, setOpenDrowpDown] = useState(false);
 

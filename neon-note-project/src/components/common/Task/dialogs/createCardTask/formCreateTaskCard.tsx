@@ -19,10 +19,6 @@ export function FormCreateTaskCard() {
     levelPriorityTask,
     setLevelPriorityTask,
   } = useCardTasks();
-  console.log('nameCreatedTask', nameCreatedTask);
-  console.log('descriptionCreatedTask', descriptionCreatedTask);
-  console.log('limitDateToFinishTask', limitDateToFinishTask);
-  console.log('levelPriorityTask', levelPriorityTask);
 
   return (
     <div className='flex flex-col justify-center w-full'>
@@ -34,7 +30,7 @@ export function FormCreateTaskCard() {
           placeholder='Tarefa resumida'
         />
         <InputsCreateTaskCard
-          value={limitDateToFinishTask.toISOString().split('T')[0]}
+          value={limitDateToFinishTask?.toISOString()?.split('T')[0]}
           onChange={(e) => setLimitDateToFinishTask(new Date(e.target.value))}
           type='date'
           placeholder=''

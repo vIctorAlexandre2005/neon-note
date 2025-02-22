@@ -12,6 +12,7 @@ import {
   ModalRootComponent,
 } from '../modal';
 import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
+import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 
 interface TaskProps {
   statusTitle: string;
@@ -98,20 +99,18 @@ export function SidebarTasksReuse({
         </ModalRootComponent>
       </div>
       <div className='flex flex-col mt-3 gap-4 p-2 overflow-auto max-h-[calc(100vh-220px)]'>
-        <DndProvider backend={HTML5Backend}>
-          {tasksToStartInProject?.map((task, index) => (
+        
+          {arrayTasks?.map((task: StatusTasksFromProjectProps, index) => (
             <CardTasks
               key={index}
               colorProgressStatusBar={colorProgressStatusBar}
-              note={task}
+              task={task}
               darkMode={darkMode}
-              moveNote={() => {}}
-              index={index}
+              title={task.title}
               numberTasksStatusDone={numberTasksStatusDone}
               numberTasksStatus={numberTasksStatus}
             />
           ))}
-        </DndProvider>
       </div>
     </div>
   );

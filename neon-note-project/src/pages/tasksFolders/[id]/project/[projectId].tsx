@@ -13,8 +13,6 @@ export default function MainPageProject() {
 
   const { listProjects } = useTaskProjects();
   const projectName = listProjects.find(project => project.id === projectId)?.projectName;
-  console.log('listProjects', listProjects);
-  console.log('projectName', projectName);
   return (
     <div className='w-full h-full p-6'>
       <TaskComponent 

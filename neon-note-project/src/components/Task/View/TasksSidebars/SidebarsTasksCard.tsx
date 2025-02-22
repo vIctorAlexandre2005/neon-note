@@ -37,7 +37,8 @@ export function SidebarTasks() {
           <DndProvider backend={HTML5Backend}>
             {noteList?.map((note: any, index: number) => (
               <CardTasks
-                moveNote={moveNote}
+              task={note}
+              title=''
                 note={note}
                 darkMode={darkMode}
                 index={index}

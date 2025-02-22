@@ -14,8 +14,7 @@ interface TaskProps {
 export function TaskComponent({ projectName }: TaskProps) {
   const { foldersTask } = useTaskSidebarAllFolders();
   const { darkMode } = useContextGlobal();
-  const { getListTasks } = useCardTasks();
-  console.log('getListTasks', getListTasks);
+  const { tasksToStartInProject, tasksInProgressInProject, tasksFinishedInProject } = useCardTasks();
 
   return (
     <div className='flex flex-col h-full p-2'>
@@ -26,8 +25,8 @@ export function TaskComponent({ projectName }: TaskProps) {
       </h1>
       <div className='flex gap-6 h-full'>
         <SidebarTasksReuse
-          arrayTasks={foldersTask}
-          numberTasksStatus={foldersTask?.length}
+          arrayTasks={tasksToStartInProject}
+          numberTasksStatus={tasksToStartInProject?.length}
           statusIcon={<HashLoader size={24} color='gray' />}
           statusTitle='A iniciar'
           statusIconColorBackground='gray'
@@ -37,8 +36,8 @@ export function TaskComponent({ projectName }: TaskProps) {
         />
 
         <SidebarTasksReuse
-          arrayTasks={foldersTask}
-          numberTasksStatus={foldersTask?.length}
+          arrayTasks={tasksInProgressInProject}
+          numberTasksStatus={tasksInProgressInProject?.length}
           statusIcon={<ClockLoader size={20} color='orange' />}
           statusTitle='Em progresso'
           statusIconColorBackground='orange'
@@ -48,8 +47,8 @@ export function TaskComponent({ projectName }: TaskProps) {
         />
 
         <SidebarTasksReuse
-          arrayTasks={foldersTask}
-          numberTasksStatus={foldersTask?.length}
+          arrayTasks={tasksFinishedInProject}
+          numberTasksStatus={tasksFinishedInProject?.length}
           statusIcon={<BiCheckCircle size={24} color='#02ad41' />}
           statusTitle='Finalizada'
           statusIconColorBackground='green'

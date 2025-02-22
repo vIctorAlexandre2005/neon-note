@@ -2,7 +2,10 @@ import { errorToast } from '@/utils/toasts/toasts';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import {
+  ProjectTasksPropsStatus,
+  StatusTasksFromProjectProps,
+} from '@/utils/mockFolders';
 
 export function useCardTasks() {
   const {
@@ -13,6 +16,7 @@ export function useCardTasks() {
     setTasksInProgressInProject,
     tasksFinishedInProject,
     setTasksFinishedInProject,
+    setFoldersTask,
     nameCreatedTask,
     setNameCreatedTask,
     descriptionCreatedTask,
@@ -20,72 +24,62 @@ export function useCardTasks() {
     limitDateToFinishTask,
     setLimitDateToFinishTask,
     levelPriorityTask,
-    setLevelPriorityTask
+    setLevelPriorityTask,
   } = useContextTaskData();
 
   const getListTasks = foldersTask.map(folder =>
     folder.projects.map(project => project.projectTasks)
   );
 
-  const tasksToStart = getListTasks
-    .flat()
-    .map(tasks => tasks?.status.toStart.map(task => task));
-  const tasksInProgress = getListTasks
-    .flat()
-    .map(tasks => tasks?.status.inProgress);
-  const tasksFinished = getListTasks.flat().map(tasks => tasks?.status?.finished);
-
   function createCardTask(
-    status: string,
+    status: keyof ProjectTasksPropsStatus,
     title: string,
     description?: string,
     limitDateToFinishTask?: Date
   ) {
-    console.log('PARAMS:', status, title, description, limitDateToFinishTask);
     const newTask: StatusTasksFromProjectProps = {
       id: uuidv4(),
-      title: title,
-      description: description,
+      title,
+      description,
       subTasks: [],
       progressTask: 0,
-      taskLimitDate: limitDateToFinishTask && limitDateToFinishTask.getDate(),
+      taskLimitDate: limitDateToFinishTask?.getDate(),
       taskCreatedDate: new Date().toISOString().split('T')[0],
     };
+  
+    // Atualiza as pastas e projetos
+    const updatedFolders = foldersTask.map(folder => ({
+      ...folder,
+      projects: folder.projects.map(project => ({
+        ...project,
+        projectTasks: {
+          ...project.projectTasks,
+          status: {
+            ...project.projectTasks.status,
+            [status]: [...project.projectTasks.status[status], newTask], // ✅ Atualiza o status correto
+          },
+        },
+      })),
+    }));
+  
+    // Atualiza os estados simultaneamente
+    setFoldersTask(updatedFolders);
+    setTasksToStartInProject(prev => (status === 'toStart' ? [...prev, newTask] : prev));
+  
+    // Salva no localStorage
+    localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+  
+    // Limpa os inputs do formulário
+    [setNameCreatedTask, setDescriptionCreatedTask, setLevelPriorityTask].forEach(fn => fn('' as any));
+  }
+  
 
-    const listTaskToStart = [...tasksToStartInProject, newTask];
-    const listTaskInProgress = [...tasksInProgress, newTask];
-    const listTaskFinished = [...tasksFinished, newTask];
-
-    console.log('listTaskToStart', listTaskToStart)
-
-    const updatedTasks = listTaskToStart;
-
-    try {
-      localStorage.setItem(
-        'listTasksFromProjects',
-        JSON.stringify(updatedTasks)
-      );
-
-      if (status === 'toStart') {
-        setTasksToStartInProject(updatedTasks as StatusTasksFromProjectProps[]);
-      }
-
-      if (status === 'inProgress') {
-        setTasksInProgressInProject(
-          updatedTasks as StatusTasksFromProjectProps[]
-        );
-      }
-
-      if (status === 'finished') {
-        setTasksFinishedInProject(
-          updatedTasks as StatusTasksFromProjectProps[]
-        );
-      }
-    } catch (error) {
-      console.error('Erro ao criar tarefa:', error);
-      errorToast('Erro ao criar tarefa');
+  useEffect(() => {
+    const storedFolders = localStorage.getItem('foldersTask');
+    if (storedFolders) {
+      setFoldersTask(JSON.parse(storedFolders));
     }
-  };
+  }, [tasksToStartInProject]);
 
   function getTasks() {
     try {
@@ -121,6 +115,6 @@ export function useCardTasks() {
     limitDateToFinishTask,
     setLimitDateToFinishTask,
     levelPriorityTask,
-    setLevelPriorityTask
+    setLevelPriorityTask,
   };
 }

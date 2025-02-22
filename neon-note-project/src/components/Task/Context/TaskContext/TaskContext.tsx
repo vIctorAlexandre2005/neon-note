@@ -4,7 +4,12 @@ import {
   ListFoldersTaskFixed,
   TaskContextData,
 } from '@/Interface/TaskContext';
-import { mockPastas, MockProps, ProjectProps, StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import {
+  mockPastas,
+  MockProps,
+  ProjectProps,
+  StatusTasksFromProjectProps,
+} from '@/utils/mockFolders';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 const TaskProvider = createContext<TaskContextData>(
@@ -31,20 +36,31 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
     null
   ); //nome do projeto a ser criado
   const [foldersTask, setFoldersTask] = useState<MockProps[]>(mockPastas);
-  const mapListProject = foldersTask.map(folder =>
-    folder.projects.map(project => project)
-  );
+  const mapListProject = foldersTask.map(folder => folder.projects);
   const [listProjects, setListProjects] = useState<ProjectProps[]>(
     mapListProject.flat() || []
   );
-  const [tasksToStartInProject, setTasksToStartInProject] = useState<StatusTasksFromProjectProps[]>([]);
-  const [tasksInProgressInProject, setTasksInProgressInProject] = useState<StatusTasksFromProjectProps[]>([]);
-  const [tasksFinishedInProject, setTasksFinishedInProject] = useState<StatusTasksFromProjectProps[]>([]);
+  const mapListTasksToStart = listProjects
+    .map(project => project.projectTasks?.status?.toStart || [])
+    .flat();
+  const [tasksToStartInProject, setTasksToStartInProject] = useState<
+    StatusTasksFromProjectProps[]
+  >(mapListTasksToStart.flat() || []);
+  const [tasksInProgressInProject, setTasksInProgressInProject] = useState<
+    StatusTasksFromProjectProps[]
+  >([]);
+  const [tasksFinishedInProject, setTasksFinishedInProject] = useState<
+    StatusTasksFromProjectProps[]
+  >([]);
 
   const [nameCreatedTask, setNameCreatedTask] = useState('');
   const [descriptionCreatedTask, setDescriptionCreatedTask] = useState('');
-  const [limitDateToFinishTask, setLimitDateToFinishTask] = useState(new Date);
+  const [limitDateToFinishTask, setLimitDateToFinishTask] = useState(
+    new Date()
+  );
   const [levelPriorityTask, setLevelPriorityTask] = useState('');
+  console.log('listProjects', listProjects);
+  console.log('tasksToStartInProject', tasksToStartInProject);
 
   return (
     <TaskProvider.Provider
@@ -84,7 +100,7 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         limitDateToFinishTask,
         setLimitDateToFinishTask,
         levelPriorityTask,
-        setLevelPriorityTask
+        setLevelPriorityTask,
       }}
     >
       {children}

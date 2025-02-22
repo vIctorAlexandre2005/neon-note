@@ -1,5 +1,6 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
 import { ProgressBar, ProgressRoot } from '@/components/ui/progress';
+import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { Progress } from '@chakra-ui/react';
 import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -7,53 +8,31 @@ import { BsListTask } from 'react-icons/bs';
 import { PiSirenBold } from 'react-icons/pi';
 
 interface Props {
-  darkMode: boolean;
-  moveNote: (fromIndex: any, toIndex: any) => void;
-  note: any;
-  index: any;
+  darkMode?: boolean;
+  title: string;
+  task: StatusTasksFromProjectProps;
   colorProgressStatusBar: string;
   numberTasksStatusDone: number;
   numberTasksStatus: number;
+  note?: any;
+  index?: number;
 }
-
-const ItemType = {
-  NOTE: 'note',
-};
-
 export function CardTasks({
   darkMode,
-  moveNote,
+  title,
+  task,
   note,
   index,
   colorProgressStatusBar,
   numberTasksStatusDone,
   numberTasksStatus,
 }: Props) {
-  const [, ref] = useDrag({
-    type: ItemType.NOTE,
-    item: { index },
-  });
-
-  const [, drop] = useDrop({
-    accept: ItemType.NOTE,
-    hover: (draggedItem: any) => {
-      if (draggedItem.index !== index) {
-        moveNote(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    },
-  });
 
   return (
     <>
-      <FadeIn key={note.id}>
-        <Fragment key={index}>
+      <FadeIn>
+        <Fragment key={task.id}>
           <div
-            ref={node => {
-              if (node !== null) {
-                ref(drop(node));
-              }
-            }}
             className={`
                   ${darkMode ? 'bg-neon-900 bg-opacity-25' : 'bg-white border border-gray-300 shadow-md'} w-full rounded-2xl p-2 cursor-pointer
                 `}
@@ -66,7 +45,7 @@ export function CardTasks({
               <h2
                 className={` text-xl mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-900'}`}
               >
-                Mariana Fuertes
+                {title}
               </h2>
             </div>
 
@@ -88,7 +67,7 @@ export function CardTasks({
                   colorPalette={'blue'}
                   variant={'outline'}
                   className='w-full'
-                  value={90}
+                  value={task.progressTask}
                 >
                   <Progress.Track>
                     <Progress.Range />
