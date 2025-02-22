@@ -1,11 +1,13 @@
-import { errorToast } from '@/utils/toasts/toasts';
+import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  MockProps,
   ProjectTasksPropsStatus,
   StatusTasksFromProjectProps,
 } from '@/utils/mockFolders';
+import { useRouter } from 'next/router';
 
 export function useCardTasks() {
   const {
@@ -26,6 +28,11 @@ export function useCardTasks() {
     levelPriorityTask,
     setLevelPriorityTask,
   } = useContextTaskData();
+
+  const router = useRouter();
+  const { id, projectId } = router.query;
+
+  const currentFolder = foldersTask.find(folder => folder.id === id);
 
   const getListTasks = foldersTask.map(folder =>
     folder.projects.map(project => project.projectTasks)
@@ -48,61 +55,67 @@ export function useCardTasks() {
       taskCreatedDate: new Date().toISOString().split('T')[0],
       priority: levelPriorityTask || '',
     };
-  
-    // Atualiza as pastas e projetos
-    const updatedFolders = foldersTask.map(folder => ({
-      ...folder,
-      projects: folder.projects.map(project => ({
-        ...project,
-        projectTasks: {
-          ...project.projectTasks,
-          status: {
-            ...project.projectTasks.status,
-            [status]: [...project.projectTasks.status[status], newTask], // ✅ Atualiza o status correto
-          },
-        },
-      })),
-    }));
-  
+    const updatedFolders = foldersTask.map(folder =>
+      folder.id === id
+        ? {
+            ...folder,
+            projects: folder.projects.map(project =>
+              project.id === projectId
+                ? {
+                    ...project,
+                    projectTasks: {
+                      ...project.projectTasks,
+                      status: {
+                        ...project.projectTasks.status,
+                        [status]: [
+                          ...project.projectTasks.status[status],
+                          newTask,
+                        ],
+                      },
+                    },
+                  }
+                : project
+            ),
+          }
+        : folder
+    );
     // Atualiza os estados simultaneamente
-    setFoldersTask(updatedFolders);
-    setTasksToStartInProject(prev => (status === 'toStart' ? [...prev, newTask] : prev));
-  
-    // Salva no localStorage
-    localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
-  
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+      setFoldersTask(updatedFolders);
+      setTasksToStartInProject(prevTasks => [...prevTasks, newTask]);
+      successToast('Tarefa criada com sucesso');
+    }
+
     // Limpa os inputs do formulário
-    [setNameCreatedTask, setDescriptionCreatedTask, setLevelPriorityTask].forEach(fn => fn('' as any));
+    [
+      setNameCreatedTask,
+      setDescriptionCreatedTask,
+      setLevelPriorityTask,
+    ].forEach(fn => fn('' as any));
   }
-  
 
-  useEffect(() => {
-    const storedFolders = localStorage.getItem('foldersTask');
-    if (storedFolders) {
-      setFoldersTask(JSON.parse(storedFolders));
-    }
-  }, [tasksToStartInProject]);
-
-  function getTasks() {
+  function getTasksFromLocalStorage() {
     try {
-      const listTasksFromProjects = localStorage.getItem(
-        'listTasksFromProjects'
-      );
-      if (listTasksFromProjects) {
-        const tasks: StatusTasksFromProjectProps[] = JSON.parse(
-          listTasksFromProjects
-        );
-        setTasksToStartInProject(tasks);
-      }
+      const storedFoldersString = localStorage.getItem('foldersTask');
+      if (storedFoldersString) {
+        const storedFolders: MockProps[] = JSON.parse(storedFoldersString);
+        const currentFolder = storedFolders.find(folder => folder.id === id);
+        const currentProject = currentFolder?.projects.find(project => project.id === projectId);
+        if (currentFolder && currentProject) {
+          const tasksToStart = currentProject?.projectTasks?.status.toStart || [];
+          setTasksToStartInProject(tasksToStart);
+        };
+      };
     } catch (error) {
-      console.error('Erro ao obter as pastas:', error);
+      console.error('Erro ao obter as tarefas:', error);
       errorToast('Erro ao obter as tarefas');
-    }
-  }
+    };
+  };
 
   useEffect(() => {
-    getTasks();
-  }, []);
+    getTasksFromLocalStorage();
+  }, [id, projectId]);
 
   return {
     tasksToStartInProject,

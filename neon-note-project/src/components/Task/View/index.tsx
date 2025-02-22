@@ -15,6 +15,7 @@ export function TaskComponent({ projectName }: TaskProps) {
   const { foldersTask } = useTaskSidebarAllFolders();
   const { darkMode } = useContextGlobal();
   const { tasksToStartInProject, tasksInProgressInProject, tasksFinishedInProject } = useCardTasks();
+  console.log('tasksToStartInProject', tasksToStartInProject);
 
   return (
     <div className='flex flex-col h-full p-2'>
