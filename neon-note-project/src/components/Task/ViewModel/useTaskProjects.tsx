@@ -65,6 +65,7 @@ export function useTaskProjects() {
       localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
       setFoldersTask(updatedFolders);
       successToast('Projeto deletado!');
+      router.replace(`/tasksFolders/${id}`);
     };
   };
 

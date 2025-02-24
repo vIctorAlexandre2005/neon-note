@@ -26,7 +26,7 @@ export function ButtonComponent({
     <button
       onClick={onClick}
       disabled={disabled || isLoading} // Desabilitar se estiver carregando ou desabilitado
-      className={`transition duration-200 rounded-lg p-2 flex justify-center text-center items-center ${className}`} // Permite adicionar classes extras
+      className={`transition duration-200 rounded-2xl p-2 flex justify-center text-center items-center ${className}`} // Permite adicionar classes extras
       {...rest}
     >
       {!isLoading && text && <span>{text}</span>} {isLoading ? loader : icon}
