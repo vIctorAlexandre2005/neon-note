@@ -43,7 +43,7 @@ export function ModalRootComponent({
 export function ModalContentComponent({ content }: ModalContentComponentProps) {
   const { darkMode } = useContextGlobal();
   return (
-    <DialogContent boxShadow={'xs'} p={4} bg={darkMode ? '#0f172a' : '#fff'}>
+    <DialogContent boxShadow={'xs'} bg={darkMode ? '#0f172a' : '#fff'}>
       {content}
     </DialogContent>
   );

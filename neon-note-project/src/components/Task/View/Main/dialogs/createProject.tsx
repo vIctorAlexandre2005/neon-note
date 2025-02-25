@@ -38,7 +38,7 @@ export function ModalNameProject({ onClose }: ModalNameProjectProps) {
         <ButtonComponent
           onClick={() => {
             handleCreateTaskProject(newTaskProjectName as string);
-            onClose();
+            newTaskProjectName && onClose();
           }}
           text='Criar'
           className='w-full bg-neon-400 hover:bg-neon-500 transition duration-300 text-xl text-white'

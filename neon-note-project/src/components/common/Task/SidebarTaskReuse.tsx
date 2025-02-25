@@ -1,18 +1,14 @@
-import { PuffLoader, PulseLoader } from 'react-spinners';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { CardTasks } from '../../Task/View/TasksCards/tasksCards';
 import { FaPlus } from 'react-icons/fa';
 import { useContextGlobal } from '@/Context';
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 import { useDisclosure } from '@chakra-ui/react';
 import {
-  ConfirmationModal,
   ModalContentComponent,
   ModalRootComponent,
 } from '../modal';
 import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import { ThereIsNoFolder } from '../ThereIsNoFolder';
 
 interface TaskProps {
   statusTitle: string;
@@ -27,8 +23,6 @@ interface TaskProps {
 
 export function SidebarTasksReuse({
   arrayTasks,
-  statusIconColorBackground,
-  statusIcon,
   statusTitle,
   numberTasksStatus,
   colorProgressStatusBar,
@@ -42,18 +36,6 @@ export function SidebarTasksReuse({
     onOpen: onOpenModalCreateCard,
     onClose: onCloseModalCreateCard,
   } = useDisclosure();
-
-  const {
-    nameCreatedTask,
-    setNameCreatedTask,
-    descriptionCreatedTask,
-    setDescriptionCreatedTask,
-    limitDateToFinishTask,
-    setLimitDateToFinishTask,
-    levelPriorityTask,
-    setLevelPriorityTask,
-    tasksToStartInProject
-  } = useCardTasks();
 
   return (
     <div
@@ -87,7 +69,6 @@ export function SidebarTasksReuse({
                 <FaPlus size={20} />
               </div>
             )}
-
             <ModalContentComponent
               content={
                 <CreateModalTaskCard
@@ -99,19 +80,19 @@ export function SidebarTasksReuse({
         </ModalRootComponent>
       </div>
       <div className='flex flex-col mt-3 gap-4 p-2 overflow-auto max-h-[calc(100vh-220px)]'>
-        
-          {arrayTasks?.map((task: StatusTasksFromProjectProps, index) => (
-            <CardTasks
-              priority={task.priority}
-              key={index}
-              colorProgressStatusBar={colorProgressStatusBar}
-              task={task}
-              darkMode={darkMode}
-              title={task.title}
-              numberTasksStatusDone={numberTasksStatusDone}
-              numberTasksStatus={numberTasksStatus}
-            />
-          ))}
+        {arrayTasks?.length < 1 && <ThereIsNoFolder />}
+        {arrayTasks?.map((task: StatusTasksFromProjectProps, index) => (
+          <CardTasks
+            priority={task.priority}
+            key={index}
+            colorProgressStatusBar={colorProgressStatusBar}
+            task={task}
+            darkMode={darkMode}
+            title={task.title}
+            numberTasksStatusDone={numberTasksStatusDone}
+            numberTasksStatus={numberTasksStatus}
+          />
+        ))}
       </div>
     </div>
   );

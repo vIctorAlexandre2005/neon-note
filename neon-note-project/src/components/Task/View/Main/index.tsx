@@ -24,19 +24,14 @@ interface MainScreenProps {
 }
 
 export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
-  const {
-    open: isOpenModalCreateProject,
-    onOpen: onOpenModalCreateProject,
-    onClose: onCloseModalCreateProject,
-  } = useDisclosure();
-
-  const {
-    open: isOpenModalDeleteProject,
-    onOpen: onOpenModalDeleteProject,
-    onClose: onCloseModalDeleteProject,
-  } = useDisclosure();
   const { darkMode } = useContextGlobal();
-  const { listProjects, deleteTaskProject } = useTaskProjects();
+  const {
+    listProjects,
+    onOpenModalCreateProject,
+    onCloseModalCreateProject,
+    isOpenModalCreateProject,
+  } = useTaskProjects();
+  
   const router = useRouter();
 
   return (
@@ -121,35 +116,6 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                   <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
                     {project.projectName}
                   </p>
-                </div>
-
-                <div>
-                  <ModalRootComponent
-                    isOpen={isOpenModalDeleteProject}
-                    onClose={onCloseModalDeleteProject}
-                  >
-                    <>
-                      <ButtonComponent
-                        onClick={onOpenModalDeleteProject}
-                        icon={<PiDotsThree size={24} />}
-                      />
-                      <ModalContentComponent
-                        content={
-                          <>
-                            <ConfirmationModal
-                              negativeOnClick={onCloseModalDeleteProject}
-                              positiveOnClick={() =>
-                                deleteTaskProject(project.id)
-                              }
-                              titleHeader={`Deseja realmente excluir este projeto?`}
-                              textToNegativeButton='Cancelar'
-                              textToPositiveButton='Excluir'
-                            />
-                          </>
-                        }
-                      />
-                    </>
-                  </ModalRootComponent>
                 </div>
               </div>
             ))}
