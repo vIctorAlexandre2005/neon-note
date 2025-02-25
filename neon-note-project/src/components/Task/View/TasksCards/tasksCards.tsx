@@ -1,6 +1,7 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
 import { ProgressBar, ProgressRoot } from '@/components/ui/progress';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import { truncateText } from '@/utils/truncate';
 import { Progress } from '@chakra-ui/react';
 import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -41,7 +42,8 @@ export function CardTasks({
         <Fragment key={task.id}>
           <div
             className={`
-                  ${darkMode ? 'bg-neon-900 bg-opacity-25' : 'bg-white border border-gray-300 shadow-md'} rounded-2xl p-2 cursor-pointer
+                  ${darkMode ? 'bg-neon-900 hover:bg-neon-800 bg-opacity-25 border border-gray-800' : 'bg-white hover:bg-black-50 border border-gray-200 shadow-md shadow-black-200'} 
+                  rounded-xl p-2 cursor-pointer transition duration-200 hover:bg-opacity-40
                 `}
           >
             <div className='flex flex-col gap-3'>
@@ -49,16 +51,16 @@ export function CardTasks({
                 className={`
                 ${
                   priority === 'URGENTE'
-                    ? ` w-28 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
+                    ? ` w-24 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
                     : priority === 'IMPORTANTE'
-                      ? `${darkMode ? 'bg-orange-500 bg-opacity-25' : 'bg-orange-100'} text-orange-500 w-36`
+                      ? `${darkMode ? 'bg-orange-500 bg-opacity-25' : 'bg-orange-100'} text-orange-500 text-center w-32`
                       : priority === 'MÉDIO'
-                        ? `${darkMode ? 'bg-purple-500 bg-opacity-25' : 'bg-purple-100'} text-purple-500 w-28`
+                        ? `${darkMode ? 'bg-purple-500 bg-opacity-25' : 'bg-purple-100'} text-purple-500 w-20`
                         : darkMode
                           ? `bg-green-500 bg-opacity-25 text-green-500 ${darkMode ? 'bg-green-500 bg-opacity-25' : 'bg-green-100'} w-24`
-                          : 'bg-green-100 text-green-500 w-24'
+                          : 'bg-green-100 text-green-500 w-20'
                 }
-                flex items-center gap-2 font-bold text-sm p-2 rounded-full
+                flex items-center gap-2 font-bold text-xs p-2 rounded-full
                 `}
               >
                 {priority}
@@ -73,9 +75,9 @@ export function CardTasks({
                 )}
               </h1>
               <h2
-                className={` text-xl mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-900'}`}
+                className={` text-lg mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
               >
-                {title}
+                {truncateText(title, 40)}
               </h2>
             </div>
 
@@ -92,12 +94,22 @@ export function CardTasks({
               </div>
 
               <div>
-              <progress className="w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-blue-500 [&::-moz-progress-bar]:bg-blue-500" value={3} max={numberTasksStatus} />
+                <progress
+                  className={`
+                    w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 
+                    ${priority === 'URGENTE' && '[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-500'}
+                    ${priority === 'IMPORTANTE' && '[&::-webkit-progress-value]:bg-orange-500 [&::-moz-progress-bar]:bg-orange-500'}
+                    ${priority === 'MÉDIO' && '[&::-webkit-progress-value]:bg-purple-500 [&::-moz-progress-bar]:bg-purple-500'}
+                    ${priority === 'BAIXO' && '[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-500'}
+                  `}
+                  value={numberTasksStatusDone}
+                  max={numberTasksStatus}
+                />
               </div>
             </div>
             <div className='flex justify-start'>
               <p
-                className={`${darkMode ? 'text-gray-400' : 'text-black-800 bg-black-100 p-2 rounded-full opacity-60'} text-sm`}
+                className={`${darkMode ? 'text-gray-400' : 'text-black-500 bg-black-100 p-2 rounded-full bg-opacity-30'} font-semibold text-xs`}
               >
                 Criado em 20/04/2005
               </p>
