@@ -75,7 +75,7 @@ export function CardTasks({
                 )}
               </h1>
               <h2
-                className={` text-lg mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
+                className={` text-xl mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
               >
                 {truncateText(title, 40)}
               </h2>
@@ -96,7 +96,7 @@ export function CardTasks({
               <div>
                 <progress
                   className={`
-                    w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 
+                    w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 p-1 
                     ${priority === 'URGENTE' && '[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-500'}
                     ${priority === 'IMPORTANTE' && '[&::-webkit-progress-value]:bg-orange-500 [&::-moz-progress-bar]:bg-orange-500'}
                     ${priority === 'MÉDIO' && '[&::-webkit-progress-value]:bg-purple-500 [&::-moz-progress-bar]:bg-purple-500'}
