@@ -1,5 +1,4 @@
 import {
-  ConfirmationModal,
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
@@ -7,7 +6,7 @@ import { useContextGlobal } from '@/Context';
 import { MockProps } from '@/utils/mockFolders';
 import { handleNavigation } from '@/utils/navigationProgress';
 import { truncateText } from '@/utils/truncate';
-import { SimpleGrid, useDisclosure } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BiPlus } from 'react-icons/bi';
@@ -15,9 +14,6 @@ import { FcFolder } from 'react-icons/fc';
 import { GrProjects } from 'react-icons/gr';
 import { ModalNameProject } from './dialogs/createProject';
 import { useTaskProjects } from '../../ViewModel/useTaskProjects';
-import { useContextTaskData } from '../../Context/TaskContext/TaskContext';
-import { ButtonComponent } from '@/components/common/Button';
-import { PiDotsThree } from 'react-icons/pi';
 
 interface MainScreenProps {
   pasta: MockProps | undefined;
@@ -31,7 +27,7 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
     onCloseModalCreateProject,
     isOpenModalCreateProject,
   } = useTaskProjects();
-  
+
   const router = useRouter();
 
   return (
@@ -107,13 +103,15 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                   )
                 }
                 key={project.id}
-                className={`${darkMode ? 'bg-neon-900 hover:bg-opacity-15' : 'bg-white'}
+                className={`${darkMode ? 'bg-neon-900 hover:bg-neon-700' : 'bg-white'}
                     flex justify-between
                     shadow-md w-72 h-44 rounded-lg p-2 hover:bg-neon-400 hover:text-white text-black-600 border-4 border-l-neon-400 border-r-0 border-b-0 border-t-0 cursor-pointer duration-300
                   `}
               >
                 <div>
-                  <p className={`text-lg ${darkMode ? 'text-white' : ''}`}>
+                  <p
+                    className={`text-lg ${darkMode ? 'text-white' : ''} font-extrabold`}
+                  >
                     {project.projectName}
                   </p>
                 </div>

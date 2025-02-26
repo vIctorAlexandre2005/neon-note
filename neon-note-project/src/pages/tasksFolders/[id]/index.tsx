@@ -1,20 +1,8 @@
-import { FcFolder } from 'react-icons/fc';
 import { useContextGlobal } from '@/Context';
-import { handleNavigation } from '@/utils/navigationProgress';
-import { SimpleGrid, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import NProgress from 'nprogress';
-import { BiArrowBack, BiFolder, BiPlus } from 'react-icons/bi';
-import { GrProjects } from 'react-icons/gr';
-import Image from 'next/image';
-import { mockPastas } from '@/utils/mockFolders';
 import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
-import { truncateText } from '@/utils/truncate';
-import {
-  ModalContentComponent,
-  ModalRootComponent,
-} from '@/components/common/modal';
 import { MainScreenTaskComponent } from '@/components/Task/View/Main';
+import FloatingParticles from '@/components/common/Effects/FloatingParticles';
 
 export default function MainTaskFolderDetails() {
   const router = useRouter();
@@ -34,6 +22,7 @@ export default function MainTaskFolderDetails() {
 
   return (
     <div className='w-full h-full overflow-auto p-2'>
+      <FloatingParticles />
       <MainScreenTaskComponent pasta={pasta} />
     </div>
   )
