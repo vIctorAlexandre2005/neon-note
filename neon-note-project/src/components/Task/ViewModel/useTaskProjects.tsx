@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { generateIdProjects } from '@/utils/generateId';
 import { v4 as uuidv4 } from 'uuid';
 import { useDisclosure } from '@chakra-ui/react';
+import { log } from 'console';
 
 export function useTaskProjects() {
   const {
@@ -16,6 +17,8 @@ export function useTaskProjects() {
     setListProjects,
     foldersTask,
     setFoldersTask,
+    editedNameProject,
+    setEditedNameProject,
   } = useContextTaskData();
 
   const {
@@ -24,8 +27,14 @@ export function useTaskProjects() {
     onClose: onCloseModalCreateProject,
   } = useDisclosure();
 
+  const {
+    open: isOpenModalEditProject,
+    onOpen: onOpenModalEditProject,
+    onClose: onCloseModalEditProject,
+  } = useDisclosure();
+
   const router = useRouter();
-  const { id } = router.query;
+  const { id, projectId } = router.query;
 
   function handleCreateTaskProject(projectName: string) {
     if (!id) {
@@ -82,6 +91,51 @@ export function useTaskProjects() {
     }
   }
 
+  function validEditionProject() {
+    const validEditedName =
+      editedNameProject.trim().length > 0 && editedNameProject.length <= 30;
+
+    const isProjectNameUnique = !foldersTask.some(folder =>
+      folder.projects.some(project => project.projectName === editedNameProject)
+    );
+
+    if (!validEditedName) {
+      errorToast('Nome do projeto deve ter entre 1 e 30 caracteres');
+      return;
+    }
+
+    if (!isProjectNameUnique) {
+      errorToast(`"${editedNameProject}" já existe`);
+      return;
+    }
+  }
+
+  function editProject(id: string | string[] | undefined) {
+    validEditionProject();
+    try {
+      const updatedFolders = foldersTask.map(folder => ({
+        ...folder,
+        projects: folder.projects.map(project =>
+          project.id === id
+            ? { ...project, projectName: editedNameProject }
+            : project
+        ),
+      }));
+
+      setFoldersTask(updatedFolders);
+      setEditedNameProject('');
+      onCloseModalEditProject();
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        successToast('Projeto editado com sucesso!');
+      }
+    } catch (error) {
+      errorToast('Erro ao editar o projeto');
+      console.error('Erro ao editar o projeto:', error);
+    }
+  };
+
   function deleteTaskProject(projectId: string) {
     const updatedFolders = foldersTask.map(folder => ({
       ...folder,
@@ -131,5 +185,11 @@ export function useTaskProjects() {
     isOpenModalCreateProject,
     onOpenModalCreateProject,
     onCloseModalCreateProject,
+    editProject,
+    editedNameProject,
+    setEditedNameProject,
+    isOpenModalEditProject,
+    onOpenModalEditProject,
+    onCloseModalEditProject,
   };
 }

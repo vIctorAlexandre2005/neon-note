@@ -23,6 +23,14 @@ import {
 } from '@/components/ui/popover';
 import { useTaskProjects } from '../ViewModel/useTaskProjects';
 import { useRouter } from 'next/router';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
+import { ModalDeleteProject } from './Main/dialogs/deleteProject';
+import { TbTrash } from 'react-icons/tb';
+import { EditFolderModalTask } from './modal/editNameFolder';
+import { EditProjectModalTask } from './Main/dialogs/editProject';
 
 interface TaskProps {
   projectName: string | undefined;
@@ -37,12 +45,26 @@ export function TaskComponent({ projectName }: TaskProps) {
     tasksFinishedInProject,
   } = useCardTasks();
 
-  const { deleteTaskProject } = useTaskProjects();
+  const { 
+    deleteTaskProject,
+    editProject,
+    editedNameProject,
+    setEditedNameProject,
+    isOpenModalEditProject,
+    onOpenModalEditProject,
+    onCloseModalEditProject,
+  } = useTaskProjects();
 
   const [openPopoverMenuProject, setOpenPopoverMenuProject] = useState(false);
   function onOpenPopoverMenuProject() {
     setOpenPopoverMenuProject(!openPopoverMenuProject);
   };
+
+  const {
+    open: isOpenModalDeleteProject,
+    onOpen: onOpenModalDeleteProject,
+    onClose: onCloseModalDeleteProject,
+  } = useDisclosure();
 
   const router = useRouter();
   const { projectId } = router.query;
@@ -68,15 +90,55 @@ export function TaskComponent({ projectName }: TaskProps) {
             <PopoverContent bg={darkMode ? '#0f172a' : 'white'}>
               <PopoverHeader>
                 <h1
-                  className={`text-2xl ${darkMode ? 'text-black-100' : 'text-black-700'} font-extrabold`}
+                  className={`text-xl ${darkMode ? 'text-black-100' : 'text-black-700'} font-extrabold`}
                 >
                   Opções do projeto
                 </h1>
               </PopoverHeader>
 
               <PopoverBody>
-                <ButtonComponent text='Editar nome do projeto' className={`font-semibold text-lg ${darkMode ? 'text-black-100' : 'text-black-700'}`} />
-                <ButtonComponent onClick={() => deleteTaskProject(projectId as string)} text='Excluir projeto' className={`font-semibold text-lg ${darkMode ? 'text-black-100' : 'text-black-700'}`} />
+                <ModalRootComponent isOpen={isOpenModalEditProject} onClose={onCloseModalEditProject}>
+                  <>
+                  <ButtonComponent
+                    text='Editar nome do projeto'
+                    onClick={onOpenModalEditProject}
+                    className={`font-semibold text-lg hover:bg-neon-400 hover:text-white w-full ${darkMode ? 'text-black-100' : 'text-black-700'}`}
+                  />
+
+                  <ModalContentComponent 
+                    content={
+                      <EditProjectModalTask 
+                        onClose={onCloseModalEditProject}
+                        onClick={() => editProject(projectId)} 
+                        title='Edite o nome do projeto' 
+                      />
+                    } 
+                  />
+                  </>
+                </ModalRootComponent>
+                <ModalRootComponent
+                  isOpen={isOpenModalDeleteProject}
+                  onClose={onCloseModalDeleteProject}
+                  size='lg'
+                >
+                  <>
+                    <ButtonComponent
+                      onClick={onOpenModalDeleteProject}
+                      text='Excluir projeto'
+                      icon={<TbTrash size={20} />}
+                      className={`font-semibold gap-2 text-lg hover:bg-red-400 hover:text-white w-full ${darkMode ? 'text-black-100' : 'text-black-700'}`}
+                    />
+
+                    <ModalContentComponent
+                      content={
+                        <ModalDeleteProject
+                          onClose={onCloseModalDeleteProject}
+                          onClick={() => deleteTaskProject(projectId as string)}
+                        />
+                      }
+                    />
+                  </>
+                </ModalRootComponent>
               </PopoverBody>
             </PopoverContent>
           </PopoverRoot>

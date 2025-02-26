@@ -40,6 +40,9 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   const [listProjects, setListProjects] = useState<ProjectProps[]>(
     mapListProject.flat() || []
   );
+
+  const [editedNameProject, setEditedNameProject] = useState<string>('');
+
   const mapListTasksToStart = listProjects
     .map(project => project.projectTasks?.status?.toStart || [])
     .flat();
@@ -59,8 +62,6 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
     new Date()
   );
   const [levelPriorityTask, setLevelPriorityTask] = useState('');
-  console.log('listProjects', listProjects);
-  console.log('tasksToStartInProject', tasksToStartInProject);
 
   return (
     <TaskProvider.Provider
@@ -101,6 +102,8 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         setLimitDateToFinishTask,
         levelPriorityTask,
         setLevelPriorityTask,
+        editedNameProject,
+        setEditedNameProject
       }}
     >
       {children}
