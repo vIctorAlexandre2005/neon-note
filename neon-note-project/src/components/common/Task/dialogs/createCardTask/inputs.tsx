@@ -75,7 +75,7 @@ export function TextAreaCreateTaskCard({
 
 interface SelectPriorityProps {
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export function SelectPriority({ value, onChange }: SelectPriorityProps) {
   const [openListLevelPrioritys, setOpenListLevelPrioritys] = useState(false);

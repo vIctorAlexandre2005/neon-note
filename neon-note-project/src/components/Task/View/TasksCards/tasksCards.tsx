@@ -1,6 +1,5 @@
 import { ButtonComponent } from '@/components/common/Button';
 import FadeIn from '@/components/common/Effects/FadeIn';
-import { ModalRootComponent } from '@/components/common/modal';
 import {
   MenuContentComponent,
   MenuRootComponent,
@@ -11,13 +10,6 @@ import {
   DialogRoot,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from '@/components/ui/menu';
-import { ProgressBar, ProgressRoot } from '@/components/ui/progress';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
 import {
@@ -33,13 +25,15 @@ import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BsListTask } from 'react-icons/bs';
-import { MdDescription, MdOutlineLabelImportant } from 'react-icons/md';
+import { MdDescription, MdOutlineLabelImportant, MdOutlineLowPriority, MdPriorityHigh } from 'react-icons/md';
 import {
   PiChartLineDown,
   PiSealWarningFill,
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
+import { SelectPriorityModal } from '../Main/dialogs/tasks/PrioritysModal';
+import { useCardTasks } from '../../ViewModel/useTasks';
 
 const optionsCardMenu = [
   {
@@ -80,6 +74,9 @@ export function CardTasks({
   priority,
   description,
 }: Props) {
+
+  const { setLevelPriorityTask, levelPriorityTask } = useCardTasks();
+
   return (
     <>
       <FadeIn>
@@ -196,42 +193,64 @@ export function CardTasks({
                   defaultValue={title}
                   selectOnFocus={false}
                 >
-                  <EditablePreview bg={'transparent'} />
+                  <EditablePreview w={'full'} bg={'transparent'} />
                   <EditableInput border={0} p={2} />
                 </EditableRoot>
               </DialogHeader>
 
               <DialogBody>
-                <div>
-                  <h1 className='text-black-800 text-xl flex items-center gap-2 font-bold'>
-                    <MdDescription size={20} color='#333333 ' />
-                    Descrição
-                  </h1>
-
-                  <div>
-                    <Editable.Root
-                      color={darkMode ? 'white' : 'blackAlpha.800'}
-                      defaultValue={
-                        description ? description : 'Não há descrição'
-                      }
+                <div className='flex w-full gap-6 justify-between'>
+                  <div className='descricao mb-4 w-full'>
+                    <h1
+                      className={`${darkMode ? 'text-white' : 'text-black-700'} mb-4 text-xl flex items-center gap-2 font-bold`}
                     >
-                      <Editable.Preview
-                        h={'48'}
-                        alignItems='flex-start'
-                        width='full'
-                        bg={'transparent'}
-                        color={description ? 'blackAlpha.800' : 'gray.500'}
-                        p={2}
-                        fontWeight={'semibold'}
-                        fontSize={'md'}
-                      />
-                      <Editable.Textarea
-                        p={2}
-                        fontSize={'md'}
-                        resize={'none'}
-                        h={'48'}
-                      />
-                    </Editable.Root>
+                      <MdDescription size={20} />
+                      Descrição
+                    </h1>
+
+                    <div className='w-full'>
+                      <Editable.Root
+                        color={darkMode ? 'white' : 'gray.500'}
+                        defaultValue={description}
+                        placeholder={!description && ('Sem descrição' as any)}
+                      >
+                        <Editable.Preview
+                          h={'48'}
+                          alignItems='flex-start'
+                          width='full'
+                          bg={'transparent'}
+                          color={description ? 'blackAlpha.800' : 'gray.500'}
+                          p={2}
+                          fontWeight={'semibold'}
+                          fontSize={'md'}
+                          border={'1px solid'}
+                          borderColor={'white'}
+                          opacity={description ? 1 : 0.5}
+                        />
+                        <Editable.Textarea
+                          p={2}
+                          fontSize={'md'}
+                          resize={'none'}
+                          h={'48'}
+                          w={'full'}
+                          placeholder={!description && ('Sem descrição' as any)}
+                          outline={'none'}
+                          border={'1px solid'}
+                          borderColor={'white'}
+                        />
+                      </Editable.Root>
+                    </div>
+                  </div>
+
+                  <div className='prioritys flex flex-col w-full'>
+                    <h1
+                      className={`${darkMode ? 'text-white' : 'text-black-700'} mb-4 text-xl gap-2 flex items-center font-bold`}
+                    >
+                      <MdOutlineLowPriority size={24} />
+                      Prioridade
+                    </h1>
+
+                    <SelectPriorityModal priority={priority} onChange={(e) => setLevelPriorityTask(e.target.value)} />
                   </div>
                 </div>
               </DialogBody>

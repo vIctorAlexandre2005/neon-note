@@ -27,10 +27,10 @@ import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
-import { ModalDeleteProject } from './Main/dialogs/deleteProject';
+import { ModalDeleteProject } from './Main/dialogs/project/deleteProject';
 import { TbTrash } from 'react-icons/tb';
 import { EditFolderModalTask } from './modal/editNameFolder';
-import { EditProjectModalTask } from './Main/dialogs/editProject';
+import { EditProjectModalTask } from './Main/dialogs/project/editProject';
 
 interface TaskProps {
   projectName: string | undefined;

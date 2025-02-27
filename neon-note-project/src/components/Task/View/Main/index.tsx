@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { BiPlus } from 'react-icons/bi';
 import { FcFolder } from 'react-icons/fc';
 import { GrProjects } from 'react-icons/gr';
-import { ModalNameProject } from './dialogs/createProject';
+import { ModalNameProject } from './dialogs/project/createProject';
 import { useTaskProjects } from '../../ViewModel/useTaskProjects';
 
 interface MainScreenProps {
