@@ -34,10 +34,10 @@ export function TestComponent() {
   function handleDragEnd(event: any) {
     const { active, over } = event;
   
-    if (active.id !== over.id) {
+    if (active.id !== over?.id) {
       setCards((prev) => {
-        const oldIndex = prev.findIndex((card) => card.id === active.id);
-        const newIndex = prev.findIndex((card) => card.id === over.id);
+        const oldIndex = prev.findIndex((card) => card.id === active?.id);
+        const newIndex = prev.findIndex((card) => card.id === over?.id);
         const newOrder = arrayMove(prev, oldIndex, newIndex);
   
         // 🔥 Salvar no localStorage

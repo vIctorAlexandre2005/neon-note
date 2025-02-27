@@ -1,10 +1,22 @@
+import { ButtonComponent } from '@/components/common/Button';
 import FadeIn from '@/components/common/Effects/FadeIn';
+import {
+  MenuContentComponent,
+  MenuRootComponent,
+} from '@/components/common/Task/dialogs/Menu';
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from '@/components/ui/menu';
 import { ProgressBar, ProgressRoot } from '@/components/ui/progress';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
 import { Progress } from '@chakra-ui/react';
 import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BsListTask } from 'react-icons/bs';
 import { MdOutlineLabelImportant } from 'react-icons/md';
 import {
@@ -13,6 +25,21 @@ import {
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
+
+const optionsCardMenu = [
+  {
+    text: 'Editar',
+    value: 'edit',
+  },
+  {
+    text: 'Alterar status',
+    value: 'move',
+  },
+  {
+    text: 'Excluir',
+    value: 'delete',
+  },
+];
 
 interface Props {
   darkMode?: boolean;
@@ -47,8 +74,10 @@ export function CardTasks({
                 `}
           >
             <div className='flex flex-col gap-3'>
-              <h1
-                className={`
+              <div className='flex justify-between items-center'>
+                <div>
+                  <h1
+                    className={`
                 ${
                   priority === 'URGENTE'
                     ? ` w-24 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
@@ -62,18 +91,34 @@ export function CardTasks({
                 }
                 flex items-center gap-2 font-bold text-xs p-2 rounded-full
                 `}
-              >
-                {priority}
-                {priority === 'URGENTE' ? (
-                  <PiSirenBold size={20} />
-                ) : priority === 'IMPORTANTE' ? (
-                  <PiSealWarningFill size={20} />
-                ) : priority === 'MÉDIO' ? (
-                  <RxHalf2 size={20} />
-                ) : (
-                  <PiChartLineDown size={20} />
-                )}
-              </h1>
+                  >
+                    {priority}
+                    {priority === 'URGENTE' ? (
+                      <PiSirenBold size={20} />
+                    ) : priority === 'IMPORTANTE' ? (
+                      <PiSealWarningFill size={20} />
+                    ) : priority === 'MÉDIO' ? (
+                      <RxHalf2 size={20} />
+                    ) : (
+                      <PiChartLineDown size={20} />
+                    )}
+                  </h1>
+                </div>
+
+                <div>
+                  <MenuRootComponent>
+                    <ButtonComponent
+                      className={`
+                      ${darkMode ? 'text-gray-100 hover:bg-neon-900' : 'text-black-700 hover:bg-gray-200'} 
+                      rounded-xl
+                    `}
+                      icon={<BiDotsHorizontalRounded size={24} />}
+                    />
+
+                    <MenuContentComponent arrayMenuItems={optionsCardMenu} handleFunction={() => {}} />
+                  </MenuRootComponent>
+                </div>
+              </div>
               <h2
                 className={` text-xl mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
               >
