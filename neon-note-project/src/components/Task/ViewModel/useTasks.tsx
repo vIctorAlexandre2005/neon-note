@@ -8,6 +8,7 @@ import {
   StatusTasksFromProjectProps,
 } from '@/utils/mockFolders';
 import { useRouter } from 'next/router';
+import { useDisclosure } from '@chakra-ui/react';
 
 export function useCardTasks() {
   const {
@@ -28,6 +29,12 @@ export function useCardTasks() {
     levelPriorityTask,
     setLevelPriorityTask,
   } = useContextTaskData();
+
+  const {
+    open: isOpenModalViewCardTask,
+    onOpen: onOpenModalViewCardTask,
+    onClose: onCloseModalViewCardTask,
+  } = useDisclosure();
 
   const router = useRouter();
   const { id, projectId } = router.query;
@@ -119,14 +126,23 @@ export function useCardTasks() {
     tasksToStartInProject,
     tasksInProgressInProject,
     tasksFinishedInProject,
+    
     createCardTask,
+    
     nameCreatedTask,
     setNameCreatedTask,
+    
     descriptionCreatedTask,
     setDescriptionCreatedTask,
+    
     limitDateToFinishTask,
     setLimitDateToFinishTask,
+    
     levelPriorityTask,
     setLevelPriorityTask,
+
+    isOpenModalViewCardTask,
+    onOpenModalViewCardTask,
+    onCloseModalViewCardTask,
   };
 }

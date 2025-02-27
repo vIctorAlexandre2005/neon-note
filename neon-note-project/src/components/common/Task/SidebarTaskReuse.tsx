@@ -9,6 +9,7 @@ import {
 import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { ThereIsNoFolder } from '../ThereIsNoFolder';
+import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 
 interface TaskProps {
   statusTitle: string;
@@ -30,6 +31,12 @@ export function SidebarTasksReuse({
   thereIsNoButtonCreateTaskInSidebar,
 }: TaskProps) {
   const { darkMode } = useContextGlobal();
+
+  const {
+    isOpenModalViewCardTask,
+    onOpenModalViewCardTask,
+    onCloseModalViewCardTask
+  } = useCardTasks();
 
   const {
     open: openModalCreateCard,
