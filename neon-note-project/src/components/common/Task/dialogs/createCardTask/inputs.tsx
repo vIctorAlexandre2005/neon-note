@@ -89,6 +89,7 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
     { value: 'MÉDIO', title: 'MÉDIO', bg: 'purple' },
     { value: 'BAIXO', title: 'BAIXO', bg: 'green' },
   ];
+  const isColor = value === 'URGENTE' ? 'red' : value === 'IMPORTANTE' ? 'orange' : value === 'MÉDIO' ? 'purple' : 'green';
   return (
     <div className='flex flex-col gap-4'>
       <div
@@ -100,7 +101,7 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
       </div>
       <div className='flex justify-center items-center w-full'>
         <FadeIn>
-          <RadioCardRoot defaultValue={'Urgente'}>
+          <RadioCardRoot>
             <SimpleGrid columns={2}>
               {levelsPrioritys.map(level => (
                 <RadioCardItem
@@ -108,7 +109,7 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
                   key={level.value}
                   value={level.value}
                   onChange={onChange}
-                  colorPalette={level.bg}
+                  colorPalette={isColor}
                   className={`${darkMode ? 'text-gray-100' : 'text-black-800'} text-base font-bold cursor-pointer`}
                 />
               ))}

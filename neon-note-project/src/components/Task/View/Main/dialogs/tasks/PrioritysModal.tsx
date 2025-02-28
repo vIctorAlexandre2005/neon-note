@@ -1,43 +1,47 @@
 import { RadioCardItem, RadioCardRoot } from '@/components/ui/radio-card';
 import { useContextGlobal } from '@/Context';
 import { SimpleGrid } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
 interface SelectPriorityProps {
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   priority: string;
 }
-export function SelectPriorityModal({ value, onChange, priority }: SelectPriorityProps) {
-  const [openListLevelPrioritys, setOpenListLevelPrioritys] = useState(false);
-  function handleOpenLevelPrioritys() {
-    setOpenListLevelPrioritys(!openListLevelPrioritys);
-  };
-
+export function SelectPriorityModal({ value, priority }: SelectPriorityProps) {
   const { darkMode } = useContextGlobal();
-  
-  const bgColor = priority === 'URGENTE' ? 'red' : priority === 'IMPORTANTE' ? 'orange' : priority === 'MÉDIO' ? 'purple' : 'green';
-  const valuePriority = priority === 'URGENTE' ? 'URGENTE' : priority === 'IMPORTANTE' ? 'IMPORTANTE' : priority === 'MÉDIO' ? 'MÉDIO' : 'BAIXO';
-
   const levelsPrioritys = [
     { value: 'URGENTE', title: 'URGENTE', bg: 'red' },
     { value: 'IMPORTANTE', title: 'IMPORTANTE', bg: 'orange' },
     { value: 'MÉDIO', title: 'MÉDIO', bg: 'purple' },
     { value: 'BAIXO', title: 'BAIXO', bg: 'green' },
-  ]
-  
+  ];
+  const [updatePriority, setUpdatePriority] = useState(priority);
+
+  console.log(updatePriority);
+
   return (
     <div className='flex justify-center items-center'>
-      <RadioCardRoot defaultValue={value}>
-        <SimpleGrid columns={2}>
+      <RadioCardRoot value={updatePriority}>
+        <SimpleGrid gap={4} columns={2}>
           {levelsPrioritys.map(level => (
             <RadioCardItem
               label={level.title}
-              key={valuePriority}
-              value={valuePriority === level.value ? level.value : ''}
-              onChange={onChange}
-              colorPalette={bgColor}
+              key={updatePriority === level.value ? updatePriority : level.value}
+              value={
+                updatePriority === level.value ? updatePriority : level.value
+              }
+              colorPalette={
+                updatePriority === level.value ? level.bg : 'transparent'
+              }
+              _checked={{
+                bg: 'transparent',
+                colorPalette:
+                  updatePriority === level.value ? level.bg : 'transparent',
+              }}
+              onChange={e =>
+                setUpdatePriority((e.target as HTMLInputElement).value)
+              }
               className={`${darkMode ? 'text-gray-100' : 'text-black-800'} text-base font-bold cursor-pointer`}
             />
           ))}

@@ -250,7 +250,7 @@ export function CardTasks({
                       Prioridade
                     </h1>
 
-                    <SelectPriorityModal priority={priority} onChange={(e) => setLevelPriorityTask(e.target.value)} />
+                    <SelectPriorityModal priority={priority} />
                   </div>
                 </div>
               </DialogBody>
