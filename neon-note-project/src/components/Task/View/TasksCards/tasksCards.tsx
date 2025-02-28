@@ -25,7 +25,12 @@ import { Fragment } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BsListTask } from 'react-icons/bs';
-import { MdDescription, MdOutlineLabelImportant, MdOutlineLowPriority, MdPriorityHigh } from 'react-icons/md';
+import {
+  MdDescription,
+  MdOutlineLabelImportant,
+  MdOutlineLowPriority,
+  MdPriorityHigh,
+} from 'react-icons/md';
 import {
   PiChartLineDown,
   PiSealWarningFill,
@@ -74,7 +79,6 @@ export function CardTasks({
   priority,
   description,
 }: Props) {
-
   const { setLevelPriorityTask, levelPriorityTask } = useCardTasks();
 
   return (
@@ -224,8 +228,9 @@ export function CardTasks({
                           fontWeight={'semibold'}
                           fontSize={'md'}
                           border={'1px solid'}
-                          borderColor={'white'}
+                          borderColor={darkMode ? 'white' : 'gray.500'}
                           opacity={description ? 1 : 0.5}
+                          borderRadius={'md'}
                         />
                         <Editable.Textarea
                           p={2}
@@ -236,7 +241,9 @@ export function CardTasks({
                           placeholder={!description && ('Sem descrição' as any)}
                           outline={'none'}
                           border={'1px solid'}
-                          borderColor={'white'}
+                          borderColor={darkMode ? 'white' : 'gray.500'}
+                          borderRadius={'xl'}
+                          transition={'all 0.3s ease-in-out'}
                         />
                       </Editable.Root>
                     </div>
