@@ -11,6 +11,7 @@ import {
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
 import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
+import { useCardTasks } from '../../ViewModel/useTasks';
 
 interface Props {
   darkMode?: boolean;
@@ -38,12 +39,18 @@ export function CardTasks({
   description,
   date,
 }: Props) {
+  const {
+    isOpenModalViewCardTask,
+    onCloseModalViewCardTask,
+    onOpenModalViewCardTask,
+  } = useCardTasks();
   return (
     <>
       <FadeIn>
         <Fragment key={task.id}>
-          <DialogRoot size={'xl'}>
+          <DialogRoot open={isOpenModalViewCardTask} size={'xl'}>
             <div
+              onClick={onOpenModalViewCardTask}
               className={`
                   ${darkMode ? 'bg-neon-900 hover:bg-neon-800 bg-opacity-25 border border-gray-800' : 'bg-white hover:bg-black-50 border border-gray-200 shadow-md shadow-black-200'} 
                   rounded-xl p-2 cursor-pointer transition duration-200 hover:bg-opacity-40
@@ -88,17 +95,17 @@ export function CardTasks({
                       {numberTasksStatusDone}/{numberTasksStatus}
                     </p>
                   </div>
-                    <progress
-                      className={`
+                  <progress
+                    className={`
                     w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 p-1 
                     ${priority === 'URGENTE' && '[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-500'}
                     ${priority === 'IMPORTANTE' && '[&::-webkit-progress-value]:bg-orange-500 [&::-moz-progress-bar]:bg-orange-500'}
                     ${priority === 'MÉDIO' && '[&::-webkit-progress-value]:bg-purple-500 [&::-moz-progress-bar]:bg-purple-500'}
                     ${priority === 'BAIXO' && '[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-500'}
                     `}
-                      value={numberTasksStatusDone}
-                      max={numberTasksStatus}
-                    />
+                    value={numberTasksStatusDone}
+                    max={numberTasksStatus}
+                  />
 
                   <div className='flex justify-start'>
                     <p
@@ -111,6 +118,7 @@ export function CardTasks({
               </DialogTrigger>
             </div>
             <ModalViewCardTask
+              onCloseModalViewCardTask={onCloseModalViewCardTask}
               taskId={task.id}
               title={title}
               description={description || ''}

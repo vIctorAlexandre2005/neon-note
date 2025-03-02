@@ -3,6 +3,8 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogRoot,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Editable,
@@ -13,18 +15,22 @@ import {
 import { MdDescription, MdOutlineLowPriority } from 'react-icons/md';
 import { SelectPriorityModal } from './PrioritysModal';
 import {
+  ButtonComponent,
   NegativeButtonComponent,
   PositiveButtonComponent,
 } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
 import { useState } from 'react';
 import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { TbTrash } from 'react-icons/tb';
+import { ConfirmationModal } from '@/components/common/modal';
 
 interface ModalViewCardProps {
   taskId: string;
   title: string;
   description: string;
   priority: string;
+  onCloseModalViewCardTask: () => void;
 }
 
 export function ModalViewCardTask({
@@ -32,13 +38,14 @@ export function ModalViewCardTask({
   description,
   priority,
   taskId,
+  onCloseModalViewCardTask
 }: ModalViewCardProps) {
   const { darkMode } = useContextGlobal();
   const [updateTitle, setUpdateTitle] = useState(title);
   const [updateDescription, setUpdateDescription] = useState(description);
   const [updatePriority, setUpdatePriority] = useState(priority);
 
-  const { updateCardTask } = useCardTasks();
+  const { updateCardTask, deleteCardTask } = useCardTasks();
 
   return (
     <DialogContent
@@ -46,22 +53,51 @@ export function ModalViewCardTask({
       w={'full'}
       bg={darkMode ? '#0f172a' : 'gray.100'}
     >
-      <DialogHeader color={darkMode ? 'white' : 'blackAlpha.800'}>
-        <EditableRoot
-          fontSize={'2xl'}
-          fontWeight={'bold'}
-          textAlign={'start'}
-          defaultValue={updateTitle}
-          selectOnFocus={false}
-        >
-          <EditablePreview w={'full'} bg={'transparent'} />
-          <EditableInput
-            value={updateTitle}
-            onChange={e => setUpdateTitle(e.target.value)}
-            border={0}
-            p={2}
-          />
-        </EditableRoot>
+      <DialogHeader
+        display={'flex'}
+        justifyContent={'space-between'}
+        color={darkMode ? 'white' : 'blackAlpha.800'}
+      >
+        <div className='w-2/4'>
+          <EditableRoot
+            fontSize={'2xl'}
+            fontWeight={'bold'}
+            textAlign={'start'}
+            defaultValue={updateTitle}
+            selectOnFocus={false}
+          >
+            <EditablePreview w={'full'} bg={'transparent'} />
+            <EditableInput
+              value={updateTitle}
+              onChange={e => setUpdateTitle(e.target.value)}
+              border={0}
+              p={2}
+            />
+          </EditableRoot>
+        </div>
+
+        <DialogRoot size={'sm'} placement={'center'}>
+          <DialogTrigger>
+            <ButtonComponent
+              className='flex items-center gap-2 text-base font-semibold hover:bg-red-500 hover:bg-opacity-20 text-red-500 transition duration-300'
+              text='Excluir tarefa'
+              icon={<TbTrash size={20} />}
+            />
+          </DialogTrigger>
+
+          <DialogContent shadow={'sm'}>
+            <ConfirmationModal 
+              titleHeader='Deseja excluir essa tarefa permanentemente?'
+              textToNegativeButton='Não'
+              textToPositiveButton='Sim, desejo'
+              negativeOnClick={onCloseModalViewCardTask}
+              positiveOnClick={() => {
+                deleteCardTask(taskId);
+                onCloseModalViewCardTask();
+              }}
+            />
+          </DialogContent>
+        </DialogRoot>
       </DialogHeader>
 
       <DialogBody>
@@ -120,14 +156,31 @@ export function ModalViewCardTask({
               <MdOutlineLowPriority size={24} />
               Prioridade
             </h1>
-            <SelectPriorityModal priority={updatePriority} setUpdatePriority={setUpdatePriority} />
+            <SelectPriorityModal
+              priority={updatePriority}
+              setUpdatePriority={setUpdatePriority}
+            />
           </div>
         </div>
       </DialogBody>
 
       <DialogFooter>
-        <NegativeButtonComponent text='Cancelar' />
-        <PositiveButtonComponent onClick={() => updateCardTask(taskId, updateTitle, updateDescription, updatePriority)} text='Atualizar' />
+        <NegativeButtonComponent 
+          onClick={onCloseModalViewCardTask}
+          text='Cancelar' 
+        />
+        <PositiveButtonComponent
+          onClick={() => {
+            updateCardTask(
+              taskId,
+              updateTitle,
+              updateDescription,
+              updatePriority
+            );
+            onCloseModalViewCardTask();
+          }}
+          text='Atualizar'
+        />
       </DialogFooter>
     </DialogContent>
   );

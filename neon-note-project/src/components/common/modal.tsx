@@ -60,7 +60,7 @@ interface ModalHeaderProps {
 export function ConfirmationModal({ titleHeader, iconHeader, positiveOnClick, negativeOnClick, textToNegativeButton, textToPositiveButton }: ModalHeaderProps) {
   const { darkMode } = useContextGlobal();
   return (
-    <div className={`flex flex-col`}>
+    <div className={`flex flex-col rounded-md p-4 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
       <div className='flex items-center justify-center mb-2 gap-2'>
         <h1
           className={`${darkMode ? 'text-gray-100' : 'text-black-900'} font-semibold text-xl`}

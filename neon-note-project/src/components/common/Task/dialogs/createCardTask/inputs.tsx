@@ -107,6 +107,8 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
                   key={level.value}
                   value={level.value}
                   onChange={onChange}
+                  _hover={{border: '1px solid', borderColor: level.bg }}
+                  _checked={{ bg: 'transparent', border: '1px solid', borderColor: level.bg }}
                   colorPalette={isColor}
                   className={`${darkMode ? 'text-gray-100' : 'text-black-800'} text-base font-bold cursor-pointer`}
                 />

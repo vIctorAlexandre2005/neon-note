@@ -200,6 +200,7 @@ export function useCardTasks() {
         localStorage.setItem('foldersTask', JSON.stringify(updateDataCard));
         setFoldersTask(updateDataCard);
       }
+      onCloseModalViewCardTask();
       successToast('Tarefa atualizada com sucesso');
     } catch (error) {
       console.error('Erro ao editar tarefa:', error);
@@ -250,6 +251,8 @@ export function useCardTasks() {
     tasksFinishedInProject,
 
     createCardTask,
+    updateCardTask,
+    deleteCardTask,
 
     nameCreatedTask,
     setNameCreatedTask,
@@ -270,7 +273,5 @@ export function useCardTasks() {
     openModalCreateCard,
     onOpenModalCreateCard,
     onCloseModalCreateCard,
-
-    updateCardTask,
   };
 }
