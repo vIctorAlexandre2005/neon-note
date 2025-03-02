@@ -89,17 +89,15 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
     { value: 'MÉDIO', title: 'MÉDIO', bg: 'purple' },
     { value: 'BAIXO', title: 'BAIXO', bg: 'green' },
   ];
-  const isColor = value === 'URGENTE' ? 'red' : value === 'IMPORTANTE' ? 'orange' : value === 'MÉDIO' ? 'purple' : 'green';
+  const isColor = value === 'URGENTE' ? 'red' : value === 'IMPORTANTE' ? 'orange' : value === 'MÉDIO' ? 'purple' : value === 'BAIXO' ? 'green' : 'transparent';
   return (
     <div className='flex flex-col gap-4'>
       <div
-        onClick={handleOpenLevelPrioritys}
-        className={`${darkMode ? 'hover:text-gray-400 text-gray-100' : 'hover:text-black-600 text-black-800'} duration-300 transition cursor-pointer gap-2 flex items-center font-semibold text-lg`}
+        className={`${darkMode ? 'text-gray-100' : 'text-black-800'} duration-300 transition gap-2 flex items-center justify-start font-semibold text-lg`}
       >
         <h1>Selecione o nível de prioridade</h1>
-        <IoIosArrowDown size={20} />
       </div>
-      <div className='flex justify-center items-center w-full'>
+      <div className='flex items-center w-full'>
         <FadeIn>
           <RadioCardRoot>
             <SimpleGrid columns={2}>

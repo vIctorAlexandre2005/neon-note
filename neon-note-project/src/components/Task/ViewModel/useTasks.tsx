@@ -36,8 +36,21 @@ export function useCardTasks() {
     onClose: onCloseModalViewCardTask,
   } = useDisclosure();
 
+  const {
+    open: openModalCreateCard,
+    onOpen: onOpenModalCreateCard,
+    onClose: onCloseModalCreateCard,
+  } = useDisclosure();
+
   const router = useRouter();
   const { id, projectId } = router.query;
+
+  function validCreateCardTask(title: string, levelPriorityTask: string) {
+    if (title === '' || levelPriorityTask === '') {
+      errorToast('Erro: título ou prioridade da tarefa vazia.');
+      return null;
+    }
+  }
 
   function createCardTask(
     status: keyof ProjectTasksPropsStatus,
@@ -46,58 +59,64 @@ export function useCardTasks() {
     limitDateToFinishTask?: Date,
     levelPriorityTask?: string
   ) {
-    if (title === '' || levelPriorityTask === '') {
-      errorToast('Erro: título ou prioridade da tarefa vazia.');
-      return null;
-    };
-    const newTask: StatusTasksFromProjectProps = {
-      id: uuidv4(),
-      title,
-      description,
-      subTasks: [],
-      progressTask: 0,
-      taskLimitDate: limitDateToFinishTask?.getDate(),
-      taskCreatedDate: new Date().toISOString().split('T')[0],
-      priority: levelPriorityTask || '',
-    };
-    const updatedFolders = foldersTask.map(folder =>
-      folder.id === id
-        ? {
-            ...folder,
-            projects: folder.projects.map(project =>
-              project.id === projectId
-                ? {
-                    ...project,
-                    projectTasks: {
-                      ...project.projectTasks,
-                      status: {
-                        ...project.projectTasks.status,
-                        [status]: [
-                          ...project.projectTasks.status[status],
-                          newTask,
-                        ],
+    try {
+      const responseValid = validCreateCardTask(
+        title,
+        levelPriorityTask as string
+      );
+      if (responseValid === null) return;
+      const newTask: StatusTasksFromProjectProps = {
+        id: uuidv4(),
+        title,
+        description,
+        subTasks: [],
+        progressTask: 0,
+        taskLimitDate: limitDateToFinishTask?.getDate(),
+        taskCreatedDate: new Date().toISOString().split('T')[0],
+        priority: levelPriorityTask || '',
+      };
+      const updatedFolders = foldersTask.map(folder =>
+        folder.id === id
+          ? {
+              ...folder,
+              projects: folder.projects.map(project =>
+                project.id === projectId
+                  ? {
+                      ...project,
+                      projectTasks: {
+                        ...project.projectTasks,
+                        status: {
+                          ...project.projectTasks.status,
+                          [status]: [
+                            ...project.projectTasks.status[status],
+                            newTask,
+                          ],
+                        },
                       },
-                    },
-                  }
-                : project
-            ),
-          }
-        : folder
-    );
-    // Atualiza os estados simultaneamente
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
-      setFoldersTask(updatedFolders);
-      setTasksToStartInProject(prevTasks => [...prevTasks, newTask]);
-      successToast('Tarefa criada com sucesso');
-    }
+                    }
+                  : project
+              ),
+            }
+          : folder
+      );
+      // Atualiza os estados simultaneamente
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        setFoldersTask(updatedFolders);
+        setTasksToStartInProject(prevTasks => [...prevTasks, newTask]);
+        successToast('Tarefa criada com sucesso');
+      }
 
-    // Limpa os inputs do formulário
-    [
-      setNameCreatedTask,
-      setDescriptionCreatedTask,
-      setLevelPriorityTask,
-    ].forEach(fn => fn('' as any));
+      // Limpa os inputs do formulário
+      [
+        setNameCreatedTask,
+        setDescriptionCreatedTask,
+        setLevelPriorityTask,
+      ].forEach(fn => fn('' as any));
+    } catch (error) {
+      console.error('Erro ao criar a tarefa:', error);
+      errorToast('Erro ao criar a tarefa');
+    }
   }
 
   function getTasksFromLocalStorage() {
@@ -106,17 +125,20 @@ export function useCardTasks() {
       if (storedFoldersString) {
         const storedFolders: MockProps[] = JSON.parse(storedFoldersString);
         const currentFolder = storedFolders.find(folder => folder.id === id);
-        const currentProject = currentFolder?.projects.find(project => project.id === projectId);
+        const currentProject = currentFolder?.projects.find(
+          project => project.id === projectId
+        );
         if (currentFolder && currentProject) {
-          const tasksToStart = currentProject?.projectTasks?.status.toStart || [];
+          const tasksToStart =
+            currentProject?.projectTasks?.status.toStart || [];
           setTasksToStartInProject(tasksToStart);
-        };
-      };
+        }
+      }
     } catch (error) {
       console.error('Erro ao obter as tarefas:', error);
       errorToast('Erro ao obter as tarefas');
-    };
-  };
+    }
+  }
 
   useEffect(() => {
     getTasksFromLocalStorage();
@@ -126,23 +148,27 @@ export function useCardTasks() {
     tasksToStartInProject,
     tasksInProgressInProject,
     tasksFinishedInProject,
-    
+
     createCardTask,
-    
+
     nameCreatedTask,
     setNameCreatedTask,
-    
+
     descriptionCreatedTask,
     setDescriptionCreatedTask,
-    
+
     limitDateToFinishTask,
     setLimitDateToFinishTask,
-    
+
     levelPriorityTask,
     setLevelPriorityTask,
 
     isOpenModalViewCardTask,
     onOpenModalViewCardTask,
     onCloseModalViewCardTask,
+
+    openModalCreateCard,
+    onOpenModalCreateCard,
+    onCloseModalCreateCard,
   };
 }

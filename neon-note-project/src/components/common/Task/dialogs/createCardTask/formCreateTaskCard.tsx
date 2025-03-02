@@ -22,24 +22,24 @@ export function FormCreateTaskCard() {
 
   return (
     <div className='flex flex-col justify-center w-full'>
-      <SimpleGrid columns={2} gap={4} w={'full'}>
+      <SimpleGrid columns={1} gap={4} w={'full'}>
         <InputsCreateTaskCard
           value={nameCreatedTask}
           onChange={(e) => setNameCreatedTask(e.target.value)}
           type='text'
-          placeholder='Tarefa resumida'
+          placeholder='Nome da tarefa'
         />
-        <InputsCreateTaskCard
+        {/* <InputsCreateTaskCard
           value={limitDateToFinishTask?.toISOString()?.split('T')[0]}
           onChange={(e) => setLimitDateToFinishTask(new Date(e.target.value))}
           type='date'
           placeholder=''
           label='Prazo:'
-        />
+        /> */}
         <TextAreaCreateTaskCard
           value={descriptionCreatedTask}
           onChange={(e) => setDescriptionCreatedTask(e.target.value)}
-          placeholder='Descreva com mais detalhes a sua tarefa...'
+          placeholder='Descreva com mais detalhes a sua tarefa [opcional]'
         />
         <SelectPriority
           value={levelPriorityTask}

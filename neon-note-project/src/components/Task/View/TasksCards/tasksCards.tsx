@@ -66,6 +66,7 @@ interface Props {
   index?: number;
   priority: string;
   description?: string;
+  date?: string;
 }
 export function CardTasks({
   darkMode,
@@ -78,6 +79,7 @@ export function CardTasks({
   numberTasksStatus,
   priority,
   description,
+  date
 }: Props) {
   const { setLevelPriorityTask, levelPriorityTask } = useCardTasks();
 
@@ -179,7 +181,7 @@ export function CardTasks({
                   <p
                     className={`${darkMode ? 'text-gray-400' : 'text-black-500 bg-black-100 p-2 rounded-full bg-opacity-30'} font-semibold text-xs`}
                   >
-                    Criado em 20/04/2005
+                    {date}
                   </p>
                 </div>
               </div>

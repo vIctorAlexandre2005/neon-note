@@ -33,16 +33,10 @@ export function SidebarTasksReuse({
   const { darkMode } = useContextGlobal();
 
   const {
-    isOpenModalViewCardTask,
-    onOpenModalViewCardTask,
-    onCloseModalViewCardTask
+    onCloseModalCreateCard,
+    openModalCreateCard,
+    onOpenModalCreateCard,
   } = useCardTasks();
-
-  const {
-    open: openModalCreateCard,
-    onOpen: onOpenModalCreateCard,
-    onClose: onCloseModalCreateCard,
-  } = useDisclosure();
 
   return (
     <div
@@ -96,6 +90,7 @@ export function SidebarTasksReuse({
             colorProgressStatusBar={colorProgressStatusBar}
             task={task}
             darkMode={darkMode}
+            date={task.taskCreatedDate}
             title={task.title}
             numberTasksStatusDone={numberTasksStatusDone}
             numberTasksStatus={numberTasksStatus}
