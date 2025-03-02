@@ -225,7 +225,7 @@ export function CardTasks({
                           alignItems='flex-start'
                           width='full'
                           bg={'transparent'}
-                          color={description ? 'blackAlpha.800' : 'gray.500'}
+                          color={darkMode ? 'white' : 'gray.500'}
                           p={2}
                           fontWeight={'semibold'}
                           fontSize={'md'}
