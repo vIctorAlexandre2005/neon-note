@@ -1,14 +1,8 @@
-import { ButtonComponent } from '@/components/common/Button';
 import FadeIn from '@/components/common/Effects/FadeIn';
-import {
-  MenuContentComponent,
-  MenuRootComponent,
-} from '@/components/common/Task/dialogs/Menu';
 import { DialogRoot, DialogTrigger } from '@/components/ui/dialog';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
 import { Fragment } from 'react';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BsListTask } from 'react-icons/bs';
 import {
   PiChartLineDown,
@@ -16,19 +10,7 @@ import {
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
-import { useCardTasks } from '../../ViewModel/useTasks';
 import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
-
-const optionsCardMenu = [
-  {
-    text: 'Alterar status',
-    value: 'move',
-  },
-  {
-    text: 'Excluir',
-    value: 'delete',
-  },
-];
 
 interface Props {
   darkMode?: boolean;
@@ -56,7 +38,6 @@ export function CardTasks({
   description,
   date,
 }: Props) {
-  console.log('id:', task.id);
   return (
     <>
       <FadeIn>
@@ -68,11 +49,8 @@ export function CardTasks({
                   rounded-xl p-2 cursor-pointer transition duration-200 hover:bg-opacity-40
                 `}
             >
-              <div className='flex flex-col gap-3'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <h1
-                      className={`
+              <h1
+                className={`
                         ${
                           priority === 'URGENTE'
                             ? ` w-24 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
@@ -84,41 +62,15 @@ export function CardTasks({
                                   ? `bg-green-500 bg-opacity-25 text-green-500 ${darkMode ? 'bg-green-500 bg-opacity-25' : 'bg-green-100'} w-24`
                                   : 'bg-green-100 text-green-500 w-20'
                         }
-                flex items-center gap-2 font-bold text-xs p-2 rounded-full
-                `}
-                    >
-                      {priority}
-                      {priority === 'URGENTE' ? (
-                        <PiSirenBold size={20} />
-                      ) : priority === 'IMPORTANTE' ? (
-                        <PiSealWarningFill size={20} />
-                      ) : priority === 'MÉDIO' ? (
-                        <RxHalf2 size={20} />
-                      ) : (
-                        <PiChartLineDown size={20} />
-                      )}
-                    </h1>
-                  </div>
-
-                  <div>
-                    <MenuRootComponent>
-                      <ButtonComponent
-                        className={`
-                          ${darkMode ? 'text-gray-100 hover:bg-neon-900' : 'text-black-700 hover:bg-gray-200'} 
-                          rounded-xl
-                          `}
-                        icon={<BiDotsHorizontalRounded size={24} />}
-                      />
-
-                      <MenuContentComponent
-                        arrayMenuItems={optionsCardMenu}
-                        handleFunction={() => {}}
-                      />
-                    </MenuRootComponent>
-                  </div>
-                </div>
-              </div>
-
+                              flex items-center gap-2 font-bold text-xs p-2 rounded-full
+                      `}
+              >
+                {priority}
+                {priority === 'URGENTE' && <PiSirenBold size={20} />}
+                {priority === 'IMPORTANTE' && <PiSealWarningFill size={20} />}
+                {priority === 'MÉDIO' && <RxHalf2 size={20} />}
+                {priority === 'BAIXO' && <PiChartLineDown size={20} />}
+              </h1>
               <DialogTrigger w={'full'} display={'flex'}>
                 <div className='w-full mt-2'>
                   <h2
@@ -136,8 +88,6 @@ export function CardTasks({
                       {numberTasksStatusDone}/{numberTasksStatus}
                     </p>
                   </div>
-
-                  <div>
                     <progress
                       className={`
                     w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 p-1 
@@ -145,11 +95,10 @@ export function CardTasks({
                     ${priority === 'IMPORTANTE' && '[&::-webkit-progress-value]:bg-orange-500 [&::-moz-progress-bar]:bg-orange-500'}
                     ${priority === 'MÉDIO' && '[&::-webkit-progress-value]:bg-purple-500 [&::-moz-progress-bar]:bg-purple-500'}
                     ${priority === 'BAIXO' && '[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-500'}
-                  `}
+                    `}
                       value={numberTasksStatusDone}
                       max={numberTasksStatus}
                     />
-                  </div>
 
                   <div className='flex justify-start'>
                     <p
