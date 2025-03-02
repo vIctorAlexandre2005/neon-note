@@ -1,4 +1,4 @@
-import { errorToast, successToast } from '@/utils/toasts/toasts';
+import { errorToast, successToast, warningToast } from '@/utils/toasts/toasts';
 import { useContextTaskData } from '../Context/TaskContext/TaskContext';
 import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -153,9 +153,17 @@ export function useCardTasks() {
       return null;      
     };
 
-    const validateTitleExists = foldersTask.some(folder => folder.projects.some(project => project.projectTasks.status.toStart.some(task => task.title === updateTitle)));
-    if (validateTitleExists) {
-      errorToast('Erro: Título da tarefa já cadastrado.');
+    const validateTitleAndPriorityExists = 
+    foldersTask.some(folder => 
+      folder.projects.some(project => 
+        project.projectTasks.status.toStart.some(task => 
+          task.title === updateTitle && 
+          task.priority === updatePriority
+        )
+      )
+    );
+    if (validateTitleAndPriorityExists) {
+      warningToast('AVISO: Não houve mudanças.');
       return null;
     };
   };
