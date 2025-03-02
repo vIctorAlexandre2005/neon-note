@@ -147,7 +147,7 @@ export function useCardTasks() {
       return null;
     };
 
-    const validateNumberOfCharactersTitle = updateTitle?.trim().length === 0 || updateTitle?.trim().length > 30;
+    const validateNumberOfCharactersTitle = updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 30;
     if (!validateNumberOfCharactersTitle) {
       errorToast('Erro: Título da tarefa deve ter entre 1 e 30 caracteres.');
       return null;      
@@ -166,8 +166,8 @@ export function useCardTasks() {
     updateDescription: string,
     updatePriority: string
   ) {
-    // const responseValid = validUpdateCardTask(updateTitle, updatePriority);
-    // if (responseValid === null) return;
+    const responseValid = validUpdateCardTask(updateTitle, updatePriority);
+    if (responseValid === null) return;
     try {
       const updateDataCard = foldersTask.map(folder => ({
         ...folder,
@@ -205,7 +205,40 @@ export function useCardTasks() {
       console.error('Erro ao editar tarefa:', error);
       errorToast('Erro ao editar tarefa');
     }
-  }
+  };
+
+  function deleteCardTask(cardTaskId: string) {
+    try {
+      const updatedFolders = foldersTask.map(folder => ({
+        ...folder,
+        projects: folder.projects.map(project =>
+          project.id === projectId
+            ? {
+                ...project,
+                projectTasks: {
+                  ...project.projectTasks,
+                  status: {
+                    ...project.projectTasks.status,
+                    toStart: project.projectTasks.status.toStart.filter(
+                      task => task.id !== cardTaskId
+                    ),
+                  },
+                },
+              }
+            : project
+        ),
+      }));
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+        setFoldersTask(updatedFolders);
+      }
+      successToast('Tarefa excluida com sucesso!');
+    } catch (error) {
+      console.error('Erro ao excluir tarefa:', error);
+      errorToast('Erro ao excluir tarefa');
+    };
+  };
 
   useEffect(() => {
     getTasksFromLocalStorage();

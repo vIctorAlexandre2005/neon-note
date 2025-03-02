@@ -39,7 +39,7 @@ export function SelectPriorityModal({ value, priority, setUpdatePriority, }: Sel
               _checked={{
                 bg: 'transparent',
                 colorPalette:
-                  priority === level.value ? level.bg : 'transparent',
+                priority === level.value ? level.bg : 'transparent',
               }}
               onChange={e =>
                 setUpdatePriority((e.target as HTMLInputElement).value)

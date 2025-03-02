@@ -91,16 +91,16 @@ export function SelectPriority({ value, onChange }: SelectPriorityProps) {
   ];
   const isColor = value === 'URGENTE' ? 'red' : value === 'IMPORTANTE' ? 'orange' : value === 'MÉDIO' ? 'purple' : value === 'BAIXO' ? 'green' : 'transparent';
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-2'>
       <div
-        className={`${darkMode ? 'text-gray-100' : 'text-black-800'} duration-300 transition gap-2 flex items-center justify-start font-semibold text-lg`}
+        className={`${darkMode ? 'text-gray-100' : 'text-black-800'} duration-300 transition flex items-center justify-start font-semibold text-lg`}
       >
         <h1>Selecione o nível de prioridade</h1>
       </div>
-      <div className='flex items-center w-full'>
+      <div className='flex justify-between items-center w-full'>
         <FadeIn>
           <RadioCardRoot>
-            <SimpleGrid columns={2}>
+            <SimpleGrid columns={1} display={'flex'}>
               {levelsPrioritys.map(level => (
                 <RadioCardItem
                   label={level.title}

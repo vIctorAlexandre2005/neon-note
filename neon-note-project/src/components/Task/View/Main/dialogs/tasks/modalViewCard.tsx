@@ -51,7 +51,7 @@ export function ModalViewCardTask({
           fontSize={'2xl'}
           fontWeight={'bold'}
           textAlign={'start'}
-          defaultValue={title}
+          defaultValue={updateTitle}
           selectOnFocus={false}
         >
           <EditablePreview w={'full'} bg={'transparent'} />
