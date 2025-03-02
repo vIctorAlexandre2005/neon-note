@@ -53,7 +53,7 @@ export interface TaskContextData {
     setLevelPriorityTask: Dispatch<SetStateAction<string>>;
 
     editedNameProject: string;
-    setEditedNameProject: Dispatch<SetStateAction<string>>; 
+    setEditedNameProject: Dispatch<SetStateAction<string>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -94,5 +94,5 @@ export const defaultValueTaskContextData: TaskContextData = {
     levelPriorityTask: '',
     setLevelPriorityTask: () => {},
     editedNameProject: '',
-    setEditedNameProject: () => {}
+    setEditedNameProject: () => {},
 };

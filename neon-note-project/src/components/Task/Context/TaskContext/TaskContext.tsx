@@ -103,7 +103,7 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         levelPriorityTask,
         setLevelPriorityTask,
         editedNameProject,
-        setEditedNameProject
+        setEditedNameProject,
       }}
     >
       {children}

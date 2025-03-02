@@ -138,11 +138,78 @@ export function useCardTasks() {
       console.error('Erro ao obter as tarefas:', error);
       errorToast('Erro ao obter as tarefas');
     }
+  };
+
+  function validUpdateCardTask(updateTitle: string, updatePriority: string) {
+    const validateTitleAndPriority = updateTitle === '' || updatePriority === '';
+    if (validateTitleAndPriority) {
+      errorToast('Erro: título ou prioridade da tarefa vazia.');
+      return null;
+    };
+
+    const validateNumberOfCharactersTitle = updateTitle?.trim().length === 0 || updateTitle?.trim().length > 30;
+    if (!validateNumberOfCharactersTitle) {
+      errorToast('Erro: Título da tarefa deve ter entre 1 e 30 caracteres.');
+      return null;      
+    };
+
+    const validateTitleExists = foldersTask.some(folder => folder.projects.some(project => project.projectTasks.status.toStart.some(task => task.title === updateTitle)));
+    if (validateTitleExists) {
+      errorToast('Erro: Título da tarefa já cadastrado.');
+      return null;
+    };
+  };
+
+  function updateCardTask(
+    taskId: string,
+    updateTitle: string,
+    updateDescription: string,
+    updatePriority: string
+  ) {
+    // const responseValid = validUpdateCardTask(updateTitle, updatePriority);
+    // if (responseValid === null) return;
+    try {
+      const updateDataCard = foldersTask.map(folder => ({
+        ...folder,
+        projects: folder.projects.map(project =>
+          project.id === projectId
+            ? {
+                ...project,
+                projectTasks: {
+                  ...project.projectTasks,
+                  status: {
+                    ...project.projectTasks.status,
+                    toStart: project.projectTasks.status.toStart.map(task =>
+                      task.id === taskId
+                        ? {
+                            ...task,
+                            title: updateTitle,
+                            description: updateDescription,
+                            priority: updatePriority,
+                          }
+                        : task
+                    ),
+                  },
+                },
+              }
+            : project
+        ),
+      }));
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('foldersTask', JSON.stringify(updateDataCard));
+        setFoldersTask(updateDataCard);
+      }
+      successToast('Tarefa atualizada com sucesso');
+    } catch (error) {
+      console.error('Erro ao editar tarefa:', error);
+      errorToast('Erro ao editar tarefa');
+    }
   }
 
   useEffect(() => {
     getTasksFromLocalStorage();
-  }, [id, projectId]);
+  }, [id, projectId, foldersTask]);
 
   return {
     tasksToStartInProject,
@@ -170,5 +237,7 @@ export function useCardTasks() {
     openModalCreateCard,
     onOpenModalCreateCard,
     onCloseModalCreateCard,
+
+    updateCardTask,
   };
 }

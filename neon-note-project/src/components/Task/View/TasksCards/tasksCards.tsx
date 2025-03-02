@@ -1,44 +1,26 @@
-import { ButtonComponent } from '@/components/common/Button';
+import { ButtonComponent} from '@/components/common/Button';
 import FadeIn from '@/components/common/Effects/FadeIn';
 import {
   MenuContentComponent,
   MenuRootComponent,
 } from '@/components/common/Task/dialogs/Menu';
 import {
-  DialogBody,
-  DialogContent,
   DialogRoot,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
-import {
-  DialogHeader,
-  Editable,
-  EditableArea,
-  EditableInput,
-  EditablePreview,
-  EditableRoot,
-  Progress,
-} from '@chakra-ui/react';
 import { Fragment } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import { BsListTask } from 'react-icons/bs';
-import {
-  MdDescription,
-  MdOutlineLabelImportant,
-  MdOutlineLowPriority,
-  MdPriorityHigh,
-} from 'react-icons/md';
 import {
   PiChartLineDown,
   PiSealWarningFill,
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
-import { SelectPriorityModal } from '../Main/dialogs/tasks/PrioritysModal';
 import { useCardTasks } from '../../ViewModel/useTasks';
+import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
 
 const optionsCardMenu = [
   {
@@ -81,8 +63,7 @@ export function CardTasks({
   description,
   date
 }: Props) {
-  const { setLevelPriorityTask, levelPriorityTask } = useCardTasks();
-
+  console.log('id:', task.id);
   return (
     <>
       <FadeIn>
@@ -186,84 +167,7 @@ export function CardTasks({
                 </div>
               </div>
             </DialogTrigger>
-            <DialogContent
-              shadow={'sm'}
-              w={'full'}
-              bg={darkMode ? '#0f172a' : 'gray.100'}
-            >
-              <DialogHeader color={darkMode ? 'white' : 'blackAlpha.800'}>
-                <EditableRoot
-                  fontSize={'2xl'}
-                  fontWeight={'bold'}
-                  textAlign={'start'}
-                  defaultValue={title}
-                  selectOnFocus={false}
-                >
-                  <EditablePreview w={'full'} bg={'transparent'} />
-                  <EditableInput border={0} p={2} />
-                </EditableRoot>
-              </DialogHeader>
-
-              <DialogBody>
-                <div className='flex w-full gap-6 justify-between'>
-                  <div className='descricao mb-4 w-full'>
-                    <h1
-                      className={`${darkMode ? 'text-white' : 'text-black-700'} mb-4 text-xl flex items-center gap-2 font-bold`}
-                    >
-                      <MdDescription size={20} />
-                      Descrição
-                    </h1>
-
-                    <div className='w-full'>
-                      <Editable.Root
-                        color={darkMode ? 'white' : 'gray.500'}
-                        defaultValue={description}
-                        placeholder={!description && ('Sem descrição' as any)}
-                      >
-                        <Editable.Preview
-                          h={'48'}
-                          alignItems='flex-start'
-                          width='full'
-                          bg={'transparent'}
-                          color={darkMode ? 'white' : 'gray.500'}
-                          p={2}
-                          fontWeight={'semibold'}
-                          fontSize={'md'}
-                          border={'1px solid'}
-                          borderColor={darkMode ? 'white' : 'gray.500'}
-                          opacity={description ? 1 : 0.5}
-                          borderRadius={'md'}
-                        />
-                        <Editable.Textarea
-                          p={2}
-                          fontSize={'md'}
-                          resize={'none'}
-                          h={'48'}
-                          w={'full'}
-                          placeholder={!description && ('Sem descrição' as any)}
-                          outline={'none'}
-                          border={'1px solid'}
-                          borderColor={darkMode ? 'white' : 'gray.500'}
-                          borderRadius={'xl'}
-                          transition={'all 0.3s ease-in-out'}
-                        />
-                      </Editable.Root>
-                    </div>
-                  </div>
-
-                  <div className='prioritys flex flex-col w-full'>
-                    <h1
-                      className={`${darkMode ? 'text-white' : 'text-black-700'} mb-4 text-xl gap-2 flex items-center font-bold`}
-                    >
-                      <MdOutlineLowPriority size={24} />
-                      Prioridade
-                    </h1>
-
-                    <SelectPriorityModal priority={priority} />
-                  </div>
-                </div>
-              </DialogBody>
-            </DialogContent>
+            <ModalViewCardTask taskId={task.id} title={title} description={description || ''} priority={priority} />
           </DialogRoot>
         </Fragment>
       </FadeIn>
