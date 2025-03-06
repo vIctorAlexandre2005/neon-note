@@ -20,6 +20,7 @@ import { handleNavigation } from '@/utils/navigationProgress';
 import { useRouter } from 'next/router';
 import { useDisclosure } from '@chakra-ui/react';
 import { EditFolderModalTask } from '../modal/editNameFolder';
+import { MockProps } from '@/utils/mockFolders';
 
 interface PropsListFoldersTask {
   isLoadingTaskFolder: boolean;
@@ -73,22 +74,22 @@ export function ListFoldersTask({
 
       <FadeIn>
         {listTypeTask &&
-          listTypeTask.map(folder => (
-            <div key={folder.id} className='flex flex-col'>
+          listTypeTask.map((folder: MockProps) => (
+            <div key={folder?.id} className='flex flex-col'>
               <div
                 className='w-full mb-2 flex justify-between items-center'
                 onClick={() => {
-                  handleNavigation(router, `/tasksFolders/${folder.id}`);
-                  handleSelectFolderTask(folder.id.toString());
+                  handleNavigation(router, `/tasksFolders/${folder?.id}`);
+                  handleSelectFolderTask(folder?.id.toString());
                 }}
               >
                 <div
                   className={`
                       flex gap-2 items-center justify-between cursor-pointer
                       ${
-                        selectedTaskFolder === folder.id.toString() && darkMode
+                        selectedTaskFolder === folder?.id.toString() && darkMode
                           ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedTaskFolder === folder.id.toString() &&
+                          : selectedTaskFolder === folder?.id.toString() &&
                               !darkMode
                             ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
                             : darkMode
@@ -101,7 +102,7 @@ export function ListFoldersTask({
                   <div className='flex gap-2 items-center'>
                     <FaFolder size={18} />
                     <h1 className={`text-md font-bold`}>
-                      {truncateText(folder.folderName, 15)}
+                      {truncateText(folder?.folderName, 15)}
                     </h1>
                   </div>
                   <MenuRoot>
@@ -126,7 +127,7 @@ export function ListFoldersTask({
                         <ModalContentComponent
                           content={
                             <EditFolderModalTask
-                              newFolderName={folder.folderName}
+                              newFolderName={folder?.folderName}
                               setNewFolderName={setNewTaskFolderName}
                               handleEditFolderTask={handleEditFolderTask}
                               onCloseModalEditNameFolder={

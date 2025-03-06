@@ -36,7 +36,7 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
     null
   ); //nome do projeto a ser criado
   const [foldersTask, setFoldersTask] = useState<MockProps[]>(mockPastas);
-  const mapListProject = foldersTask.map(folder => folder.projects);
+  const mapListProject = foldersTask.map(folder => folder?.projects);
   const [listProjects, setListProjects] = useState<ProjectProps[]>(
     mapListProject.flat() || []
   );
@@ -55,23 +55,6 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   const [tasksFinishedInProject, setTasksFinishedInProject] = useState<
     StatusTasksFromProjectProps[]
   >([]);
-
-  useEffect(() => {
-    const tasksToStart = foldersTask.flatMap(folder =>
-      folder.projects.flatMap(project => project.projectTasks.status.toStart || [])
-    );
-    setTasksToStartInProject(tasksToStart);
-  
-    const tasksInProgress = foldersTask.flatMap(folder =>
-      folder.projects.flatMap(project => project.projectTasks.status.inProgress || [])
-    );
-    setTasksInProgressInProject(tasksInProgress);
-  
-    const tasksFinished = foldersTask.flatMap(folder =>
-      folder.projects.flatMap(project => project.projectTasks.status.finished || [])
-    );
-    setTasksFinishedInProject(tasksFinished);
-  }, [foldersTask]);
 
   const [nameCreatedTask, setNameCreatedTask] = useState('');
   const [descriptionCreatedTask, setDescriptionCreatedTask] = useState('');
