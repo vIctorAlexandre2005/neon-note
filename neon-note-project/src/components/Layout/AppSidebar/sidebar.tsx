@@ -1,4 +1,5 @@
 import { navigateListSidebar } from '@/utils/navigateListSidebar';
+import { handleNavigation } from '@/utils/navigationProgress';
 import { useRouter } from 'next/router';
 
 interface SidebarProps {
@@ -23,7 +24,7 @@ export function Sidebar({ darkMode }: SidebarProps) {
               p-2 cursor-pointer
             `}
             key={`${item.name}`}
-            onClick={() => router.push(item.link)}
+            onClick={() => handleNavigation(router, item.link)}
           >
             <div
               className={`
