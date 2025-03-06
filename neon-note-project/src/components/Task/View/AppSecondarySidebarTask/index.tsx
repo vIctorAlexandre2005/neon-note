@@ -120,7 +120,7 @@ export function ListFoldersTask({
                           onClick={onOpenModalEditNameFolder}
                           icon={<MdEdit size={20} />}
                           text='Editar'
-                          className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
+                          className={`hover:bg-neon-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 w-full rounded-full`}
                         />
 
                         <ModalContentComponent
@@ -149,7 +149,7 @@ export function ListFoldersTask({
                           onClick={onOpenDeleteFolder}
                           text='Excluir'
                           icon={<BsTrash size={18} />}
-                          className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 rounded-full`}
+                          className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} gap-2 w-full rounded-full`}
                         />
 
                         <ModalContentComponent

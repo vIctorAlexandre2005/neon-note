@@ -49,7 +49,7 @@ export function PositiveButtonComponent({
       onClick={onClick}
       disabled={disabled || isLoading} // Desabilitar se estiver carregando ou desabilitado
       className={`
-        text-white transition duration-200 text-base font-semibold w-full rounded-lg bg-neon-400 hover:bg-neon-500 p-2 flex justify-center text-center items-center
+        text-white transition duration-200 text-lg font-semibold w-full rounded-lg bg-neon-400 hover:bg-neon-500 p-2 flex justify-center text-center items-center
       `} // Permite adicionar classes extras
     >
       {!isLoading && text && <span>{text}</span>} {isLoading ? loader : icon}
@@ -72,7 +72,7 @@ export function NegativeButtonComponent({
       onClick={onClick}
       disabled={disabled || isLoading} // Desabilitar se estiver carregando ou desabilitado
       className={`
-        text-white transition duration-200 text-base font-semibold w-full rounded-lg bg-red-500 hover:bg-red-600 p-2 flex justify-center text-center items-center
+        text-white transition duration-200 text-lg font-semibold w-full rounded-lg bg-red-500 hover:bg-red-600 p-2 flex justify-center text-center items-center
       `} // Permite adicionar classes extras
     >
       {!isLoading && text && <span>{text}</span>} {isLoading ? loader : icon}

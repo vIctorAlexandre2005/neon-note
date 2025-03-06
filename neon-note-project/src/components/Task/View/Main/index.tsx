@@ -16,10 +16,10 @@ import { ModalNameProject } from './dialogs/project/createProject';
 import { useTaskProjects } from '../../ViewModel/useTaskProjects';
 
 interface MainScreenProps {
-  pasta: MockProps | undefined;
+  folder: MockProps | undefined;
 }
 
-export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
+export function MainScreenTaskComponent({ folder }: MainScreenProps) {
   const { darkMode } = useContextGlobal();
   const {
     listProjects,
@@ -37,7 +37,7 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
       >
         <FcFolder size={32} />
         <h1 className={`text-2xl  font-bold`}>
-          {truncateText(pasta?.folderName || '', 60)}
+          {truncateText(folder?.folderName || '', 60)}
         </h1>
       </div>
       <div
@@ -70,7 +70,7 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
             >
               <>
                 <div
-                  key={pasta?.id}
+                  key={folder?.id}
                   onClick={onOpenModalCreateProject}
                   className={`
                 ${darkMode ? 'bg-neon-900' : 'bg-white'}
@@ -94,12 +94,12 @@ export function MainScreenTaskComponent({ pasta }: MainScreenProps) {
                 />
               </>
             </ModalRootComponent>
-            {listProjects.map((project, idx) => (
+            {listProjects.map(project => (
               <div
                 onClick={() =>
                   handleNavigation(
                     router,
-                    `/tasksFolders/${pasta?.id}/project/${project.id}`
+                    `/tasksFolders/${folder?.id}/project/${project.id}`
                   )
                 }
                 key={project.id}
