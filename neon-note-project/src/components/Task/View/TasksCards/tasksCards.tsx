@@ -1,17 +1,29 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
 import { DialogRoot, DialogTrigger } from '@/components/ui/dialog';
-import { ProjectTasksPropsStatus, StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import {
+  ProjectTasksPropsStatus,
+  StatusTasksFromProjectProps,
+} from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
 import { Fragment } from 'react';
 import { BsListTask } from 'react-icons/bs';
 import {
   PiChartLineDown,
+  PiDotsThree,
+  PiDotsThreeBold,
   PiSealWarningFill,
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
 import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
 import { useCardTasks } from '../../ViewModel/useTasks';
+import { ButtonComponent } from '@/components/common/Button';
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from '@/components/ui/menu';
 
 interface Props {
   darkMode?: boolean;
@@ -27,7 +39,11 @@ interface Props {
   date?: string;
   fromStatus: keyof ProjectTasksPropsStatus;
   toStatus: keyof ProjectTasksPropsStatus;
-  moveCard: (taskId: string, fromStatus: keyof ProjectTasksPropsStatus, toStatus: keyof ProjectTasksPropsStatus) => void;
+  moveCard: (
+    taskId: string,
+    fromStatus: keyof ProjectTasksPropsStatus,
+    toStatus: keyof ProjectTasksPropsStatus
+  ) => void;
 }
 export function CardTasks({
   darkMode,
@@ -56,14 +72,14 @@ export function CardTasks({
         <Fragment key={task.id}>
           <DialogRoot open={isOpenModalViewCardTask} size={'xl'}>
             <div
-              onClick={onOpenModalViewCardTask}
               className={`
                   ${darkMode ? 'bg-neon-900 hover:bg-neon-800 bg-opacity-25 border border-gray-800' : 'bg-white hover:bg-black-50 border border-gray-200 shadow-md shadow-black-200'} 
                   rounded-xl p-2 cursor-pointer transition duration-200 hover:bg-opacity-40
                 `}
             >
-              <h1
-                className={`
+              <div className='flex items-center gap-2 justify-between'>
+                <h1
+                  className={`
                         ${
                           priority === 'URGENTE'
                             ? ` w-24 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
@@ -77,15 +93,28 @@ export function CardTasks({
                         }
                               flex items-center gap-2 font-bold text-xs p-2 rounded-full
                       `}
-              >
-                {priority}
-                {priority === 'URGENTE' && <PiSirenBold size={20} />}
-                {priority === 'IMPORTANTE' && <PiSealWarningFill size={20} />}
-                {priority === 'MÉDIO' && <RxHalf2 size={20} />}
-                {priority === 'BAIXO' && <PiChartLineDown size={20} />}
-              </h1>
+                >
+                  {priority}
+                  {priority === 'URGENTE' && <PiSirenBold size={20} />}
+                  {priority === 'IMPORTANTE' && <PiSealWarningFill size={20} />}
+                  {priority === 'MÉDIO' && <RxHalf2 size={20} />}
+                  {priority === 'BAIXO' && <PiChartLineDown size={20} />}
+                </h1>
+
+                <MenuRoot>
+                  <MenuTrigger>
+                    <ButtonComponent className='hover:bg-black-50 hover:bg-opacity-15' icon={<PiDotsThreeBold size={20} />} />
+                  </MenuTrigger>
+
+                  <MenuContent>
+                    <MenuItem onClick={() => moveCard(task.id, fromStatus, toStatus)} value='updateTaskStatus'>
+                      <p className='text-black-50'>Mover tarefa</p>
+                    </MenuItem>
+                  </MenuContent>
+                </MenuRoot>
+              </div>
               <DialogTrigger w={'full'} display={'flex'}>
-                <div className='w-full mt-2'>
+                <div onClick={onOpenModalViewCardTask} className='w-full mt-2'>
                   <h2
                     className={`text-xl text-left mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
                   >
@@ -119,7 +148,7 @@ export function CardTasks({
                     </p>
                   </div>
 
-                  <div onClick={() => moveCard(task.id, fromStatus, toStatus)} className='flex mt-2 justify-start'>
+                  <div className='flex mt-2 justify-start'>
                     <p
                       className={`${darkMode ? 'text-gray-400 bg-opacity-10' : 'text-black-500 bg-opacity-30'} bg-black-100 p-2 rounded-full font-semibold text-xs`}
                     >
@@ -135,6 +164,8 @@ export function CardTasks({
               title={title}
               description={description || ''}
               priority={priority}
+              fromStatus={fromStatus}
+              toStatus={toStatus}
             />
           </DialogRoot>
         </Fragment>

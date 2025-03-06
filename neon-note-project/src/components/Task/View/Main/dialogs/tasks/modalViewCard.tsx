@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 import { TbTrash } from 'react-icons/tb';
 import { ConfirmationModal } from '@/components/common/modal';
+import { ProjectTasksPropsStatus } from '@/utils/mockFolders';
 
 interface ModalViewCardProps {
   taskId: string;
@@ -31,6 +32,8 @@ interface ModalViewCardProps {
   description: string;
   priority: string;
   onCloseModalViewCardTask: () => void;
+  fromStatus: keyof ProjectTasksPropsStatus;
+  toStatus: keyof ProjectTasksPropsStatus;
 }
 
 export function ModalViewCardTask({
@@ -38,7 +41,9 @@ export function ModalViewCardTask({
   description,
   priority,
   taskId,
-  onCloseModalViewCardTask
+  onCloseModalViewCardTask,
+  fromStatus,
+  toStatus,
 }: ModalViewCardProps) {
   const { darkMode } = useContextGlobal();
   const [updateTitle, setUpdateTitle] = useState(title);
