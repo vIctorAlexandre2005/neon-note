@@ -130,8 +130,16 @@ export function useCardTasks() {
         );
         if (currentFolder && currentProject) {
           const tasksToStart =
-            currentProject?.projectTasks?.status.toStart || [];
+            currentProject?.projectTasks?.status['toStart'] || [];
           setTasksToStartInProject(tasksToStart);
+
+          const tasksInProgress =
+            currentProject?.projectTasks?.status['inProgress'] || [];
+          setTasksInProgressInProject(tasksInProgress);
+
+          const tasksFinished =
+            currentProject?.projectTasks?.status['finished'] || [];
+          setTasksFinishedInProject(tasksFinished);
         }
       }
     } catch (error) {
@@ -313,7 +321,7 @@ export function useCardTasks() {
       console.error("Erro ao mover a tarefa:", error);
       errorToast("Erro ao mover a tarefa");
     }
-  }
+  };
 
   useEffect(() => {
     getTasksFromLocalStorage();
