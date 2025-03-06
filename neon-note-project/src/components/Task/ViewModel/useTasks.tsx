@@ -140,7 +140,7 @@ export function useCardTasks() {
     }
   };
 
-  function validUpdateCardTask(updateTitle: string, updatePriority: string) {
+  function validUpdateCardTask(updateTitle: string, updatePriority: string, updateDescription?: string) {
     const validateTitleAndPriority = updateTitle === '' || updatePriority === '';
     if (validateTitleAndPriority) {
       errorToast('Erro: título ou prioridade da tarefa vazia.');
@@ -158,7 +158,8 @@ export function useCardTasks() {
       folder.projects.some(project => 
         project.projectTasks.status.toStart.some(task => 
           task.title === updateTitle && 
-          task.priority === updatePriority
+          task.priority === updatePriority &&
+          task.description === updateDescription
         )
       )
     );
@@ -174,7 +175,7 @@ export function useCardTasks() {
     updateDescription: string,
     updatePriority: string
   ) {
-    const responseValid = validUpdateCardTask(updateTitle, updatePriority);
+    const responseValid = validUpdateCardTask(updateTitle, updatePriority, updateDescription);
     if (responseValid === null) return;
     try {
       const updateDataCard = foldersTask.map(folder => ({
@@ -231,6 +232,12 @@ export function useCardTasks() {
                     toStart: project.projectTasks.status.toStart.filter(
                       task => task.id !== cardTaskId
                     ),
+                    inProgress: project.projectTasks.status.inProgress.filter(
+                      task => task.id !== cardTaskId
+                    ),
+                    finished: project.projectTasks.status.finished.filter(
+                      task => task.id !== cardTaskId
+                    ),
                   },
                 },
               }
@@ -249,12 +256,72 @@ export function useCardTasks() {
     };
   };
 
+  const statusMap: Record<string, keyof ProjectTasksPropsStatus> = {
+    "A iniciar": "toStart",
+    "Em progresso": "inProgress",
+    "Finalizada": "finished",
+  };
+  
+  function moveCard(taskId: string, fromStatus: string, toStatus: string) {
+    try {
+      const fromKey = statusMap[fromStatus];
+      const toKey = statusMap[toStatus];
+  
+      if (!fromKey || !toKey) {
+        console.error(`Status inválido: De "${fromStatus}" Para "${toStatus}"`);
+        return;
+      }
+  
+      const updatedFolders = foldersTask.map((folder) => ({
+        ...folder,
+        projects: folder.projects.map((project) => {
+          if (project.id !== projectId) return project;
+  
+          const currentTasks = project.projectTasks.status || {};
+          const fromTasks = currentTasks[fromKey] || [];
+          const toTasks = currentTasks[toKey] || [];
+  
+          const taskToMove = fromTasks.find((task) => task.id === taskId);
+          if (!taskToMove) {
+            console.error(`Tarefa ${taskId} não encontrada no status ${fromStatus}`);
+            return project;
+          }
+  
+          return {
+            ...project,
+            projectTasks: {
+              ...project.projectTasks,
+              status: {
+                ...currentTasks,
+                [fromKey]: fromTasks.filter((task) => task.id !== taskId),
+                [toKey]: [...toTasks, taskToMove],
+              },
+            },
+          };
+        }),
+      }));
+
+      console.log("Tarefas em progresso renderizadas:", tasksInProgressInProject);
+  
+      if (typeof window !== "undefined") {
+        localStorage.setItem("foldersTask", JSON.stringify(updatedFolders));
+        setFoldersTask([...updatedFolders]);
+      }
+  
+      successToast("Tarefa movida com sucesso!");
+    } catch (error) {
+      console.error("Erro ao mover a tarefa:", error);
+      errorToast("Erro ao mover a tarefa");
+    }
+  }
+
   useEffect(() => {
     getTasksFromLocalStorage();
   }, [id, projectId, foldersTask]);
 
   return {
     tasksToStartInProject,
+    setTasksToStartInProject,
     tasksInProgressInProject,
     tasksFinishedInProject,
 
@@ -281,5 +348,6 @@ export function useCardTasks() {
     openModalCreateCard,
     onOpenModalCreateCard,
     onCloseModalCreateCard,
+    moveCard,
   };
 }

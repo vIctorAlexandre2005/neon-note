@@ -1,6 +1,6 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
 import { DialogRoot, DialogTrigger } from '@/components/ui/dialog';
-import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import { ProjectTasksPropsStatus, StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
 import { Fragment } from 'react';
 import { BsListTask } from 'react-icons/bs';
@@ -25,6 +25,9 @@ interface Props {
   priority: string;
   description?: string;
   date?: string;
+  fromStatus: keyof ProjectTasksPropsStatus;
+  toStatus: keyof ProjectTasksPropsStatus;
+  moveCard: (taskId: string, fromStatus: keyof ProjectTasksPropsStatus, toStatus: keyof ProjectTasksPropsStatus) => void;
 }
 export function CardTasks({
   darkMode,
@@ -38,6 +41,9 @@ export function CardTasks({
   priority,
   description,
   date,
+  fromStatus,
+  moveCard,
+  toStatus,
 }: Props) {
   const {
     isOpenModalViewCardTask,
@@ -85,7 +91,7 @@ export function CardTasks({
                   >
                     {truncateText(title, 40)}
                   </h2>
-                  <div className='flex w-full justify-between items-center'>
+                  {/* <div className='flex w-full justify-between items-center'>
                     <p className='flex items-center text-black-400 gap-2'>
                       <BsListTask size={20} />
                       Progresso
@@ -105,11 +111,17 @@ export function CardTasks({
                     `}
                     value={numberTasksStatusDone}
                     max={numberTasksStatus}
-                  />
+                  /> */}
 
-                  <div className='flex justify-start'>
+                  <div className='flex w-full'>
+                    <p className='flex text-left text-black-400'>
+                      {truncateText(task.description || '', 40)}
+                    </p>
+                  </div>
+
+                  <div onClick={() => moveCard(task.id, fromStatus, toStatus)} className='flex mt-2 justify-start'>
                     <p
-                      className={`${darkMode ? 'text-gray-400' : 'text-black-500 bg-black-100 p-2 rounded-full bg-opacity-30'} font-semibold text-xs`}
+                      className={`${darkMode ? 'text-gray-400 bg-opacity-10' : 'text-black-500 bg-opacity-30'} bg-black-100 p-2 rounded-full font-semibold text-xs`}
                     >
                       {date}
                     </p>

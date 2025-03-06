@@ -2,20 +2,17 @@ import { CardTasks } from '../../Task/View/TasksCards/tasksCards';
 import { FaPlus } from 'react-icons/fa';
 import { useContextGlobal } from '@/Context';
 import { useDisclosure } from '@chakra-ui/react';
-import {
-  ModalContentComponent,
-  ModalRootComponent,
-} from '../modal';
+import { ModalContentComponent, ModalRootComponent } from '../modal';
 import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
-import { StatusTasksFromProjectProps } from '@/utils/mockFolders';
+import { ProjectTasksPropsStatus, StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { ThereIsNoFolder } from '../ThereIsNoFolder';
 import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
 
 interface TaskProps {
   statusTitle: string;
   statusIconColorBackground: string;
-  statusIcon: JSX.Element;
-  arrayTasks: any[];
+  statusIcon?: JSX.Element;
+  arrayTasks?: any[];
   numberTasksStatus: number;
   colorProgressStatusBar: string;
   numberTasksStatusDone: number;
@@ -32,11 +29,8 @@ export function SidebarTasksReuse({
 }: TaskProps) {
   const { darkMode } = useContextGlobal();
 
-  const {
-    onCloseModalCreateCard,
-    openModalCreateCard,
-    onOpenModalCreateCard,
-  } = useCardTasks();
+  const { onCloseModalCreateCard, openModalCreateCard, onOpenModalCreateCard, moveCard } =
+    useCardTasks();
 
   return (
     <div
@@ -81,7 +75,6 @@ export function SidebarTasksReuse({
         </ModalRootComponent>
       </div>
       <div className='flex flex-col mt-3 gap-4 p-2 overflow-auto max-h-[calc(100vh-220px)]'>
-        {arrayTasks?.length < 1 && <ThereIsNoFolder />}
         {arrayTasks?.map((task: StatusTasksFromProjectProps, index) => (
           <CardTasks
             priority={task.priority}
@@ -94,6 +87,15 @@ export function SidebarTasksReuse({
             title={task.title}
             numberTasksStatusDone={numberTasksStatusDone}
             numberTasksStatus={numberTasksStatus}
+            fromStatus={statusTitle as any} // Passando o status atual da tarefa
+            toStatus={
+              statusTitle === 'A iniciar'
+                ? 'Em progresso'
+                : statusTitle === 'Em progresso'
+                  ? 'Finalizada'
+                  : 'A iniciar' as any
+            } // Definindo para onde a tarefa será movida
+            moveCard={moveCard}
           />
         ))}
       </div>

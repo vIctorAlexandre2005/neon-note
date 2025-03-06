@@ -10,7 +10,7 @@ import {
   ProjectProps,
   StatusTasksFromProjectProps,
 } from '@/utils/mockFolders';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 const TaskProvider = createContext<TaskContextData>(
   defaultValueTaskContextData
@@ -55,6 +55,23 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   const [tasksFinishedInProject, setTasksFinishedInProject] = useState<
     StatusTasksFromProjectProps[]
   >([]);
+
+  useEffect(() => {
+    const tasksToStart = foldersTask.flatMap(folder =>
+      folder.projects.flatMap(project => project.projectTasks.status.toStart || [])
+    );
+    setTasksToStartInProject(tasksToStart);
+  
+    const tasksInProgress = foldersTask.flatMap(folder =>
+      folder.projects.flatMap(project => project.projectTasks.status.inProgress || [])
+    );
+    setTasksInProgressInProject(tasksInProgress);
+  
+    const tasksFinished = foldersTask.flatMap(folder =>
+      folder.projects.flatMap(project => project.projectTasks.status.finished || [])
+    );
+    setTasksFinishedInProject(tasksFinished);
+  }, [foldersTask]);
 
   const [nameCreatedTask, setNameCreatedTask] = useState('');
   const [descriptionCreatedTask, setDescriptionCreatedTask] = useState('');
