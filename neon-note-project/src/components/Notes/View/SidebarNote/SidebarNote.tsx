@@ -11,16 +11,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FaFolder, FaFolderOpen, FaFolderPlus } from 'react-icons/fa';
 import { IoFolderOpenSharp } from 'react-icons/io5';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerOverlay,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { ModalComponent } from '@/components/Modals/modal';
 import { BsTrash } from 'react-icons/bs';
 import { HiDocumentText } from 'react-icons/hi2';
-import { DrawerComponent } from '@/components/common/drawer';
 import { DrawerSidebarNote } from './drawerFolders/drawerSidebarNote';
 import { useSidebarCardsNote } from '../../ViewModel/useSidebarCardsNote';
 import { useSecondarySidebarNote } from '../../ViewModel/useSecondarySidebarNote';
@@ -66,7 +58,6 @@ export function SidebarNote() {
   }
 
   const { selectedItem, handleItemClick, isOpenModal, onOpenModal, onCloseModal } = useContextNoteData();
-  
 
   function handleAddNote(itemId: string) {
     if (!user || !user.uid) {

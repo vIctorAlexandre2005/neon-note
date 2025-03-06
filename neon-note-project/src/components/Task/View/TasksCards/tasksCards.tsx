@@ -1,92 +1,173 @@
 import FadeIn from '@/components/common/Effects/FadeIn';
+import { DialogRoot, DialogTrigger } from '@/components/ui/dialog';
+import {
+  ProjectTasksPropsStatus,
+  StatusTasksFromProjectProps,
+} from '@/utils/mockFolders';
 import { truncateText } from '@/utils/truncate';
-import { Progress } from '@chakra-ui/react';
 import { Fragment } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
 import { BsListTask } from 'react-icons/bs';
+import {
+  PiChartLineDown,
+  PiDotsThree,
+  PiDotsThreeBold,
+  PiSealWarningFill,
+  PiSirenBold,
+} from 'react-icons/pi';
+import { RxHalf2 } from 'react-icons/rx';
+import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
+import { useCardTasks } from '../../ViewModel/useTasks';
+import { ButtonComponent } from '@/components/common/Button';
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from '@/components/ui/menu';
 
 interface Props {
-  darkMode: boolean;
-  moveNote: (fromIndex: any, toIndex: any) => void;
-  note: any;
-  index: any;
+  darkMode?: boolean;
+  title: string;
+  task: StatusTasksFromProjectProps;
   colorProgressStatusBar: string;
   numberTasksStatusDone: number;
   numberTasksStatus: number;
+  note?: any;
+  index?: number;
+  priority: string;
+  description?: string;
+  date?: string;
+  fromStatus: keyof ProjectTasksPropsStatus;
+  toStatus: keyof ProjectTasksPropsStatus;
+  moveCard: (
+    taskId: string,
+    fromStatus: keyof ProjectTasksPropsStatus,
+    toStatus: keyof ProjectTasksPropsStatus
+  ) => void;
 }
-
-const ItemType = {
-  NOTE: 'note',
-};
-
 export function CardTasks({
   darkMode,
-  moveNote,
+  title,
+  task,
   note,
   index,
   colorProgressStatusBar,
   numberTasksStatusDone,
-  numberTasksStatus
+  numberTasksStatus,
+  priority,
+  description,
+  date,
+  fromStatus,
+  moveCard,
+  toStatus,
 }: Props) {
-  const [, ref] = useDrag({
-    type: ItemType.NOTE,
-    item: { index },
-  });
-
-  const [, drop] = useDrop({
-    accept: ItemType.NOTE,
-    hover: (draggedItem: any) => {
-      if (draggedItem.index !== index) {
-        moveNote(draggedItem.index, index);
-        draggedItem.index = index;
-      }
-    },
-  });
-
+  const {
+    isOpenModalViewCardTask,
+    onCloseModalViewCardTask,
+    onOpenModalViewCardTask,
+  } = useCardTasks();
   return (
     <>
-      <FadeIn key={note.id}>
-        <Fragment key={index}>
-          <div
-            ref={node => {
-              if (node !== null) {
-                ref(drop(node));
-              }
-            }}
-            className={`
-                  ${darkMode ? 'bg-neon-800' : 'bg-white border border-gray-300'} w-full rounded-xl p-2 cursor-pointer
+      <FadeIn>
+        <Fragment key={task.id}>
+          <DialogRoot open={isOpenModalViewCardTask} size={'xl'}>
+            <div
+              className={`
+                  ${darkMode ? 'bg-neon-900 hover:bg-neon-800 bg-opacity-25 border border-gray-800' : 'bg-white hover:bg-black-50 border border-gray-200 shadow-md shadow-black-200'} 
+                  rounded-xl p-2 cursor-pointer transition duration-200 hover:bg-opacity-40
                 `}
-          >
-            <h2
-              className={` text-xl mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-900'}`}
             >
-              Título
-            </h2>
+              <div className='flex items-center gap-2 justify-between'>
+                <h1
+                  className={`
+                        ${
+                          priority === 'URGENTE'
+                            ? ` w-24 ${darkMode ? 'bg-red-500 bg-opacity-15' : 'bg-red-100'} text-red-500`
+                            : priority === 'IMPORTANTE'
+                              ? `${darkMode ? 'bg-orange-500 bg-opacity-25' : 'bg-orange-100'} text-orange-500 text-center w-32`
+                              : priority === 'MÉDIO'
+                                ? `${darkMode ? 'bg-purple-500 bg-opacity-25' : 'bg-purple-100'} text-purple-500 w-20`
+                                : darkMode
+                                  ? `bg-green-500 bg-opacity-25 text-green-500 ${darkMode ? 'bg-green-500 bg-opacity-25' : 'bg-green-100'} w-24`
+                                  : 'bg-green-100 text-green-500 w-20'
+                        }
+                              flex items-center gap-2 font-bold text-xs p-2 rounded-full
+                      `}
+                >
+                  {priority}
+                  {priority === 'URGENTE' && <PiSirenBold size={20} />}
+                  {priority === 'IMPORTANTE' && <PiSealWarningFill size={20} />}
+                  {priority === 'MÉDIO' && <RxHalf2 size={20} />}
+                  {priority === 'BAIXO' && <PiChartLineDown size={20} />}
+                </h1>
 
-            <div>
-              <div className='flex justify-between items-center'>
-                <p className='mb-2 flex items-center text-black-200 gap-2 mt-2'>
-                  <BsListTask size={20} />
-                  Progresso
-                </p>
+                <MenuRoot>
+                  <MenuTrigger>
+                    <ButtonComponent className='hover:bg-black-50 hover:bg-opacity-15' icon={<PiDotsThreeBold size={20} />} />
+                  </MenuTrigger>
 
-                <p className='mb-2 flex items-center text-black-200 gap-2 mt-2'>
-                  {numberTasksStatusDone}/{numberTasksStatus}
-                </p>
+                  <MenuContent>
+                    <MenuItem onClick={() => moveCard(task.id, fromStatus, toStatus)} value='updateTaskStatus'>
+                      <p className='text-black-50'>Mover tarefa</p>
+                    </MenuItem>
+                  </MenuContent>
+                </MenuRoot>
               </div>
+              <DialogTrigger w={'full'} display={'flex'}>
+                <div onClick={onOpenModalViewCardTask} className='w-full mt-2'>
+                  <h2
+                    className={`text-xl text-left mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
+                  >
+                    {truncateText(title, 40)}
+                  </h2>
+                  {/* <div className='flex w-full justify-between items-center'>
+                    <p className='flex items-center text-black-400 gap-2'>
+                      <BsListTask size={20} />
+                      Progresso
+                    </p>
 
-              <div>
-                <Progress value={numberTasksStatusDone} borderRadius={'full'} size='xs' colorScheme={colorProgressStatusBar} max={numberTasksStatus} />
-              </div>
+                    <p className='flex items-center text-black-200 gap-2'>
+                      {numberTasksStatusDone}/{numberTasksStatus}
+                    </p>
+                  </div>
+                  <progress
+                    className={`
+                    w-full h-1 rounded-full bg-gray-200 [&::-webkit-progress-bar]:bg-gray-200 p-1 
+                    ${priority === 'URGENTE' && '[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-500'}
+                    ${priority === 'IMPORTANTE' && '[&::-webkit-progress-value]:bg-orange-500 [&::-moz-progress-bar]:bg-orange-500'}
+                    ${priority === 'MÉDIO' && '[&::-webkit-progress-value]:bg-purple-500 [&::-moz-progress-bar]:bg-purple-500'}
+                    ${priority === 'BAIXO' && '[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-500'}
+                    `}
+                    value={numberTasksStatusDone}
+                    max={numberTasksStatus}
+                  /> */}
+
+                  <div className='flex w-full'>
+                    <p className='flex text-left text-black-400'>
+                      {truncateText(task.description || '', 40)}
+                    </p>
+                  </div>
+
+                  <div className='flex mt-2 justify-start'>
+                    <p
+                      className={`${darkMode ? 'text-gray-400 bg-opacity-10' : 'text-black-500 bg-opacity-30'} bg-black-100 p-2 rounded-full font-semibold text-xs`}
+                    >
+                      {date}
+                    </p>
+                  </div>
+                </div>
+              </DialogTrigger>
             </div>
-            <div className='mt-4 flex justify-start'>
-              <p
-                className={`${darkMode ? 'text-gray-400' : 'text-black-800 bg-black-100 p-2 rounded-full opacity-60 text-xs'}`}
-              >
-                {new Date(note.date).toLocaleDateString('pt-BR')}
-              </p>
-            </div>
-          </div>
+            <ModalViewCardTask
+              onCloseModalViewCardTask={onCloseModalViewCardTask}
+              taskId={task.id}
+              title={title}
+              description={description || ''}
+              priority={priority}
+              fromStatus={fromStatus}
+              toStatus={toStatus}
+            />
+          </DialogRoot>
         </Fragment>
       </FadeIn>
     </>

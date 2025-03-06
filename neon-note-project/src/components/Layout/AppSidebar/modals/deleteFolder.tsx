@@ -1,4 +1,4 @@
-import { ModalComponent } from '@/components/Modals/modal';
+import { ModalContentComponent } from '@/components/common/modal';
 import { useContextGlobal } from '@/Context';
 import { successToast } from '@/utils/toasts/toasts';
 
@@ -13,15 +13,14 @@ export function DeleteFolderModal({
   isOpenDeleteFolder,
   onCloseDeleteFolder,
   deleteFolder,
-  selectedFolderId
+  selectedFolderId,
 }: Props) {
-const { darkMode } = useContextGlobal();
+  const { darkMode } = useContextGlobal();
 
   return (
-    <ModalComponent isOpen={isOpenDeleteFolder} onClose={onCloseDeleteFolder}>
       <div className='p-4'>
         <p
-          className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} font-medium`}
+          className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} text-center font-medium`}
         >
           Tem certeza que deseja excluir essa pasta?
         </p>
@@ -29,9 +28,9 @@ const { darkMode } = useContextGlobal();
           <button
             className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
             onClick={() => {
-                deleteFolder(selectedFolderId as string);
-                onCloseDeleteFolder();
-                successToast('Pasta excluída com sucesso!');
+              deleteFolder(selectedFolderId as string);
+              onCloseDeleteFolder();
+              successToast('Pasta excluída com sucesso!');
             }}
           >
             Sim
@@ -44,6 +43,5 @@ const { darkMode } = useContextGlobal();
           </button>
         </div>
       </div>
-    </ModalComponent>
   );
 }

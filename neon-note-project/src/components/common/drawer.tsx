@@ -1,31 +1,44 @@
 import { useContextGlobal } from '@/Context';
 import {
-  Drawer,
+  DrawerBackdrop,
   DrawerContent,
-  DrawerOverlay,
-  DrawerProps,
-} from '@chakra-ui/react';
+  DrawerRoot,
+  DrawerTrigger,
+} from '../ui/drawer';
 
-export function DrawerComponent({
+type DrawerRootComponentProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  placement: 'top' | 'bottom' | 'start' | 'end';
+  children: React.ReactNode;
+};
+
+type DrawerContentComponentProps = {
+  children: React.ReactNode;
+};
+
+export function DrawerRootComponent({
   isOpen,
   onClose,
   placement,
-  onEsc,
   children,
-}: DrawerProps) {
+}: DrawerRootComponentProps) {
+  return (
+    <DrawerRoot open={isOpen} onOpenChange={onClose} placement={placement}>
+      <DrawerBackdrop />
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
+    </DrawerRoot>
+  );
+};
+
+export function DrawerContentComponent({
+  children,
+}: DrawerContentComponentProps) {
   const { darkMode } = useContextGlobal();
 
   return (
-    <Drawer
-      placement={placement}
-      onEsc={onEsc}
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <DrawerOverlay />
-      <DrawerContent p={4} bg={darkMode ? '#0f172a' : 'white'}>
-        {children}
-      </DrawerContent>
-    </Drawer>
+    <DrawerContent p={4} bg={darkMode ? '#0f172a' : 'white'}>
+      {children}
+    </DrawerContent>
   );
-}
+};

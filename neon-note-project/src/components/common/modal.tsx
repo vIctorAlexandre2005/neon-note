@@ -1,33 +1,79 @@
 import { useContextGlobal } from '@/Context';
 import {
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  ChakraProps,
-} from '@chakra-ui/react';
+  DialogBackdrop,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+} from '../ui/dialog';
+import React from 'react';
+import { NegativeButtonComponent, PositiveButtonComponent } from './Button';
 
-interface ModalProps extends ChakraProps {
+interface ModalRootComponentProps {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  size?: string;
-  isCentered?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xs' | 'cover' | 'full' | undefined;
+  placement?: 'center' | 'top' | 'bottom' | undefined;
 }
 
-export function ModalComponent({
+interface ModalContentComponentProps {
+  content: React.ReactNode;
+}
+
+export function ModalRootComponent({
   children,
   onClose,
   isOpen,
   size,
-  isCentered,
-  ...rest
-}: ModalProps) {
-
-const { darkMode } = useContextGlobal();
+}: ModalRootComponentProps) {
   return (
-    <Modal isOpen={isOpen} isCentered onClose={onClose} size={size}>
-      <ModalOverlay />
-      <ModalContent bg={darkMode ? '#1a1a1a' : 'white'} {...rest}>{children}</ModalContent>
-    </Modal>
+    <DialogRoot
+      open={isOpen}
+      size={size}
+      onOpenChange={onClose}
+      placement={'center'}
+    >
+      <DialogBackdrop bg={'transparent'} />
+      <DialogTrigger asChild>{children}</DialogTrigger>
+    </DialogRoot>
+  );
+}
+
+export function ModalContentComponent({ content }: ModalContentComponentProps) {
+  const { darkMode } = useContextGlobal();
+  return (
+    <DialogContent p={4} borderRadius={'2xl'} boxShadow={'sm'} bg={darkMode ? '#0f172a' : '#fff'}>
+      {content}
+    </DialogContent>
+  );
+}
+
+interface ModalHeaderProps {
+  titleHeader: string;
+  iconHeader?: React.JSX.Element;
+  positiveOnClick: () => void;
+  negativeOnClick: () => void;
+  textToNegativeButton: string;
+  textToPositiveButton: string;
+}
+export function ConfirmationModal({ titleHeader, iconHeader, positiveOnClick, negativeOnClick, textToNegativeButton, textToPositiveButton }: ModalHeaderProps) {
+  const { darkMode } = useContextGlobal();
+  return (
+    <div className={`flex flex-col rounded-md p-4 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
+      <div className='flex items-center justify-center mb-2 gap-2'>
+        <h1
+          className={`${darkMode ? 'text-gray-100' : 'text-black-900'} font-semibold text-xl`}
+        >
+          {titleHeader}
+        </h1>
+        {iconHeader}
+      </div>
+
+      <div className='w-full flex gap-2 p-2'>
+        <NegativeButtonComponent onClick={negativeOnClick} text={textToNegativeButton} />
+        <PositiveButtonComponent onClick={positiveOnClick} text={textToPositiveButton} />
+      </div>
+    </div>
   );
 }

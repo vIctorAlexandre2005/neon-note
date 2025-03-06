@@ -1,136 +1,100 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
-import { useDisclosure } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
-import { HiDocumentText } from 'react-icons/hi2';
-import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolter';
-import { DeleteFolderModal } from '../../../Layout/AppSidebar/modals/deleteFolder';
-import { IoAdd } from 'react-icons/io5';
-import { useSecondarySidebarTask } from '@/components/Task/ViewModel/useSidebarTask';
-import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
-import { ClipLoader } from 'react-spinners';
-import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
+import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { AddFolderModalTask } from '../modal/addFolder';
+import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
 
-export function SecondarySidebarTaskFolders() {
-  const router = useRouter();
 
+interface SecondarySidebarTaskFoldersProps {
+  id: string | string[] | undefined;
+}
+
+export function SecondarySidebarTaskFolders({id}: SecondarySidebarTaskFoldersProps) {
   const { darkMode } = useContextGlobal();
   const {
-    folders,
-    // openSubFolder,
-    // setOpenSubFolder,
-    newFolderName,
-    setNewFolderName,
-    handleAddFolder,
-    // handleAddItem,
-    // newItemName,
-    // openSubFolders,
-    selectedFolderId,
-    setSelectedFolderId,
-    // setNewItemName,
-    deleteFolder,
-    loadingFolders,
-    // handleDeleteItem,
-  } = useSecondarySidebarTask();
-
-  const { handleItemClick, selectedItem } = useContextNoteData();
-
-  const {
-    isOpen: isOpenAddFolder,
-    onOpen: onOpenAddFolder,
-    onClose: onCloseAddFolder,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenDeleteFolder,
-    onOpen: onOpenDeleteFolder,
-    onClose: onCloseDeleteFolder,
-  } = useDisclosure();
+    tasksAllFolders,
+    isLoadingTaskFolder,
+    selectedTaskFolder,
+    handleAddFolderTask,
+    deleteFolderTask,
+    newTaskFolderName,
+    setNewTaskFolderName,
+    handleSelectFolderTask,
+    isOpenAddFolder,
+    isOpenDeleteFolder,
+    onCloseAddFolder,
+    onCloseDeleteFolder,
+    onOpenAddFolder,
+    onOpenDeleteFolder,
+    openFixedFolders,
+    openNotFixedFolders,
+    handleOpenNotFixedFolders,
+    tasksFixedFolders,
+    foldersTask,
+    handleEditFolderTask,
+  } = useTaskSidebarAllFolders();
 
   return (
     <div
-      className={`flex-none w-full shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
+      className={`flex-none fixed h-full w-72 shadow-xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}
     >
-      <div className={`flex-col mt-6 gap-4 flex`}>
+      <div className={`flex-col gap-2 flex`}>
         <div className='flex justify-between p-2 items-center'>
           <h1
             className={`text-xl font-bold ${darkMode ? 'text-black-400' : 'text-black-700'}`}
           >
             Minhas Pastas
           </h1>
-          <ButtonComponent
-            onClick={onOpenAddFolder}
-            icon={<FaFolderPlus size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
+          <ModalRootComponent
+            isOpen={isOpenAddFolder}
+            onClose={onCloseAddFolder}
+          >
+            <>
+              <ButtonComponent
+                onClick={onOpenAddFolder}
+                icon={<FaFolderPlus size={24} />}
+                className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
+              />
+
+              <ModalContentComponent
+                content={
+                  <AddFolderModalTask
+                    darkMode={darkMode}
+                    handleAddFolder={handleAddFolderTask}
+                    isOpenAddFolder={isOpenAddFolder}
+                    newFolderName={newTaskFolderName}
+                    onCloseAddFolder={onCloseAddFolder}
+                    setNewFolderName={setNewTaskFolderName}
+                  />
+                }
+              />
+            </>
+          </ModalRootComponent>
+        </div>
+
+        <div className='flex flex-col gap-1 overflow-auto max-h-[calc(100vh-100px)]'>
+          <ListAllTaskFolders
+            handleOpenNotFixedFolders={handleOpenNotFixedFolders}
+            handleSelectFolderTask={handleSelectFolderTask}
+            openNotFixedFolders={openNotFixedFolders}
+            isLoadingTaskFolder={isLoadingTaskFolder}
+            onOpenDeleteFolder={onOpenDeleteFolder}
+            selectedTaskFolder={selectedTaskFolder}
+            tasksAllFolders={tasksAllFolders}
+            isOpenDeleteFolder={isOpenDeleteFolder}
+            onCloseDeleteFolder={onCloseDeleteFolder}
+            deleteFolderTask={deleteFolderTask}
+            foldersTask={foldersTask}
+            handleEditFolderTask={handleEditFolderTask}
+            id={id}
           />
         </div>
-
-        <div className='flex flex-col gap-1'>
-          {loadingFolders && (
-            <div className='flex justify-center items-center'>
-              <ClipLoader size={20} color='#1e40af' />
-            </div>
-          )}
-
-          {folders.length > 0
-            ? folders.map(folder => (
-                <div className='flex flex-col pl-4'>
-                  <div
-                    className='w-full mb-2 flex justify-between items-center'
-                    onClick={() => handleItemClick(folder.id, folder.name)}
-                  >
-                    <div
-                      className={`
-                      flex gap-2 items-center justify-between cursor-pointer
-                      ${
-                        selectedFolderId === folder.id && darkMode
-                          ? 'bg-neon-800 bg-opacity-50 text-neon-200' // quando a pasta for selecionada e estiver modo escuro
-                          : selectedFolderId === folder.id && !darkMode
-                            ? 'bg-gray-400 text-neon-500 text-opacity-80 bg-opacity-30' // quando a pasta for selecionada e estiver modo claro
-                            : darkMode
-                              ? 'text-black-100 hover:bg-gray-500 hover:bg-opacity-30 duration-300'
-                              : 'text-black-700 hover:bg-gray-500 hover:bg-opacity-30 duration-300' // quando a pasta nao for selecionada
-                      } 
-                      rounded p-1 w-full
-                    `}
-                    >
-                      <div className='flex gap-2 items-center'>
-                        <FaFolder size={18} />
-                        <h1 className={`text-md font-bold`}>{folder.name}</h1>
-                      </div>
-                      <ButtonComponent
-                        onClick={onOpenDeleteFolder}
-                        icon={<BsTrash size={18} />}
-                        className={`hover:bg-red-500 hover:text-white ${darkMode ? 'text-black-200' : 'text-black-700'} rounded-full`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))
-            : !loadingFolders && <ThereIsNoFolder />}
-        </div>
       </div>
-      {isOpenAddFolder && (
-        <AddFolderModal
-          darkMode={darkMode}
-          handleAddFolder={handleAddFolder}
-          isOpenAddFolder={isOpenAddFolder}
-          newFolderName={newFolderName}
-          onCloseAddFolder={onCloseAddFolder}
-          setNewFolderName={setNewFolderName}
-        />
-      )}
-
-      {isOpenDeleteFolder && (
-        <DeleteFolderModal
-          selectedFolderId={selectedFolderId as number}
-          isOpenDeleteFolder={isOpenDeleteFolder}
-          deleteFolder={deleteFolder as any}
-          onCloseDeleteFolder={onCloseDeleteFolder}
-        />
-      )}
     </div>
   );
 }

@@ -12,6 +12,10 @@ import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { ListFoldersDesktop } from './listFoldersDesktop';
 import { ClipLoader } from 'react-spinners';
 import { useSecondarySidebarNote } from '../../ViewModel/useSecondarySidebarNote';
+import {
+  ModalContentComponent,
+  ModalRootComponent,
+} from '@/components/common/modal';
 
 export function SecondarySidebarNoteFolders() {
   const router = useRouter();
@@ -32,13 +36,13 @@ export function SecondarySidebarNoteFolders() {
   } = useSecondarySidebarNote();
 
   const {
-    isOpen: isOpenAddFolder,
+    open: isOpenAddFolder,
     onOpen: onOpenAddFolder,
     onClose: onCloseAddFolder,
   } = useDisclosure();
 
   const {
-    isOpen: isOpenDeleteFolder,
+    open: isOpenDeleteFolder,
     onOpen: onOpenDeleteFolder,
     onClose: onCloseDeleteFolder,
   } = useDisclosure();
@@ -54,11 +58,31 @@ export function SecondarySidebarNoteFolders() {
           >
             Minhas Pastas
           </h1>
-          <ButtonComponent
-            onClick={onOpenAddFolder}
-            icon={<FaFolderPlus size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
-          />
+          <ModalRootComponent
+            isOpen={isOpenAddFolder}
+            onClose={onCloseAddFolder}
+          >
+            <>
+              <ButtonComponent
+                onClick={onOpenAddFolder}
+                icon={<FaFolderPlus size={24} />}
+                className='bg-neon-400 hover:bg-neon-500 text-white rounded-full'
+              />
+
+              <ModalContentComponent
+                content={
+                  <AddFolderModal
+                    darkMode={darkMode}
+                    handleAddFolder={handleAddFolder}
+                    isOpenAddFolder={isOpenAddFolder}
+                    newFolderName={newFolderName}
+                    onCloseAddFolder={onCloseAddFolder}
+                    setNewFolderName={setNewFolderName}
+                  />
+                }
+              />
+            </>
+          </ModalRootComponent>
         </div>
 
         <div className='flex flex-col gap-1 p-2 overflow-auto max-h-[calc(100vh-115px)]'>
@@ -68,41 +92,24 @@ export function SecondarySidebarNoteFolders() {
             </div>
           )}
 
-          {folders.length > 0
+          {folders.length > 0 && !loadingFolders
             ? folders.map((folder, idx) => (
                 <Fragment key={idx}>
                   <ListFoldersDesktop
+                    isOpenDeleteFolder={isOpenDeleteFolder}
+                    onCloseDeleteFolder={onCloseDeleteFolder}
+                    deleteFolder={deleteFolder}
                     darkMode={darkMode}
                     folder={folder}
                     handleItemClick={handleItemClick}
                     selectedFolderId={selectedFolderId}
                     onOpenDeleteFolder={onOpenDeleteFolder}
                   />
-                  
                 </Fragment>
               ))
             : !loadingFolders && <ThereIsNoFolder />}
         </div>
       </div>
-      {isOpenAddFolder && (
-        <AddFolderModal
-          darkMode={darkMode}
-          handleAddFolder={handleAddFolder}
-          isOpenAddFolder={isOpenAddFolder}
-          newFolderName={newFolderName}
-          onCloseAddFolder={onCloseAddFolder}
-          setNewFolderName={setNewFolderName}
-        />
-      )}
-
-      {isOpenDeleteFolder && (
-        <DeleteFolderModal
-          selectedFolderId={selectedFolderId as string}
-          isOpenDeleteFolder={isOpenDeleteFolder}
-          deleteFolder={deleteFolder}
-          onCloseDeleteFolder={onCloseDeleteFolder}
-        />
-      )}
     </div>
   );
 }

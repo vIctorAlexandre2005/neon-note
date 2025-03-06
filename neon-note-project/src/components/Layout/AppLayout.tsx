@@ -52,7 +52,7 @@ export default function Layout({ children }: LayoutProps) {
           className={`flex-col flex flex-1 h-screen`}
         >
           <NoteHeader />
-          {children}
+          {children && children}
         </div>
       </div>
     </div>
