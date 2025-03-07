@@ -85,6 +85,7 @@ export function SidebarTasksReuse({
             darkMode={darkMode}
             date={task.taskCreatedDate}
             title={task.title}
+            status={statusTitle}
             numberTasksStatusDone={numberTasksStatusDone}
             numberTasksStatus={numberTasksStatus}
             fromStatus={statusTitle as any} // Passando o status atual da tarefa

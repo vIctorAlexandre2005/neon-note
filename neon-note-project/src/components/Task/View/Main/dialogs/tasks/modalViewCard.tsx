@@ -34,6 +34,7 @@ interface ModalViewCardProps {
   onCloseModalViewCardTask: () => void;
   fromStatus: keyof ProjectTasksPropsStatus;
   toStatus: keyof ProjectTasksPropsStatus;
+  status: string;
 }
 
 export function ModalViewCardTask({
@@ -43,6 +44,7 @@ export function ModalViewCardTask({
   taskId,
   onCloseModalViewCardTask,
   fromStatus,
+  status,
   toStatus,
 }: ModalViewCardProps) {
   const { darkMode } = useContextGlobal();
@@ -177,6 +179,7 @@ export function ModalViewCardTask({
         <PositiveButtonComponent
           onClick={() => {
             updateCardTask(
+              status,
               taskId,
               updateTitle,
               updateDescription,

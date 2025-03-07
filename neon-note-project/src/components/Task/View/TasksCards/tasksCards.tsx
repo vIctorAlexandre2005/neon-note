@@ -32,6 +32,7 @@ interface Props {
   colorProgressStatusBar: string;
   numberTasksStatusDone: number;
   numberTasksStatus: number;
+  status: string;
   note?: any;
   index?: number;
   priority: string;
@@ -56,6 +57,7 @@ export function CardTasks({
   numberTasksStatus,
   priority,
   description,
+  status,
   date,
   fromStatus,
   moveCard,
@@ -103,12 +105,23 @@ export function CardTasks({
 
                 <MenuRoot>
                   <MenuTrigger>
-                    <ButtonComponent className='hover:bg-black-50 hover:bg-opacity-15' icon={<PiDotsThreeBold size={20} />} />
+                    <ButtonComponent className={`${darkMode ? 'text-black-50 hover:bg-black-50' : 'text-black-800 hover:bg-black-800'} hover:bg-opacity-15`} icon={<PiDotsThreeBold size={20} />} />
                   </MenuTrigger>
 
-                  <MenuContent>
-                    <MenuItem onClick={() => moveCard(task.id, fromStatus, toStatus)} value='updateTaskStatus'>
-                      <p className='text-black-50'>Mover tarefa</p>
+                  <MenuContent shadow={'sm'} bg={darkMode ? 'blackAlpha.800' : 'white'}>
+                    <MenuItem 
+                      onClick={() => moveCard(task.id, fromStatus, toStatus)} 
+                      _hover={{bg: darkMode ? '' : 'blackAlpha.100'}}
+                      value='updateTaskStatus'
+                    >
+                      <p 
+                        className={`
+                        ${darkMode ? 'text-black-50' : 'text-black-800'} 
+                        text-center font-semibold text-base
+                        `}
+                      >
+                        Mover tarefa
+                      </p>
                     </MenuItem>
                   </MenuContent>
                 </MenuRoot>
@@ -161,6 +174,7 @@ export function CardTasks({
             <ModalViewCardTask
               onCloseModalViewCardTask={onCloseModalViewCardTask}
               taskId={task.id}
+              status={status}
               title={title}
               description={description || ''}
               priority={priority}
