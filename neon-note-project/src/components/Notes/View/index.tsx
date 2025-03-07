@@ -1,14 +1,4 @@
-import { NoteMain } from './InputsNote/NoteMain';
 import { useEffect, useState } from 'react';
-import { BiArrowBack, BiCheck, BiDotsVertical, BiTrash } from 'react-icons/bi';
-import { InputComponent } from '../../common/InputField';
-import { debounce } from '@/utils/debounce';
-import { db } from '@/services/firebase';
-import FadeIn from '../../common/Effects/FadeIn';
-import { DrawerToUseNote } from './DrawerOpenSelectedNote/DrawerToUseNote';
-import { collection, doc, updateDoc } from 'firebase/firestore';
-import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
-import { useContextGlobal } from '@/Context';
 import { SidebarNote } from './SidebarNote/SidebarNote';
 import { ContainerSidebarAndNoteMain } from './SidebarNote/ContainerSidebarAndNoteMain';
 import { ThereIsNoFolderMobile } from '@/components/common/ThereIsNoFolderMobile';
@@ -82,24 +72,6 @@ export function NeonNote() {
         ) : (
           <ThereIsNoFolderMobile />
         )}
-
-        {isOpen &&
-          isMobile && ( // abre modal apenas no mobile
-            <DrawerToUseNote
-              isOpen={isOpen}
-              onClose={onClose}
-              activeNoteId={activeNoteId}
-              titleNote={titleNote}
-              textNote={textNote}
-              darkMode={darkMode}
-              deleteNote={deleteNote}
-              saved={saved}
-              saving={saving}
-              updateNote={updateNote}
-              handleTextChange={handleTextChange}
-              handleTitleChange={handleTitleChange}
-            />
-          )}
       </div>
     );
   }

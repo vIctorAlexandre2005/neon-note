@@ -28,7 +28,6 @@ export function useSidebarCardsNote() {
   function notesWithId(array: any[], search: string, folderId?: string) {
     return array
       .filter(note => {
-        console.log(note)
         const matchesSearch =
           note.folderId = note.folderId === selectedItem &&
           note.title.toLowerCase().includes(search.toLowerCase()) ||

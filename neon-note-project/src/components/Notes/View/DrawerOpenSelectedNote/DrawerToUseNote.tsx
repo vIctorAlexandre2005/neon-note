@@ -7,6 +7,11 @@ import { Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { BiArrowBack, BiCheck, BiTrash } from 'react-icons/bi';
 import { TbLock, TbLockOpen2 } from 'react-icons/tb';
 import { DrawerContentComponent } from '@/components/common/drawer';
+import {
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -81,11 +86,23 @@ export function DrawerToUseNote({
                   </>
                 )}
               </button>
-              <ButtonComponent
-                onClick={onModalOpen}
-                icon={<BiTrash size={24} />}
-                className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
-              />
+              <DialogRoot open={isModalOpen} placement={'center'}>
+                <DialogTrigger>
+                  <ButtonComponent
+                    onClick={onModalOpen}
+                    icon={<BiTrash size={24} />}
+                    className={`${darkMode ? 'text-white hover:text-red-500 duration-200 transition-all' : 'text-black-800 hover:text-red-500 duration-200 transition-all'}`}
+                  />
+                </DialogTrigger>
+                <DialogContent p={3} bg={darkMode ? '#0f172a' : 'white'}>
+                  <ModalDelete
+                    onModalClose={onModalClose}
+                    darkMode={darkMode}
+                    activeNoteId={activeNoteId}
+                    deleteNote={deleteNote}
+                  />
+                </DialogContent>
+              </DialogRoot>
             </div>
           </div>
           {/* Título */}
@@ -96,12 +113,10 @@ export function DrawerToUseNote({
           bg-transparent
           rounded-md 
           ${darkMode ? 'text-white' : 'text-black-800'}
-          px-4 
-          py-2 
           focus:outline-none
           placeholder:text-3xl 
           ${darkMode ? 'placeholder:opacity-50' : 'placeholder:opacity-95'}
-          text-3xl
+          text-2xl
           font-semibold
           w-full
         `}
@@ -124,9 +139,7 @@ export function DrawerToUseNote({
           w-full
           h-full
           bg-transparent
-          px-4 
           text-lg
-          py-2 
           ${darkMode ? 'text-white' : 'text-black-700'}
           placeholder:text-start
           focus:outline-none  
@@ -135,16 +148,6 @@ export function DrawerToUseNote({
             disabled={isBlockEdited ? true : false}
           />
         </div>
-      )}
-
-      {isModalOpen && (
-        <ModalDelete
-          onModalClose={onModalClose}
-          isModalOpen={isModalOpen}
-          darkMode={darkMode}
-          activeNoteId={activeNoteId}
-          deleteNote={deleteNote}
-        />
       )}
     </DrawerContentComponent>
   );

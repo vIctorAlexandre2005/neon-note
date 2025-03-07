@@ -359,11 +359,6 @@ export function useCardTasks() {
         }),
       }));
 
-      console.log(
-        'Tarefas em progresso renderizadas:',
-        tasksInProgressInProject
-      );
-
       if (typeof window !== 'undefined') {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         setFoldersTask([...updatedFolders]);

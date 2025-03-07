@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { BsTrash } from 'react-icons/bs';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
 import { HiDocumentText } from 'react-icons/hi2';
-import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolter';
+import { AddFolderModal } from '../../../Layout/AppSidebar/modals/addFolder';
 import { DeleteFolderModal } from '../../../Layout/AppSidebar/modals/deleteFolder';
 import { Fragment } from 'react';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
@@ -74,7 +74,6 @@ export function SecondarySidebarNoteFolders() {
                   <AddFolderModal
                     darkMode={darkMode}
                     handleAddFolder={handleAddFolder}
-                    isOpenAddFolder={isOpenAddFolder}
                     newFolderName={newFolderName}
                     onCloseAddFolder={onCloseAddFolder}
                     setNewFolderName={setNewFolderName}

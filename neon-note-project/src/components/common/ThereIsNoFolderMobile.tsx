@@ -5,6 +5,7 @@ import { ButtonComponent } from './Button';
 import { useContextGlobal } from '@/Context';
 import { DrawerSidebarNote } from '../Notes/View/SidebarNote/drawerFolders/drawerSidebarNote';
 import { useSecondarySidebarNote } from '../Notes/ViewModel/useSecondarySidebarNote';
+import { DrawerContent, DrawerRoot, DrawerTrigger } from '../ui/drawer';
 
 export function ThereIsNoFolderMobile() {
   const {
@@ -25,7 +26,7 @@ export function ThereIsNoFolderMobile() {
   } = useSecondarySidebarNote();
 
   const { darkMode } = useContextGlobal();
-  
+
   return (
     <div
       className={`flex flex-col gap-1 items-center justify-center ${darkMode ? 'text-neon-800 opacity-80' : 'text-black-600'}`}
@@ -40,13 +41,13 @@ export function ThereIsNoFolderMobile() {
         <HashLoader size={24} color={darkMode ? '#042488' : '#0949ee'} />
       </div>
 
-      <ButtonComponent
-        text='Selecione ou crie uma pasta'
-        onClick={onOpenModal}
-        className={`mt-4 ${darkMode ? 'bg-neon-700' : 'bg-neon-400'} text-white rounded-md`}
-      />
-
-      {isOpenModal && (
+      <DrawerRoot size={'xs'}>
+        <DrawerTrigger>
+          <ButtonComponent
+            text='Selecione ou crie uma pasta'
+            className={`mt-4 ${darkMode ? 'bg-neon-700' : 'bg-neon-400'} text-white rounded-md`}
+          />
+        </DrawerTrigger>
         <DrawerSidebarNote
           folders={folders}
           onCloseModal={onCloseModal}
@@ -59,7 +60,7 @@ export function ThereIsNoFolderMobile() {
           newFolderName={newFolderName}
           setNewFolderName={setNewFolderName}
         />
-      )}
+      </DrawerRoot>
     </div>
   );
 }

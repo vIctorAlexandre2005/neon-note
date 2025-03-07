@@ -1,3 +1,4 @@
+import { NegativeButtonComponent, PositiveButtonComponent } from '@/components/common/Button';
 import { ModalContentComponent } from '@/components/common/modal';
 import { useContextGlobal } from '@/Context';
 import { successToast } from '@/utils/toasts/toasts';
@@ -18,29 +19,26 @@ export function DeleteFolderModal({
   const { darkMode } = useContextGlobal();
 
   return (
-      <div className='p-4'>
+      <div className=''>
         <p
-          className={`text-lg ${darkMode ? 'text-white' : 'text-black-800'} text-center font-medium`}
+          className={`text-xl ${darkMode ? 'text-white' : 'text-black-800'} text-center font-semibold`}
         >
-          Tem certeza que deseja excluir essa pasta?
+          Deseja realmente excluir essa pasta?
         </p>
         <div className='flex justify-center gap-4 mt-6'>
-          <button
-            className='bg-red-600 text-white w-full font-medium text-lg hover:bg-red-500 duration-300 transition-all rounded-lg p-2'
+          <PositiveButtonComponent
+            text='Não'
+            onClick={onCloseDeleteFolder}
+          />
+          <NegativeButtonComponent
+            text='Sim, desejo'
             onClick={() => {
               deleteFolder(selectedFolderId as string);
               onCloseDeleteFolder();
               successToast('Pasta excluída com sucesso!');
             }}
-          >
-            Sim
-          </button>
-          <button
-            className='bg-blue-600 text-white w-full font-medium text-lg hover:bg-blue-500 duration-300 transition-all rounded-lg p-2'
-            onClick={onCloseDeleteFolder}
-          >
-            Não
-          </button>
+          />
+            
         </div>
       </div>
   );

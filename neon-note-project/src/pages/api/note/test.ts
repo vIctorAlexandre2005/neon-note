@@ -10,8 +10,6 @@ export default async function handler(
   if (req.method === 'POST') {
     const { title, content } = req.body;
 
-    console.log('title:', req.body);
-
     try {
       const docRef = await addDoc(collection(db, 'notes'), {
         title,
