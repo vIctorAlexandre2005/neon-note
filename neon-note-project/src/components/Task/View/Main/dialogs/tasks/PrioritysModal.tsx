@@ -18,9 +18,6 @@ export function SelectPriorityModal({ value, priority, setUpdatePriority, }: Sel
     { value: 'MÉDIO', title: 'MÉDIO', bg: 'purple' },
     { value: 'BAIXO', title: 'BAIXO', bg: 'green' },
   ];
-  
-  console.log('priority:', priority);
-
 
   return (
     <div className='flex justify-center items-center'>

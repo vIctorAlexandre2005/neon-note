@@ -8,7 +8,7 @@ export function NoteMain() {
 const { darkMode } = useContextGlobal();
   return (
     <div
-      className={`${darkMode ? 'bg-slate-900' : 'bg-white border-2 border-slate-200'} w-full rounded-xl h-full flex flex-col p-2`}
+      className={`${darkMode ? 'bg-slate-900' : 'bg-white border-2 border-slate-200'} w-full rounded-xl h-full flex flex-col`}
     >
       <NoteInput />
     </div>

@@ -120,9 +120,9 @@ export function useCardTasks() {
   }
 
   const statusMap: Record<string, keyof ProjectTasksPropsStatus> = {
-    'A iniciar': 'toStart',
-    'Em progresso': 'inProgress',
-    Finalizada: 'finished',
+    "A iniciar": "toStart",
+    "Em progresso": "inProgress",
+    "Finalizada": "finished",
   };
 
   function getTasksFromLocalStorage() {
@@ -152,59 +152,36 @@ export function useCardTasks() {
       console.error('Erro ao obter as tarefas:', error);
       errorToast('Erro ao obter as tarefas');
     }
-  }
+  };
 
-  function validUpdateCardTask(
-    updateTitle: string,
-    updatePriority: string,
-    updateDescription?: string
-  ) {
-    const validateTitleAndPriority =
-      updateTitle === '' || updatePriority === '';
+  function validUpdateCardTask(updateTitle: string, updatePriority: string, updateDescription?: string) {
+    const validateTitleAndPriority = updateTitle === '' || updatePriority === '';
     if (validateTitleAndPriority) {
       errorToast('Erro: título ou prioridade da tarefa vazia.');
       return null;
-    }
+    };
 
-    const validateNumberOfCharactersTitle =
-      updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 30;
+    const validateNumberOfCharactersTitle = updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 30;
     if (!validateNumberOfCharactersTitle) {
       errorToast('Erro: Título da tarefa deve ter entre 1 e 30 caracteres.');
-      return null;
-    }
+      return null;      
+    };
 
-    const validateTitleAndPriorityExists = foldersTask.some(folder => {
-      const validToStart = folder.projects.some(project =>
-        project.projectTasks.status.toStart.some(
-          task =>
-            task.title === updateTitle &&
-            task.priority === updatePriority &&
-            task.description === updateDescription
+    const validateTitleAndPriorityExists = 
+    foldersTask.some(folder => 
+      folder.projects.some(project => 
+        project.projectTasks.status.toStart.some(task => 
+          task.title === updateTitle && 
+          task.priority === updatePriority &&
+          task.description === updateDescription
         )
-      );
-      const validInProgress = folder.projects.some(project =>
-        project.projectTasks.status.inProgress.some(
-          task =>
-            task.title === updateTitle &&
-            task.priority === updatePriority &&
-            task.description === updateDescription
-        )
-      );
-      const finished = folder.projects.some(project =>
-        project.projectTasks.status.inProgress.some(
-          task =>
-            task.title === updateTitle &&
-            task.priority === updatePriority &&
-            task.description === updateDescription
-        )
-      );
-      return validToStart || validInProgress || finished;
-    });
+      )
+    );
     if (validateTitleAndPriorityExists) {
       warningToast('AVISO: Não houve mudanças.');
       return null;
-    }
-  }
+    };
+  };
 
   function updateCardTask(
     status: string,
@@ -213,13 +190,8 @@ export function useCardTasks() {
     updateDescription: string,
     updatePriority: string
   ) {
-    const responseValid = validUpdateCardTask(
-      updateTitle,
-      updatePriority,
-      updateDescription
-    );
+    const responseValid = validUpdateCardTask(updateTitle, updatePriority, updateDescription);
     if (responseValid === null) return;
-
     try {
       const updateDataCard = foldersTask.map(folder => ({
         ...folder,
@@ -231,7 +203,7 @@ export function useCardTasks() {
                   ...project.projectTasks,
                   status: {
                     ...project.projectTasks.status,
-                    toStart: project.projectTasks.status.toStart.map(task =>
+                    [status]: project.projectTasks.status.toStart.map(task =>
                       task.id === taskId
                         ? {
                             ...task,
@@ -241,26 +213,6 @@ export function useCardTasks() {
                           }
                         : task
                     ),
-                    inProgress: project.projectTasks.status.inProgress.map(
-                      task =>
-                        task.id === taskId
-                          ? {
-                              ...task,
-                              title: updateTitle,
-                              description: updateDescription,
-                              priority: updatePriority,
-                            }
-                          : task
-                    ),
-                    finished: project.projectTasks.status.finished.map(task => {
-                      if (task.id === taskId) {
-                        warningToast(
-                          'Não é permitido alterar tarefas finalizadas!'
-                        );
-                        return task;
-                      }
-                      return task;
-                    }),
                   },
                 },
               }
@@ -273,11 +225,12 @@ export function useCardTasks() {
         setFoldersTask(updateDataCard);
       }
       onCloseModalViewCardTask();
+      successToast('Tarefa atualizada com sucesso');
     } catch (error) {
       console.error('Erro ao editar tarefa:', error);
       errorToast('Erro ao editar tarefa');
     }
-  }
+  };
 
   function deleteCardTask(cardTaskId: string) {
     try {
@@ -315,61 +268,60 @@ export function useCardTasks() {
     } catch (error) {
       console.error('Erro ao excluir tarefa:', error);
       errorToast('Erro ao excluir tarefa');
-    }
-  }
+    };
+  };
 
+  
   function moveCard(taskId: string, fromStatus: string, toStatus: string) {
     try {
       const fromKey = statusMap[fromStatus];
       const toKey = statusMap[toStatus];
-
+  
       if (!fromKey || !toKey) {
         console.error(`Status inválido: De "${fromStatus}" Para "${toStatus}"`);
         return;
       }
-
-      const updatedFolders = foldersTask.map(folder => ({
+  
+      const updatedFolders = foldersTask.map((folder) => ({
         ...folder,
-        projects: folder.projects.map(project => {
+        projects: folder.projects.map((project) => {
           if (project.id !== projectId) return project;
-
+  
           const currentTasks = project.projectTasks.status || {};
           const fromTasks = currentTasks[fromKey] || [];
           const toTasks = currentTasks[toKey] || [];
-
-          const taskToMove = fromTasks.find(task => task.id === taskId);
+  
+          const taskToMove = fromTasks.find((task) => task.id === taskId);
           if (!taskToMove) {
-            console.error(
-              `Tarefa ${taskId} não encontrada no status ${fromStatus}`
-            );
+            console.error(`Tarefa ${taskId} não encontrada no status ${fromStatus}`);
             return project;
           }
-
+  
           return {
             ...project,
             projectTasks: {
               ...project.projectTasks,
               status: {
                 ...currentTasks,
-                [fromKey]: fromTasks.filter(task => task.id !== taskId),
+                [fromKey]: fromTasks.filter((task) => task.id !== taskId),
                 [toKey]: [...toTasks, taskToMove],
               },
             },
           };
         }),
       }));
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
+  
+      if (typeof window !== "undefined") {
+        localStorage.setItem("foldersTask", JSON.stringify(updatedFolders));
         setFoldersTask([...updatedFolders]);
       }
-
-      successToast('Tarefa movida com sucesso!');
+  
+      successToast("Tarefa movida com sucesso!");
     } catch (error) {
-      console.error('Erro ao mover a tarefa:', error);
-      errorToast('Erro ao mover a tarefa');
+      console.error("Erro ao mover a tarefa:", error);
+      errorToast("Erro ao mover a tarefa");
     }
-  }
+  };
 
   useEffect(() => {
     getTasksFromLocalStorage();

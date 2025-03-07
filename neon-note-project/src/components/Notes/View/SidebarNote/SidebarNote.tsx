@@ -16,6 +16,7 @@ import { HiDocumentText } from 'react-icons/hi2';
 import { DrawerSidebarNote } from './drawerFolders/drawerSidebarNote';
 import { useSidebarCardsNote } from '../../ViewModel/useSidebarCardsNote';
 import { useSecondarySidebarNote } from '../../ViewModel/useSecondarySidebarNote';
+import { DrawerRoot, DrawerTrigger } from '@/components/ui/drawer';
 
 export function SidebarNote() {
   const { darkMode } = useContextGlobal();
@@ -57,7 +58,13 @@ export function SidebarNote() {
     setSearchNotes(e.target.value);
   }
 
-  const { selectedItem, handleItemClick, isOpenModal, onOpenModal, onCloseModal } = useContextNoteData();
+  const {
+    selectedItem,
+    handleItemClick,
+    isOpenModal,
+    onOpenModal,
+    onCloseModal,
+  } = useContextNoteData();
 
   function handleAddNote(itemId: string) {
     if (!user || !user.uid) {
@@ -100,14 +107,31 @@ export function SidebarNote() {
           {selectedItem}
         </h1>
         <div className='flex gap-4 items-center'>
-          <ButtonComponent
-            onClick={() => {
-              onOpenModal();
-            }}
-            isLoading={loading}
-            icon={<IoFolderOpenSharp color='white' size={24} />}
-            className='bg-neon-400 hover:bg-neon-500 rounded-full xs:flex md:hidden'
-          />
+          <DrawerRoot>
+            <DrawerTrigger>
+              <ButtonComponent
+                onClick={() => {
+                  onOpenModal();
+                }}
+                isLoading={loading}
+                icon={<IoFolderOpenSharp color='white' size={24} />}
+                className='bg-neon-400 hover:bg-neon-500 rounded-full xs:flex md:hidden'
+              />
+            </DrawerTrigger>
+
+            <DrawerSidebarNote
+              folders={folders}
+              onCloseModal={onCloseModal}
+              selectedFolderId={selectedFolderId}
+              selectedItem={selectedItem}
+              setSelectedFolderId={setSelectedFolderId}
+              handleItemClick={handleItemClick}
+              isOpenModal={isOpenModal}
+              handleAddFolder={handleAddFolder}
+              newFolderName={newFolderName}
+              setNewFolderName={setNewFolderName}
+            />
+          </DrawerRoot>
           <ButtonComponent
             onClick={() => handleAddNote(selectedFolderId as string)}
             isLoading={loading}
@@ -125,7 +149,8 @@ export function SidebarNote() {
           Total de anotações:{' '}
           {selectedFolderId === 1
             ? noteList?.length
-            : noteList?.filter(note => note.itemId === selectedFolderId)?.length}
+            : noteList?.filter(note => note.itemId === selectedFolderId)
+                ?.length}
         </p>
       </div>
       <div className='flex flex-col mt-3 gap-4 overflow-auto max-h-[calc(100vh-250px)]'>
@@ -153,20 +178,6 @@ export function SidebarNote() {
           </DndProvider>
         )}
       </div>
-      {isOpenModal && (
-        <DrawerSidebarNote
-          folders={folders}
-          onCloseModal={onCloseModal}
-          selectedFolderId={selectedFolderId}
-          selectedItem={selectedItem}
-          setSelectedFolderId={setSelectedFolderId}
-          handleItemClick={handleItemClick}
-          isOpenModal={isOpenModal}
-          handleAddFolder={handleAddFolder}
-          newFolderName={newFolderName}
-          setNewFolderName={setNewFolderName}
-        />
-      )}
     </div>
   );
 }

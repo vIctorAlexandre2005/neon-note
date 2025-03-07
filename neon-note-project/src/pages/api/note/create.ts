@@ -9,9 +9,7 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       const { note } = req.body;
-      console.log('note:', req.body);
       const docRef = await addDoc(collection(db, 'note'), { note });
-      console.log('Document written with ID: ', docRef);
       res
         .status(200)
         .json({ id: docRef.id, message: 'Task added successfully' });
