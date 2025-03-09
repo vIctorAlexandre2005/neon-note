@@ -85,7 +85,7 @@ export function ModalViewCardTask({
         </div>
 
         <DialogRoot size={'sm'} placement={'center'}>
-          <DialogTrigger w={'56'} display={'flex'} justifyContent={'end'}>
+          <DialogTrigger alignSelf={'flex-end'} w={'56'} display={'flex'} justifyContent={'end'}>
             <ButtonComponent
               className='flex w-full items-center gap-2 text-base font-semibold hover:bg-red-500 hover:bg-opacity-20 text-red-500 transition duration-300'
               text='Excluir tarefa'

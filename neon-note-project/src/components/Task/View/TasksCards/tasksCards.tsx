@@ -129,9 +129,9 @@ export function CardTasks({
               <DialogTrigger w={'full'} display={'flex'}>
                 <div onClick={onOpenModalViewCardTask} className='w-full mt-2'>
                   <h2
-                    className={`text-xl text-left mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
+                    className={`text-xl text-left break-words mb-2 font-bold ${darkMode ? 'opacity-96 text-white' : 'text-black-700'}`}
                   >
-                    {truncateText(title, 40)}
+                    {truncateText(title, 25)}
                   </h2>
                   {/* <div className='flex w-full justify-between items-center'>
                     <p className='flex items-center text-black-400 gap-2'>
