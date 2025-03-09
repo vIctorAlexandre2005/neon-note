@@ -50,6 +50,12 @@ export function useCardTasks() {
       errorToast('Erro: título ou prioridade da tarefa vazia.');
       return null;
     }
+
+    const titleWithoutSpaces = title.trim().length > 0 && title.trim().length <= 100;
+    if (!titleWithoutSpaces) {
+      errorToast('Erro: Título da tarefa deve ter entre 1 e 100 caracteres.');
+      return null;
+    };
   }
 
   function createCardTask(
@@ -159,19 +165,17 @@ export function useCardTasks() {
     updatePriority: string,
     updateDescription?: string
   ) {
-    const validateTitleAndPriority =
-      updateTitle === '' || updatePriority === '';
+    const validateTitleAndPriority = updateTitle === '' || updatePriority === '';
     if (validateTitleAndPriority) {
       errorToast('Erro: título ou prioridade da tarefa vazia.');
       return null;
-    }
+    };
 
-    const validateNumberOfCharactersTitle =
-      updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 30;
+    const validateNumberOfCharactersTitle = updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 100;
     if (!validateNumberOfCharactersTitle) {
-      errorToast('Erro: Título da tarefa deve ter entre 1 e 30 caracteres.');
+      errorToast('Erro: Título da tarefa deve ter entre 1 e 100 caracteres.');
       return null;
-    }
+    };
 
     const validateTitleAndPriorityExists = foldersTask.some(folder => {
       const validToStart = folder.projects.some(project =>
