@@ -64,8 +64,9 @@ export function ModalViewCardTask({
         display={'flex'}
         justifyContent={'space-between'}
         color={darkMode ? 'white' : 'blackAlpha.800'}
+        gap={6}
       >
-        <div className='w-2/4'>
+        <div className='w-full'>
           <EditableRoot
             fontSize={'2xl'}
             fontWeight={'bold'}
@@ -84,9 +85,9 @@ export function ModalViewCardTask({
         </div>
 
         <DialogRoot size={'sm'} placement={'center'}>
-          <DialogTrigger>
+          <DialogTrigger w={'56'} display={'flex'} justifyContent={'end'}>
             <ButtonComponent
-              className='flex items-center gap-2 text-base font-semibold hover:bg-red-500 hover:bg-opacity-20 text-red-500 transition duration-300'
+              className='flex w-full items-center gap-2 text-base font-semibold hover:bg-red-500 hover:bg-opacity-20 text-red-500 transition duration-300'
               text='Excluir tarefa'
               icon={<TbTrash size={20} />}
             />
