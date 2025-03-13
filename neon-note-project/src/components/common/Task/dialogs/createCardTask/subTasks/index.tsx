@@ -14,9 +14,14 @@ import {
 } from '@/components/ui/dialog';
 import { useContextGlobal } from '@/Context';
 import { Textarea } from '@chakra-ui/react';
-import { BiSolidPlusCircle } from 'react-icons/bi';
-import { BsPlusCircle } from 'react-icons/bs';
+import { BiCheckCircle, BiSolidPlusCircle } from 'react-icons/bi';
+import { BsCheck, BsCheck2Circle, BsPlusCircle } from 'react-icons/bs';
 import { ContentCreateSubTaskDialog } from './dialogs/ContentCreateSubTaskDialog';
+import { IoIosArrowBack } from 'react-icons/io';
+import { ClockLoader } from 'react-spinners';
+import { FaClock } from 'react-icons/fa';
+import { DoneSubTasks } from './ListSubTasks/Done/done';
+import { PendingSubTasks } from './ListSubTasks/Pending/pending';
 
 const items = [
   {
@@ -54,6 +59,10 @@ export function SubTasksTab() {
           </DialogTrigger>
           <ContentCreateSubTaskDialog />
         </DialogRoot>
+      </div>
+      <div className='w-full flex flex-col gap-4'>
+        <DoneSubTasks />
+        <PendingSubTasks />
       </div>
     </div>
   );
