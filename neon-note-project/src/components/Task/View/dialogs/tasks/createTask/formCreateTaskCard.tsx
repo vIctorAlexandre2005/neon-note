@@ -5,7 +5,7 @@ import {
   TextAreaCreateTaskCard,
 } from './inputs';
 import { useContextGlobal } from '@/Context';
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
 
 export function FormCreateTaskCard() {
   const { darkMode } = useContextGlobal();

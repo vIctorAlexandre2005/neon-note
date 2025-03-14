@@ -14,12 +14,12 @@ import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
-import { DeleteFolderModalTask } from '../modal/deleteFolder';
-import { useTaskSidebarAllFolders } from '../../ViewModel/useTaskSidebarAllFolders';
+import { DeleteFolderModalTask } from '../dialogs/folder/deleteFolder';
+import { useTaskSidebarAllFolders } from '../../hook/useFolders/useTaskSidebarAllFolders';
 import { handleNavigation } from '@/utils/navigationProgress';
 import { useRouter } from 'next/router';
 import { useDisclosure } from '@chakra-ui/react';
-import { EditFolderModalTask } from '../modal/editNameFolder';
+import { EditFolderModalTask } from '../dialogs/folder/editNameFolder';
 import { MockProps } from '@/utils/mockFolders';
 
 interface PropsListFoldersTask {

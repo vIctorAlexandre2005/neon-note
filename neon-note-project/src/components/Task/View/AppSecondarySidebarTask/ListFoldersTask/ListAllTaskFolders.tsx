@@ -1,9 +1,9 @@
 import { CiFolderOn } from 'react-icons/ci';
 import { IoMdArrowDropdown, IoMdArrowDropleft } from 'react-icons/io';
-import { ListFoldersTask } from '../..';
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { useContextGlobal } from '@/Context';
 import { mockPastas } from '@/utils/mockFolders';
+import { ListFoldersTask } from '..';
 
 interface PropsListNotFixedFolders {
   openNotFixedFolders: boolean;

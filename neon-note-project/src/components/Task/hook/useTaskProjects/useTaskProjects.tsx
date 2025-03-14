@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useContextTaskData } from '../Context/TaskContext/TaskContext';
+import { useContextTaskData } from '../../Context/TaskContext/TaskContext';
 import { MockProps, ProjectProps } from '@/utils/mockFolders';
-import { useTaskSidebarAllFolders } from './useTaskSidebarAllFolders';
+import { useTaskSidebarAllFolders } from '../useFolders/useTaskSidebarAllFolders';
 import { errorToast, successToast } from '@/utils/toasts/toasts';
 import { useRouter } from 'next/router';
 import { generateIdProjects } from '@/utils/generateId';

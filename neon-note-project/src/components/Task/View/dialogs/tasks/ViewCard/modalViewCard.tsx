@@ -13,7 +13,6 @@ import {
   EditableRoot,
 } from '@chakra-ui/react';
 import { MdDescription, MdOutlineLowPriority } from 'react-icons/md';
-import { SelectPriorityModal } from './PrioritysModal';
 import {
   ButtonComponent,
   NegativeButtonComponent,
@@ -21,10 +20,11 @@ import {
 } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
 import { useState } from 'react';
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
 import { TbTrash } from 'react-icons/tb';
 import { ConfirmationModal } from '@/components/common/modal';
 import { ProjectTasksPropsStatus } from '@/utils/mockFolders';
+import { SelectPriorityModal } from './PrioritysModal';
 
 interface ModalViewCardProps {
   taskId: string;

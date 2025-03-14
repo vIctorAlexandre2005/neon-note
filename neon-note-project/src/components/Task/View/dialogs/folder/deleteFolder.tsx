@@ -1,7 +1,7 @@
 import { ModalContentComponent } from '@/components/common/modal';
 import { useContextGlobal } from '@/Context';
 import { successToast } from '@/utils/toasts/toasts';
-import { useTaskSidebarAllFolders } from '../../ViewModel/useTaskSidebarAllFolders';
+import { useTaskSidebarAllFolders } from '../../../hook/useFolders/useTaskSidebarAllFolders';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';

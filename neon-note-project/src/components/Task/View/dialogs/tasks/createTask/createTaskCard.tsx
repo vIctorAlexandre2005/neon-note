@@ -1,13 +1,8 @@
 import { useContextGlobal } from '@/Context';
-import {
-  ButtonComponent,
-  NegativeButtonComponent,
-  PositiveButtonComponent,
-} from '../../../Button';
 import { FormCreateTaskCard } from './formCreateTaskCard';
 import FadeIn from '@/components/common/Effects/FadeIn';
 import { Dispatch, SetStateAction } from 'react';
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
 import {
   Box,
   Flex,
@@ -16,12 +11,8 @@ import {
   Separator,
   Tabs,
 } from '@chakra-ui/react';
-import { LuFolder, LuSquareCheck, LuUser } from 'react-icons/lu';
-import { BiTask } from 'react-icons/bi';
-import { GrTasks } from 'react-icons/gr';
-import { FaTasks } from 'react-icons/fa';
-import { IoCreate } from 'react-icons/io5';
-import { SubTasksTab } from './subTasks';
+import { NegativeButtonComponent, PositiveButtonComponent } from '@/components/common/Button';
+import { SubTasksTab } from '../../../TasksCards/subTasks';
 
 interface CreateModalTaskCardProps {
   onCloseModalCreateCard: () => void;

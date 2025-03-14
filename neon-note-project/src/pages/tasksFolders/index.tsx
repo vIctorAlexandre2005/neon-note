@@ -1,6 +1,6 @@
 import { ThereIsNoFolder } from '@/components/common/ThereIsNoFolder';
 import { TaskComponent } from '@/components/Task/View';
-import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { useTaskSidebarAllFolders } from '@/components/Task/hook/useFolders/useTaskSidebarAllFolders';
 import { useContextGlobal } from '@/Context';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

@@ -1,13 +1,13 @@
 import { ButtonComponent } from '@/components/common/Button';
 import { useContextGlobal } from '@/Context';
 import { FaFolder, FaFolderPlus } from 'react-icons/fa';
-import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
-import { AddFolderModalTask } from '../modal/addFolder';
-import { ListAllTaskFolders } from './ListFoldersTask/AllTaskFolders/ListAllTaskFolders';
+import { useTaskSidebarAllFolders } from '@/components/Task/hook/useFolders/useTaskSidebarAllFolders';
+import { AddFolderModalTask } from '../dialogs/folder/addFolder';
 import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
+import { ListAllTaskFolders } from './ListFoldersTask/ListAllTaskFolders';
 
 
 interface SecondarySidebarTaskFoldersProps {

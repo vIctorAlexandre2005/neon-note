@@ -15,8 +15,7 @@ import {
   PiSirenBold,
 } from 'react-icons/pi';
 import { RxHalf2 } from 'react-icons/rx';
-import { ModalViewCardTask } from '../Main/dialogs/tasks/modalViewCard';
-import { useCardTasks } from '../../ViewModel/useTasks';
+import { useCardTasks } from '../../hook/useTasks/useTasks';
 import { ButtonComponent } from '@/components/common/Button';
 import {
   MenuContent,
@@ -24,6 +23,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from '@/components/ui/menu';
+import { ModalViewCardTask } from '../dialogs/tasks/ViewCard/modalViewCard';
 
 interface Props {
   darkMode?: boolean;

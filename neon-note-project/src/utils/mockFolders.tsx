@@ -1,8 +1,6 @@
 export interface SubTasks {
   id: string;
   title: string;
-  description: string;
-  subTaskCreatedDate: Date;
 };
 
 export interface StatusTasksFromProjectProps {

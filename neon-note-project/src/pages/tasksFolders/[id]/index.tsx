@@ -1,6 +1,6 @@
 import { useContextGlobal } from '@/Context';
 import { useRouter } from 'next/router';
-import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { useTaskSidebarAllFolders } from '@/components/Task/hook/useFolders/useTaskSidebarAllFolders';
 import { MainScreenTaskComponent } from '@/components/Task/View/Main';
 import FloatingParticles from '@/components/common/Effects/FloatingParticles';
 import Image from 'next/image';

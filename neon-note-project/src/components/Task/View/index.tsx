@@ -4,8 +4,8 @@ import { useContextNoteData } from '@/components/Notes/Context/NoteContext';
 import { useContextGlobal } from '@/Context';
 import { useSidebarCardsNote } from '../../Notes/ViewModel/useSidebarCardsNote';
 import { SidebarTasksReuse } from '../../common/Task/SidebarTaskReuse';
-import { useTaskSidebarAllFolders } from '../ViewModel/useTaskSidebarAllFolders';
-import { useCardTasks } from '../ViewModel/useTasks';
+import { useTaskSidebarAllFolders } from '../hook/useFolders/useTaskSidebarAllFolders';
+import { useCardTasks } from '../hook/useTasks/useTasks';
 import { ButtonComponent } from '@/components/common/Button';
 import { PiDotsThreeBold, PiDotsThreeVerticalBold } from 'react-icons/pi';
 import {
@@ -21,16 +21,16 @@ import {
   PopoverRoot,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useTaskProjects } from '../ViewModel/useTaskProjects';
+import { useTaskProjects } from '../hook/useTaskProjects/useTaskProjects';
 import { useRouter } from 'next/router';
 import {
   ModalContentComponent,
   ModalRootComponent,
 } from '@/components/common/modal';
-import { ModalDeleteProject } from './Main/dialogs/project/deleteProject';
+import { ModalDeleteProject } from './dialogs/project/deleteProject';
 import { TbTrash } from 'react-icons/tb';
-import { EditFolderModalTask } from './modal/editNameFolder';
-import { EditProjectModalTask } from './Main/dialogs/project/editProject';
+import { EditFolderModalTask } from './dialogs/folder/editNameFolder';
+import { EditProjectModalTask } from './dialogs/project/editProject';
 
 interface TaskProps {
   projectName: string | undefined;

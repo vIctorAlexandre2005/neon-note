@@ -3,10 +3,10 @@ import { FaPlus } from 'react-icons/fa';
 import { useContextGlobal } from '@/Context';
 import { useDisclosure } from '@chakra-ui/react';
 import { ModalContentComponent, ModalRootComponent } from '../modal';
-import { CreateModalTaskCard } from './dialogs/createCardTask/createTaskCard';
 import { ProjectTasksPropsStatus, StatusTasksFromProjectProps } from '@/utils/mockFolders';
 import { ThereIsNoFolder } from '../ThereIsNoFolder';
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
+import { CreateModalTaskCard } from '@/components/Task/View/dialogs/tasks/createTask/createTaskCard';
 
 interface TaskProps {
   statusTitle: string;

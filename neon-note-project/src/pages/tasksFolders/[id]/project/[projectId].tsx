@@ -1,6 +1,6 @@
 import { TaskComponent } from '@/components/Task/View';
-import { useTaskProjects } from '@/components/Task/ViewModel/useTaskProjects';
-import { useTaskSidebarAllFolders } from '@/components/Task/ViewModel/useTaskSidebarAllFolders';
+import { useTaskProjects } from '@/components/Task/hook/useTaskProjects/useTaskProjects';
+import { useTaskSidebarAllFolders } from '@/components/Task/hook/useFolders/useTaskSidebarAllFolders';
 import { useContextGlobal } from '@/Context';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

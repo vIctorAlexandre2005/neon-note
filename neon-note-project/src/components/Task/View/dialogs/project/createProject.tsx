@@ -1,6 +1,6 @@
 import { ButtonComponent, NegativeButtonComponent, PositiveButtonComponent } from '@/components/common/Button';
 import { InputComponent } from '@/components/common/InputField';
-import { useTaskProjects } from '@/components/Task/ViewModel/useTaskProjects';
+import { useTaskProjects } from '@/components/Task/hook/useTaskProjects/useTaskProjects';
 import { useContextGlobal } from '@/Context';
 import { FcOrganization, FcOrgUnit } from 'react-icons/fc';
 

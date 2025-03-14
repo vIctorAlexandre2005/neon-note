@@ -1,4 +1,4 @@
-import { useCardTasks } from '@/components/Task/ViewModel/useTasks';
+import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
 import { RadioCardItem, RadioCardRoot } from '@/components/ui/radio-card';
 import { useContextGlobal } from '@/Context';
 import { SimpleGrid } from '@chakra-ui/react';
