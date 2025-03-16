@@ -26,6 +26,7 @@ export function CreateModalTaskCard({
     nameCreatedTask,
     descriptionCreatedTask,
     limitDateToFinishTask,
+    nameSubTask,
   } = useCardTasks();
   const { darkMode } = useContextGlobal();
 
@@ -109,7 +110,8 @@ export function CreateModalTaskCard({
               nameCreatedTask,
               descriptionCreatedTask,
               limitDateToFinishTask,
-              levelPriorityTask
+              levelPriorityTask,
+              nameSubTask,
             );
             onCloseModalCreateCard();
           }}

@@ -6,6 +6,7 @@ import {
   MockProps,
   ProjectTasksPropsStatus,
   StatusTasksFromProjectProps,
+  SubTasks,
 } from '@/utils/mockFolders';
 import { useRouter } from 'next/router';
 import { useDisclosure } from '@chakra-ui/react';
@@ -28,6 +29,8 @@ export function useCardTasks() {
     setLimitDateToFinishTask,
     levelPriorityTask,
     setLevelPriorityTask,
+    nameSubTask,
+    setNameSubTask,
   } = useContextTaskData();
 
   const {
@@ -51,11 +54,12 @@ export function useCardTasks() {
       return null;
     }
 
-    const titleWithoutSpaces = title.trim().length > 0 && title.trim().length <= 100;
+    const titleWithoutSpaces =
+      title.trim().length > 0 && title.trim().length <= 100;
     if (!titleWithoutSpaces) {
       errorToast('Erro: Título da tarefa deve ter entre 1 e 100 caracteres.');
       return null;
-    };
+    }
   }
 
   function createCardTask(
@@ -63,7 +67,8 @@ export function useCardTasks() {
     title: string,
     description?: string,
     limitDateToFinishTask?: Date,
-    levelPriorityTask?: string
+    levelPriorityTask?: string,
+    subTaskName?: string
   ) {
     try {
       const responseValid = validCreateCardTask(
@@ -71,11 +76,15 @@ export function useCardTasks() {
         levelPriorityTask as string
       );
       if (responseValid === null) return;
+      const newSubTask: SubTasks = {
+        id: uuidv4(),
+        title: subTaskName || '',
+      };
       const newTask: StatusTasksFromProjectProps = {
         id: uuidv4(),
         title,
         description,
-        subTasks: [],
+        subTasks: [newSubTask],
         progressTask: 0,
         taskLimitDate: limitDateToFinishTask?.getDate(),
         taskCreatedDate: new Date().toISOString().split('T')[0],
@@ -165,17 +174,19 @@ export function useCardTasks() {
     updatePriority: string,
     updateDescription?: string
   ) {
-    const validateTitleAndPriority = updateTitle === '' || updatePriority === '';
+    const validateTitleAndPriority =
+      updateTitle === '' || updatePriority === '';
     if (validateTitleAndPriority) {
       errorToast('Erro: título ou prioridade da tarefa vazia.');
       return null;
-    };
+    }
 
-    const validateNumberOfCharactersTitle = updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 100;
+    const validateNumberOfCharactersTitle =
+      updateTitle?.trim().length > 0 && updateTitle?.trim().length <= 100;
     if (!validateNumberOfCharactersTitle) {
       errorToast('Erro: Título da tarefa deve ter entre 1 e 100 caracteres.');
       return null;
-    };
+    }
 
     const validateTitleAndPriorityExists = foldersTask.some(folder => {
       const validToStart = folder.projects.some(project =>
@@ -409,5 +420,8 @@ export function useCardTasks() {
     onOpenModalCreateCard,
     onCloseModalCreateCard,
     moveCard,
+
+    nameSubTask,
+    setNameSubTask,
   };
 }
