@@ -1,4 +1,4 @@
-import { MockProps, ProjectProps, StatusTasksFromProjectProps } from "@/utils/mockFolders";
+import { MockProps, ProjectProps, StatusTasksFromProjectProps, SubTasks } from "@/utils/mockFolders";
 import { Dispatch, SetStateAction } from "react";
 
 export interface ListFoldersTaskFixed {
@@ -54,6 +54,15 @@ export interface TaskContextData {
 
     editedNameProject: string;
     setEditedNameProject: Dispatch<SetStateAction<string>>;
+
+    listDoneSubTasks: SubTasks[];
+    setListDoneSubTasks: Dispatch<SetStateAction<SubTasks[]>>;
+
+    listPendingSubTasks: SubTasks[];
+    setListPendingSubTasks: Dispatch<SetStateAction<SubTasks[]>>;
+
+    nameSubTask: string;
+    setNameSubTask: Dispatch<SetStateAction<string>>;
 }
 
 export const defaultValueTaskContextData: TaskContextData = {
@@ -95,4 +104,12 @@ export const defaultValueTaskContextData: TaskContextData = {
     setLevelPriorityTask: () => {},
     editedNameProject: '',
     setEditedNameProject: () => {},
+
+    listDoneSubTasks: [],
+    listPendingSubTasks: [],
+    setListDoneSubTasks: () => {},
+    setListPendingSubTasks: () => {},
+
+    nameSubTask: '',
+    setNameSubTask: () => {}
 };

@@ -9,6 +9,7 @@ import {
   MockProps,
   ProjectProps,
   StatusTasksFromProjectProps,
+  SubTasks,
 } from '@/utils/mockFolders';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
@@ -63,6 +64,11 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
   );
   const [levelPriorityTask, setLevelPriorityTask] = useState('');
 
+  const [listDoneSubTasks, setListDoneSubTasks] = useState<SubTasks[]>([]);
+  const [listPendingSubTasks, setListPendingSubTasks] = useState<SubTasks[]>([]);
+
+  const [nameSubTask, setNameSubTask] = useState<string>('');
+
   return (
     <TaskProvider.Provider
       value={{
@@ -104,6 +110,14 @@ const TaskContext = ({ children }: { children: ReactNode }) => {
         setLevelPriorityTask,
         editedNameProject,
         setEditedNameProject,
+
+        listDoneSubTasks,
+        setListDoneSubTasks,
+        listPendingSubTasks,
+        setListPendingSubTasks,
+
+        nameSubTask,
+        setNameSubTask
       }}
     >
       {children}
