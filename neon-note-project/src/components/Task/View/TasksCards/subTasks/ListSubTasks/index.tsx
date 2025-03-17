@@ -22,7 +22,7 @@ export function ListSubTasks({titleStatusSubTasks, listSubTasks, iconStatus, che
   function handleOpenListDoneSubTask() {
     setOpen(!open);
   }
-
+  
   return (
     <div
       className={`

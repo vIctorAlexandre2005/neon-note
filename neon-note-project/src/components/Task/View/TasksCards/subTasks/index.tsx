@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { useSubTask } from '@/components/Task/hook/useSubTask/useSubTask';
 
 export function SubTasksTab() {
-  const { listDoneSubTasks, listPendingSubTasks, nameSubTask, handleOnChange } =
+  const { listDoneSubTasks, listPendingSubTasks, nameSubTask, handleOnChange, handleCreateSubTask } =
     useSubTask();
 
   const { darkMode } = useContextGlobal();
@@ -30,6 +30,7 @@ export function SubTasksTab() {
             `}
         />
         <ButtonComponent
+          onClick={() => handleCreateSubTask(nameSubTask)}
           className='bg-neon-400 text-base gap-2 rounded-lg hover:bg-neon-500'
           text='Criar'
           icon={<BiSolidPlusCircle size={18} />}
@@ -51,11 +52,18 @@ export function SubTasksTab() {
             </h1>
           </div>
         ) : (
+          <>
+          <ListSubTasks
+            titleStatusSubTasks='Concluídos'
+            iconStatus={<BiCheckCircle color='green' size={20} />}
+            listSubTasks={listDoneSubTasks as any}
+          />
           <ListSubTasks
             titleStatusSubTasks='Pendentes'
             iconStatus={<FaClock color='orange' size={20} />}
             listSubTasks={listPendingSubTasks as any}
           />
+          </>
         )}
       </div>
     </div>
