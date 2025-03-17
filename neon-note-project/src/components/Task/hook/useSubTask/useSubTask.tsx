@@ -4,7 +4,6 @@ import { errorToast } from '@/utils/toasts/toasts';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 
-
 export function useSubTask() {
   const {
     foldersTask,
@@ -33,8 +32,8 @@ export function useSubTask() {
         title: subTaskName,
       };
     } catch (error) {
-        errorToast('Erro ao criar Sub-Tarefa');
-        console.error('Erro ao criar Sub-Tarefa:', error);
+      errorToast('Erro ao criar Sub-Tarefa');
+      console.error('Erro ao criar Sub-Tarefa:', error);
     }
   }
 

@@ -1,30 +1,13 @@
-import {
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Editable,
-  EditableInput,
-  EditablePreview,
-  EditableRoot,
-} from '@chakra-ui/react';
-import { MdDescription, MdOutlineLowPriority } from 'react-icons/md';
-import {
-  ButtonComponent,
-  NegativeButtonComponent,
-  PositiveButtonComponent,
-} from '@/components/common/Button';
-import { useContextGlobal } from '@/Context';
-import { useState } from 'react';
-import { useCardTasks } from '@/components/Task/hook/useTasks/useTasks';
-import { TbTrash } from 'react-icons/tb';
-import { ConfirmationModal } from '@/components/common/modal';
-import { ProjectTasksPropsStatus } from '@/utils/mockFolders';
-import { SelectPriorityModal } from './PrioritysModal';
+import { ButtonComponent } from "@/components/common/Button";
+import { ConfirmationModal } from "@/components/common/modal";
+import { DialogBody, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTrigger } from "@/components/ui/dialog";
+import { useContextGlobal } from "@/Context";
+import { ProjectTasksPropsStatus } from "@/utils/mockFolders";
+import { Editable, EditableInput, EditablePreview, EditableRoot } from "@chakra-ui/react";
+import { MdDescription, MdOutlineLowPriority } from "react-icons/md";
+import { TbTrash } from "react-icons/tb";
+import { SelectPriorityModal } from "./PrioritysModal";
+import { Dispatch, SetStateAction } from "react";
 
 interface ModalViewCardProps {
   taskId: string;
@@ -32,39 +15,38 @@ interface ModalViewCardProps {
   description: string;
   priority: string;
   onCloseModalViewCardTask: () => void;
-  fromStatus: keyof ProjectTasksPropsStatus;
-  toStatus: keyof ProjectTasksPropsStatus;
   status: string;
+  updateTitle: string;
+  setUpdateTitle: Dispatch<SetStateAction<string>>;
+  updateDescription: string,
+  setUpdateDescription: Dispatch<SetStateAction<string>>
+  updatePriority: string,
+  setUpdatePriority: Dispatch<SetStateAction<string>>
+  deleteCardTask: (id: string) => void,
 }
 
-export function ModalViewCardTask({
-  title,
+export function ModalViewContentCardTask({
   description,
-  priority,
-  taskId,
   onCloseModalViewCardTask,
-  fromStatus,
   status,
-  toStatus,
+  taskId,
+  updateTitle,
+  setUpdateTitle,
+  updateDescription,
+  setUpdateDescription,
+  updatePriority,
+  setUpdatePriority,
+  deleteCardTask,
 }: ModalViewCardProps) {
   const { darkMode } = useContextGlobal();
-  const [updateTitle, setUpdateTitle] = useState(title);
-  const [updateDescription, setUpdateDescription] = useState(description);
-  const [updatePriority, setUpdatePriority] = useState(priority);
-
-  const { updateCardTask, deleteCardTask } = useCardTasks();
-
   return (
-    <DialogContent
-      shadow={'sm'}
-      w={'full'}
-      bg={darkMode ? '#0f172a' : 'gray.100'}
-    >
+      <>
       <DialogHeader
         display={'flex'}
         justifyContent={'space-between'}
         color={darkMode ? 'white' : 'blackAlpha.800'}
         gap={6}
+        mt={'-5'}
       >
         <div className='w-full'>
           <EditableRoot
@@ -85,7 +67,12 @@ export function ModalViewCardTask({
         </div>
 
         <DialogRoot size={'sm'} placement={'center'}>
-          <DialogTrigger alignSelf={'flex-end'} w={'56'} display={'flex'} justifyContent={'end'}>
+          <DialogTrigger
+            alignSelf={'flex-end'}
+            w={'56'}
+            display={'flex'}
+            justifyContent={'end'}
+          >
             <ButtonComponent
               className='flex w-full items-center gap-2 text-base font-semibold hover:bg-red-500 hover:bg-opacity-20 text-red-500 transition duration-300'
               text='Excluir tarefa'
@@ -94,7 +81,7 @@ export function ModalViewCardTask({
           </DialogTrigger>
 
           <DialogContent shadow={'sm'}>
-            <ConfirmationModal 
+            <ConfirmationModal
               titleHeader='Deseja excluir essa tarefa permanentemente?'
               textToNegativeButton='Não'
               textToPositiveButton='Sim, desejo'
@@ -120,7 +107,7 @@ export function ModalViewCardTask({
 
             <div className='w-full'>
               <Editable.Root
-                color={darkMode ? 'white' : 'gray.500'}
+                color={darkMode ? 'white' : 'gray.900'}
                 defaultValue={description}
                 placeholder={!description && ('Sem descrição' as any)}
               >
@@ -129,7 +116,7 @@ export function ModalViewCardTask({
                   alignItems='flex-start'
                   width='full'
                   bg={'transparent'}
-                  color={darkMode ? 'white' : 'gray.500'}
+                  color={darkMode ? 'white' : 'gray.800'}
                   p={2}
                   fontWeight={'semibold'}
                   fontSize={'md'}
@@ -171,26 +158,6 @@ export function ModalViewCardTask({
           </div>
         </div>
       </DialogBody>
-
-      <DialogFooter>
-        <NegativeButtonComponent 
-          onClick={onCloseModalViewCardTask}
-          text='Cancelar' 
-        />
-        <PositiveButtonComponent
-          onClick={() => {
-            updateCardTask(
-              status,
-              taskId,
-              updateTitle,
-              updateDescription,
-              updatePriority
-            );
-            onCloseModalViewCardTask();
-          }}
-          text='Atualizar'
-        />
-      </DialogFooter>
-    </DialogContent>
+      </>
   );
 }

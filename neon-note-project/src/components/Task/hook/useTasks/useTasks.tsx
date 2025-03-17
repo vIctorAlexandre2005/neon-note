@@ -76,15 +76,17 @@ export function useCardTasks() {
         levelPriorityTask as string
       );
       if (responseValid === null) return;
-      const newSubTask: SubTasks = {
-        id: uuidv4(),
-        title: subTaskName || '',
-      };
+      const subTasks: SubTasks[] = [
+        {
+          id: uuidv4(),
+          title: 'Testando'
+        },
+      ]
       const newTask: StatusTasksFromProjectProps = {
         id: uuidv4(),
         title,
         description,
-        subTasks: [newSubTask],
+        subTasks: subTasks,
         progressTask: 0,
         taskLimitDate: limitDateToFinishTask?.getDate(),
         taskCreatedDate: new Date().toISOString().split('T')[0],
@@ -119,6 +121,7 @@ export function useCardTasks() {
         localStorage.setItem('foldersTask', JSON.stringify(updatedFolders));
         setFoldersTask(updatedFolders);
         setTasksToStartInProject(prevTasks => [...prevTasks, newTask]);
+        console.log('subtarefas', newTask.subTasks?.map(subTask => subTask.title));
         successToast('Tarefa criada com sucesso');
       }
 

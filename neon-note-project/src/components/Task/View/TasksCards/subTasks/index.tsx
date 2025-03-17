@@ -12,7 +12,8 @@ import Image from 'next/image';
 import { useSubTask } from '@/components/Task/hook/useSubTask/useSubTask';
 
 export function SubTasksTab() {
-  const { listDoneSubTasks, listPendingSubTasks, nameSubTask, handleOnChange } = useSubTask();
+  const { listDoneSubTasks, listPendingSubTasks, nameSubTask, handleOnChange } =
+    useSubTask();
 
   const { darkMode } = useContextGlobal();
   return (
@@ -35,7 +36,7 @@ export function SubTasksTab() {
         />
       </div>
       <div className='w-full flex flex-col gap-4'>
-        {listDoneSubTasks?.length === 0 && listPendingSubTasks?.length === 0 ? (
+        {listPendingSubTasks?.length === 0 ? (
           <div className='flex flex-col justify-center animate-flute items-center'>
             <Image
               src={'/tasks/noSubTask.svg'}
@@ -43,24 +44,18 @@ export function SubTasksTab() {
               height={150}
               alt={'Sem Sub Tarefas'}
             />
-            <h1 className={`text-base ${darkMode ? 'text-black-200' : 'text-black-800'}`}>
+            <h1
+              className={`text-base ${darkMode ? 'text-black-200' : 'text-black-800'}`}
+            >
               Não há sub tarefas no momento!
             </h1>
           </div>
         ) : (
-          <>
-            <ListSubTasks
-              titleStatusSubTasks='Concluídos'
-              iconStatus={<BiSolidCheckCircle color='green' size={24} />}
-              listSubTasks={listDoneSubTasks as any}
-              check={true}
-            />
-            <ListSubTasks
-              titleStatusSubTasks='Pendentes'
-              iconStatus={<FaClock color='orange' size={20} />}
-              listSubTasks={listPendingSubTasks as any}
-            />
-          </>
+          <ListSubTasks
+            titleStatusSubTasks='Pendentes'
+            iconStatus={<FaClock color='orange' size={20} />}
+            listSubTasks={listPendingSubTasks as any}
+          />
         )}
       </div>
     </div>

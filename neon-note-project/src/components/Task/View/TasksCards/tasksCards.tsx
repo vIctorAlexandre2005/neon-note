@@ -23,7 +23,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from '@/components/ui/menu';
-import { ModalViewCardTask } from '../dialogs/tasks/ViewCard/modalViewCard';
+import { ModalViewCardGeneral } from '../dialogs/tasks/ViewCard';
 
 interface Props {
   darkMode?: boolean;
@@ -72,7 +72,7 @@ export function CardTasks({
     <>
       <FadeIn>
         <Fragment key={task.id}>
-          <DialogRoot open={isOpenModalViewCardTask} size={'xl'}>
+          <DialogRoot open={isOpenModalViewCardTask} placement={'center'} size={'xl'}>
             <div
               className={`
                   ${darkMode ? 'bg-neon-900 hover:bg-neon-800 bg-opacity-25 border border-gray-800' : 'bg-white hover:bg-black-50 border border-gray-200 shadow-md shadow-black-200'} 
@@ -171,7 +171,7 @@ export function CardTasks({
                 </div>
               </DialogTrigger>
             </div>
-            <ModalViewCardTask
+            <ModalViewCardGeneral
               onCloseModalViewCardTask={onCloseModalViewCardTask}
               taskId={task.id}
               status={status}
